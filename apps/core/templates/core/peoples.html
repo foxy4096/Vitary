@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+👪 People
+{% endblock title %}
+
+
+{% block content %}
+<h1 class="title">Peoples</h1>
+<hr>
+<div class="box">
+<div class="columns">
+    {% for person in persons %}
+    <div class="column level">
+        <div class="media">
+            <figure class="media-content">
+                <p class="image is-64x64">
+                    <img src="{{ person.profile.image.url }}" alt="{{ person.username }}'s Profile Image"
+                        class="is-rounded">
+                </p>
+                <p>
+                    <a href="{% url 'profile_view' person.username %}" class="has-text-centered has-text-weight-medium">
+                        {{ person.username | title }}
+                    </a>
+                </p>
+            </figure>
+            <div class="media-right is-hidden-desktop is-hidden-tablet">
+                <small>{{ person.get_full_name }}
+                    <br>
+                </small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,117 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+{% load mention %}
+
+{% block title %}
+{{ feed.body | truncatechars_html:50 | safe }}
+{% endblock title %}
+
+{% block content %}
+{% include 'feed/extends/feed_block.html' %}
+<br>
+
+<div class="columns">
+
+    {% if feed.image %}
+    <div class="column">
+        <article class="image is-800x600">
+            <img src="{{ feed.image.url }}" alt="">
+        </article>
+    </div>
+    {% endif %}
+
+    {% if feed.video %}
+    <div class="column">
+        <article class="image is-800x600">
+            <video src="{{ feed.video.url }}" controls>Your Browser doesn't support Videos</video>
+        </article>
+    </div>
+
+    {% endif %}
+</div>
+
+<hr>
+
+<h1 class="title">Comments ({{comments.count}}) 💬</h1>
+
+<form method="post" action="{% url 'add_comment' %}">
+    <div class="field">
+        <label class="label">Comment</label>
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-48x48">
+                    <img class="is-rounded" src="{{ user.profile.image.url }}">
+                </p>
+            </figure>
+            <div class="control media-content">
+                <textarea class="textarea" placeholder="Comment" name="comment_body" required></textarea>
+            </div>
+        </article>
+    </div>
+    {% csrf_token %}
+    <input type="hidden" name="feed_id" value="{{ feed.pk }}">
+    <div class="field">
+        <div class="control">
+            <button class="button is-primary is-rounded">Submit</button>
+        </div>
+</form>
+<hr>
+<div class="box">
+    {% for comment in comments %}
+    <div class="media">
+
+        <div class="media-left">
+            <figure class="image is-48x48">
+                <img class="is-rounded" src="{{ comment.created_by.image.url }}">
+            </figure>
+        </div>
+        </a>
+        <div class="media-content">
+            <p class="title is-4">{{ comment.created_by.user.username | title }}
+                <a href="#comment-{{ comment.pk }}" id="comment-{{ comment.pk }}">🔗</a>
+
+            </p>
+
+            <p class="subtitle is-6"><a
+                    href="{% url 'profile_view' comment.created_by.user.username %}">@{{comment.created_by.user.username}}</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="block">
+        <div class="media">
+            <p>{{ comment.body | safe | mention }}</p>
+            <br>
+        </div>
+        <small><time datetime="{{ comment.created_on }}">{{ comment.created_on | naturaltime | title }}</time></small>
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    function like_feed(feed_id) {
+    fetch("{% url 'like_feed' %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            feed_id: feed_id
+        })
+    }).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        if (data.status == 'success') {
+            var like_count = document.getElementById('like_count_' + feed_id);
+            like_count.innerHTML = data.like_count;
+            var like_count = document.getElementById('like_count_' + feed_id);
+            like_count.innerHTML = data.likes;
+        }
+    });
+}
+</script>
+{% endblock script %}

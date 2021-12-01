@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% block title %}
+Add/Edit Feed
+{% endblock title %}
+{% block content %}
+<h1 class="title">Add/Edit Feed</h1>
+<form method="POST" enctype="multipart/form-data">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <br>
+    <button type="submit" class="button is-primary is-rounded">Save</button>
+</form>
+{% endblock content %}

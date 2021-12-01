@@ -1,0 +1,66 @@
+{% load static %}
+{% load mention %}
+{% load humanize %}
+<div class="card" id="feed-{{ feed.pk }}">
+    <div class="card-content">
+        <div class="media">
+            <div class="media-left">
+                <figure class="image is-48x48">
+                    <img class="is-rounded" src="{{ feed.created_by.image.url }}" alt="{{ user.username }}">
+                </figure>
+            </div>
+            <div class="media-content">
+
+                {% if feed.created_by.user.get_full_name %}
+                <p class="title is-4">{{ feed.created_by.user.get_full_name | title }}</p>
+                {% else %}
+                <p class="title is-4">{{ feed.created_by.user.username | title }}</p>
+                {% endif %}
+                <p class="subtitle is-6"><a
+                        href="{% url 'profile_view' feed.created_by.user.username %}">@{{feed.created_by.user.username}}</a>
+                    {% if feed.created_by.user.is_superuser %}
+                    <span class="tag is-info is-light is-rounded">Admin ✅</span>
+                    {% endif %}
+                    {% if feed.created_by.user.is_staff %}
+                    <span class="tag is-info is-light is-rounded">Staff ✅</span>
+                    {% endif %}
+                    
+                    {% if not feed.created_by in user.profile.follows.all and user.profile in feed.created_by.follows.all %}
+                        <span class="tag is-primary is-light is-rounded">Following You</span>
+                    {% endif %}
+                        
+                </p>
+            </div>
+        </div>
+        <div class="content">
+            {{ feed.body| safe | escapejs | mention }}
+            <br>
+            {% if feed.image %}
+            📷
+            {% endif %}
+            {% if feed.video %}
+            🎥
+            {% endif %}
+            <br>
+            <a href="javascript:void(0);" onclick="like_feed('{{feed.pk}}');" class="feed_like" id="{{ feed.pk }}">Like
+                💖 <span id="like_count_{{feed.pk}}">{{ feed.likes.all.count }}</span></a>
+            {% if feed.created_by == user.profile %}
+            |
+            <a href="{% url 'edit_feed' feed.id %}">Edit 📝</a>
+            |
+            <a href="{% url 'delete_feed' feed.id %}">Delete 🚮</a>
+            {% endif %}
+
+            <br>
+            <small><time datetime="{{ feed.created_on }}">{{ feed.created_on | naturaltime }}</time></small>
+            {% if not feed.updated_on == feed.created_on %}
+            <span class="tag is-link is-light">Edited {{ feed.updated_on | naturaltime }}</span>
+            {% endif %}
+            <br>
+            <br>
+            <a href="#feed-{{ feed.pk }}">🔗</a>
+            <a href="#feed-{{ feed.pk }}" class="button is-danger is-small is-rounded is-light">Report Abuse</a>
+        </div>
+    </div>
+</div>
+<br>

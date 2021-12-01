@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+🏡 Home
+{% endblock title %}
+
+
+{% block content %}
+<div class="columns">
+    <div class="column">
+        <h1 class="title">Vitary</h1>
+        <p class="subtitle">Welcome To <strong>Vitary</strong></p>
+        <h3 class="title is-3">Make New Friends Easily.</h3>
+        <hr>
+        <div class="buttons">
+            <a href="{% url 'signup' %}" class="button is-primary is-rounded">Get Started 🚀</a>
+            <a href="{% url 'login' %}" class="button is-dark is-rounded">Login 🔐</a>
+        </div>
+    </div>
+    <div class="column">
+        <article class="image">
+            <img src="{% static 'img/hero.jpg' %}" alt="hero1">
+        </article>
+    </div>
+</div>
+{% endblock content %}

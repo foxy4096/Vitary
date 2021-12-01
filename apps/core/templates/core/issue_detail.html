@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load mention %}
+
+{% block title %}
+📩 Report Issue
+{% endblock title %}
+
+
+{% block content %}
+
+<h1 class="title">{{ issue.title }}</h1>
+
+{% if issue.description %}
+<div class="box">
+    {{ issue.description }}
+</div>
+{% endif %}
+<hr>
+{% if comments %}
+
+<div class="box">
+    {% for comment in comments %}
+    <div class="media">
+
+        <div class="media-left">
+            <figure class="image is-48x48">
+                <img class="is-rounded" src="{{ comment.created_by.image.url }}">
+            </figure>
+        </div>
+        </a>
+        <div class="media-content">
+            <p class="title is-4">{{ comment.created_by.user.username | title }}
+                <a href="#comment-{{ comment.pk }}" id="comment-{{ comment.pk }}">🔗</a>
+
+            </p>
+
+            <p class="subtitle is-6"><a
+                    href="{% url 'profile_view' comment.created_by.user.username %}">@{{comment.created_by.user.username}}</a>
+            </p>
+        </div>
+    </div>
+<br>
+    <div class="block">
+        <div class="media">
+            <p>{{ comment.comment | safe | mention }}</p>
+            <br>
+        </div>
+        <small><time datetime="{{ comment.created_on }}">{{ comment.created_on | naturaltime | title }}</time></small>
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+{% else %}
+<p>No Comments!</p>
+
+{% endif %}
+
+<form method="post">
+    <div class="field">
+        <label class="label">Comment</label>
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-48x48">
+                    <img class="is-rounded" src="{{ user.profile.image.url }}">
+                </p>
+            </figure>
+            <div class="control media-content">
+                <textarea class="textarea" placeholder="Comment" name="comment_body" required></textarea>
+            </div>
+        </article>
+    </div>
+    {% csrf_token %}
+    <div class="field">
+        <div class="control">
+            <button class="button is-primary is-rounded">Submit</button>
+        </div>
+</form>
+<hr>
+
+{% endblock content %}

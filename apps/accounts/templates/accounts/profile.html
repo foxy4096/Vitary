@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+Profile
+{% endblock title %}
+
+
+{% block content %}
+<h1 class="title">Profile</h1>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ uform.as_p }}
+    <br>
+
+    <figure class="image is-128x128">
+        <img class="is-rounded" src="{{ user.profile.image.url }}">
+    </figure>
+    {{ pform.as_p }}
+    <a href="{% url 'password_change' %}">Change Password 🔑</a>
+    <br>
+    <br>
+    <button type="submit" class="button is-primary is-rounded">Save</button>
+</form>
+{% endblock content %}

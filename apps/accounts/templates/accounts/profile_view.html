@@ -1,0 +1,73 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load static %}
+{% block title %}
+{{ usr.username | title }}
+{% endblock title %}
+{% block content %}
+<div class="columns">
+    <div class="column is-8">
+        <figure class="image is-64x64">
+            <img class="is-rounded" src="{{ usr.profile.image.url }}">
+        </figure>
+        <h1 class="title">{{ usr.username | title }}</h1>
+        <div class="buttons">
+
+
+            {% if user == usr %}
+
+            <a href="{% url 'profile' %}" class="button is-primary is-rounded">Edit Profile 📝</a>
+            {% else %}
+
+            {% if not usr.profile in user.profile.follows.all %}
+            <form action="{% url 'follow' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="username" value="{{ usr.username }}">
+                <button class="button is-link is-rounded" type="submit">Follow ➕</button>
+            </form>
+            {% else %}
+            <form action="{% url 'unfollow' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="username" value="{{ usr.username }}">
+                <button class="button is-link is-rounded" type="submit">Unfollow ➖</button>
+                <a href="" class="button is-link is-rounded">Message 📬</a>
+            </form>
+            {% endif %}
+            {% endif %}
+
+        </div>
+        {% for feed in usr.profile.feeds.all %}
+        {% include 'feed/extends/feed_block.html' %}
+        {% endfor %}
+    </div>
+    <div class="column is-4">
+        {% include 'accounts/extends/follows_block.html' %}
+    </div>
+    {% endblock content %}
+
+
+    {% block script %}
+    <script>
+        function like_feed(feed_id) {
+            fetch("{% url 'like_feed' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'type': 'application/json'
+                },
+                body: JSON.stringify({
+                    feed_id: parseInt(feed_id)
+                })
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                if (data.status == 'success') {
+                    var like_count = document.getElementById('like_count_' + feed_id);
+                    like_count.innerHTML = data.like_count;
+                    var like_count = document.getElementById('like_count_' + feed_id);
+                    like_count.innerHTML = data.likes;
+                }
+            });
+        }
+    </script>
+    {% endblock script %}

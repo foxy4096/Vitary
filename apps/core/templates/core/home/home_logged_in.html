@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+🏡 Home
+{% endblock title %}
+
+
+{% block content %}
+<div class="columns">
+    <div class="column is-8">
+        <h1 class="title">Feeds</h1>
+        <div class="buttons">
+            <a href="{% url 'add_feed' %}" class="button is-link is-rounded">Add Feed ➕</a>
+        </div>
+        {% for feed in feeds %}
+        <a href="{% url 'feed_detail' feed.pk %}">
+            {% include 'feed/extends/feed_block.html' %}
+        </a>
+        {% endfor %}
+    </div>
+    <div class="column is-4">
+        {% include 'accounts/extends/follows_block.html' %}
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    function like_feed(feed_id) {
+        fetch("{% url 'like_feed' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'type': 'application/json'
+            },
+            body: JSON.stringify({
+                feed_id: parseInt(feed_id)
+            })
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            if (data.status == 'success') {
+                var like_count = document.getElementById('like_count_' + feed_id);
+                like_count.innerHTML = data.like_count;
+                var like_count = document.getElementById('like_count_' + feed_id);
+                like_count.innerHTML = data.likes;
+            }
+        });
+    }
+</script>
+{% endblock script %}

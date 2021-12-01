@@ -1,0 +1,40 @@
+{% if user.is_authenticated %}
+<div class="card is-hidden-mobile">
+    <div class="card-content">
+        <h1 class="title">Follower</h1>
+        <br>
+        {% if user.profile.followed_by.all %}
+        {% for following in user.profile.get_4_following %}
+        <div class="media">
+            <article class="image is-48x48 media-left">
+                <img src="{{ following.image.url }}" alt="" class="is-rounded">
+            </article>
+            <a href="{% url 'profile_view' following %}" class="media-right">{{ following | title }}</a>
+            <br>
+        </div>
+        {% endfor %}
+        <p><a href="{% url 'followers' %}">See All</a></p>
+        {% else %}
+        No one is following you yet 🎈.
+        {% endif %}
+        <hr>
+        <h1 class="title">Following</h1>
+        <br>
+        {% if user.profile.follows.all %}
+        {% for follower in user.profile.get_4_followers %}
+        
+        <div class="media">
+            <article class="image is-48x48 media-left">
+                <img src="{{ follower.image.url }}" alt="" class="is-rounded">
+            </article>
+            <a href="{% url 'profile_view' follower %}" class="media-right">{{ follower | title }}</a>
+            <br>
+        </div>
+        {% endfor %}
+        <p><a href="{% url 'following' %}">See All</a></p>
+        {% else %}
+        You are not following anyone yet 🎆.
+        {% endif %}
+    </div>
+</div>
+{% endif %}

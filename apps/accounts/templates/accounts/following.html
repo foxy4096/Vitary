@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}
+Following
+{% endblock title %}
+
+
+{% block content %}
+<div class="columns">
+    <div class="column">
+        <h1 class="title">Following</h1>
+
+        <div class="box">
+            <div class="columns">
+                <div class="column">
+                    {% for usr in user.profile.follows.all %}
+                    <div class="media">
+                        <div class="media-left">
+                            <article class="image is-48x48">
+                                <img class="is-rounded" src="{{ usr.image.url }}">
+                            </aritcle>
+                        </div>
+                        <div class="media-content">
+                            {% if usr.user.get_full_name %}
+                            <p class="title is-5">{{ usr.user.get_full_name | title }}</p>
+                            {% else %}
+                            <p class="title is-5">{{ usr.user.username | title }}</p>
+                            {% endif %}
+                            <a href="{% url 'profile_view' usr %}">
+                                {{ usr | title }}
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

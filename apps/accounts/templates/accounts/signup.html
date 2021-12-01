@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+   🚀 Sign Up
+{% endblock title %}
+    
+
+{% block content %}
+<div class="columns">
+    <div class="column">
+    <h1 class="title">Sign Up</h1>
+    <form method="POST">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <br>
+        <p>Already have an account? <a href="{% url 'login' %}">Login 🔐</a></p>
+        <br>
+        <button type="submit" class="button is-primary is-rounded">
+            Sign Up 🚀
+        </button>
+    </form>
+    </div>
+    <div class="column">
+        <article class="image">
+            <img src="{% static 'img/hero_2.jpg' %}" alt="">
+        </article>
+    </div>
+</div>
+{% endblock content %}
+    

@@ -1,0 +1,174 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'bulma/css/bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>
+
+        {% block title %}
+
+        {% endblock title %}
+        | Vitary
+    </title>
+</head>
+
+<body>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'home' %}">
+                <h1 class="title" style="color: white;">Vitary</h1>
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="{% url 'home' %}">
+                    Home 🏡
+                </a>
+
+                <a class="navbar-item">
+                    Documentation 📖
+                </a>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        More 📦
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="{% url 'peoples' %}">
+                            Find People 🔍
+                        </a>
+                        <a class="navbar-item">
+                            About ❓
+                        </a>
+                        <a class="navbar-item">
+                            Jobs 🏢
+                        </a>
+                        <a class="navbar-item">
+                            Contact 📞
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="{% url 'report_issue' %}">
+                            Report an issue 📩
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="button is-ghost">
+                            <article class="image">
+                                <img src="{{ user.profile.image.url }}" alt="{{ user.username }}'s Avatar"
+                                    class="is-rounded">
+                            </article>
+                        </a>
+                        
+                        {% if unread_notifications %}
+                            
+                        <a class="button is-warning is-rounded" href="{% url 'notification_page' %}">
+                            🔔 ({{ unread_notifications.count }})
+                        </a>
+                        {% else %}
+                        <a class="button is-warning is-rounded" href="{% url 'notification_page' %}">
+                            🔔
+                        </a>
+                        {% endif %}
+                        <a class="button is-link is-rounded" href="{% url 'logout' %}">
+                            <strong>Logout</strong> 🚪
+                        </a>
+                        </a>
+                        {% else %}
+                        <a class="button is-primary is-rounded" href="{% url 'signup' %}">
+                            <strong>Sign up</strong> 🚀
+                        </a>
+                        <a class="button is-light is-rounded" href="{% url 'login' %}">
+                            Log in 🔐
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    {% if messages %}
+        
+        {% for message in messages %}
+            <article class="message is-{{ message.tags }}">
+                <div class="message-body">
+                    {{ message }}
+                </div>
+            </article>
+        {% endfor %}
+            
+    {% endif %}
+        
+    <section class="section">
+        <div class="container">
+            {% block content %}
+
+            {% endblock content %}
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Vitary</strong> by <a href="https://foxy4096.github.io">Aditya Priyadarshi</a>. The source code
+                is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">BSD</a>. The website content
+                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+            </p>
+        </div>
+    </footer>
+
+    {% block script %}
+
+    {% endblock script %}
+    <!-- Bulma Navbar control -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Get all "navbar-burger" elements
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            // Check if there are any navbar burgers
+            if ($navbarBurgers.length > 0) {
+
+                // Add a click event on each of them
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+
+                        // Get the target from the "data-target" attribute
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+
+                        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+
+                    });
+                });
+            }
+
+        });
+    </script>
+</body>
+
+</html>
