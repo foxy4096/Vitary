@@ -10,6 +10,7 @@ class Profile(models.Model):
     image = models.ImageField(upload_to='uploads/', default='img/default.jpg')
     follows = models.ManyToManyField(
         'self', related_name='followed_by', symmetrical=False)
+    email_notif = models.BooleanField(default=True, verbose_name="Get Email Notifications")
 
     def __str__(self):
         return self.user.username

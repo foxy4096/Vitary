@@ -7,7 +7,7 @@ from .models import Profile
 
 class ProfileInline(admin.TabularInline):
     model = Profile
-    fields = ['image', ]
+    fields = ['image', 'email_notif']
     readonly_fields = ['follows']
     can_delete = False
 

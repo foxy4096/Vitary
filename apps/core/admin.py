@@ -8,10 +8,6 @@ admin.site.index_title = 'Vitary Admin'
 
 
 class CommentInline(admin.TabularInline):
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user.profile
-        return super().save_model(request, obj, form, change)
-
     model = Comment
     fields = ['comment', 'created_by']
     can_delete = False
