@@ -1,6 +1,7 @@
 # Vitary 
+A simple social media made with Django
 
-## Installation
+## Installation :hammer_and_wrench:	
 
 Get the source code 💻
 
@@ -96,3 +97,13 @@ On *nix systemm:
 ```
 python3 manage.py runserver
 ```
+
+<hr>
+
+## Tools 🔧 
+
+[Python](https://python.org) the programming language
+
+[Git](http://git-scm.com) Version Control System
+
+[Python](https://code.visualstudio.com) Free source code editor
