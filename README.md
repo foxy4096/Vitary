@@ -27,7 +27,6 @@ In `.env` add the following variables ➕
 
 ```
 ADMIN_EMAIL # Superuser email address, will be helpful in production
-SITE_ID # For configuring the Django Flatpages
 DEFAULT_FROM_EMAIL = # Add your production email address
 ```
 

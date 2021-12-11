@@ -156,4 +156,4 @@ if DEBUG:
 
 # Email Config
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
-SITE_ID = os.environ.get('SITE_ID')
+SITE_ID = 1
