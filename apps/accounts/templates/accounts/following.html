@@ -10,10 +10,11 @@ Following
     <div class="column">
         <h1 class="title">Following</h1>
 
-        <div class="box">
+        <div class="">
             <div class="columns">
                 <div class="column">
-                    {% for usr in user.profile.follows.all %}
+                    {% if usr.profile.follows.all %}
+                    {% for usr in usr.profile.follows.all %}
                     <div class="media">
                         <div class="media-left">
                             <article class="image is-48x48">
@@ -32,6 +33,9 @@ Following
                         </div>
                     </div>
                     {% endfor %}
+                    {% else %}
+                    <p>Wow such empty 😞</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

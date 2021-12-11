@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 from apps.core.models import Issue, Comment
 from apps.feed.models import Feed
@@ -16,7 +17,11 @@ def home(request):
     if request.user.is_authenticated:
         feeds = Feed.objects.filter(Q(created_by=request.user.profile) | Q(
             created_by__in=request.user.profile.follows.all()) | Q(created_by__in=request.user.profile.followed_by.all())).order_by('-created_on')
-        return render(request, 'core/home/home_logged_in.html', {'feeds': feeds})
+        paginator = Paginator(feeds, 5)
+
+        page_no = request.GET.get('page')
+        page_obj = paginator.get_page(page_no)
+        return render(request, 'core/home/home_logged_in.html', {'feeds': page_obj})
     else:
         return render(request, 'core/home/home_logged_out.html')
 
@@ -38,7 +43,8 @@ def report_issue(request):
             return redirect('home')
     form = IssueForm()
     user_issues = Issue.objects.filter(created_by=request.user.profile)
-    return render(request, 'core/report_issue.html', {'form': form, 'issues': user_issues})
+    all_issues = Issue.objects.all()
+    return render(request, 'core/report_issue.html', {'form': form, 'issues': user_issues, 'all_issues': all_issues})
 
 @login_required
 def issue_detail(request, pk):

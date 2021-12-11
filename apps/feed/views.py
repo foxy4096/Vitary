@@ -70,7 +70,7 @@ def delete_feed(request, pk):
 def feed_detail(request, pk):
     feed = get_object_or_404(Feed, pk=pk)
     comments = FeedComment.objects.filter(feed=feed)
-    return render(request, 'feed/feed_detail.html', {'feed': feed, 'comments': comments})
+    return render(request, 'feed/feed_detail.html', {'feed': feed, 'comments': comments, 'OnHome': False})
 
 
 def add_comment(request):

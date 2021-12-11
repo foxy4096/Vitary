@@ -78,8 +78,19 @@ def unfollow(request):
 
 
 def following(request):
-    return render(request, 'accounts/following.html')
+    usr = request.user
+    return render(request, 'accounts/following.html', {'usr': usr})
 
 
 def followers(request):
-    return render(request, 'accounts/followers.html')
+    usr = request.user
+    return render(request, 'accounts/followers.html', {'usr': usr})
+
+def user_following(request, username):
+    usr = get_object_or_404(User, username=username)
+    return render(request, 'accounts/following.html', {'usr': usr})
+
+
+def user_followers(request, username):
+    usr = get_object_or_404(User, username=username)
+    return render(request, 'accounts/followers.html', {'usr': usr})

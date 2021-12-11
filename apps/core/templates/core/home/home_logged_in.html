@@ -15,20 +15,34 @@
             <a href="{% url 'add_feed' %}" class="button is-link is-rounded">Add Feed ➕</a>
         </div>
         {% for feed in feeds %}
-        <a href="{% url 'feed_detail' feed.pk %}">
-            {% include 'feed/extends/feed_block.html' %}
-        </a>
+        {% include 'feed/extends/feed_block.html' %}
         {% endfor %}
     </div>
     <div class="column is-4">
         {% include 'accounts/extends/follows_block.html' %}
     </div>
 </div>
-
+<div class="pagination">
+    <span class="step-links">
+    {% if feeds.has_previous %}
+    <a href="?page=1">&laquo; first</a>
+    <a href="?page={{ feeds.previous_page_number }}">previous</a>
+    {% endif %}
+    <span class="current">
+    Page {{ feeds.number }} of {{ feeds.paginator.num_pages }}.
+    </span>
+    {% if feeds.has_next %}
+    <a href="?page={{ feeds.next_page_number }}">next</a>
+    <a href="?page={{ feeds.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+    </span>
+    </div>
 {% endblock content %}
 
 {% block script %}
 <script>
+    // Just a simple script which sends the server to like a post
+    // for more info please see apps/feed/api.py
     function like_feed(feed_id) {
         fetch("{% url 'like_feed' %}", {
             method: 'POST',

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.core.models import Issue, Comment
+from apps.core.models import Comment
 
 admin.site.site_header = 'Vitary Admin'
 admin.site.site_title = 'Vitary Admin'
@@ -12,10 +12,3 @@ class CommentInline(admin.TabularInline):
     fields = ['comment', 'created_by']
     can_delete = False
     extra = 1
-
-
-class IssueAdmin(admin.ModelAdmin):
-    inlines = [CommentInline, ]
-
-
-admin.site.register(Issue, IssueAdmin)

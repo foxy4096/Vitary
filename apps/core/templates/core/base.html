@@ -4,11 +4,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'bulma/css/bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+    <meta name="description" content="Vitary | Make New Friends Today!">
     <title>
+
+        {% if user.is_authenticated %}
+
+        {% if unread_notifications %}
+        ({{unread_notifications.count}})
+
+        {% endif %}
+
+        {% endif %}
 
         {% block title %}
 
@@ -51,13 +61,16 @@
                         <a class="navbar-item" href="{% url 'peoples' %}">
                             Find People 🔍
                         </a>
-                        <a class="navbar-item">
+                        <a class="navbar-item" href="/">
                             About ❓
                         </a>
-                        <a class="navbar-item">
+                        <a class="navbar-item" href="{% url 'post_list' %}">
+                            Blog 📔
+                        </a>
+                        <a class="navbar-item" href="/">
                             Jobs 🏢
                         </a>
-                        <a class="navbar-item">
+                        <a class="navbar-item" href="/">
                             Contact 📞
                         </a>
                         <hr class="navbar-divider">
@@ -79,9 +92,9 @@
                                     class="is-rounded">
                             </article>
                         </a>
-                        
+
                         {% if unread_notifications %}
-                            
+
                         <a class="button is-warning is-rounded" href="{% url 'notification_page' %}">
                             🔔 ({{ unread_notifications.count }})
                         </a>
@@ -107,19 +120,19 @@
             </div>
         </div>
     </nav>
-    
+
     {% if messages %}
-        
-        {% for message in messages %}
-            <article class="message is-{{ message.tags }}">
-                <div class="message-body">
-                    {{ message }}
-                </div>
-            </article>
-        {% endfor %}
-            
+
+    {% for message in messages %}
+    <article class="message is-{{ message.tags }}">
+        <div class="message-body">
+            {{ message }}
+        </div>
+    </article>
+    {% endfor %}
+
     {% endif %}
-        
+
     <section class="section">
         <div class="container">
             {% block content %}
@@ -132,7 +145,7 @@
             <p>
                 <strong>Vitary</strong> by <a href="https://foxy4096.github.io">Aditya Priyadarshi</a>. The source code
                 is licensed
-                <a href="http://opensource.org/licenses/mit-license.php">BSD</a>. The website content
+                <a href="https://opensource.org/licenses/BSD-3-Clause">BSD-3-Clause</a>. The website content
                 is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
             </p>
         </div>

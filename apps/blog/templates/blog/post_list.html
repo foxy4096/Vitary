@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load static %}
+{% block title %}
+Blog
+{% endblock title %}
+{% block content %}
+<h1 class="title">Blog</h1>
+<hr>
+
+{% for post in posts %}
+<div class="media">
+    <div class="media-left">
+        <figure class="image is-48x48">
+            <a href="{% url 'profile_view' post.user.user.username %}">
+            <img class="is-rounded" src="{{ post.user.image.url }}" alt="{{ post.user.user.username }}">
+        </a>
+        </figure>
+    </div>
+    <div class="media-content">
+        <h3 class="title is-3"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+        <small>{{ post.date | naturaltime }} By <a href="{% url 'profile_view' post.user.user.username %}">{{ post.user.user.username.title }}</a></small>
+        <p>{{ post.sdesc }}</p>
+    </div>
+</div>
+{% endfor %}
+    
+{% endblock content %}

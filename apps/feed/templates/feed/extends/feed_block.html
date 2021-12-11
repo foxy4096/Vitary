@@ -1,5 +1,6 @@
 {% load static %}
 {% load mention %}
+{% load check_url %}
 {% load humanize %}
 <div class="card" id="feed-{{ feed.pk }}">
     <div class="card-content">
@@ -33,7 +34,7 @@
             </div>
         </div>
         <div class="content">
-            {{ feed.body| safe | escapejs | mention }}
+            {{ feed.body | safe | escapejs | mention | check_url }}
             <br>
             {% if feed.image %}
             📷
@@ -42,6 +43,11 @@
             🎥
             {% endif %}
             <br>
+
+        {% if not OnHome %}   
+        <a href="{% url 'feed_detail' feed.id %}">View 👀</a>
+        |       
+        {% endif %}
             <a href="javascript:void(0);" onclick="like_feed('{{feed.pk}}');" class="feed_like" id="{{ feed.pk }}">Like
                 💖 <span id="like_count_{{feed.pk}}">{{ feed.likes.all.count }}</span></a>
             {% if feed.created_by == user.profile %}

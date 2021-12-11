@@ -11,6 +11,12 @@
             <img class="is-rounded" src="{{ usr.profile.image.url }}">
         </figure>
         <h1 class="title">{{ usr.username | title }}</h1>
+        <p>
+            Followers: <a href="{% url 'followers' usr.username %}">{{ usr.profile.followed_by.count }}</a>
+            <br>
+            Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.follows.count }}</a>
+        </p>
+        <br>
         <div class="buttons">
 
 

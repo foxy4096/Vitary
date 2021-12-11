@@ -7,7 +7,7 @@ Profile
 
 {% block content %}
 <h1 class="title">Profile</h1>
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" class="box">
     {% csrf_token %}
     {{ uform.as_p }}
     <br>

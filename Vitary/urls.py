@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.accounts.views import profile_view
+from apps.accounts.views import profile_view, user_following, user_followers
 from apps.feed import api
 
 urlpatterns = [
@@ -40,7 +40,11 @@ urlpatterns = [
 
 
     # User
-    path('u/<str:username>', profile_view, name='profile_view'),
+    path('u/<str:username>/', include([
+                    path('', profile_view, name='profile_view'),
+                    path('following/', user_following, name='following'),
+                    path('followers/', user_followers, name='followers')
+    ])),
 
 
     # Notification
@@ -48,5 +52,8 @@ urlpatterns = [
 
     # API
     path('api/v1/like/', api.add_like, name='like_feed'),
+
+    # Blog
+    path('blog/', include('apps.blog.urls'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

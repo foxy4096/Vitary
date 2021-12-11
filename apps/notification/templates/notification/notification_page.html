@@ -7,6 +7,9 @@
 {% endblock title %}
 {% block content %} 
 <h1 class="title">Notifications</h1>
+<div class="buttons">
+    <a href="{% url 'mark_as_read' %}" class="button is-primary is-rounded">Mark As Read</a>
+</div>
 <hr>
 
 {% if notifications %}

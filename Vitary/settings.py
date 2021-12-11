@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.core.apps.CoreConfig',
     'apps.accounts.apps.AccountsConfig',
     'apps.feed.apps.FeedConfig',
+    'apps.blog.apps.BlogConfig',
     'apps.notification.apps.NotificationConfig',
 ]
 

@@ -21,7 +21,7 @@ def add_like(request):
         else:
             feed.likes.add(request.user.profile)
             if feed.created_by != request.user.profile:
-                notify(message=f"{request.user.username.title()} liked your post - '{feed.content}'", notification_type="like", to_user=feed.created_by,
+                notify(message=f"{request.user.username.title()} liked your post - '{feed.body}'", notification_type="like", to_user=feed.created_by,
                     by_user=request.user.profile, link=reverse('feed_detail', kwargs={'pk': feed.id}))
             return JsonResponse({'status': 'success', 'likes': feed.likes.count()})
     return JsonResponse({'success': False})

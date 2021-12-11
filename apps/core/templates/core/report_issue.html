@@ -18,6 +18,27 @@
     </form>
 </div>
 <hr>
+
+{% if user.is_staff %}
+
+<h1 class="title">All Issues</h1>
+
+{% if all_issues %}
+
+{% for issue in all_issues %}
+
+<h3 class="title is-3"><a href="{% url 'issue_detail' issue.pk %}">{{issue.title}}</a></h3>
+
+{% endfor %}
+
+{% else %}
+
+<p>No issues!</p>
+
+{% endif %}
+
+{% endif %}
+<hr>
 <h1 class="title">My Issues</h1>
 
 {% if issues %}
