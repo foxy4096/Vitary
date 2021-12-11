@@ -106,3 +106,16 @@ python3 manage.py runserver
 [Git](http://git-scm.com) Version Control System
 
 [Visual Studio Code](https://code.visualstudio.com) Free source code editor
+
+## Screenshot :camera:
+
+
+![Homepage](./screenshots/homepage_logged_out.jpeg)
+
+![signup](./screenshots/register.jpeg)
+
+![login](./screenshots/login.jpeg)
+
+![feed_home](./screenshots/feed_home.jpeg)
+
+![profile](./screenshots/profile.jpeg)
