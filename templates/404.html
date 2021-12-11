@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+404 Not Found ❔
+{% endblock title %}
+
+
+{% block content %}
+<h1 class="title">404 Not Found</h1>
+<p>The thing doesn't exist.</p>
+<hr>
+<p class="subtitle">Go to <a href="{% url 'home' %}">Home 🏡</a>.</p>
+{% endblock content %}

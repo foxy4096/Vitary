@@ -26,6 +26,9 @@ class Feed(models.Model):
     class Meta:
         ordering = ['-created_on']
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('feed_detail', kwargs={'pk': self.pk})
 
 class FeedComment(models.Model):
     body = models.TextField()

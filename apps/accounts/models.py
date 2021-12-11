@@ -1,4 +1,7 @@
 from django.db import models
+
+from django.utils.safestring import mark_safe
+
 from django.contrib.auth.models import User
 
 
@@ -28,3 +31,6 @@ class Profile(models.Model):
 
     def get_4_following(self):
         return self.followed_by.all()[:4]
+    
+    def profile_image(self):
+        return mark_safe(f'<img src="{self.image.url}" height=50 />')

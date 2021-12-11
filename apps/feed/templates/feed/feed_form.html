@@ -5,7 +5,7 @@ Add/Edit Feed
 {% endblock title %}
 {% block content %}
 <h1 class="title">Add/Edit Feed</h1>
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" class="box">
     {{ form.as_p }}
     {% csrf_token %}
     <br>

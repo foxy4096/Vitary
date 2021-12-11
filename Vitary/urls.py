@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 from django.contrib import admin
 from django.urls import path, include
 
@@ -41,9 +42,9 @@ urlpatterns = [
 
     # User
     path('u/<str:username>/', include([
-                    path('', profile_view, name='profile_view'),
-                    path('following/', user_following, name='following'),
-                    path('followers/', user_followers, name='followers')
+        path('', profile_view, name='profile_view'),
+        path('following/', user_following, name='following'),
+        path('followers/', user_followers, name='followers')
     ])),
 
 
@@ -54,6 +55,12 @@ urlpatterns = [
     path('api/v1/like/', api.add_like, name='like_feed'),
 
     # Blog
-    path('blog/', include('apps.blog.urls'))
+    path('blog/', include('apps.blog.urls')),
+
+    # Flatpages
+    path('pages/', include('django.contrib.flatpages.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
