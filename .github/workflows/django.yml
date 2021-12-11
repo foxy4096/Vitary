@@ -27,4 +27,7 @@ jobs:
         pip install -r req.txt
     - name: Run Tests
       run: |
-        python manage.py test
+        python manage.py test apps/core
+        python manage.py test apps/feed
+        python manage.py test apps/accounts
+        python manage.py test apps/notification
