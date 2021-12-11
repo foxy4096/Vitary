@@ -106,4 +106,4 @@ python3 manage.py runserver
 
 [Git](http://git-scm.com) Version Control System
 
-[Python](https://code.visualstudio.com) Free source code editor
+[Visual Studio Code](https://code.visualstudio.com) Free source code editor
