@@ -60,7 +60,4 @@ urlpatterns = [
     # Flatpages
     path('pages/', include('django.contrib.flatpages.urls')),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

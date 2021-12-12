@@ -4,13 +4,16 @@ from django.utils.safestring import mark_safe
 
 from django.contrib.auth.models import User
 
+from gdstorage.storage import GoogleDriveStorage
+gd_storage = GoogleDriveStorage()
+
 
 class Profile(models.Model):
     """
     Extending the base user model
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='uploads/', default='img/default.jpg')
+    image = models.ImageField(upload_to='uploads/', default='/static/img/default.jpg', storage=gd_storage)
     follows = models.ManyToManyField(
         'self', related_name='followed_by', symmetrical=False)
     email_notif = models.BooleanField(default=True, verbose_name="Get Email Notifications")

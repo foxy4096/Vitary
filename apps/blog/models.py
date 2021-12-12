@@ -3,6 +3,8 @@ from django.utils.text import slugify
 
 from apps.accounts.models import Profile
 
+from gdstorage.storage import GoogleDriveStorage
+gd_storage = GoogleDriveStorage()
 
 class Post(models.Model):
     title = models.CharField(max_length=255)
@@ -10,7 +12,7 @@ class Post(models.Model):
     body = models.TextField(verbose_name="Body")
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True)
-    cover_img = models.ImageField(upload_to='blog/imgs', blank=True, null=True)
+    cover_img = models.ImageField(upload_to='blog/imgs', blank=True, null=True, storage=gd_storage)
     slug = models.SlugField(null=True, blank=True)
 
     def __str__(self):

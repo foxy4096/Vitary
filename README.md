@@ -9,6 +9,13 @@ Get the source code 💻
 git clone https://github.com/foxy4096/Vitary.git
 ```
 
+Get the Google Drive JSON key 
+
+[Get it from here](https://django-googledrive-storage.readthedocs.io/en/latest/)
+
+And rename the json key to `GDSTORAGE_JSON.json` and put it in the `BASE_DIR/Vitary/`
+
+
 Go the the dir 📁
 
 ```
@@ -26,8 +33,10 @@ touch .env
 In `.env` add the following variables ➕
 
 ```
-ADMIN_EMAIL # Superuser email address, will be helpful in production
-DEFAULT_FROM_EMAIL = # Add your production email address
+DEFAULT_FROM_EMAIL # Add your production email address
+DEBUG # True or False
+GDJSON = True
+GDSJSON_KEY_FILE_CONTENTS = "" # Empty string
 ```
 
 

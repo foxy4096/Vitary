@@ -2,6 +2,9 @@ from django.db import models
 
 from apps.accounts.models import Profile
 
+from gdstorage.storage import GoogleDriveStorage
+gd_storage = GoogleDriveStorage()
+
 
 class Feed(models.Model):
     body = models.TextField()
@@ -10,9 +13,9 @@ class Feed(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='uploads/images/', blank=True,
-                              null=True, help_text="You can upload upto one image per feed")
+                              null=True, help_text="You can upload upto one image per feed", storage=gd_storage)
     video = models.FileField(upload_to='uploads/videos/', blank=True,
-                             null=True, help_text="You can upload upto one video per feed")
+                             null=True, help_text="You can upload upto one video per feed", storage=gd_storage)
     likes = models.ManyToManyField(Profile, related_name="liked_feeds")
 
     def __str__(self):
