@@ -161,7 +161,7 @@ if DEBUG:
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 SITE_ID = 1
 
-if bool(os.environ.get("GDJSON", True)):
+if os.environ.get("GDJSON"):
     GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = BASE_DIR / "GDSTORAGE_JSON.json"
 
 else:
