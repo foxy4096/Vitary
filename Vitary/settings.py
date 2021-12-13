@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+# I don't know why env is not working
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-od1y3j(!1bl7)s%n#1$xh1%p=v4q6-l$%&zns_18nv!mj_b_m!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -67,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
 ]
 
 ROOT_URLCONF = 'Vitary.urls'
@@ -155,16 +162,30 @@ LOGIN_REDIRECT_URL = 'home'
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 
 # Email Config
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
+DEFAULT_FROM_EMAIL = env("EMAIL_ADDRESS")
 SITE_ID = 1
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env('EMAIL_ADDRESS')
+EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
 
-# I am commenting it out because I don' want it now
-# try:
-#     GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = BASE_DIR / "GDSTORAGE_JSON.json"
-# except:
-#     GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = None
-#     GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE_CONTENTS = os.environ.get("GDSJSON_KEY_FILE_CONTENTS", None)
+
+ADMIN = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
+MANAGERS = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
+import re
+IGNORABLE_404_URLS = [
+    re.compile(r'\.(php|cgi)$'),
+    re.compile(r'^/phpmyadmin/'),
+    re.compile(r'^/apple-touch-icon.*\.png$'),
+    re.compile(r'^/favicon\.ico$'),
+    re.compile(r'^/robots\.txt$'),
+]

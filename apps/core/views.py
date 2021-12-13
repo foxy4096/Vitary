@@ -9,6 +9,8 @@ from apps.core.models import Issue, Comment
 from apps.feed.models import Feed
 from apps.core.forms import IssueForm
 
+import os
+
 def redirect_to_home(request):
     return redirect('home')
 
@@ -18,7 +20,6 @@ def home(request):
         feeds = Feed.objects.filter(Q(user=request.user) | Q(
             user__profile__in=request.user.profile.follows.all()) | Q(user__profile__in=request.user.profile.followed_by.all())).order_by('-date')
         paginator = Paginator(feeds, 5)
-
         page_no = request.GET.get('page')
         page_obj = paginator.get_page(page_no)
         return render(request, 'core/home/home_logged_in.html', {'feeds': page_obj})
