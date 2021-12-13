@@ -6,7 +6,7 @@ def notify(message, notification_type, to_user, by_user, link, is_read_attrub=Fa
     """
     Create a notification for a user.
     """
-    if to_user.email_notif:
+    if to_user.profile.email_notif:
         notification = Notification.objects.get_or_create(
             message=message,
             notification_type=notification_type,

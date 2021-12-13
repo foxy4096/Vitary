@@ -29,4 +29,4 @@ class FeedTest(TestCase):
         self.assertEqual(Feed.objects.count(), 1)
         self.assertEqual(Feed.objects.first().body, 'Test Feed')
         self.assertEqual(Feed.objects.first(
-        ).created_by.user.username, 'testuser')
+        ).user.username, 'testuser')

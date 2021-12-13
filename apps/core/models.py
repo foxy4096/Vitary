@@ -1,6 +1,7 @@
 from django.db import models
 
-from apps.accounts.models import Profile
+from django.contrib.auth.models import User
+
 
 class Issue(models.Model):
     """
@@ -8,14 +9,14 @@ class Issue(models.Model):
     """
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-date']
 
 
 class Comment(models.Model):
@@ -24,11 +25,11 @@ class Comment(models.Model):
     """
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     comment = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.comment
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-date']

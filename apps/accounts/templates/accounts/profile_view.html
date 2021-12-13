@@ -42,7 +42,7 @@
             {% endif %}
 
         </div>
-        {% for feed in usr.profile.feeds.all %}
+        {% for feed in usr.feeds.all %}
         {% include 'feed/extends/feed_block.html' %}
         {% endfor %}
     </div>

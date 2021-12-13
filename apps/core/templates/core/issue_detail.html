@@ -25,18 +25,18 @@
 
         <div class="media-left">
             <figure class="image is-48x48">
-                <img class="is-rounded" src="{{ comment.created_by.image.url }}">
+                <img class="is-rounded" src="{{ comment.user.image.url }}">
             </figure>
         </div>
         </a>
         <div class="media-content">
-            <p class="title is-4">{{ comment.created_by.user.username | title }}
+            <p class="title is-4">{{ comment.user.user.username | title }}
                 <a href="#comment-{{ comment.pk }}" id="comment-{{ comment.pk }}">🔗</a>
 
             </p>
 
             <p class="subtitle is-6"><a
-                    href="{% url 'profile_view' comment.created_by.user.username %}">@{{comment.created_by.user.username}}</a>
+                    href="{% url 'profile_view' comment.user.user.username %}">@{{comment.user.user.username}}</a>
             </p>
         </div>
     </div>
@@ -46,7 +46,7 @@
             <p>{{ comment.comment | safe | mention }}</p>
             <br>
         </div>
-        <small><time datetime="{{ comment.created_on }}">{{ comment.created_on | naturaltime | title }}</time></small>
+        <small><time datetime="{{ comment.date }}">{{ comment.date | naturaltime | title }}</time></small>
     </div>
     <hr>
     {% endfor %}
@@ -62,7 +62,7 @@
         <article class="media">
             <figure class="media-left">
                 <p class="image is-48x48">
-                    <img class="is-rounded" src="{{ user.profile.image.url }}">
+                    <img class="is-rounded" src="{{ user.image.url }}">
                 </p>
             </figure>
             <div class="control media-content">

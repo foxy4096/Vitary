@@ -22,8 +22,8 @@ def find_mention(**kwargs):
         if User.objects.filter(username=result).exists() and result != kwargs['request'].user.username:
             if kwargs['ntype'].upper() == "FEED":
                 notify(message=f"{kwargs['request'].user.username.title()} Mentioned You in a Feed - '{kwargs['feed'].body}'", notification_type="mention",
-                       to_user=User.objects.get(username=result).profile, by_user=kwargs['request'].user.profile, link=reverse_lazy('feed_detail', kwargs={'pk': kwargs['feed'].pk}))
-                if kwargs['feed'].created_on <= timezone.now() + datetime.timedelta(days=10) and User.objects.get(username=result).profile.email_notif:
+                       to_user=User.objects.get(username=result), by_user=kwargs['request'].user, link=reverse_lazy('feed_detail', kwargs={'pk': kwargs['feed'].pk}))
+                if kwargs['feed'].date <= timezone.now() + datetime.timedelta(days=10) and User.objects.get(username=result).profile.email_notif:
                     send_mail(
                         subject=f"{kwargs['request'].user.username.title()} mentioned you in a Feed.",
                         message=f"""
@@ -37,8 +37,8 @@ def find_mention(**kwargs):
             elif kwargs['ntype'].upper() == "COMMENT":
                 comment_id = kwargs['comment'].pk
                 notify(message=f"{kwargs['request'].user.username.title()} Mentioned You in a Feed's Comment - {kwargs['comment'].body}", notification_type="mention",
-                       to_user=User.objects.get(username=result).profile, by_user=kwargs['request'].user.profile, link=reverse_lazy('feed_detail', kwargs={'pk': kwargs['feed'].pk}) + f'#comment-{comment_id}')
-                if kwargs['comment'].created_on <= timezone.now() + datetime.timedelta(days=10) and User.objects.get(username=result).profile.email_notif:
+                       to_user=User.objects.get(username=result), by_user=kwargs['request'].user, link=reverse_lazy('feed_detail', kwargs={'pk': kwargs['feed'].pk}) + f'#comment-{comment_id}')
+                if kwargs['comment'].date <= timezone.now() + datetime.timedelta(days=10) and User.objects.get(username=result).profile.email_notif:
                     send_mail(
                         subject=f"{kwargs['request'].user.username.title()} mentioned you in a comment.",
                         message=f"""

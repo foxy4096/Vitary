@@ -11,10 +11,10 @@ class PostAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return qs
         else:
-            return qs.filter(user=request.user.profile)
+            return qs.filter(user=request.user)
     
     def save_model(self, request, obj, form, change):
-        obj.user = request.user.profile
+        obj.user = request.user
         return super().save_model(request, obj, form, change)
 
 

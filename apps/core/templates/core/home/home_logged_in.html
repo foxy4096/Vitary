@@ -14,9 +14,14 @@
         <div class="buttons">
             <a href="{% url 'add_feed' %}" class="button is-link is-rounded">Add Feed ➕</a>
         </div>
-        {% for feed in feeds %}
-        {% include 'feed/extends/feed_block.html' %}
-        {% endfor %}
+        
+        {% if feeds %}
+    {% for feed in feeds %}
+    {% include 'feed/extends/feed_block.html' %}
+    {% endfor %}
+    {% else %}
+    Wow Such Empty 😞, maybe try following some <a href="{% url 'peoples' %}">people</a>.
+        {% endif %}
     </div>
     <div class="column is-4">
         {% include 'accounts/extends/follows_block.html' %}

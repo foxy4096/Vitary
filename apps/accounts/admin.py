@@ -11,8 +11,8 @@ class ProfileInline(admin.TabularInline):
     Including the profile model in the user model by inline admin
     """
     model = Profile
+    readonly_fields = ['profile_image',]
     fields = ['profile_image', 'image', 'email_notif']
-    readonly_fields = ['follows', 'profile_image']
     can_delete = False
 
 

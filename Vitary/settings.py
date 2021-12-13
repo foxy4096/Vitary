@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'apps.notification.apps.NotificationConfig',
 
     # 3rd Party apps
-    'gdstorage'
+    # 'gdstorage'
 ]
 
 MIDDLEWARE = [
@@ -161,8 +161,10 @@ if DEBUG:
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 SITE_ID = 1
 
-try:
-    GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = BASE_DIR / "GDSTORAGE_JSON.json"
-except:
-    GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = None
-    GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE_CONTENTS = os.environ.get("GDSJSON_KEY_FILE_CONTENTS", None)
+
+# I am commenting it out because I don' want it now
+# try:
+#     GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = BASE_DIR / "GDSTORAGE_JSON.json"
+# except:
+#     GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = None
+#     GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE_CONTENTS = os.environ.get("GDSJSON_KEY_FILE_CONTENTS", None)

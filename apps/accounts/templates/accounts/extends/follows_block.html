@@ -3,7 +3,7 @@
     <div class="card-content">
         <h1 class="title">Follower</h1>
         <br>
-        {% if user.profile.followed_by.all %}
+    {% if user.profile.followed_by.all %}
         {% for following in user.profile.get_4_following %}
         <div class="media">
             <article class="image is-48x48 media-left">

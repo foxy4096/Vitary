@@ -36,7 +36,7 @@ def profile(request):
             return redirect('profile')
     else:
         uform = UserForm(instance=request.user)
-        pform = ProfileForm(instance=request.user.profile)
+        pform = ProfileForm(instance=request.user)
         return render(request, 'accounts/profile.html', {'uform': uform, 'pform': pform})
 
 
@@ -49,14 +49,14 @@ def profile_view(request, username):
 def follow(request):
     if request.method == "POST":
         usr = get_object_or_404(User, username=request.POST['username'])
-        if usr.profile in request.user.profile.follows.all():
+        if usr in request.user.profile.follows.all():
             messages.error(request, "Already Followed!")
             return redirect('profile_view', username=usr.username)
         else:
             request.user.profile.follows.add(usr.profile)
             messages.success(request, "Followed Successfully!")
             notify(message=f"{request.user.username.title()} Followed You",
-                   by_user=request.user.profile, to_user=usr.profile, notification_type="follow", link=reverse_lazy('profile_view', kwargs={'username': request.user.username}))
+                   by_user=request.user, to_user=usr, notification_type="follow", link=reverse_lazy('profile_view', kwargs={'username': request.user.username}))
             return redirect('profile_view', username=usr.username)
     else:
         return redirect('home')
@@ -66,7 +66,7 @@ def follow(request):
 def unfollow(request):
     if request.method == "POST":
         usr = get_object_or_404(User, username=request.POST['username'])
-        if usr.profile in request.user.profile.follows.all():
+        if usr in request.user.profile.follows.all():
             request.user.profile.follows.remove(usr.profile)
             messages.success(request, "Unfollowed Successfully!")
             return redirect('profile_view', username=usr.username)

@@ -19,7 +19,7 @@ def add_feed(request):
         form = FeedForm(request.POST, request.FILES)
         if form.is_valid():
             feed = form.save(commit=False)
-            feed.created_by = request.user.profile
+            feed.user = request.user
             feed.save()
             find_mention(request=request, body=feed.body,
                          ntype="FEED", feed=feed)
@@ -33,7 +33,7 @@ def add_feed(request):
 def edit_feed(request, pk):
     feed = get_object_or_404(Feed, pk=pk)
     DANGER = 40
-    if request.user.profile != feed.created_by:
+    if request.user != feed.user:
         messages.add_message(
             request, DANGER, 'You are not allowed to edit this feed')
         return redirect('home')
@@ -53,7 +53,7 @@ def edit_feed(request, pk):
 def delete_feed(request, pk):
     feed = get_object_or_404(Feed, pk=pk)
     DANGER = 40
-    if request.user.profile != feed.created_by:
+    if request.user != feed.user:
         messages.add_message(
             request, DANGER, 'You are not allowed to delete this feed')
         return redirect('home')
@@ -78,7 +78,7 @@ def add_comment(request):
         comment_body = request.POST.get('comment_body')
         feed = get_object_or_404(Feed, id=request.POST.get('feed_id'))
         comment = FeedComment.objects.create(
-            body=comment_body, feed=feed, created_by=request.user.profile)
+            body=comment_body, feed=feed, user=request.user)
         find_mention(request=request, body=comment_body,
                      ntype="COMMENT", comment=comment, feed=feed)
         messages.success(request, "Comment Added Successfully")
@@ -92,16 +92,16 @@ def add_comment(request):
 def like_feed(request):
     if request.method == "POST":
         feed = get_object_or_404(Feed, id=request.POST.get('feed_id'))
-        if request.user.profile in feed.likes.all():
-            feed.likes.remove(request.user.profile)
+        if request.user in feed.likes.all():
+            feed.likes.remove(request.user)
             messages.success(request, "Like Removed")
             return redirect('feed_detail', feed.pk)
-        elif request.user.profile not in feed.likes.all():
-            feed.likes.add(request.user.profile)
+        elif request.user not in feed.likes.all():
+            feed.likes.add(request.user)
             messages.success(request, "Like Successfully")
             notify(message=f"{request.user.username.title} Liked Your Feed",
                    notification_type="like",
-                   to_user=feed.created_by, by_user=request.user.profile,
+                   to_user=feed.user, by_user=request.user,
                    link=reverse_lazy('feed_detail', kwargs={'pk': feed.pk}))
             return redirect('feed_detail', feed.pk)
     else:

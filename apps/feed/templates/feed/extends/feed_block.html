@@ -7,26 +7,26 @@
         <div class="media">
             <div class="media-left">
                 <figure class="image is-48x48">
-                    <img class="is-rounded" src="{{ feed.created_by.image.url }}" alt="{{ user.username }}">
+                    <img class="is-rounded" src="{{ feed.user.profile.image.url }}" alt="{{ user.username }}">
                 </figure>
             </div>
             <div class="media-content">
 
-                {% if feed.created_by.user.get_full_name %}
-                <p class="title is-4">{{ feed.created_by.user.get_full_name | title }}</p>
+                {% if feed.user.user.get_full_name %}
+                <p class="title is-4">{{ feed.user.get_full_name | title }}</p>
                 {% else %}
-                <p class="title is-4">{{ feed.created_by.user.username | title }}</p>
+                <p class="title is-4">{{ feed.user.username | title }}</p>
                 {% endif %}
                 <p class="subtitle is-6"><a
-                        href="{% url 'profile_view' feed.created_by.user.username %}">@{{feed.created_by.user.username}}</a>
-                    {% if feed.created_by.user.is_superuser %}
+                        href="{% url 'profile_view' feed.user.username %}">@{{feed.user.username}}</a>
+                    {% if feed.user.is_superuser %}
                     <span class="tag is-info is-light is-rounded">Admin ✅</span>
                     {% endif %}
-                    {% if feed.created_by.user.is_staff %}
+                    {% if feed.user.is_staff %}
                     <span class="tag is-info is-light is-rounded">Staff ✅</span>
                     {% endif %}
                     
-                    {% if not feed.created_by in user.profile.follows.all and user.profile in feed.created_by.follows.all %}
+                    {% if not feed.user.profile in user.profile.follows.all and user.profile in feed.user.profile.follows.all %}
                         <span class="tag is-primary is-light is-rounded">Following You</span>
                     {% endif %}
                         
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="content">
-            {{ feed.body | safe | escapejs | mention | check_url }}
+            {{ feed.body | safe | mention | check_url }}
             <br>
             {% if feed.image %}
             📷
@@ -50,7 +50,7 @@
         {% endif %}
             <a href="javascript:void(0);" onclick="like_feed('{{feed.pk}}');" class="feed_like" id="{{ feed.pk }}">Like
                 💖 <span id="like_count_{{feed.pk}}">{{ feed.likes.all.count }}</span></a>
-            {% if feed.created_by == user.profile %}
+            {% if feed.user == user %}
             |
             <a href="{% url 'edit_feed' feed.id %}">Edit 📝</a>
             |
@@ -58,9 +58,9 @@
             {% endif %}
 
             <br>
-            <small><time datetime="{{ feed.created_on }}">{{ feed.created_on | naturaltime }}</time></small>
-            {% if not feed.updated_on == feed.created_on %}
-            <span class="tag is-link is-light">Edited {{ feed.updated_on | naturaltime }}</span>
+            <small><time datetime="{{ feed.date }}">{{ feed.date | naturaltime }}</time></small>
+            {% if not feed.update_date == feed.date %}
+            <span class="tag is-link is-light">Edited {{ feed.update_date | naturaltime }}</span>
             {% endif %}
             <br>
             <br>

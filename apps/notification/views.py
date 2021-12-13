@@ -13,7 +13,7 @@ def notification_page(request):
 @login_required
 def notification_redirect(request, pk):
     notification = Notification.objects.get(pk=pk)
-    if notification.to_user == request.user.profile:
+    if notification.to_user == request.user:
         notification.is_read = True
         notification.save()
         return redirect(notification.link)
@@ -22,7 +22,7 @@ def notification_redirect(request, pk):
 
 @login_required
 def mark_all_as_read(request):
-    user_notifications = Notification.objects.filter(to_user=request.user.profile)
+    user_notifications = Notification.objects.filter(to_user=request.user)
     for user_notification in user_notifications:
         user_notification.is_read = True
         user_notification.save()

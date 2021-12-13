@@ -15,8 +15,8 @@ def redirect_to_home(request):
 
 def home(request):
     if request.user.is_authenticated:
-        feeds = Feed.objects.filter(Q(created_by=request.user.profile) | Q(
-            created_by__in=request.user.profile.follows.all()) | Q(created_by__in=request.user.profile.followed_by.all())).order_by('-created_on')
+        feeds = Feed.objects.filter(Q(user=request.user) | Q(
+            user__profile__in=request.user.profile.follows.all()) | Q(user__profile__in=request.user.profile.followed_by.all())).order_by('-date')
         paginator = Paginator(feeds, 5)
 
         page_no = request.GET.get('page')
@@ -42,7 +42,7 @@ def report_issue(request):
             messages.success(request, '📩 Your Issue has been reported successfully and will be reviewed shortly by the admin team to resolve the issue as soon as possible!')
             return redirect('home')
     form = IssueForm()
-    user_issues = Issue.objects.filter(created_by=request.user.profile)
+    user_issues = Issue.objects.filter(user=request.user)
     all_issues = Issue.objects.all()
     return render(request, 'core/report_issue.html', {'form': form, 'issues': user_issues, 'all_issues': all_issues})
 
@@ -53,7 +53,7 @@ def issue_detail(request, pk):
     if request.user.profile == issue.created_by or request.user.is_staff:
         if request.method == "POST":
             body = request.POST.get('comment_body')
-            comment = Comment.objects.create(issue=issue, comment=body, created_by=request.user.profile)
+            comment = Comment.objects.create(issue=issue, comment=body, user=request.user)
             messages.success(request, "💬 Your Comment has been posted successfully!")
             return redirect('issue_detail', issue.pk)
         return render(request, 'core/issue_detail.html', {'issue': issue, 'comments': comments})
@@ -66,7 +66,7 @@ def issue_edit(request, pk):
         form = IssueForm(request.POST)
         if form.is_valid():
             report = form.save(commit=False)
-            report.created_by = request.user.profile
+            report.created_by = request.user
             report.save()
             messages.success(request, '📩 Your Issue has Edited')
             return redirect('home')

@@ -1,6 +1,7 @@
 from django.db import models
 
-from apps.accounts.models import Profile
+from django.contrib.auth.models import User
+
 
 
 class Notification(models.Model):
@@ -19,9 +20,9 @@ class Notification(models.Model):
     notification_type = models.CharField(
         max_length=20, choices=NOTIFICATION_TYPES)
     to_user = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name='to_user')
+        User, on_delete=models.CASCADE, related_name='to_user')
     by_user = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name='by_user')
+        User, on_delete=models.CASCADE, related_name='by_user')
     link = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
