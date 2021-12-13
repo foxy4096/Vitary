@@ -24,5 +24,5 @@ class NotificationTestCast(TestCase):
 
     def test_for_unread_notification(self):
         notification = Notification.objects.filter(
-            to_user__username="testuser2").first()
+            to_user__user__username="testuser2").first()
         self.assertEqual(notification.message, "Testuser Followed You")
