@@ -59,7 +59,7 @@
 
             <br>
             <small><time datetime="{{ feed.date }}">{{ feed.date | naturaltime }}</time></small>
-            {% if feed.update_date != feed.date %}
+            {% if feed.update_date == feed.date %}
             <span class="tag is-link is-light">Edited {{ feed.update_date | naturaltime }}</span>
             {% endif %}
             <br>

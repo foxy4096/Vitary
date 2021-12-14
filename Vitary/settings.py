@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-od1y3j(!1bl7)s%n#1$xh1%p=v4q6-l$%&zns_18nv!mj_b_m!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', default=True)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['http://vitary.pythonanywhere.com/home/']
 
 
 # Application definition
@@ -190,3 +190,6 @@ IGNORABLE_404_URLS = [
     re.compile(r'^/favicon\.ico$'),
     re.compile(r'^/robots\.txt$'),
 ]
+
+SECURE_SSL_REDIRECT = env('SECURE_SSL_REDIRECT', default=False)
+CSRF_COOKIE_SECURE = env('CSRF_COOKIE_SECURE', default=False)
