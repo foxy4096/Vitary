@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-od1y3j(!1bl7)s%n#1$xh1%p=v4q6-l$%&zns_18nv!mj_b_m!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', default=True)
 
-ALLOWED_HOSTS = ['vitary.pythonanywhere.com']
+ALLOWED_HOSTS = ['vitary.pythonanywhere.com', 'localhost']
 
 
 # Application definition
@@ -179,9 +179,6 @@ SITE_ID = int(env('SITE_ID', default=1))
 
 
 
-
-ADMIN = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
-MANAGERS = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
 import re
 IGNORABLE_404_URLS = [
     re.compile(r'\.(php|cgi)$'),
@@ -193,3 +190,6 @@ IGNORABLE_404_URLS = [
 
 SECURE_SSL_REDIRECT = env('SECURE_SSL_REDIRECT', default=False)
 CSRF_COOKIE_SECURE = env('CSRF_COOKIE_SECURE', default=False)
+
+MANAGERS = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
+ADMIN = [('foxy4096', 'adityapriyadarshi669@gmail.com')]

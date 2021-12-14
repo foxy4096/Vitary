@@ -1,6 +1,8 @@
 {% extends 'core/base.html' %}
 {% load humanize %}
 {% load static %}
+{% load mention %}
+{% load check_url %}
 {% block title %}
 {{ post.title }}
 {% endblock title %}
@@ -14,8 +16,8 @@
         <div class="media">
             <div class="media-left">
                 <figure class="image is-48x48">
-                    <a href="{% url 'profile_view' post.user.user.username %}">
-                        <img class="is-rounded" src="{{ post.user.image.url }}" alt="{{ post.user.user.username">
+                    <a href="{% url 'profile_view' post.user.username %}">
+                        <img class="is-rounded" src="{{ post.user.profile.image.url }}" alt="{{ post.user.username">
                     </a>
                 </figure>
             </div>
@@ -23,14 +25,14 @@
 
                 <h3 class="title is-3">{{ post.title }}</h3>
                 <p>
-                {{ post.date | naturaltime }} By <a href="{% url 'profile_view' post.user.user.username %}">
-                {{post.user.user.username.title }}</a>
+                {{ post.date | naturaltime }} By <a href="{% url 'profile_view' post.user.username %}">
+                {{post.user.username.title }}</a>
             </p>
             </div>
         </div>
         <hr>
         <div class="content">
-        <p>{{ post.body }}</p>
+        <p>{{ post.body | safe | mention | check_url}}</p>
     </div>
     </div>
 </div>

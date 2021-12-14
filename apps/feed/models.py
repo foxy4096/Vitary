@@ -11,7 +11,6 @@ class Feed(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="feeds")
     date = models.DateTimeField(auto_now_add=True)
-    update_date = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='uploads/images/', blank=True,
                               null=True, help_text="You can upload upto one image per feed")
     video = models.FileField(upload_to='uploads/videos/', blank=True,

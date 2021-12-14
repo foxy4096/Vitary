@@ -19,9 +19,9 @@ class Post(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        super().save(self, *args, **kwargs)
+        super().save(*args, **kwargs)
         self.slug = slugify(f"{self.title}-{self.pk}")
-        super().save(self, *args, **kwargs)
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-date']

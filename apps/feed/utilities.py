@@ -27,12 +27,14 @@ def find_mention(**kwargs):
                     send_mail(
                         subject=f"{kwargs['request'].user.username.title()} mentioned you in a Feed.",
                         message=f"""
-                    {kwargs['request'].user.username.title()} wrote \n
-                    {kwargs['body']}\n
-                    You are reciving this email because you have Send Email Notification turned on on our site.\n
-                    Thanks for using our site!
-                    \n
-                    The Vitary team""",
+{kwargs['request'].user.username.title()} wrote \n
+
+{kwargs['body']}\n
+
+You are reciving this email because you have Send Email Notification turned on on our site.\n
+Thanks for using our site!
+\n
+The Vitary team""",
                         from_email=settings.DEFAULT_FROM_EMAIL,
                         recipient_list=[
                             User.objects.get(username=result).email],
@@ -45,12 +47,12 @@ def find_mention(**kwargs):
                     send_mail(
                         subject=f"{kwargs['request'].user.username.title()} mentioned you in a comment.",
                         message=f"""
-                    {kwargs['request'].user.username.title()} wrote \n
-                    {kwargs['body']}\n
-                    You are reciving this email because you have Send Email Notification turned on on our site.\n
-                    Thanks for using our site!
-                    \n
-                    The Vitary team""",
+{kwargs['request'].user.username.title()} wrote \n
+{kwargs['body']}\n
+You are reciving this email because you have Send Email Notification turned on on our site.\n
+Thanks for using our site!
+\n
+The Vitary team""",
                         from_email=settings.DEFAULT_FROM_EMAIL,
                         recipient_list=[User.objects.get(username=result).email],
                     )
