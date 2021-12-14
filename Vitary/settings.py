@@ -173,8 +173,9 @@ else:
 
 
 
-SITE_ID = 1
+SITE_ID = int(env('SITE_ID'))
 # Email Config
+
 
 
 

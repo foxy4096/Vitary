@@ -19,7 +19,7 @@ class Feed(models.Model):
     likes = models.ManyToManyField(User, related_name="liked_feeds")
 
     def __str__(self):
-        return f"Feed No.{self.pk} by {self.user.user.username.title()}"
+        return f"Feed No.{self.pk} by {self.user.username.title()}"
 
     def delete(self, *args, **kwargs):
         self.image.delete()
@@ -43,7 +43,7 @@ class FeedComment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Comment no.{self.pk} On {self.feed} By {self.user.user.username.title()}"
+        return f"Comment no.{self.pk} On {self.feed} By {self.user.username.title()}"
 
     class Meta:
         ordering = ['-date']

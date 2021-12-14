@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import re_path
+from django.views.static import serve
 
 
 from django.contrib import admin
@@ -60,9 +62,15 @@ urlpatterns = [
     # Flatpages
     path('pages/', include('django.contrib.flatpages.urls')),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
+# I am poor so I can afford a media server like Amazon S3 Bucket
+urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+    ]
 
 admin.site.site_header = 'Vitary Admin'
 admin.site.site_title = 'Vitary Admin'
