@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+
     <link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
     <meta name="description" content="Vitary | Make New Friends Today!">
     <title>
@@ -30,12 +32,12 @@
     </title>
 </head>
 
-<body>
+<body class="dark">
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="{% url 'home' %}">
         <img src="{% static 'img/logo.png' %}" height="40px" alt="logo">
- |  
+ | 
                 <h1 class="title" style="color: white;">Vitary</h1>
             </a>
 
@@ -121,6 +123,7 @@
                             Log in 🔐
                         </a>
                         {% endif %}
+                        
                     </div>
                 </div>
             </div>
@@ -146,7 +149,7 @@
             {% endblock content %}
         </div>
     </section>
-    <footer class="footer">
+    <footer class="footer dark">
         <div class="content has-text-centered">
             <p>
                 <a href="https://github.com/foxy4096/Vitary">Vitary</a> by <a href="https://foxy4096.github.io">Aditya Priyadarshi</a>. The source code
@@ -187,6 +190,7 @@
             }
 
         });
+        
     </script>
 </body>
 

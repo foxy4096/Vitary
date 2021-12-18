@@ -1,0 +1,71 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}
+📨 {{to_user.username.title}}
+{% endblock title %}
+
+{% block content %}
+
+<h1 class="title">Message: {{to_user.username.title}}</h1>
+<div id="messages" class="box">
+    <p>Loading the messages</p>
+</div>
+<input name="message" id="message" cols="30" rows="10" class="input"></input>
+<button class="button is-primary" onclick="sendMessage()" id="button-send">Send</button>
+
+<script>
+    var connected = true;
+    $(document).ready(function () {
+
+        setInterval(function () {
+            $.ajax({
+                type: 'GET',
+                url: "/api/v1/chat/get/?to_user={{to_user.username}}",
+                success: function (response) {
+                    $("#messages").empty();
+                    for (var key in response.messages) {
+                        var temp = "<div class='container darker'><b>" + response.messages[key].created_by__username + "</b><p>" + response.messages[key].message + "</p><span class='time-left'>" + response.messages[key].created_at + "</span></div>";
+                        $("#messages").append(temp);
+                    }
+                    $("#message").focus();
+                },
+                error: function (response) {
+                    console.log(response);
+                    console.log("Error");
+                    body = document.getElementsByTagName('body')[0]
+                    body.innerStyle = "background-color: red;";
+                }
+            });
+        }, 1000);
+    });
+
+    function sendMessage() {
+        if (document.getElementById('message').value != ''){
+        fetch('/api/v1/chat/send/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                'to_user': '{{to_user.username}}',
+                'message': document.getElementById('message').value,
+                'chat_id': '{{chat.id}}'
+            })
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            if (data.status === 'success') {
+                document.getElementById('message').value = '';
+            }
+        });
+    }
+    else{
+        alert("Please enter a message");
+    }
+    }
+</script>
+
+
+{% endblock content %}

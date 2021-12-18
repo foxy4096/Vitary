@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'apps.feed.apps.FeedConfig',
     'apps.blog.apps.BlogConfig',
     'apps.notification.apps.NotificationConfig',
+    'apps.chat.apps.ChatConfig',
 
     # 3rd Party apps
     # 'gdstorage'

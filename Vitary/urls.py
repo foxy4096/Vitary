@@ -23,7 +23,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.accounts.views import profile_view, user_following, user_followers
-from apps.feed import api
+
+# APIs
+from apps.chat.api import get_message_api, send_message_api
+from apps.core.api import not_authorized
+from apps.feed.api import add_like
 
 urlpatterns = [
     # Admin
@@ -53,14 +57,22 @@ urlpatterns = [
     # Notification
     path('notification/', include('apps.notification.urls')),
 
-    # API
-    path('api/v1/like/', api.add_like, name='like_feed'),
+    # Feed API
+    path('api/v1/like/', add_like, name='like_feed'),
+
+    # Chat API
+    path('api/v1/chat/send/', send_message_api, name='send_message'),
+    path('api/v1/chat/get/', get_message_api, name='get_message'),
+    path('api/v1/na/', not_authorized, name='na'),
 
     # Blog
     path('blog/', include('apps.blog.urls')),
 
     # Flatpages
     path('pages/', include('django.contrib.flatpages.urls')),
+
+    # Chat
+    path('chat/', include('apps.chat.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

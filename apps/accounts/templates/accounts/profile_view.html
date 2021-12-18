@@ -36,7 +36,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="username" value="{{ usr.username }}">
                 <button class="button is-link is-rounded" type="submit">Unfollow ➖</button>
-                <a href="" class="button is-link is-rounded">Message 📬</a>
+                <a href="{% url 'message_user' usr.username %}" class="button is-link is-rounded">Message 📬</a>
             </form>
             {% endif %}
             {% endif %}
