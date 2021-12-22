@@ -91,6 +91,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'apps.notification.context_processors.notification',
+                'apps.feed.context_processors.get_latest_feed',
             ],
         },
     },

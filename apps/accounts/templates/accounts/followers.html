@@ -6,39 +6,49 @@ Follower
 
 
 {% block content %}
+<h1 class="title is-1">Follower</h1>
 <div class="columns">
-    <div class="column">
-        <h1 class="title">Follower</h1>
-
-        <div class="">
-            <div class="columns">
-                <div class="column">
-                    {% if usr.profile.followed_by.all %}
-                    {% for usr in usr.profile.followed_by.all %}
+    <div class="column is-8">
+        <div class="box">
+            {% if usr.profile.follows.all %}
+            {% for person in usr.profile.followed_by.all %}
+            <div class="level">
+                <div class="level-left">
                     <div class="media">
                         <div class="media-left">
-                            <article class="image is-48x48">
-                                <img class="is-rounded" src="{{ usr.image.url }}">
-                            </aritcle>
+                            <article class="image is-128x128">
+                                <img src="{{ person.image.url }}" class="is-rounded" alt="">
+                            </article>
+                        </div>
+                        <div class="media-right">
+                            <div class="content">
+                                <p>
+                                <h4 class="title is-4">
+                                    {% if person.user.get_full_name %}
+                                    {{person.user.get_full_name.title}}
+                                    {% else %}
+                                    {{person.user.username.title}}
+                                    {% endif %}
+                                </h4>
+                                <a href="{% url 'profile_view' person.user.username %}"
+                                    class="href">@{{person.user.username}}</a>
                             </div>
-                        <div class="media-content">
-                            {% if usr.user.get_full_name %}
-                            <p class="title is-5">{{ usr.user.get_full_name | title }}</p>
-                            {% else %}
-                            <p class="title is-5">{{ usr.user.username | title }}</p>
-                            {% endif %}
-                            <a href="{% url 'profile_view' usr %}">
-                                {{ usr | title }}
-                            </a>
                         </div>
                     </div>
-                    {% endfor %}
-                    {% else %}
-                    <p>Wow such empty 😞</p>
-                    {% endif %}
+                </div>
+                <div class="level-right is-hidden-mobile">
+                    <a href="{% url 'profile_view' person.user.username %}" class="button is-success">View</a>
                 </div>
             </div>
+            {% endfor %}
+            {% else %}
+            <p>Not followed by anyone yet.</p>
+        
+            {% endif %}
         </div>
+    </div>
+    <div class="column is-4">
+        {% include 'accounts/extends/side_block.html' %}
     </div>
 </div>
 {% endblock content %}

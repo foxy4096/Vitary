@@ -8,9 +8,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-    <link rel="stylesheet" href="{% static 'css/bulmaswatch.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bulmaswatch.min.css' %}">
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
 
@@ -50,11 +49,13 @@
     {% endif %}
 
     <section class="section">
-        <div class="container">
+        <div class="container-fluid">
+
             {% block content %}
 
             {% endblock content %}
-            
+
+        </div>
         </div>
     </section>
     {% include 'core/footer.html' %}

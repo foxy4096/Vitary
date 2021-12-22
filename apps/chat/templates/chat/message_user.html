@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-📨 {{to_user.username.title}}
+{{to_user.username.title}}
 {% endblock title %}
 
 {% block content %}
@@ -13,7 +13,9 @@
     <p>Loading the messages</p>
 </div>
 <input name="message" id="message" cols="30" rows="10" class="input"></input>
-<button class="button is-primary" onclick="sendMessage()" id="button-send">Send</button>
+<br>
+<br>    
+<button class="button is-success" onclick="sendMessage()" id="button-send">Send</button>
 
 <script>
     var connected = true;

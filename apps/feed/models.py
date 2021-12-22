@@ -32,6 +32,8 @@ class Feed(models.Model):
         from django.urls import reverse
         return reverse('feed_detail', kwargs={'pk': self.pk})
 
+    def latest_feeds():
+        return Feed.objects.all().order_by('-date')[:5]
 
 class FeedComment(models.Model):
     """

@@ -6,11 +6,19 @@
 Notification
 {% endblock title %}
 {% block content %} 
-<h1 class="title">Notifications</h1>
-<div class="buttons">
-    <a href="{% url 'mark_as_read' %}" class="button is-primary is-rounded">Mark As Read</a>
+<div class="level">
+    <div class="level-left">
+        <h1 class="title is-1">Notifications <i class="fas fa-bell"></i></h1>
+    </div>
+<div class="level-right">
+    <div class="buttons">
+        <a href="{% url 'mark_as_read' %}" class="button is-primary is-rounded">Mark As Read  <i class="fas fa-check"></i></a>
+    </div>
+
 </div>
-<hr>
+</div>
+<div class="columns">
+    <div class="column">
 
 {% if notifications %}
     
@@ -49,5 +57,9 @@ Notification
     No notifications!
 </p>
 {% endif %}
-
+</div>
+<div class="column is-4">
+    {% include 'accounts/extends/side_block.html' %}
+</div>
+</div>
 {% endblock content %}

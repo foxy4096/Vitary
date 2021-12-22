@@ -7,33 +7,44 @@
 {{ post.title }}
 {% endblock title %}
 {% block content %}
-<div class="media">
-    <br>
-    <div class="media-content">
-        <article class="">
-            <img src="{{ post.cover_img.url }}" alt="img" height="400" width="1000">
-        </article>
+<div class="columns">
+    <div class="column is-8">
         <div class="media">
-            <div class="media-left">
-                <figure class="image is-48x48">
-                    <a href="{% url 'profile_view' post.user.username %}">
-                        <img class="is-rounded" src="{{ post.user.profile.image.url }}" alt="{{ post.user.username">
-                    </a>
-                </figure>
-            </div>
-            <div class="media-left">
+            <br>
+            <div class="media-content">
+                <article class="">
 
-                <h3 class="title is-3">{{ post.title }}</h3>
-                <p>
-                {{ post.date | naturaltime }} By <a href="{% url 'profile_view' post.user.username %}">
-                {{post.user.username.title }}</a>
-            </p>
+                    {% if post.cover_img %}
+                    <img src="{{ post.cover_img.url }}" alt="img" height="400" width="1000">
+                    {% endif %}
+                </article>
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-48x48">
+                            <a href="{% url 'profile_view' post.user.username %}">
+                                <img class="is-rounded" src="{{ post.user.profile.image.url }}"
+                                    alt="{{ post.user.username">
+                            </a>
+                        </figure>
+                    </div>
+                    <div class="media-left">
+
+                        <h3 class="title is-3">{{ post.title }}</h3>
+                        <p>
+                            {{ post.date | naturaltime }} By <a href="{% url 'profile_view' post.user.username %}">
+                                @{{post.user.username }}</a>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+                <div class="content">
+                    <p>{{ post.body | safe | mention | check_url}}</p>
+                </div>
             </div>
         </div>
-        <hr>
-        <div class="content">
-        <p>{{ post.body | safe | mention | check_url}}</p>
     </div>
+    <div class="column is-4">
+        {% include 'accounts/extends/side_block.html' %}
     </div>
 </div>
 {% endblock content %}

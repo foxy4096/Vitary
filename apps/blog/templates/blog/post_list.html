@@ -6,15 +6,20 @@ Blog
 {% endblock title %}
 {% block content %}
 <div class="columns">
-    <div class="column is-9">
+    <div class="column is-8">
         <h1 class="title">Blog</h1>
-        <hr>
+        <div class="box">
         {% for post in posts %}
         <div class="media">
             <br>
             <div class="media-content">
                 <article class="">
+
+                    {% if post.cover_img %}
                     <img src="{{ post.cover_img.url }}" alt="img" height="400" width="1000">
+
+                    {% endif %}
+
                 </article>
                 <div class="media">
                     <div class="media-left">
@@ -30,7 +35,7 @@ Blog
                         <h3 class="title is-3"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
                         <p>
                             {{ post.date | naturaltime }} By <a href="{% url 'profile_view' post.user.username %}">
-                                {{post.user.username.title }}</a>
+                                @{{post.user.username }}</a>
                         </p>
                     </div>
                 </div>
@@ -41,6 +46,9 @@ Blog
         </div>
         {% endfor %}
     </div>
-    <div class="column is-3"></div>
+    </div>
+<div class="column is-4">
+    {% include 'accounts/extends/side_block.html' %}
+</div>
 </div>
 {% endblock content %}

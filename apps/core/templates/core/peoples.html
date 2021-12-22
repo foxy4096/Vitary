@@ -7,10 +7,10 @@ People
 
 
 {% block content %}
-<h1 class="title">Peoples 
+<h1 class="title is-1">Peoples 
     <i class="fas fa-users"></i>
 </h1>
-<hr>
+
 <div class="columns">
     <div class="column is-8">
 <div class="box">
@@ -39,14 +39,14 @@ People
             </div>
         </div>
         <div class="level-right is-hidden-mobile">
-            <a href="" class="button is-success">View</a>
+            <a href="{% url 'profile_view' person.username %}" class="button is-success">View</a>
         </div>
     </div>
     {% endfor %}
 </div>
     </div>
 <div class="column is-4">
-    {% include 'accounts/extends/follows_block.html' %}
+    {% include 'accounts/extends/side_block.html' %}
 </div>
 </div>
 {% endblock content %}

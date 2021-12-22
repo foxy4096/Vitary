@@ -16,14 +16,14 @@
                 <i class="fas fa-check-circle"></i>
                 {% endif %}
                 <br>
-                <a href="">@{{usr.username}}</a>
+                <small class="small"><a>@{{usr.username}}</a></small>
             </p>
             {% else %}
             <p class="title is-4">{{ usr.username | title }}{% if usr.profile.verified %}
                 <i class="fas fa-check-circle"></i>
                 <br>
                 {% endif %}
-                <a href="">@{{usr.username}}</a>
+                <small><a>@{{usr.username}}</a></small>
 
             </p>
             {% endif %}
@@ -38,24 +38,24 @@
 
                 {% if user == usr %}
 
-                <a href="{% url 'profile' %}" class="button is-primary is-rounded">Edit Profile 📝</a>
+                <a href="{% url 'profile' %}" class="button is-primary">Edit Profile  <i class="far fa-id-card"></i></a>
                 {% else %}
 
                 {% if not usr.profile in user.profile.follows.all %}
                 <form action="{% url 'follow' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="username" value="{{ usr.username }}">
-                    <button class="button is-link is-rounded" type="submit">Follow ➕</button>
+                    <button class="button is-success" type="submit">Follow  <i class="fas fa-plus"></i></button>
                 </form>
                 {% else %}
                 <form action="{% url 'unfollow' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="username" value="{{ usr.username }}">
-                    <button class="button is-link is-rounded" type="submit">Unfollow ➖</button>
-                    <a href="{% url 'message_user' usr.username %}" class="button is-link is-rounded">Message 📬</a>
+                    <button class="button is-success" type="submit">Unfollow  <i class="fas fa-minus"></i></button>
                 </form>
                 {% endif %}
                 {% endif %}
+                  <a href="{% url 'message_user' usr.username %}" class="button is-success">Message  <i class="far fa-comments"></i></a>
             </div>
         </div>
         {% for feed in usr.feeds.all %}
@@ -63,7 +63,7 @@
         {% endfor %}
     </div>
     <div class="column is-4">
-        {% include 'accounts/extends/follows_block.html' %}
+        {% include 'accounts/extends/side_block.html' %}
     </div>
     {% endblock content %}
 
