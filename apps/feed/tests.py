@@ -19,11 +19,11 @@ class FeedTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_add_feed_page_loads(self):
-        response = self.client.get('/feed/add/')
+        response = self.client.get('/vit/add/')
         self.assertEqual(response.status_code, 200)
 
     def test_add_feed_by_adding_a_feed(self):
-        self.client.post('/feed/add/', {
+        self.client.post('/vit/add/', {
             'body': 'Test Feed',
         })
         self.assertEqual(Feed.objects.count(), 1)

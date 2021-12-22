@@ -18,7 +18,3 @@ class HomePageTest(TestCase):
         self.assertRedirects(response, '/home/')
 
 
-class PeoplePageTest(TestCase):
-    def test_people_page_returns_correct_html(self):
-        response = self.client.get('/peoples/')
-        self.assertTemplateUsed(response, 'core/peoples.html')
