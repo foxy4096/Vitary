@@ -2,13 +2,13 @@
 
 
 {% block title %}
-🚪 Logged Out
+Logged Out
 {% endblock title %}
 
 
 {% block content %}
 <h1 class="title">Logged Out</h1>
-<p>You have been logged out 🚪.</p>
+<p>You have been logged out.</p>
 <hr>
-<p class="subtitle">Go to <a href="{% url 'home' %}">Home 🏡</a> or <a href="{% url 'login' %}">Login 🔐</a> again.</p>
+<p class="subtitle">Go to <a href="{% url 'home' %}">Home <i class="fas fa-home"></i></a> or <a href="{% url 'login' %}">Login <i class="fas fa-lock"></i></a> again.</p>
 {% endblock content %}

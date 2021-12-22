@@ -37,4 +37,21 @@
         {% endif %}
     </div>
 </div>
+{% else %}
+<div class="card is-hidden-mobile">
+    <div class="card-content">
+        <h1 class="title">Follower</h1>
+        <br>
+        <p>You need to login to see your followers.</p>
+
+        <hr>
+        <h1 class="title">Following</h1>
+        <br>
+        <p>You need to login to see your following.</p>
+        <hr>
+        <div class="buttons">
+            <a href="{% url 'login' %}" class="button is-primary">Login</a>
+            <a href="{% url 'signup' %}" class="button is-success">Register</a>
+        </div>
+    </div>
 {% endif %}

@@ -66,7 +66,7 @@ def follow(request):
 def unfollow(request):
     if request.method == "POST":
         usr = get_object_or_404(User, username=request.POST['username'])
-        if usr in request.user.profile.follows.all():
+        if not usr in request.user.profile.follows.all():
             request.user.profile.follows.remove(usr.profile)
             messages.success(request, "Unfollowed Successfully!")
             return redirect('profile_view', username=usr.username)

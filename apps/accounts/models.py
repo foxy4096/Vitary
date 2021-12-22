@@ -16,6 +16,7 @@ class Profile(models.Model):
         'self', related_name='followed_by', symmetrical=False)
     email_notif = models.BooleanField(
         default=True, verbose_name="Get Email Notifications")
+    verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

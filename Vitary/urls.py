@@ -43,7 +43,7 @@ urlpatterns = [
 
 
     # Feed
-    path('feed/', include('apps.feed.urls')),
+    path('vit/', include('apps.feed.urls')),
 
 
     # User

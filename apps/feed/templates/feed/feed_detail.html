@@ -33,7 +33,7 @@
 
 <hr>
 
-<h1 class="title">Comments ({{comments.count}}) 💬</h1>
+<h1 class="title">Comments ({{comments.count}}) <i class="far fa-comment"></i></h1>
 
 <form method="post" action="{% url 'add_comment' %}">
     <div class="field">
@@ -45,7 +45,7 @@
                 </p>
             </figure>
             <div class="control media-content">
-                <textarea class="textarea" placeholder="Comment" name="comment_body" required></textarea>
+                <textarea class="" placeholder="Comment" name="comment_body" required></textarea>
             </div>
         </article>
     </div>

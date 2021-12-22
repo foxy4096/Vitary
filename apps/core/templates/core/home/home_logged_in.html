@@ -3,24 +3,27 @@
 {% load humanize %}
 
 {% block title %}
-🏡 Home
+Home
 {% endblock title %}
 
 
 {% block content %}
+<h1 class="title is-1">Home 
+    <i class="fas fa-home"></i>
+</h1>
+<div class="buttons">
+    <a href="{% url 'add_feed' %}" class="button is-link is-rounded">Add Vit <i class="fas fa-plus"></i></a>
+</div>
+<hr>
+
 <div class="columns">
     <div class="column is-8">
-        <h1 class="title">Feeds</h1>
-        <div class="buttons">
-            <a href="{% url 'add_feed' %}" class="button is-link is-rounded">Add Feed ➕</a>
-        </div>
-        
         {% if feeds %}
     {% for feed in feeds %}
     {% include 'feed/extends/feed_block.html' %}
     {% endfor %}
     {% else %}
-    Wow Such Empty 😞, maybe try following some <a href="{% url 'peoples' %}">people</a>.
+    Wow Such Empty <i class="fas fa-sad-tear"></i>, maybe try following some <a href="{% url 'peoples' %}">people</a>.
         {% endif %}
     </div>
     <div class="column is-4">

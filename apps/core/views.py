@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-
+from apps.feed.forms import FeedForm
 
 from apps.feed.models import Feed
 
@@ -18,7 +18,8 @@ def home(request):
         paginator = Paginator(feeds, 5)
         page_no = request.GET.get('page')
         page_obj = paginator.get_page(page_no)
-        return render(request, 'core/home/home_logged_in.html', {'feeds': page_obj})
+        form = FeedForm()
+        return render(request, 'core/home/home_logged_in.html', {'feeds': page_obj, 'form': form})
     else:
         return render(request, 'core/home/home_logged_out.html')
 

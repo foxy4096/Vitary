@@ -2,37 +2,51 @@
 {% load static %}
 
 {% block title %}
-👪 People
+People
 {% endblock title %}
 
 
 {% block content %}
-<h1 class="title">Peoples</h1>
+<h1 class="title">Peoples 
+    <i class="fas fa-users"></i>
+</h1>
 <hr>
-<div class="box">
 <div class="columns">
+    <div class="column is-8">
+<div class="box">
     {% for person in persons %}
-    <div class="column level">
-        <div class="media">
-            <figure class="media-content">
-                <p class="image is-64x64">
-                    <img src="{{ person.profile.image.url }}" alt="{{ person.username }}'s Profile Image"
-                        class="is-rounded">
-                </p>
-                <p>
-                    <a href="{% url 'profile_view' person.username %}" class="has-text-centered has-text-weight-medium">
-                        {{ person.username | title }}
-                    </a>
-                </p>
-            </figure>
-            <div class="media-right is-hidden-desktop is-hidden-tablet">
-                <small>{{ person.get_full_name }}
-                    <br>
-                </small>
+    <div class="level">
+        <div class="level-left">
+            <div class="media">
+                <div class="media-left">
+                    <article class="image is-128x128">
+                        <img src="{{ person.profile.image.url }}" class="is-rounded" alt="">
+                    </article>
+                </div>
+                <div class="media-right">
+                    <div class="content">
+                        <p>
+                        <h4 class="title is-4">
+                            {% if person.get_full_name %}
+                            {{person.get_full_name.title}}
+                            {% else %}
+                            {{person.username.title}}
+                            {% endif %}
+                        </h4>
+                        <a href="{% url 'profile_view' person.username %}" class="href">@{{person.username}}</a>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="level-right is-hidden-mobile">
+            <a href="" class="button is-success">View</a>
         </div>
     </div>
     {% endfor %}
+</div>
+    </div>
+<div class="column is-4">
+    {% include 'accounts/extends/follows_block.html' %}
 </div>
 </div>
 {% endblock content %}

@@ -23,7 +23,7 @@ def add_feed(request):
             feed.save()
             find_mention(request=request, body=feed.body,
                          ntype="FEED", feed=feed)
-            messages.success(request, 'Feed added successfully')
+            messages.success(request, 'Vit added successfully')
             return redirect('home')
     form = FeedForm()
     return render(request, 'feed/feed_form.html', {'form': form})
@@ -70,7 +70,7 @@ def delete_feed(request, pk):
 def feed_detail(request, pk):
     feed = get_object_or_404(Feed, pk=pk)
     comments = FeedComment.objects.filter(feed=feed)
-    return render(request, 'feed/feed_detail.html', {'feed': feed, 'comments': comments, 'OnHome': False})
+    return render(request, 'feed/feed_detail.html', {'feed': feed, 'comments': comments, 'showView': True})
 
 
 def add_comment(request):
@@ -84,25 +84,5 @@ def add_comment(request):
         messages.success(request, "Comment Added Successfully")
         return redirect('feed_detail', feed.pk)
 
-    else:
-        return redirect('home')
-
-
-@login_required
-def like_feed(request):
-    if request.method == "POST":
-        feed = get_object_or_404(Feed, id=request.POST.get('feed_id'))
-        if request.user in feed.likes.all():
-            feed.likes.remove(request.user)
-            messages.success(request, "Like Removed")
-            return redirect('feed_detail', feed.pk)
-        elif request.user not in feed.likes.all():
-            feed.likes.add(request.user)
-            messages.success(request, "Like Successfully")
-            notify(message=f"{request.user.username.title} Liked Your Feed",
-                   notification_type="like",
-                   to_user=feed.user, by_user=request.user,
-                   link=reverse_lazy('feed_detail', kwargs={'pk': feed.pk}))
-            return redirect('feed_detail', feed.pk)
     else:
         return redirect('home')

@@ -8,7 +8,7 @@
 
 {% block content %}
 
-<h1 class="title">Message: {{to_user.username.title}}</h1>
+<h1 class="title">Message: <a href="{% url 'profile_view' to_user.username %}">{{to_user.username.title}}</a></h1>
 <div id="messages" class="box">
     <p>Loading the messages</p>
 </div>
@@ -46,7 +46,8 @@
         fetch('/api/v1/chat/send/', {
             method: 'POST',
             headers: {
-                'X-CSRFToken': '{{ csrf_token }}'
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 'to_user': '{{to_user.username}}',

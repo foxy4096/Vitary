@@ -8,11 +8,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'bulma/css/bulma.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="{% static 'css/bulmaswatch.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
 
-    <link rel="shortcut icon" href="{% static 'Vitary.png' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
     <meta name="description" content="Vitary | Make New Friends Today!">
     <title>
 
@@ -33,103 +35,8 @@
 </head>
 
 <body class="dark">
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="{% url 'home' %}">
-        <img src="{% static 'Vitary.png' %}" height="100px" alt="logo">
- 
-                <h1 class="title" style="color: white;">Vitary</h1>
-            </a>
 
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-                data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item" href="{% url 'home' %}">
-                    Home 🏡
-                </a>
-                {% if user.is_staff %}
-                
-            <a class="navbar-item" href="/admin/">
-                Admin 🎫
-            </a>
-                    
-                {% endif %}
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        More 📦
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item" href="{% url 'peoples' %}">
-                            Find People 🔍
-                        </a>
-                        <a class="navbar-item" href="{% url 'post_list' %}">
-                            Blog 📔
-                        </a>
-                        {% get_flatpages as flatpages %}
-                        {% for page in flatpages %}
-                        <a href="/pages{{ page.url }}" class="navbar-item">{{ page.title }}</a>
-                        {% endfor %}
-                        <a class="navbar-item" href="mailto:adityapriyadarshi669@gmail.com">
-                            Contact 📞
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item" href="https://github.com/foxy4096/Vitary/issues/new?assignees=&labels=&template=bug_report.md&title=">
-                            Report an issue 📩
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-
-                        {% if user.is_authenticated %}
-                        <a href="{% url 'profile' %}" class="button is-ghost">
-                            <article class="image is-24x24">
-                                <img src="{{ user.profile.image.url }}" alt="{{ user.username }}'s Avatar"
-                                    class="is-rounded" width="100" height="100">
-                            </article>
-                        </a>
-
-                        {% if unread_notifications %}
-
-                        <a class="button is-warning is-rounded" href="{% url 'notification_page' %}">
-                            🔔 ({{ unread_notifications.count }})
-                        </a>
-                        {% else %}
-                        <a class="button is-warning is-rounded" href="{% url 'notification_page' %}">
-                            🔔
-                        </a>
-                        {% endif %}
-                        <a class="button is-link is-rounded" href="{% url 'logout' %}">
-                            <strong>Logout</strong> 🚪
-                        </a>
-                        </a>
-                        {% else %}
-                        <a class="button is-primary is-rounded" href="{% url 'signup' %}">
-                            <strong>Sign up</strong> 🚀
-                        </a>
-                        <a class="button is-light is-rounded" href="{% url 'login' %}">
-                            Log in 🔐
-                        </a>
-                        {% endif %}
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
+    {% include 'core/navbar.html' %}
     {% if messages %}
 
     {% for message in messages %}
@@ -147,18 +54,10 @@
             {% block content %}
 
             {% endblock content %}
+            
         </div>
     </section>
-    <footer class="footer dark">
-        <div class="content has-text-centered">
-            <p>
-                <a href="https://github.com/foxy4096/Vitary">Vitary</a> by <a href="https://foxy4096.github.io">Aditya Priyadarshi</a>. The source code
-                is licensed
-                <a href="https://opensource.org/licenses/BSD-3-Clause">BSD-3-Clause</a>. The website content
-                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-            </p>
-        </div>
-    </footer>
+    {% include 'core/footer.html' %}
 
     {% block script %}
 
@@ -190,8 +89,9 @@
             }
 
         });
-        
+
     </script>
+    <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

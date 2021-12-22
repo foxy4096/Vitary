@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-   🚀 Sign Up
+   Sign Up
 {% endblock title %}
     
 
@@ -14,16 +14,16 @@
         {{ form.as_p }}
         {% csrf_token %}
         <br>
-        <p>Already have an account? <a href="{% url 'login' %}">Login 🔐</a></p>
+        <p>Already have an account? <a href="{% url 'login' %}">Login <i class="fas fa-lock"></i></a></p>
         <br>
         <button type="submit" class="button is-primary is-rounded">
-            Sign Up 🚀
+            Sign Up <i class="fas fa-rocket"></i>
         </button>
     </form>
     </div>
     <div class="column">
         <article class="image">
-            <img src="{% static 'img/hero_2.png' %}" alt="">
+            <img src="{% static 'img/Rocket_perspective_matte.png' %}" alt="">
         </article>
     </div>
 </div>

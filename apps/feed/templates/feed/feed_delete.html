@@ -10,6 +10,8 @@ Delete Feed
         {% csrf_token %}
         <input type="hidden" name="delete" value="Delete">
         <hr>
-        <button type="submit" class="button is-danger">Delete 🚮</button>
+        <button type="submit" class="button is-danger is-rounded">Delete 
+            <i class="fas fa-trash-alt"></i>
+        </button>
     </form>
 {% endblock content %}

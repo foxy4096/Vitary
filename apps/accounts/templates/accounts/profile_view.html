@@ -7,40 +7,56 @@
 {% block content %}
 <div class="columns">
     <div class="column is-8">
-        <figure class="image is-64x64">
-            <img class="is-rounded" src="{{ usr.profile.image.url }}">
-        </figure>
-        <h1 class="title">{{ usr.username | title }}</h1>
-        <p>
-            Followers: <a href="{% url 'followers' usr.username %}">{{ usr.profile.followed_by.count }}</a>
+        <div class="box">
+            <figure class="image is-64x64">
+                <img class="is-rounded" src="{{ usr.profile.image.url }}">
+            </figure>
+            {% if usr.get_full_name %}
+            <p class="title is-4">{{ usr.get_full_name | title }}{% if usr.profile.verified %}
+                <i class="fas fa-check-circle"></i>
+                {% endif %}
+                <br>
+                <a href="">@{{usr.username}}</a>
+            </p>
+            {% else %}
+            <p class="title is-4">{{ usr.username | title }}{% if usr.profile.verified %}
+                <i class="fas fa-check-circle"></i>
+                <br>
+                {% endif %}
+                <a href="">@{{usr.username}}</a>
+
+            </p>
+            {% endif %}
+            <p>
+                Followers: <a href="{% url 'followers' usr.username %}">{{ usr.profile.followed_by.count }}</a>
+                <br>
+                Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.follows.count }}</a>
+            </p>
             <br>
-            Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.follows.count }}</a>
-        </p>
-        <br>
-        <div class="buttons">
+            <div class="buttons">
 
 
-            {% if user == usr %}
+                {% if user == usr %}
 
-            <a href="{% url 'profile' %}" class="button is-primary is-rounded">Edit Profile 📝</a>
-            {% else %}
+                <a href="{% url 'profile' %}" class="button is-primary is-rounded">Edit Profile 📝</a>
+                {% else %}
 
-            {% if not usr.profile in user.profile.follows.all %}
-            <form action="{% url 'follow' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="username" value="{{ usr.username }}">
-                <button class="button is-link is-rounded" type="submit">Follow ➕</button>
-            </form>
-            {% else %}
-            <form action="{% url 'unfollow' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="username" value="{{ usr.username }}">
-                <button class="button is-link is-rounded" type="submit">Unfollow ➖</button>
-                <a href="{% url 'message_user' usr.username %}" class="button is-link is-rounded">Message 📬</a>
-            </form>
-            {% endif %}
-            {% endif %}
-
+                {% if not usr.profile in user.profile.follows.all %}
+                <form action="{% url 'follow' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="username" value="{{ usr.username }}">
+                    <button class="button is-link is-rounded" type="submit">Follow ➕</button>
+                </form>
+                {% else %}
+                <form action="{% url 'unfollow' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="username" value="{{ usr.username }}">
+                    <button class="button is-link is-rounded" type="submit">Unfollow ➖</button>
+                    <a href="{% url 'message_user' usr.username %}" class="button is-link is-rounded">Message 📬</a>
+                </form>
+                {% endif %}
+                {% endif %}
+            </div>
         </div>
         {% for feed in usr.feeds.all %}
         {% include 'feed/extends/feed_block.html' %}

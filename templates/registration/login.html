@@ -3,29 +3,28 @@
 
 
 {% block title %}
-    🔐 Login
+Login
 {% endblock title %}
-    
+
 
 {% block content %}
 <div class="columns">
     <div class="column">
-    <h1 class="title">Login</h1>
-    <form method="POST">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <br>
-        <a href="{% url 'password_reset' %}">🔑 Forgot Password?</a>
-        <p>Not have an account? <a href="{% url 'signup' %}">Sign Up 🚀</a></p>
-        <br>
-        <button type="submit" class="button is-primary is-rounded">Login 🔐</button>
-    </form>
+        <h1 class="title">Login</h1>
+        <form method="POST">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <br>
+            <a href="{% url 'password_reset' %}">Forgot Password? <i class="fas fa-key"></i></a>
+            <p>Not have an account? <a href="{% url 'signup' %}">Sign Up <i class="fas fa-rocket"></i></a></p>
+            <br>
+            <button type="submit" class="button is-primary is-rounded">Login <i class="fas fa-fingerprint"></i></button>
+        </form>
     </div>
     <div class="column">
-        <article class="image">
-            <img src="{% static 'img/hero_3.png' %}" alt="">
+        <article class="image is-square">
+            <img src="{% static 'img/User_perspective_matte.png' %}" alt="" width="40" height="40">
         </article>
     </div>
 </div>
 {% endblock content %}
-    
