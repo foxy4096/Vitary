@@ -2,30 +2,46 @@
 {% load static %}
 
 {% block title %}
-   Sign Up
+Sign Up
 {% endblock title %}
-    
+
 
 {% block content %}
-<div class="columns">
-    <div class="column">
-    <h1 class="title">Sign Up</h1>
-    <form method="POST">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <br>
-        <p>Already have an account? <a href="{% url 'login' %}">Login <i class="fas fa-lock"></i></a></p>
-        <br>
-        <button type="submit" class="button is-primary is-rounded">
-            Sign Up <i class="fas fa-rocket"></i>
-        </button>
-    </form>
-    </div>
-    <div class="column">
-        <article class="image">
-            <img src="{% static 'img/Rocket_perspective_matte.png' %}" alt="">
-        </article>
+<div class="box">
+    <div class="columns">
+        <div class="column">
+            <h1 class="title">Sign Up</h1>
+            <form method="POST">
+                {% for field in form %}
+                <div class="fieldWrapper">
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }}
+                    {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                {% csrf_token %}
+                <br>
+                <p>Already have an account? <a href="{% url 'login' %}">Login <i class="fas fa-lock"></i></a></p>
+                <br>
+                <button type="submit" class="button is-primary is-rounded">
+                    Sign Up <i class="fas fa-rocket"></i>
+                </button>
+            </form>
+        </div>
+        <div class="column">
+            <article class="image">
+                <img src="{% static 'img/Rocket_perspective_matte.png' %}" alt="">
+            </article>
+        </div>
     </div>
 </div>
+<script>
+    inputs = document.querySelectorAll('input');
+    for (i = 0; i < inputs.length; i++) {
+        
+        inputs[i].classList.add('input');
+    }
+</script>
 {% endblock content %}
-    

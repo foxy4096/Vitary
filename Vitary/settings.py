@@ -64,6 +64,7 @@ INSTALLED_APPS = [
 
     # 3rd Party apps
     # 'gdstorage'
+
 ]
 
 MIDDLEWARE = [
@@ -98,7 +99,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Vitary.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

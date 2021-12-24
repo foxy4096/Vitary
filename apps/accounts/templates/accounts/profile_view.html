@@ -55,7 +55,12 @@
                 </form>
                 {% endif %}
                 {% endif %}
+                
+                {% if not usr == user %}
                   <a href="{% url 'message_user' usr.username %}" class="button is-success">Message  <i class="far fa-comments"></i></a>
+                    
+                {% endif %}
+                    
             </div>
         </div>
         {% for feed in usr.feeds.all %}

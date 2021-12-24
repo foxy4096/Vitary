@@ -1,6 +1,7 @@
 {% load static %}
 {% load mention %}
 {% load check_url %}
+{% load convert_markdown %}
 {% load humanize %}
 <div class="card" id="feed-{{ feed.pk }}">
     <div class="card-content">
@@ -39,8 +40,7 @@
             </div>
         </div>
         <div class="content">
-            {{ feed.body | safe | mention | check_url }}
-            <br>
+            {{ feed.body  | safe | mention | check_url | convert_markdown }}
             {% if feed.image %}
             <i class="fas fa-camera"></i>
             {% endif %}
@@ -52,7 +52,8 @@
             <br>
 
         {% if not showView %}   
-        <a href="{% url 'feed_detail' feed.id %}">View <i class="far fa-eye"></i></a>
+        <a href="{% url 'feed_detail' feed.id %}">View <i class="far fa-eye"></i></a>|
+        <a href="{% url 'feed_detail' feed.id %}"><i class="fas fa-comment"></i> {{feed.feedcomment_set.count}}</a>
         |       
         {% endif %}
         

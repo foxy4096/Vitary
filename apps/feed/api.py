@@ -17,9 +17,13 @@ def add_like(request):
         feed = Feed.objects.get(id=feed_id)
         if feed.likes.filter(id=request.user.id).exists():
             feed.likes.remove(request.user)
+            feed.like_count -= 1
+            feed.save()
             return JsonResponse({'status': 'success', 'likes': feed.likes.count()})
         else:
             feed.likes.add(request.user)
+            feed.like_count += 1
+            feed.save()
             if feed.user != request.user:
                 notify(message=f"{request.user.username.title()} liked your post - '{feed.body}'", notification_type="like", to_user=feed.user,
                     by_user=request.user, link=reverse('feed_detail', kwargs={'pk': feed.id}))

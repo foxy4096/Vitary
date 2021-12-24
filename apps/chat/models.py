@@ -8,6 +8,9 @@ class Chat(models.Model):
     class Meta:
         ordering = ['-modified_at']
 
+    def __str__(self):
+        return f"{self.users[0]} and {self.users[1]}"
+
 
 class ChatMessage(models.Model):
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
@@ -15,6 +18,7 @@ class ChatMessage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='message')
 
+   
     class Meta:
         ordering = ['created_at']
 

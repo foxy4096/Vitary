@@ -16,6 +16,11 @@ class Feed(models.Model):
     video = models.FileField(upload_to='uploads/videos/', blank=True,
                              null=True, help_text="You can upload upto one video per feed")
     likes = models.ManyToManyField(User, related_name="liked_feeds")
+    like_count = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        self.body = self.body.strip()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Feed No.{self.pk} by {self.user.username.title()}"
@@ -33,7 +38,7 @@ class Feed(models.Model):
         return reverse('feed_detail', kwargs={'pk': self.pk})
 
     def latest_feeds():
-        return Feed.objects.all().order_by('-date')[:5]
+        return Feed.objects.all().order_by('-like_count', '-date')[:5]
 
 class FeedComment(models.Model):
     """

@@ -27,3 +27,13 @@ def home(request):
 def peoples(request):
     persons = User.objects.all()
     return render(request, 'core/peoples.html', {'persons': persons})
+
+def explore(request):
+    feeds = Feed.objects.all().order_by('-like_count', '-date')
+    paginator = Paginator(feeds, 5)
+    page_no = request.GET.get('page')
+    page_obj = paginator.get_page(page_no)
+    context = {
+        'feeds': page_obj,
+    }
+    return render(request, 'core/explore.html', context)

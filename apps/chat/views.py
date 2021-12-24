@@ -5,26 +5,47 @@ from django.db.models import Q
 
 from .models import Chat, ChatMessage
 
-@login_required
-def message_user(request, username):
-    to_user = User.objects.get(username=username)
-    if to_user == request.user:
-        return redirect('home')
-    chat = Chat.objects.filter(users__in=[request.user])
-    chat = chat.filter(users__in=[to_user])
 
-    if chat.count() == 1:
-        chat = chat[0]
-    else:
-        chat = Chat.objects.create()
-        chat.users.add(request.user)
-        chat.users.add(to_user)
-        chat.save()
-    chat_messages =ChatMessage.objects.filter(chat=chat)
+@login_required()
+def all_messages(request):
+    if request.method == 'GET':
+        chats = request.user.conversation_messages.all()
+        chat_users = []
+        for c in chats.all():
+            for u in c.users.all():
+                if u != request.user:
+                    chat_users.append(u)
+        context = {
+            'chat_users': set(chat_users),
+        }
+        return render(request, 'chat/all_messages.html', context)
+
+@login_required
+def redirect_to_chat(request, user_name):
+    if request.method == 'GET':
+        user = User.objects.get(username=user_name)
+        chat = Chat.objects.filter(users__in=[request.user]).filter(users__in=[user])
+        if chat.exists():
+            chat = chat.first()
+        else:
+            chat = Chat.objects.create()
+            chat.users.add(request.user)
+            chat.users.add(user)
+        return redirect('message_user_id', chat_id=chat.id)
+
+
+@login_required
+def message_user(request, chat_id):
+    chat = Chat.objects.get(id=chat_id)
+    chat_messages = ChatMessage.objects.filter(chat=chat).order_by('created_at')
+    all_users = []
+    for usr in chat.users.all():
+        if usr != request.user:
+            all_users.append(usr)
+    to_user = all_users[0]
     context = {
         'to_user': to_user,
         'chat': chat,
         'chat_messages': chat_messages,
     }
     return render(request, 'chat/message_user.html', context)
-

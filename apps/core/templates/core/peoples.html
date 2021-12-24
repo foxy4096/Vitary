@@ -7,44 +7,45 @@ People
 
 
 {% block content %}
-<h1 class="title is-1">Peoples 
-    <i class="fas fa-users"></i>
-</h1>
 
 <div class="columns">
     <div class="column is-8">
-<div class="box">
-    {% for person in persons %}
-    <div class="level">
-        <div class="level-left">
-            <div class="media">
-                <div class="media-left">
-                    <article class="image is-128x128">
-                        <img src="{{ person.profile.image.url }}" class="is-rounded" alt="">
-                    </article>
-                </div>
-                <div class="media-right">
-                    <div class="content">
-                        <p>
-                        <h4 class="title is-4">
-                            {% if person.get_full_name %}
-                            {{person.get_full_name.title}}
-                            {% else %}
-                            {{person.username.title}}
-                            {% endif %}
-                        </h4>
-                        <a href="{% url 'profile_view' person.username %}" class="href">@{{person.username}}</a>
+        <div class="box">
+            <h1 class="title is-1">Peoples 
+                <i class="fas fa-users"></i>
+            </h1>
+            {% for person in persons %}
+            <div class="level">
+                <div class="level-left">
+                    <div class="media">
+                        <div class="media-left">
+                            <article class="image is-128x128">
+                                <img src="{{ person.profile.image.url }}" class="is-rounded" alt="">
+                            </article>
+                        </div>
+                        <div class="media-right">
+                            <div class="content">
+                                <p>
+                                <p class="is-4-desktop is-6-mobile">
+                                    {% if person.get_full_name %}
+                                    {{person.get_full_name.title}}
+                                    {% else %}
+                                    {{person.username.title}}
+                                    {% endif %}
+                                </p>
+                                <a href="{% url 'profile_view' person.username %}" class="href">@{{person.username}}</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="level-right is-hidden-mobile">
+                    <a href="{% url 'profile_view' person.username %}" class="button is-success">View</a>
+                </div>
             </div>
+            {% endfor %}
         </div>
-        <div class="level-right is-hidden-mobile">
-            <a href="{% url 'profile_view' person.username %}" class="button is-success">View</a>
         </div>
-    </div>
-    {% endfor %}
-</div>
-    </div>
+
 <div class="column is-4">
     {% include 'accounts/extends/side_block.html' %}
 </div>

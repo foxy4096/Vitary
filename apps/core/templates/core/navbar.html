@@ -78,15 +78,15 @@
                         <i class="fas fa-bell"></i>
                     </a>
                     {% endif %}
-                    <a class="button is-link" href="{% url 'logout' %}">
+                    <a class="button is-danger" href="{% url 'logout' %}">
                         <strong>Logout</strong> <i class="fas fa-sign-out-alt"></i>
                     </a>
                     </a>
                     {% else %}
-                    <a class="button is-primary" href="{% url 'signup' %}">
+                    <a class="button is-success" href="{% url 'signup' %}">
                         <strong>Sign up</strong> <i class="fas fa-rocket"></i>
                     </a>
-                    <a class="button is-light" href="{% url 'login' %}">
+                    <a class="button" href="{% url 'login' %}">
                         Log in <i class="fas fa-fingerprint"></i>
                     </a>
                     {% endif %}

@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}
+Message: {{to_user.username.title}}
+{% endblock title %}
+
+
+{% block content %}
+<div class="columns">
+    <div class="column">
+        <div class="box">
+
+
+
+            {% for usr in chat_users %}
+
+
+            <div class="column">
+                <div class="box">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <img src="{{ usr.profile.image.url }}" class="is-rounded">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <div class="level">
+                                    <p class="is-4-desktop is-6-mobile">
+                                        {% if usr.get_full_name %}
+                                        {{ usr.get_full_name.title}}
+                                        {% else %}
+                                        {{usr.username.title}}
+                                        {% endif %}
+                                        <br>
+                                        <small><a href="{% url 'profile_view' usr.username %}">@{{usr.username}}</a></small>
+                                    </p>
+                                    <p>
+                                        <a href="{% url 'message_user' usr.username %}" class="button is-success"><strong>Message</strong>
+                                            <small>{{ chat.modified_at|date:"F j, Y, g:i a"}}</small></a>
+                                        <br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+    <div class="column is-4">
+        {% include 'accounts/extends/side_block.html' %}
+    </div>
+</div>
+{% endblock content %}

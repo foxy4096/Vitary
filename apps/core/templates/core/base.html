@@ -8,8 +8,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/bulmaswatch.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
 
@@ -26,10 +26,7 @@
 
         {% endif %}
 
-        {% block title %}
-
-        {% endblock title %}
-        | Vitary
+        {% block title %}{% endblock title %} | Vitary
     </title>
 </head>
 
@@ -50,10 +47,17 @@
 
     <section class="section">
         <div class="container-fluid">
+            <div class="columns">
+                <div class="column is-1 is-hidden-mobile">
+                    {% include 'core/side_block_left.html' %}
+                </div>
+                <div class="column is-11">
+                    {% block content %}
 
-            {% block content %}
+                    {% endblock content %}
 
-            {% endblock content %}
+                </div>
+            </div>
 
         </div>
         </div>

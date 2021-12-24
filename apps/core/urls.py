@@ -6,4 +6,5 @@ urlpatterns = [
     path('', views.redirect_to_home),
     path('home/', views.home, name='home'),
     path('peoples/', views.peoples, name='peoples'),
+    path('explore/', views.explore, name='explore'),
 ]

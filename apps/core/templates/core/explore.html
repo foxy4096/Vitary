@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+Explore
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="columns">
+    <div class="column is-8">
+        <div class="box">
+            <h1 class="title is-1">Explore <i class="fab fa-wpexplorer"></i>
+            </h1>
+            
+            {% for feed in feeds %}
+                {% include 'feed/extends/feed_block.html' %}
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if feeds.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ feeds.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ feeds.number }} of {{ feeds.paginator.num_pages }}.
+                    </span>
+                    {% if feeds.has_next %}
+                    <a href="?page={{ feeds.next_page_number }}">next</a>
+                    <a href="?page={{ feeds.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="column is-4">
+        {% include 'accounts/extends/side_block.html' %}
+    </div>
+</div>
+
+{% endblock content %}

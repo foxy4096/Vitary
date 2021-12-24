@@ -25,14 +25,14 @@ Following
                         </div>
                         <div class="media-right">
                             <div class="content">
-                                <p>
-                                <h4 class="title is-4">
+                            
+                                <p class="is-4-desktop is-6-mobile">
                                     {% if person.user.get_full_name %}
                                     {{person.user.get_full_name.title}}
                                     {% else %}
                                     {{person.user.username.title}}
                                     {% endif %}
-                                </h4>
+                            </p>
                                 <a href="{% url 'profile_view' person.user.username %}"
                                     class="href">@{{person.user.username}}</a>
                             </div>

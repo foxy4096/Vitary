@@ -1,65 +1,72 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load humanize %}
+{% load check_url %}
+{% load convert_markdown %}
+{% load mention %}
 
 {% block title %}
 Notification
 {% endblock title %}
-{% block content %} 
-<div class="level">
-    <div class="level-left">
-        <h1 class="title is-1">Notifications <i class="fas fa-bell"></i></h1>
-    </div>
-<div class="level-right">
-    <div class="buttons">
-        <a href="{% url 'mark_as_read' %}" class="button is-primary is-rounded">Mark As Read  <i class="fas fa-check"></i></a>
-    </div>
-
-</div>
-</div>
+{% block content %}
 <div class="columns">
     <div class="column">
+<div class="box">
+    <div class="level">
+        <div class="level-left">
+            <h1 class="title is-1">Notifications <i class="fas fa-bell"></i></h1>
+        </div>
+        <div class="level-right">
+            <div class="buttons">
+                <a href="{% url 'mark_as_read' %}" class="button is-primary is-rounded">Mark As Read  <i
+                        class="fas fa-check"></i></a>
+            </div>
 
-{% if notifications %}
-    
-
-{% for notification in notifications %}
-<div class="card">
-<div class="card-content">
-    <div class="media">
-        <p> 
-        <div class="media-left">
-            <a href="{% url 'profile_view' notification.by_user %}">
-                <article class="image is-48x48 is-square">
-                    <img src="{{ notification.by_user.profile.image.url }}" alt="" class="is-rounded">
-                </article>
-            </a>
         </div>
-        <div class="media-content">
-            <strong>{{ notification.message }} <span class="tag is-primary is-light">{{notification.notification_type | title}}</span></strong>
-            {% if not notification.is_read %}
-            <span class="tag is-info is-light">Unread</span>
-            {% endif %}
-            <br>
-            {{ notification.date | naturaltime }}
-        </div>
-        <div class="medai-right">
-            <a href="{% url 'notification_redirect' notification.pk %}" class="button is-primary is-rounded">View</a>
-        </div>
-        </p>
     </div>
-</div>
-</div>
-<br>
-{% endfor %}
-{% else %}
-<p>
-    No notifications!
-</p>
-{% endif %}
-</div>
-<div class="column is-4">
-    {% include 'accounts/extends/side_block.html' %}
-</div>
+
+            {% if notifications %}
+
+
+            {% for notification in notifications %}
+            <div class="card">
+                <div class="card-content">
+                    <div class="media">
+                        <p>
+                        <div class="media-left">
+                            <a href="{% url 'profile_view' notification.by_user %}">
+                                <article class="image is-48x48 is-square">
+                                    <img src="{{ notification.by_user.profile.image.url }}" alt="" class="is-rounded">
+                                </article>
+                            </a>
+                        </div>
+                        <div class="media-content">
+                            <p>{{ notification.message | truncatechars:100 | safe | mention | check_url | convert_markdown }} <span class="tag is-primary">{{notification.notification_type | title}}</span></p>
+                            {% if not notification.is_read %}
+                            <span class="tag is-info is-danger">Unread</span>
+                            {% endif %}
+                            <br>
+                            {{ notification.date | naturaltime }}
+                        </div>
+                        <div class="medai-right">
+                            <a href="{% url 'notification_redirect' notification.pk %}"
+                                class="button is-primary is-rounded">View</a>
+                        </div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+            {% else %}
+            <p>
+                No notifications!
+            </p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="column is-4">
+        {% include 'accounts/extends/side_block.html' %}
+    </div>
 </div>
 {% endblock content %}

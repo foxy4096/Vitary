@@ -8,19 +8,30 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, ProfileForm
 from apps.notification.utilities import notify
+from .forms import UserRegisterForm
 
 
 def signup(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            messages.success(
-                request, "Account Created Successfully!, Please Complete Your Profile!")
-            login(request, user)
-            return redirect('profile')
-    form = UserCreationForm()
-    return render(request, 'accounts/signup.html', {'form': form})
+                user = form.save()
+                login(request, user)
+                messages.success(request, 'Account created successfully')
+                return redirect('profile')
+        else:
+            if User.objects.filter(username=request.POST['username']).exists():
+                messages.add_message(request, 40, 'Username already exists', extra_tags='danger')
+                return redirect('signup')
+            elif request.POST['password1'] != request.POST['password2']:
+                messages.add_message(request, 40, 'Passwords do not match', extra_tags='danger')
+                return redirect('signup')
+            else:
+                messages.add_message(request, 40, 'Unknown Error Occured', extra_tags='danger')
+                return redirect('signup')
+    else:
+        form = UserRegisterForm()
+        return render(request, 'accounts/signup.html', {'form': form})
 
 
 @login_required
@@ -76,21 +87,25 @@ def unfollow(request):
     else:
         return redirect('home')
 
-
+@login_required
 def following(request):
     usr = request.user
     return render(request, 'accounts/following.html', {'usr': usr})
 
-
+@login_required
 def followers(request):
     usr = request.user
     return render(request, 'accounts/followers.html', {'usr': usr})
 
 def user_following(request, username):
     usr = get_object_or_404(User, username=username)
+    if usr == request.user:
+        return redirect('following')
     return render(request, 'accounts/following.html', {'usr': usr})
 
 
 def user_followers(request, username):
     usr = get_object_or_404(User, username=username)
+    if usr == request.user:
+        return redirect('followers')
     return render(request, 'accounts/followers.html', {'usr': usr})
