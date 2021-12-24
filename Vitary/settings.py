@@ -64,6 +64,7 @@ INSTALLED_APPS = [
 
     # 3rd Party apps
     # 'gdstorage'
+    'pwa',
 
 ]
 
@@ -195,3 +196,34 @@ CSRF_COOKIE_SECURE = env('CSRF_COOKIE_SECURE', default=False)
 
 MANAGERS = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
 ADMIN = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
+
+PWA_SERVICE_WORKER_PATH = BASE_DIR / 'apps/core/static/js/service-worker.js'
+PWA_APP_NAME = 'Vitary'
+PWA_APP_DESCRIPTION = "Vitary | Make New Friends Today!"
+PWA_APP_THEME_COLOR = '#343c3d'
+PWA_APP_BACKGROUND_COLOR = '#282f2f'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+	{
+		'src': '/static/img/android-chrome-192x192.png',
+		'sizes': '192x192'
+	}
+]
+PWA_APP_ICONS_APPLE = [
+	{
+		'src': '/static/img/apple-touch-icon.png',
+		'sizes': '180x180'
+	}
+]
+PWA_APP_SPLASH_SCREEN = [
+	{
+		'src': '/static/img/android-chrome-256x256.png',
+		'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+	}
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'

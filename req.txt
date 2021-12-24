@@ -14,6 +14,7 @@ cryptography==36.0.1
 daphne==3.0.2
 Django==3.2.9
 django-environ==0.8.1
+django-progressive-web-app==0.1.1
 google-api-core==2.3.0
 google-api-python-client==2.33.0
 google-auth==1.35.0

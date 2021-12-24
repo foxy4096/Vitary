@@ -1,20 +1,32 @@
 {% load static %}
 
 {% load flatpages %}
+{% load pwa %}
+
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    {% progressive_web_app_meta %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/bulmaswatch.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
-
-    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'img/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'img/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="apple-mobile-web-app-title" content="Vitary">
+    <meta name="application-name" content="Vitary">
+    <meta name="msapplication-TileColor" content="#603cba">
+    <meta name="theme-color" content="#ffffff">
     <meta name="description" content="Vitary | Make New Friends Today!">
+
     <title>
 
         {% if user.is_authenticated %}
@@ -94,7 +106,10 @@
             }
 
         });
-
+        if ("serviceWorker" in navigator) {
+            // register service worker
+            navigator.serviceWorker.register("{% static 'service-worker.js' %}");
+        }
     </script>
     <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
 </body>

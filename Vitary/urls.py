@@ -30,6 +30,7 @@ from apps.core.api import not_authorized
 from apps.feed.api import add_like
 
 urlpatterns = [
+    path('', include('pwa.urls')),
     # Admin
     path('admin/', admin.site.urls),
 

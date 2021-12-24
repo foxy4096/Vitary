@@ -23,6 +23,9 @@ def home(request):
     else:
         return render(request, 'core/home/home_logged_out.html')
 
+def base_layout(request):
+	template='core/base.html'
+	return render(request,template)
 
 def peoples(request):
     persons = User.objects.all()
