@@ -16,7 +16,7 @@ class SignUpTest(TestCase):
             'password1': 'testpass',
             'password2': 'testpass',
         })
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
 class ProfileTest(TestCase):
     def setUp(self):

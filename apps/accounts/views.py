@@ -47,7 +47,7 @@ def profile(request):
             return redirect('profile')
     else:
         uform = UserForm(instance=request.user)
-        pform = ProfileForm(instance=request.user)
+        pform = ProfileForm(instance=request.user.profile)
         return render(request, 'accounts/profile.html', {'uform': uform, 'pform': pform})
 
 

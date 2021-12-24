@@ -11,7 +11,7 @@ class Post(models.Model):
     sdesc = models.CharField(max_length=255, verbose_name="Short Description")
     body = models.TextField(verbose_name="Body")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now_add=True)
     cover_img = models.ImageField(upload_to='blog/images', blank=True, null=True)
     slug = models.SlugField(null=True, blank=True)
 

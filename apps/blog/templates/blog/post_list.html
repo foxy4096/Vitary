@@ -8,47 +8,55 @@ Blog
 <div class="columns">
     <div class="column is-8">
         <div class="box">
-        <h1 class="title">Blog</h1>
-        {% for post in posts %}
-        <div class="media">
-            <br>
-            <div class="media-content">
-                <article class="">
-
+            <h1 class="title is-1">Blog 
+                <i class="fas fa-blog"></i>
+            </h1>
+            {% for post in posts %}
+            <div class="card article">
+                <div class="card-content">
                     {% if post.cover_img %}
-                    <img src="{{ post.cover_img.url }}" alt="img" height="400" width="1000">
-
+                    <article class="image is-16by9 block"><img src="{{ post.cover_img.url }}" alt=""></article>
                     {% endif %}
-
-                </article>
-                <div class="media">
-                    <div class="media-left">
-                        <figure class="image is-48x48">
-                            <a href="{% url 'profile_view' post.user.username %}">
-                                <img class="is-rounded" src="{{ post.user.profile.image.url }}"
-                                    alt="{{ post.user.username">
-                            </a>
-                        </figure>
+                    <div class="media">
+                        <div class="media-center">
+                            <article class="image is-48x48">
+                                <img src="{{ post.user.profile.image.url }}" class="author-image is-rounded"
+                                    alt="Placeholder image">
+                            </article>
+                        </div>
+                        <div class="media-content has-text-centered">
+                            <p class="title article-title">{{ post.title }}</p>
+                            <p class="subtitle is-6 article-subtitle">
+                                <a href="{% url 'profile_view' post.user.username %}">@{{post.user.username}}</a> {{ post.date | naturaltime }}
+                            </p>
+                        </div>
                     </div>
-                    <div class="media-left">
-
-                        <h3 class="title is-3"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-                        <p>
-                            {{ post.date | naturaltime }} By <a href="{% url 'profile_view' post.user.username %}">
-                                @{{post.user.username }}</a>
-                        </p>
+                    <div class="content article-body">
+                        <p class="has-text-centered">{{ post.sdesc | truncatechars_html:190 }}</p>
                     </div>
-                </div>
-                <div class="content">
-                    <p>{{ post.sdesc }}</p>
+                    <a href="{% url 'post_detail' post.slug %}" class="button is-success is-fullwidth">Read More</a>
                 </div>
             </div>
             {% endfor %}
         </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if posts.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ posts.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                </span>
+                {% if feeds.has_next %}
+                <a href="?page={{ posts.next_page_number }}">next</a>
+                <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
+    <div class="column is-4">
+        {% include 'accounts/extends/side_block.html' %}
     </div>
-<div class="column is-4">
-    {% include 'accounts/extends/side_block.html' %}
-</div>
 </div>
 {% endblock content %}
