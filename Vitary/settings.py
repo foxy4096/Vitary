@@ -57,16 +57,28 @@ INSTALLED_APPS = [
     # My Apps
     'apps.core.apps.CoreConfig',
     'apps.accounts.apps.AccountsConfig',
-    'apps.feed.apps.FeedConfig',
+    'apps.vit.apps.VitConfig',
     'apps.blog.apps.BlogConfig',
     'apps.notification.apps.NotificationConfig',
     'apps.chat.apps.ChatConfig',
+    'apps.develope.apps.DevelopeConfig',
 
     # 3rd Party apps
     # 'gdstorage'
-    'pwa',
+    'rest_framework',
+    'rest_framework.authtoken'
 
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,7 +105,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'apps.notification.context_processors.notification',
-                'apps.feed.context_processors.get_latest_feed',
+                'apps.vit.context_processors.get_latest_vits',
             ],
         },
     },
@@ -196,34 +208,3 @@ CSRF_COOKIE_SECURE = env('CSRF_COOKIE_SECURE', default=False)
 
 MANAGERS = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
 ADMIN = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
-
-PWA_SERVICE_WORKER_PATH = BASE_DIR / 'apps/core/static/js/service-worker.js'
-PWA_APP_NAME = 'Vitary'
-PWA_APP_DESCRIPTION = "Vitary | Make New Friends Today!"
-PWA_APP_THEME_COLOR = '#343c3d'
-PWA_APP_BACKGROUND_COLOR = '#282f2f'
-PWA_APP_DISPLAY = 'standalone'
-PWA_APP_SCOPE = '/'
-PWA_APP_ORIENTATION = 'any'
-PWA_APP_START_URL = '/'
-PWA_APP_STATUS_BAR_COLOR = 'default'
-PWA_APP_ICONS = [
-	{
-		'src': '/static/img/android-chrome-192x192.png',
-		'sizes': '192x192'
-	}
-]
-PWA_APP_ICONS_APPLE = [
-	{
-		'src': '/static/img/apple-touch-icon.png',
-		'sizes': '180x180'
-	}
-]
-PWA_APP_SPLASH_SCREEN = [
-	{
-		'src': '/static/img/android-chrome-256x256.png',
-		'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
-	}
-]
-PWA_APP_DIR = 'ltr'
-PWA_APP_LANG = 'en-US'

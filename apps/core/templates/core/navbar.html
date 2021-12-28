@@ -3,13 +3,12 @@
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'home' %}">
-    <img src="{% static 'img/logo.png' %}" height="100px" alt="logo">
- 
+            <img src="{% static 'img/logo.png' %}" height="100px" alt="logo">
+             
             <h1 class="title" style="color: white;">Vitary</h1>
         </a>
 
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-            data-target="navbarBasicExample">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -22,11 +21,11 @@
                 Home <i class="fas fa-home"></i>
             </a>
             {% if user.is_staff %}
-            
-        <a class="navbar-item" href="/admin/">
-            Admin <i class="fas fa-user-shield"></i>
-        </a>
-                
+
+            <a class="navbar-item" href="/admin/">
+                Admin <i class="fas fa-user-shield"></i>
+            </a>
+
             {% endif %}
 
             <div class="navbar-item has-dropdown is-hoverable">
@@ -49,15 +48,19 @@
                         Contact Us <i class="fas fa-envelope"></i>
                     </a>
                     <hr class="navbar-divider">
-                    <a class="navbar-item" href="https://github.com/foxy4096/Vitary/issues/new?assignees=&labels=&template=bug_report.md&title=">
+                    <a class="navbar-item"
+                        href="https://github.com/foxy4096/Vitary/issues/new?assignees=&labels=&template=bug_report.md&title=">
                         Report an issue <i class="fas fa-bug"></i>
                     </a>
+                    <a href="{% url 'develope_home' %}" class="navbar-item">Develope <i class="fas fa-code"></i></a>
                 </div>
             </div>
         </div>
 
         <div class="navbar-end">
+            
             <div class="navbar-item">
+
                 <div class="buttons">
 
                     {% if user.is_authenticated %}
@@ -90,7 +93,7 @@
                         Log in <i class="fas fa-fingerprint"></i>
                     </a>
                     {% endif %}
-                    
+
                 </div>
             </div>
         </div>

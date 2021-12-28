@@ -13,22 +13,22 @@ Explore
         <div class="box">
             <h1 class="title is-1">Explore <i class="fab fa-wpexplorer"></i>
             </h1>
-            
-            {% for feed in feeds %}
-                {% include 'feed/extends/feed_block.html' %}
+
+            {% for vit in vits %}
+            {% include 'vit/extends/vit_block.html' %}
             {% endfor %}
             <div class="pagination">
                 <span class="step-links">
-                    {% if feeds.has_previous %}
+                    {% if vits.has_previous %}
                     <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ feeds.previous_page_number }}">previous</a>
+                    <a href="?page={{ vits.previous_page_number }}">previous</a>
                     {% endif %}
                     <span class="current">
-                        Page {{ feeds.number }} of {{ feeds.paginator.num_pages }}.
+                        Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
                     </span>
-                    {% if feeds.has_next %}
-                    <a href="?page={{ feeds.next_page_number }}">next</a>
-                    <a href="?page={{ feeds.paginator.num_pages }}">last &raquo;</a>
+                    {% if vits.has_next %}
+                    <a href="?page={{ vits.next_page_number }}">next</a>
+                    <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
                     {% endif %}
                 </span>
             </div>
@@ -39,5 +39,26 @@ Explore
         {% include 'accounts/extends/side_block.html' %}
     </div>
 </div>
-
+<script>
+    // Just a simple script which sends the server to like a post
+    // for more info please see apps/vit/api.py
+    function like_vit(vit_id) {
+        fetch(`/api/v1/vit/add_like/?vit_pk=${vit_id}`, {
+            method: 'GET',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'type': 'application/json'
+            }
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            if (data.status == 'success') {
+                var like_count = document.getElementById('like_count_' + vit_id);
+                like_count.innerHTML = data.like_count;
+                var like_count = document.getElementById('like_count_' + vit_id);
+                like_count.innerHTML = data.likes;
+            }
+        });
+    }
+</script>
 {% endblock content %}

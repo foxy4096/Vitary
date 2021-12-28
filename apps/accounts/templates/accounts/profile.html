@@ -9,24 +9,43 @@ Profile
 <div class="columns">
     <div class="column">
         <div class="box">
-        <h1 class="title">Profile <i class="far fa-id-card"></i></h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ uform.as_p }}
-            <br>
+            <h1 class="title">Profile <i class="far fa-id-card"></i></h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ uform.as_p }}
+                <br>
 
-            <figure class="image is-128x128">
-                <img class="is-rounded" src="{{ user.profile.image.url }}">
-            </figure>
-            <br>
-            {{ pform.as_p }}
-            <a href="{% url 'password_change' %}">Change Password <i class="fas fa-key"></i></a>
-            <br>
-            <br>
-            <button type="submit" class="button is-primary is-rounded">Save
-                 <i class="fas fa-save"></i>
-            </button>
-        </form>
+                <figure class="image is-128x128">
+                    <img class="is-rounded" src="{{ user.profile.image.url }}">
+                </figure>
+                <br>
+                {{ pform.as_p }}
+                <a href="{% url 'password_change' %}">Change Password <i class="fas fa-key"></i></a>
+                <br>
+                <br>
+                <button type="submit" class="button is-primary is-rounded">Save
+                     <i class="fas fa-save"></i>
+                </button>
+            </form>
+
+
+        </div>
+        <div class="box">
+            <h4 class="title is-4">Develope <i class="fas fa-terminal"></i></h4>
+            <p>
+                
+                {% if not user.devprofile %}
+                
+            <a href="{% url 'develope_home' %}">Know More <i class="fas fa-question"></i></a>
+                    
+                {% endif %}
+                <br>
+                
+                {% if user.devprofile %}
+                <a href="">Develope Profile <i class="fas fa-user"></i></a>
+                {% endif %}
+                    
+            </p>
         </div>
     </div>
     <div class="column is-4">

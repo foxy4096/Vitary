@@ -1,18 +1,3 @@
-"""Vitary URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import re_path
@@ -23,14 +8,21 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.accounts.views import profile_view, user_following, user_followers
+from apps.vit.views import plustag_vits
 
 # APIs
 from apps.chat.api import get_message_api, send_message_api
-from apps.core.api import not_authorized
-from apps.feed.api import add_like
+from apps.core.api import not_authorized, get_routes
+from apps.vit.api import add_like, vit_list, get_vit, edit_vit, add_vit, delete_vit
+from apps.accounts.api import get_user_info, get_users
+from rest_framework.authtoken.views import obtain_auth_token
+
 
 urlpatterns = [
+    # PWA
     path('', include('pwa.urls')),
+
+
     # Admin
     path('admin/', admin.site.urls),
 
@@ -43,8 +35,8 @@ urlpatterns = [
     path('accounts/', include('apps.accounts.urls')),
 
 
-    # Feed
-    path('vit/', include('apps.feed.urls')),
+    # Vit
+    path('vit/', include('apps.vit.urls')),
 
 
     # User
@@ -58,13 +50,32 @@ urlpatterns = [
     # Notification
     path('notification/', include('apps.notification.urls')),
 
-    # Feed API
-    path('api/v1/like/', add_like, name='like_feed'),
+    # API
+    path('api/v1/', include([
+        path('', get_routes),
+        path('chat/', include([
+            path('get_message/', get_message_api),
+            path('send_message/', send_message_api),
+        ])),
+        path('vit/', include([
+            path('', vit_list),
+            path('add_like/', add_like),
+            path('<int:vit_pk>/', get_vit),
+            path('add/', add_vit),
+            path('<int:vit_pk>/edit/', edit_vit),
+            path('<int:vit_pk>/delete/', delete_vit),
+        ])),
+        path('u/', include([
+            path('', get_users, name='get_users'),
+            path('<str:username>/', get_user_info, name='get_user_info'),
+        ])),
+        path('not_authorized/', not_authorized, name='not_authorized'),
+        path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    ])),
 
-    # Chat API
-    path('api/v1/chat/send/', send_message_api, name='send_message'),
-    path('api/v1/chat/get/', get_message_api, name='get_message'),
-    path('api/v1/na/', not_authorized, name='na'),
+    # Plustag
+    path('p/<str:p>/', plustag_vits, name='plustag_vits'),
+    
 
     # Blog
     path('blog/', include('apps.blog.urls')),
@@ -75,15 +86,19 @@ urlpatterns = [
     # Chat
     path('chat/', include('apps.chat.urls')),
 
+    # Developer
+    path('develope/', include('apps.develope.urls')),
+
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
 # I am poor so I can afford a media server like Amazon S3 Bucket
 urlpatterns += [
-        re_path(r'^media/(?P<path>.*)$', serve, {
+    re_path(r'^media/(?P<path>.*)$', serve, {
             'document_root': settings.MEDIA_ROOT,
-        }),
-    ]
+            }),
+]
 
 admin.site.site_header = 'Vitary Admin'
 admin.site.site_title = 'Vitary Admin'

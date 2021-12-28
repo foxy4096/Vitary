@@ -1,0 +1,122 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load mention %}
+{% block title %}
+Dashboard | Develope
+{% endblock title %}
+{% block content %}
+<div class="card">
+    <div class="card-content">
+        <h1 class="title is-1 has-text-centered"><strong>Develope <i class="fas fa-terminal"></i></strong></h1>
+        <h3 class="title is-3">Dashboard
+            <i class="fas fa-tachometer-alt"></i>
+        </h3>
+        <p>
+            Welcome to your dashboard.
+            Here you can see your projects and manage them.
+        </p>
+        <br>
+        <div class="columns">
+            <div class="column">
+                <div class="box">
+                    <figure class="image is-48x48"><img src="{{ user.profile.image.url }}" alt="user image"
+                            class="is-rounded">
+                    </figure>
+                    <span>User: </span><a href="{% url 'profile' %}">@{{ user.username }}</a>
+                    <h4 class="title is-4">{{ user.get_full_name }}</h4>
+                    <p>
+                        <span>Joined: </span>{{ user.date_joined|date }}
+                    <p>
+                        {{ user.devprofile.bio | truncatechars:200 | mention | safe }}
+                    </p>
+                    </p>
+                    {% if user.devprofile.github_handle %}
+
+                    <a href="https://github.com/{{ user.devprofile.github_handel }}">
+                        <i class="fab fa-github"></i>
+                    </a>
+
+                    {% endif %}
+
+                    {% if user.devprofile.twitter_handle %}
+
+                    <a href="https://twitter.com/{{ user.devprofile.twitter_handle }}">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+
+                    {% endif %}
+
+                    {% if user.devprofile.linkedin_handle %}
+
+                    <a href="https://linkedin.com/{{ user.devprofile.linkedin_handle }}">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+
+                    {% endif %}
+
+                    {% if user.devprofile.website %}
+
+                    <a href="{{ user.devprofile.website }}">
+                        <i class="fas fa-globe"></i>
+                    </a>
+
+                    {% endif %}
+                    <br>
+                    <a href="{% url 'dev_profile' %}">Edit Profile</a>
+                </div>
+                <div class="box">
+                    <h3 class="title is-4">API Token
+                        <i class="fas fa-key"></i>
+                    </h3>
+                        You can use this token to access the API.
+                        <br>
+                        <br>
+                        {% include 'develope/get_api_button.html' %}
+
+                </div>
+
+            </div>
+            <div class="column">
+                <div class="box">
+                    <h3 class="title is-4">Help 
+                        <i class="fas fa-question-circle"></i>
+                    </h3>
+                    <p>
+                        Get help by clicking on the help button.
+                        <br>
+                        <br>
+                    <div class="buttons">
+                        <a href="{% url 'get_started' %}" class="button is-success">
+                            Get Started <i class="fas fa-play"></i>
+                        </a>
+                        <a class="button is-info" href="{% url 'documentation' %}">
+                            Get help <i class="fas fa-question-circle"></i>
+                        </a>
+                    </div>
+                    <div class="content">
+                        <p>
+                            Quickly get started with Develope by following the steps below.
+                        </p>
+                        <p>
+                            <strong>Step 1:</strong>
+                        <p>
+                            Get your API token from your profile by clicking on the button on the left.
+                        </p>
+                        </p>
+                        <p>
+                            <strong>Step 2:</strong>
+                        <p>
+                            Open a terminal and type the following command:
+                        </p>
+                        </p>
+                        <code>curl -X GET http://localhost:8000/api/v1/vit/ -H "Authorization: Token YOUR_TOKEN" -H "Content-Type: application/json"</code>
+                    </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock content %}

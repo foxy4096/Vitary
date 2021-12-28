@@ -11,7 +11,7 @@ class Profile(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='uploads/',
-                              default='/img/default.jpg', blank=True, null=True)
+                              default='/uploads/default.jpg', blank=True, null=True)
     follows = models.ManyToManyField(
         'self', related_name='followed_by', symmetrical=False)
     email_notif = models.BooleanField(

@@ -2,6 +2,7 @@
 {% load static %}
 {% load humanize %}
 
+
 {% block title %}
 Home
 {% endblock title %}
@@ -11,74 +12,16 @@ Home
 <div class="columns">
     <div class="column is-8">
         <div class="box">
-<h1 class="title">Home
-<i class="fas fa-home"></i>
-</h1>
-            <form action="{% url 'add_feed' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="field">
-                    <div class="control">
-                        {{form.body}}
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="control">
-                        <div class="columns">
-                            <div class="column">
-                                <div class="file has-name is-small" id="form_image">
-                                    <label class="file-label">
-                                        {{form.image}}
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fas fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Add a photo
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            No photo uploaded
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <div class="file has-name is-small" id="form_video">
-                                    <label class="file-label">
-                                        {{form.video}}
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fas fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Add a video
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            No video uploaded
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="control">
-                        <button class="button is-success">Add Vit   
-                            <span class="icon is-small">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            </form>
+            <h1 class="title">Home
+                <i class="fas fa-home"></i>
+            </h1>
+            {% include 'core/vit_form_inc.html' with title="Add Vit" %}
         </div>
         <hr>
 
-        {% if feeds %}
-        {% for feed in feeds %}
-        {% include 'feed/extends/feed_block.html' %}
+        {% if vits %}
+        {% for vit in vits %}
+        {% include 'vit/extends/vit_block.html' %}
         {% endfor %}
         {% else %}
         Wow Such Empty <i class="fas fa-sad-tear"></i>, maybe try following some <a
@@ -91,16 +34,16 @@ Home
 </div>
 <div class="pagination">
     <span class="step-links">
-        {% if feeds.has_previous %}
+        {% if vits.has_previous %}
         <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ feeds.previous_page_number }}">previous</a>
+        <a href="?page={{ vits.previous_page_number }}">previous</a>
         {% endif %}
         <span class="current">
-            Page {{ feeds.number }} of {{ feeds.paginator.num_pages }}.
+            Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
         </span>
-        {% if feeds.has_next %}
-        <a href="?page={{ feeds.next_page_number }}">next</a>
-        <a href="?page={{ feeds.paginator.num_pages }}">last &raquo;</a>
+        {% if vits.has_next %}
+        <a href="?page={{ vits.next_page_number }}">next</a>
+        <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
 </div>
@@ -109,24 +52,21 @@ Home
 {% block script %}
 <script>
     // Just a simple script which sends the server to like a post
-    // for more info please see apps/feed/api.py
-    function like_feed(feed_id) {
-        fetch("{% url 'like_feed' %}", {
-            method: 'POST',
+    // for more info please see apps/vit/api.py
+    function like_vit(vit_id) {
+        fetch(`/api/v1/vit/add_like/?vit_pk=${vit_id}`, {
+            method: 'GET',
             headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
+                'X-CSRFToken': '{{  csrf_token }}',
                 'type': 'application/json'
-            },
-            body: JSON.stringify({
-                feed_id: parseInt(feed_id)
-            })
+            }
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
             if (data.status == 'success') {
-                var like_count = document.getElementById('like_count_' + feed_id);
+                var like_count = document.getElementById('like_count_' + vit_id);
                 like_count.innerHTML = data.like_count;
-                var like_count = document.getElementById('like_count_' + feed_id);
+                var like_count = document.getElementById('like_count_' + vit_id);
                 like_count.innerHTML = data.likes;
             }
         });

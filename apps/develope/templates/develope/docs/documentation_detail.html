@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load convert_markdown %}
+
+{% load mention %}
+{% block title %}
+{{doc.title}} | Develope
+{% endblock title %}
+{% block content %}
+<div class="box">
+    <h1 class="title is-1">
+        {{ doc.title }}
+    </h1>
+    <p>{{ doc.description | convert_markdown | safe }}</p>
+</div>
+{% endblock %}

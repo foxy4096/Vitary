@@ -1,17 +1,15 @@
 {% load static %}
 
 {% load flatpages %}
-{% load pwa %}
 
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    {% progressive_web_app_meta %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/bulmaswatch.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
@@ -96,6 +94,7 @@
     {% block script %}
 
     {% endblock script %}
+    <script src="{% static 'js/like.js' %}"></script>
     <!-- Bulma Navbar control -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -123,10 +122,6 @@
             }
 
         });
-        if ("serviceWorker" in navigator) {
-            // register service worker
-            navigator.serviceWorker.register("{% static 'service-worker.js' %}");
-        }
     </script>
     <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
 </body>

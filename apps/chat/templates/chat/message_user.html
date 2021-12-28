@@ -34,10 +34,11 @@ Message: {{to_user.username.title}}
         setInterval(function () {
             $.ajax({
                 type: 'GET',
-                url: "/api/v1/chat/get/?to_user={{to_user.username}}",
+                url: "/api/v1/chat/get_message/?to_user={{to_user.username}}",
                 success: function (response) {
+                    console.log(response);
                     $("#message-log").empty();
-                    for (var key in response.messages) {
+                    for (var key in response['messages']) {
                         var temp = "<div class='container darker'><b>" + response.messages[key].created_by__username + "</b><p>" + response.messages[key].message + "</p><span class='time-left'>" + response.messages[key].created_at.slice(11, -3) + "</span></div>";
                         $("#message-log").append(temp);
                     }
@@ -66,7 +67,7 @@ Message: {{to_user.username.title}}
     function sendMessage() {
         if (document.getElementById('message-input').value != '') {
             var htmlString = convertHTML(document.getElementById('message-input').value);
-            fetch('/api/v1/chat/send/', {
+            fetch('/api/v1/chat/send_message/', {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': '{{ csrf_token }}',

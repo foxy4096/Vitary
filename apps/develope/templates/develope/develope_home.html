@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}
+Home | Develope
+{% endblock title %}
+{% block content %}
+<div class="box">
+    <h1 class="title is-1 has-text-centered"><strong>Develope <i class="fas fa-terminal"></i></strong></h1>
+    <div class="columns">
+        <div class="column">
+            <h3 class="title is-3">Make New Things with <a href="{% url 'home' %}">Vitary</a>
+                <i class="fas fa-code"></i></h3>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil, totam debitis quae possimus officia consequuntur autem inventore fugit? Inventore dicta, iste officia aut, tempora, atque minima ullam fuga mollitia voluptatem magni repellat maxime accusantium voluptatibus repudiandae recusandae assumenda tenetur culpa eum reprehenderit voluptas esse voluptates aliquid nihil? At, possimus saepe.</p>
+                <br>
+                <br>
+                <div class="buttons">
+                {% if user.devprofile %}
+                <a href="{% url 'dashboard' %}" class="button is-success">Go to dashboard</a>
+                <a class="button is-info" href="{% url 'documentation' %}">
+                    Get help <i class="fas fa-question-circle"></i>
+                </a>
+                {% else %}
+                <a href="{% url 'join_us' %}" class="button is-success">Join Now!</a>
+
+                {% endif %}
+                </div>
+                    
+        </div>
+        <div class="column">
+            <img src="https://images.unsplash.com/photo-1639402479478-f5e7881c0ccc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80"
+                alt="">
+        </div>
+    </div>
+</div>
+{% endblock content %}

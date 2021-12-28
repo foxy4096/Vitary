@@ -7,16 +7,16 @@ from .models import Post
 from . import views
 
 info_dict = {
-'queryset': Post.objects.all(),
-'date_field': 'date',
+    'queryset': Post.objects.all(),
+    'date_field': 'date',
 }
 
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),
-    path('<slug:slug>/', views.PostDetailView.as_view(), name="post_detail"),    
+    path('<slug:slug>/', views.PostDetailView.as_view(), name="post_detail"),
     # the sitemap
     path('sitemap.xml', sitemap,
-    {'sitemaps': {'blog': GenericSitemap(info_dict, priority=0.6)}},
-    name='django.contrib.sitemaps.views.sitemap'),
+         {'sitemaps': {'blog': GenericSitemap(info_dict, priority=0.6)}},
+         name='django.contrib.sitemaps.views.sitemap'),
 ]

@@ -48,7 +48,7 @@ Blog
                 <span class="current">
                     Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
                 </span>
-                {% if feeds.has_next %}
+                {% if posts.has_next %}
                 <a href="?page={{ posts.next_page_number }}">next</a>
                 <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}

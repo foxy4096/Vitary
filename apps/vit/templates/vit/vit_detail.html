@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+{% load mention %}
+
+{% block title %}
+{{ vit.body | truncatechars_html:50 | safe }}
+{% endblock title %}
+
+{% block content %}
+<div class="columns">
+  <div class="column">
+    {% include 'vit/extends/vit_block.html'%}
+    <br>
+
+    <div class="columns">
+
+      {% if vit.image %}
+      <div class="column">
+        <article class="image is-800x600">
+          <img src="{{ vit.image.url }}" alt="">
+        </article>
+      </div>
+      {% endif %}
+
+      {% if vit.video %}
+      <div class="column">
+        <article class="image is-800x600">
+          <video src="{{ vit.video.url }}" controls>Your Browser doesn't support Videos</video>
+        </article>
+      </div>
+
+      {% endif %}
+    </div>
+    <br>
+    <h1 class="title">Replies</h1>
+    {% include 'core/vit_form_inc.html' with title="Reply" %}
+    <br>
+    {% for reply in vit.reply.all %}
+    {% include 'vit/extends/vit_block.html' with showView=False %}
+    {% endfor %}
+      
+  </div>
+
+<div class="column is-4">
+  {% include 'accounts/extends/side_block.html' %}
+</div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+  // Just a simple script which sends the server to like a post
+  // for more info please see apps/vit/api.py
+  function like_vit(vit_id) {
+    fetch(`/api/v1/vit/add_like/?vit_pk=${vit_id}`, {
+      method: 'GET',
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}',
+        'type': 'application/json'
+      }
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      if (data.status == 'success') {
+        var like_count = document.getElementById('like_count_' + vit_id);
+        like_count.innerHTML = data.like_count;
+        var like_count = document.getElementById('like_count_' + vit_id);
+        like_count.innerHTML = data.likes;
+      }
+    });
+  }
+</script>
+{% endblock script %}

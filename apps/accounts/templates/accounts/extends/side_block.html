@@ -5,7 +5,7 @@
 <div class="card">
 <div class="card-content">
     <div class="buttons">
-        <a href="{% url 'add_feed' %}" class="button is-success is-rounded is-fullwidth">Add Vit  <i class="fas fa-plus"></i></a>
+        <a href="{% url 'add_vit' %}" class="button is-success is-rounded is-fullwidth">Add Vit  <i class="fas fa-plus"></i></a>
     </div>
 </div>
 </div>
@@ -16,9 +16,9 @@
     <div class="card-header"><h1 class="card-header-title title">Latest</h1></div>
     <div class="card-content">
         
-        {% for latest_feed in latest_feeds %}
+        {% for latest_vit in latest_vits %}
         
-            <a href="{% url 'profile_view' latest_feed.user.username %}">{{ latest_feed.user }}</a>: <a href="{{ latest_feed.get_absolute_url }}">{{latest_feed.body | truncatechars_html:40}}</a> {{ latest_feed.date | naturaltime }}
+            <a href="{% url 'profile_view' latest_vit.user.username %}">{{ latest_vit.user }}</a>: <a href="{{ latest_vit.get_absolute_url }}">{{latest_vit.body | truncatechars_html:40}}</a> {{ latest_vit.date | naturaltime }}
             <br>
         {% endfor %}
             

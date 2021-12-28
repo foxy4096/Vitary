@@ -1,0 +1,85 @@
+<button class="button is-success" onclick="document.getElementById('API_TOKEN_MODAL').classList.add('is-active')">Reveal
+    token</button>
+<div class="modal" id="API_TOKEN_MODAL">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="card">
+            <div class="card-content">
+                <div class="is-hidden" id="TOKEN">
+                    <h3 class="title 3">
+                        API Token
+                        <i class="fas fa-key"></i>
+                    </h3>
+                    <p>
+                        Here you can see your API token.
+                        You can use it to access our API.
+                    </p>
+                    <br>
+                    <p>
+                        <code id="TOKEN_KEY">
+                            Here the API token will be revealed.
+                        </code>
+                        <br>
+                        <br>
+                        <button class="button is-success is-fullwidth" id="copy_button"
+                            onclick="copyText(document.getElementById('TOKEN_KEY').innerHTML)">Copy</button>
+                    </p>
+                </div>
+                <div class="" id="PASS">
+                    <h3 class="title is-3">Enter your password
+                        <i class="fas fa-key"></i>
+                    </h3>
+                    <p>
+                        Please enter your password to reveal your API token.
+                    </p>
+                    <br>
+                    <div class="field">
+                        <label class="label">Password</label>
+                        <div class="control">
+                            <input class="input" type="password" name="password" placeholder="Password" id="password">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-success" onclick="getToken()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"
+        onclick="document.getElementById('API_TOKEN_MODAL').classList.remove('is-active')"></button>
+</div>
+<script>
+    function getToken() {
+        fetch('/api/v1/api-token-auth/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                username: '{{ user.username }}',
+                password: document.getElementById('password').value
+            })
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            document.getElementById('PASS').classList.add('is-hidden');
+            document.getElementById('TOKEN').classList.remove('is-hidden');
+            document.getElementById('TOKEN_KEY').innerHTML = data.token;
+        });
+    }
+
+    function copyText(val) {
+        navigator.clipboard.writeText(val);
+        document.getElementById('copy_button').innerHTML = 'Copied!';
+        document.getElementById('copy_button').classList.add('is-light');
+        setTimeout(function () {
+            document.getElementById('copy_button').innerHTML = 'Copy';
+            document.getElementById('copy_button').classList.remove('is-light');
+        }, 2000);
+    }
+
+</script>

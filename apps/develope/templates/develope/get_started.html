@@ -1,0 +1,109 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load mention %}
+{% block title %}
+Get Started | Develope
+{% endblock title %}
+{% block content %}
+<div class="card">
+    <div class="card-content">
+        <h1 class="title is-1">Get Started</h1>
+        <h3 class="title is-3">Develope
+            <i class="fas fa-terminal"></i>
+        </h3>
+        <p>
+            <strong>Step 1</strong>
+            <br>
+            Get the API Key from your account.
+            <br>
+            <br>
+            {% include 'develope/get_api_button.html' %}
+        </p>
+        <br>
+        <p>
+            <strong>Step 2</strong>
+            <br>
+            Open the terminal and run the following command (Make Sure to replace <code>YOUR_TOKEN</code> with your
+            <code>API Token</code>):
+            <br>
+            <br>
+            <code class="box">
+                curl -X GET http://localhost:8000/api/v1/vit/ -H "Authorization: Token YOUR_TOKEN" -H "Content-Type: application/json"
+            </code>
+            <hr>
+        <p>
+            You will see the following response:
+            <br>
+        <pre>
+            <code class="box">
+{
+    "id":2,
+    "body":"Yo @foxy4096",
+    "image":null,
+    "video":null,
+    "date":"2021-12-18T12:44:34.245399Z",
+    "like_count":1,
+    "user":2,
+    "likes":[1]
+},
+{
+    "id":1,
+    "body":"Hello",
+    "image":"/media/uploads/images/Site.png",
+    "video":null,
+    "date":"2021-12-18T08:59:40.585056Z",
+    "like_count":2,
+    "user":1,
+    "likes":[1,2]
+}
+             </code>
+            </pre>
+        </p>
+        <p>
+            <strong>Step 3</strong>
+            <br>
+            Copy the <code>id</code> value from the response and paste it into the <code>id</code> field below to get back a <code><a href="">Vit</a></code> object.
+            <br>
+            <br>
+        <div class="field">
+            <label class="label">
+                ID
+            </label>
+            <div class="control">
+                <input class="input" type="text" name="id" placeholder="ID" id="vit_id">
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <button class="button is-primary" onclick="getVitData()">
+                    Submit
+                </button>
+            </div>
+        </div>
+        <code>
+        <div id="DATA">
+            
+        </div>
+        </code>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+    <script>
+        function getVitData() {
+            fetch('/api/v1/vit/' + document.getElementById('vit_id').value + '/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                document.getElementById('DATA').innerHTML = JSON.stringify(data, null, 4);
+            });
+        }
+    </script>
+{% endblock script %}
+    

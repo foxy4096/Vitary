@@ -4,7 +4,6 @@ from django.contrib.auth import login
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from .models import Profile
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, ProfileForm
 from apps.notification.utilities import notify

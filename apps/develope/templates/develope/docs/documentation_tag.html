@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load mention %}
+{% block title %}
+{{tag.name}} | Develope
+{% endblock title %}
+{% block content %}
+<h1 class="title is-1">
+    {{tag.name}}
+</h1>
+<ul>
+    {% for doc in tag.documentation_set.all %}
+    <hr>
+    <li>
+        *<a href="{{doc.get_absolute_url}}">
+            {{doc.title}}
+        </a>
+    </li>
+    {% endfor %}
+
+</ul>
+<br>
+<div class="pagination">
+    <span class="step-links">
+        {% if tags.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ tags.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ tags.number }} of {{ tags.paginator.num_pages }}.
+        </span>
+        {% if tags.has_next %}
+        <a href="?page={{ tags.next_page_number }}">next</a>
+        <a href="?page={{ tags.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock content %}
