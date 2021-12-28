@@ -15,6 +15,7 @@ daphne==3.0.2
 Django==3.2.9
 django-environ==0.8.1
 django-progressive-web-app==0.1.1
+djangorestframework==3.13.1
 google-api-core==2.3.0
 google-api-python-client==2.33.0
 google-auth==1.35.0
@@ -44,6 +45,8 @@ service-identity==21.1.0
 six==1.16.0
 sqlparse==0.4.2
 toml==0.10.2
+Twisted==21.7.0
+twisted-iocpsupport==1.0.2
 txaio==21.2.1
 typing_extensions==4.0.1
 uritemplate==4.1.1
