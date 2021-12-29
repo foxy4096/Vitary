@@ -19,10 +19,6 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 
 urlpatterns = [
-    # PWA
-    path('', include('pwa.urls')),
-
-
     # Admin
     path('admin/', admin.site.urls),
 

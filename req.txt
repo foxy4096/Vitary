@@ -1,7 +1,6 @@
 asgiref==3.4.1
 Django==3.2.10
 django-environ==0.8.1
-django-pwa==1.0.10
 djangorestframework==3.13.1
 importlib-metadata==4.10.0
 Markdown==3.3.6
