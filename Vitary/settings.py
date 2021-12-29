@@ -178,7 +178,7 @@ else:
 SITE_ID = int(env('SITE_ID', default=1))
 
 # Google Drive Storage Config
-if env('GOOGLE_DRIVE_KEY_FILE'):
+if env('GOOGLE_DRIVE_KEY_FILE') == "True":
     GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = BASE_DIR / 'GOOGLE_DRIVE_KEY_FILE.json'
 else:
     GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = None
