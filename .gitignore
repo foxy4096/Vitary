@@ -139,5 +139,4 @@ cython_debug/
 
 # Media
 media/
-
-GDSTORAGE_JSON.json
+GOOGLE_DRIVE_KEY_FILE.json

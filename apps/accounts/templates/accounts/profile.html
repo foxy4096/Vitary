@@ -30,23 +30,6 @@ Profile
 
 
         </div>
-        <div class="box">
-            <h4 class="title is-4">Develope <i class="fas fa-terminal"></i></h4>
-            <p>
-                
-                {% if not user.devprofile %}
-                
-            <a href="{% url 'develope_home' %}">Know More <i class="fas fa-question"></i></a>
-                    
-                {% endif %}
-                <br>
-                
-                {% if user.devprofile %}
-                <a href="">Develope Profile <i class="fas fa-user"></i></a>
-                {% endif %}
-                    
-            </p>
-        </div>
     </div>
     <div class="column is-4">
         {% include 'accounts/extends/side_block.html' %}

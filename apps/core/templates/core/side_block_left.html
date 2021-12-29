@@ -13,11 +13,6 @@
         <a href="{% url 'profile_view' user.username %}" class="level-item title"><i class="fas fa-user"></i></a>
         <hr>
         <a href="{% url 'profile' %}" class="level-item title"><i class="fas fa-cog"></i></a>
-        
-        {% if user.devprofile %}
-        <hr>
-        <a href="{% url 'dashboard' %}" class="level-item title"><i class="fas fa-terminal"></i></a>
-        {% endif %}
             
         {% endif %}
     </div>

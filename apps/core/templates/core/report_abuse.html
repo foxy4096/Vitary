@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+Report Abuse
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="columns">
+    <div class="column is-8">
+        <div class="box">
+            <h1 class="title is-1">Report Abuse</h1>
+            {% include 'vit/extends/vit_block.html' %}
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <br>
+                <button class="button is-primary" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="column is-4">
+        {% include 'accounts/extends/side_block.html' %}
+    </div>
+</div>
+
+<script>
+    inputs = document.querySelectorAll('textarea');
+    for (i = 0; i < inputs.length; i++) {
+
+        inputs[i].classList.add('input');
+    }
+    document.querySelector('textarea').focus();
+</script>
+{% endblock content %}

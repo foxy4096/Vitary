@@ -27,7 +27,9 @@
             </a>
 
             {% endif %}
-
+            <a class="navbar-item" href="{% url 'plustag_lists' %}">
+                PlusTags <i class="fas fa-plus"></i>
+            </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
                     More <i class="fas fa-box"></i>
@@ -52,7 +54,6 @@
                         href="https://github.com/foxy4096/Vitary/issues/new?assignees=&labels=&template=bug_report.md&title=">
                         Report an issue <i class="fas fa-bug"></i>
                     </a>
-                    <a href="{% url 'develope_home' %}" class="navbar-item">Develope <i class="fas fa-code"></i></a>
                 </div>
             </div>
         </div>

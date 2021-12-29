@@ -13,6 +13,7 @@ class Notification(models.Model):
         ('comment', 'Comment'),
         ('like', 'Like'),
         ('follow', 'Follow'),
+        ('abuse', 'Abuse'),
     ]
     message = models.TextField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)

@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load humanize %}
 {% block title %}
-{{ plustag.name }}
++{{ plustag.name }}
 {% endblock title %}
 
 {% block content %}
@@ -11,8 +11,10 @@
     <div class="column">
         <div class="box">
         <h1 class="title is-1">+{{ plustag.name }}</h1>
-
-        {% for vit in plustag.vit_set.all %}
+        Rating: {{plustag.rating}}
+        <br>
+        <br>
+        {% for vit in vits %}
         {% include 'vit/extends/vit_block.html'%}
 
         {% endfor %}
@@ -22,5 +24,20 @@
         {% include 'accounts/extends/side_block.html' %}
 
     </div>
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if vits.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ vits.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
+        </span>
+        {% if vits.has_next %}
+        <a href="?page={{ vits.next_page_number }}">next</a>
+        <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
 </div>
 {% endblock content %}

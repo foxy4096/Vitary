@@ -84,7 +84,7 @@
             <a href="#vit-{{ vit.pk }}">
                 <i class="fas fa-link"></i>
             </a> 
-            <a href="#vit-{{ vit.pk }}" class="button is-danger is-small is-rounded">Report Abuse
+            <a href="{% url 'report_abuse' vit.pk %}" class="button is-danger is-small is-rounded">Report Abuse
                  <i class="fas fa-exclamation-triangle"></i>
             </a>
         </div>

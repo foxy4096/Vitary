@@ -3,6 +3,11 @@ from django.utils.text import slugify
 
 from django.contrib.auth.models import User
 
+from gdstorage.storage import GoogleDriveStorage
+
+# Define Google Drive Storage
+gd_storage = GoogleDriveStorage()
+
 class Post(models.Model):
     """
     A post model for blog app
@@ -12,7 +17,7 @@ class Post(models.Model):
     body = models.TextField(verbose_name="Body")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    cover_img = models.ImageField(upload_to='blog/images', blank=True, null=True)
+    cover_img = models.ImageField(upload_to='blog/images', blank=True, null=True, storage=gd_storage)
     slug = models.SlugField(null=True, blank=True)
 
     def __str__(self):

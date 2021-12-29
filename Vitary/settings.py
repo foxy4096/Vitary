@@ -61,24 +61,11 @@ INSTALLED_APPS = [
     'apps.blog.apps.BlogConfig',
     'apps.notification.apps.NotificationConfig',
     'apps.chat.apps.ChatConfig',
-    'apps.develope.apps.DevelopeConfig',
 
     # 3rd Party apps
-    # 'gdstorage'
-    'rest_framework',
-    'rest_framework.authtoken'
+    'gdstorage'
 
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,7 +75,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.common.BrokenLinkEmailsMiddleware',
 ]
 
 ROOT_URLCONF = 'Vitary.urls'
@@ -191,8 +177,12 @@ else:
 
 SITE_ID = int(env('SITE_ID', default=1))
 
-
-
+# Google Drive Storage Config
+if env('GOOGLE_DRIVE_KEY_FILE'):
+    GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = BASE_DIR / 'GOOGLE_DRIVE_KEY_FILE.json'
+else:
+    GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE_CONTENTS = env('GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE_CONTENTS')
+GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = 'uploads'
 
 import re
 IGNORABLE_404_URLS = [

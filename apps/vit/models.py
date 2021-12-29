@@ -1,7 +1,8 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-
+from gdstorage.storage import GoogleDriveStorage
+gd_storage = GoogleDriveStorage()
 
 class Vit(models.Model):
     """
@@ -12,9 +13,10 @@ class Vit(models.Model):
         User, on_delete=models.CASCADE, related_name="vits")
     date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='uploads/images/', blank=True,
-                              null=True, help_text="You can upload upto one image per Vit")
+                              null=True, help_text="You can upload upto one image per Vit", storage=gd_storage)
     video = models.FileField(upload_to='uploads/videos/', blank=True,
-                             null=True, help_text="You can upload upto one video per Vit")
+                             null=True, help_text="You can upload upto one video per Vit",
+                             storage=gd_storage)
     likes = models.ManyToManyField(User, related_name="liked_vits")
     like_count = models.IntegerField(default=0)
     plustag = models.ManyToManyField('Plustag', blank=True)
@@ -24,6 +26,10 @@ class Vit(models.Model):
 
     def save(self, *args, **kwargs):
         self.body = self.body.strip()
+        super().save(*args, **kwargs)
+        for plus in self.plustag.all():
+            plus.rating = plus.vit_set.count()
+            plus.save()
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -47,9 +53,13 @@ class Vit(models.Model):
 
 class Plustag(models.Model):
     """
-    Hashtag model
+    Plustag model
     """
     name = models.CharField(max_length=50)
+    rating = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['-rating']
