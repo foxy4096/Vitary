@@ -24,7 +24,7 @@ def home(request):
         form = VitForm()
         return render(request, 'core/home/home_logged_in.html', {'vits': page_obj, 'form': form})
     else:
-        return render(request, 'core/home/home_logged_out.html')
+        return render(request, 'core/home/home_logged_out.html', {'show': False})
 
 def base_layout(request):
 	template='core/base.html'

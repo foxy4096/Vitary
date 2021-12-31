@@ -37,7 +37,7 @@ textarea {
     color: #b9b9b9;
     resize: both;
 }
-input[type="text"], input[type="email"], input[type="password"], textarea {
+input[type="text"], input[type="email"], input[type="password"] {
 
     background-color : #4a4a4a; 
     color: #b9b9b9;

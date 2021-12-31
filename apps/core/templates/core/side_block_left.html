@@ -1,5 +1,8 @@
 {% load static %}
 {% load humanize %}
+
+
+
 <div class="card">
     <div class="card-content">
         <a href="{% url 'home' %}" class="level-item title"><i class="fas fa-home"></i></a>
@@ -13,7 +16,7 @@
         <a href="{% url 'profile_view' user.username %}" class="level-item title"><i class="fas fa-user"></i></a>
         <hr>
         <a href="{% url 'profile' %}" class="level-item title"><i class="fas fa-cog"></i></a>
-            
+
         {% endif %}
     </div>
 </div>

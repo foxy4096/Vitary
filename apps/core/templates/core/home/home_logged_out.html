@@ -2,25 +2,23 @@
 {% load static %}
 
 {% block title %}
-🏡 Home
+Home
 {% endblock title %}
 
 
 {% block content %}
 <div class="columns">
 <div class="column">
-        <h1 class="title">Vitary</h1>
+        <h1 class="title">The New Way To Make Friends Easily.</h1>
         <p class="subtitle">Welcome To <strong>Vitary</strong></p>
-        <h3 class="title is-3">Make New Friends Easily.</h3>
-        <hr>
         <div class="buttons">
-            <a href="{% url 'signup' %}" class="button is-primary is-rounded">Get Started <i class="fas fa-user-plus"></i></a>
-            <a href="{% url 'login' %}" class="button is-dark is-rounded">Login <i class="fas fa-fingerprint"></i></a>
+            <a href="{% url 'signup' %}" class="button is-primary">Get Started <i class="fas fa-user-plus"></i></a>
+            <a href="{% url 'login' %}" class="button is-dark">Login <i class="fas fa-fingerprint"></i></a>
         </div>
     </div>
     <div class="column">
         <article class="image">
-            <img src="{% static 'img/Computer_perspective_matte.png' %}" alt="hero1" width="100" height="100">
+            <img src="{% static 'img/Networking_perspective_matte.png' %}" alt="hero1" width="100" height="100">
         </article>
     </div>
 </div>

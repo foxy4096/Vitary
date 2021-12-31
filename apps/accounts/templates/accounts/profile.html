@@ -22,6 +22,9 @@ Profile
                 {{ pform.as_p }}
                 <a href="{% url 'password_change' %}">Change Password <i class="fas fa-key"></i></a>
                 <br>
+                <button class="button" id="tbtn" onclick="changeTheme();">Change Theme</button>
+                <span id="msg"></span>
+                <br>
                 <br>
                 <button type="submit" class="button is-primary is-rounded">Save
                      <i class="fas fa-save"></i>
@@ -35,4 +38,20 @@ Profile
         {% include 'accounts/extends/side_block.html' %}
     </div>
 </div>
+<script>
+function changeTheme() {
+    if (localStorage.getItem('theme') === 'dark') {
+        localStorage.setItem('theme', 'light');
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.getElementById('tbtn').innerHTML = 'Change Theme to Dark';
+        document.getElementById('msg').innerHTML = 'Refresh the page to see the changes';
+
+    } else {
+        localStorage.setItem('theme', 'dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('tbtn').innerHTML = 'Change Theme to Light';
+        document.getElementById('msg').innerHTML = 'Refresh the page to see the changes';
+    }
+}
+</script>
 {% endblock content %}
