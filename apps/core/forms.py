@@ -9,6 +9,6 @@ class ReportAbuseForm(ModelForm):
         model = Abuse
         fields = ['abuse_type', 'description']
         widgets = {
-            'description': forms.Textarea(attrs={'class': 'input','placeholder': 'Describe the abuse',
+            'description': forms.Textarea(attrs={'class': 'textarea','placeholder': 'Describe the abuse',
                                                                         'id': 'body'}),
         }

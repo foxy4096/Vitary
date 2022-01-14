@@ -12,7 +12,7 @@ class ProfileInline(admin.TabularInline):
     """
     model = Profile
     readonly_fields = ['profile_image',]
-    fields = ['profile_image', 'image', 'email_notif', 'verified']
+    fields = ['profile_image', 'image', 'email_notif', 'verified', 'bio',]
     can_delete = False
 
 

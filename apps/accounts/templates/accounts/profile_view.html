@@ -1,5 +1,8 @@
 {% extends 'core/base.html' %}
 {% load humanize %}
+{% load mention %}
+{% load convert_markdown %}
+
 {% load static %}
 {% block title %}
 {{ usr.username | title }}
@@ -33,39 +36,58 @@
                 Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.follows.count }}</a>
             </p>
             <br>
+            <p>
+                {{ usr.profile.bio | mention | safe | convert_markdown}}
+            </p>
+            <br>
             <div class="buttons">
 
 
                 {% if user == usr %}
 
-                <a href="{% url 'profile' %}" class="button is-primary">Edit Profile  <i class="far fa-id-card"></i></a>
+                <a href="{% url 'profile' %}" class="button is-success">Edit Profile  📝</a>
                 {% else %}
 
                 {% if not usr.profile in user.profile.follows.all %}
                 <form action="{% url 'follow' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="username" value="{{ usr.username }}">
-                    <button class="button is-success" type="submit">Follow  <i class="fas fa-plus"></i></button>
+                    <button class="button is-success" type="submit">Follow  ➕</button>
                 </form>
                 {% else %}
                 <form action="{% url 'unfollow' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="username" value="{{ usr.username }}">
-                    <button class="button is-success" type="submit">Unfollow  <i class="fas fa-minus"></i></button>
+                    <button class="button is-success" type="submit">Unfollow  ➖</button>
                 </form>
                 {% endif %}
                 {% endif %}
                 
                 {% if not usr == user %}
-                  <a href="{% url 'message_user' usr.username %}" class="button is-success">Message  <i class="far fa-comments"></i></a>
+                  <a href="{% url 'message_user' usr.username %}" class="button is-success">Message  📨</a>
                     
                 {% endif %}
                     
             </div>
         </div>
-        {% for vit in usr.vits.all %}
+        {% for vit in vits %}
         {% include 'vit/extends/vit_block.html' %}
         {% endfor %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if vits.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ vits.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
+                </span>
+                {% if vits.has_next %}
+                <a href="?page={{ vits.next_page_number }}">next</a>
+                <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
     <div class="column is-4">
         {% include 'accounts/extends/side_block.html' %}

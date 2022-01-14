@@ -7,66 +7,8 @@
 <div class="columns">
     <div class="column">
 <div class="box">
-    <h1 class="title">{{title}}</h1>
-<form action="" method="post">
-    {% csrf_token %}
-    <div class="field">
-        <div class="control">
-            {{form.body}}
-        </div>
-    </div>
-    <div class="field">
-        <div class="control">
-            <div class="columns">
-                <div class="column">
-                    <div class="file has-name" id="form_image">
-                        <label class="file-label">
-                            {{form.image}}
-                            <span class="file-cta">
-                                <span class="file-icon">
-                                    <i class="fas fa-upload"></i>
-                                </span>
-                                <span class="file-label">
-                                    Add a photo
-                                </span>
-                            </span>
-                            <span class="file-name">
-                                No photo uploaded
-                            </span>
-                        </label>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="file has-name" id="form_video">
-                        <label class="file-label">
-                            {{form.video}}
-                            <span class="file-cta">
-                                <span class="file-icon">
-                                    <i class="fas fa-upload"></i>
-                                </span>
-                                <span class="file-label">
-                                    Add a video
-                                </span>
-                            </span>
-                            <span class="file-name">
-                                No video uploaded
-                            </span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="field">
-        <div class="control">
-            <button class="button is-success">{{title}}   
-                <span class="icon is-small">
-                    <i class="fas fa-plus"></i>
-                </span>
-            </button>
-        </div>
-    </div>
-</form>
+    <h1 class="title is-1">{{title}}</h1>
+    {% include 'core/vit_form_inc.html' with title="Add Vit" %}
 </div>
 </div>
     <div class="column is-4">

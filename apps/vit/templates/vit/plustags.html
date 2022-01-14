@@ -7,36 +7,34 @@
 {% block content %}
 <div class="columns">
     <div class="column">
-        <h1 class="title">+PlusTags</h1>
-        <div class="columns">
+        <h1 class="title is-1">+PlusTags</h1>
+
         {% for plustag in plustags %}
-        <div class="column">
-            <div class="box">
-                <a href="{% url 'plustag_vits' plustag.name %}">+{{plustag.name}}</a>
-                <br>
-                Rating: {{plustag.rating}}
-            </div>
-        </div>
+       
+                <h3 class="title is-5"><a href="{% url 'plustag_vits' plustag.name %}">+{{plustag.name}}</a>
+                    Rating: {{plustag.rating}}
+                </h3>
+            <br>
         {% endfor %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if plustags.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ plustags.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ plustags.number }} of {{ plustags.paginator.num_pages }}.
+                </span>
+                {% if plustags.has_next %}
+                <a href="?page={{ plustags.next_page_number }}">next</a>
+                <a href="?page={{ plustags.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
         </div>
     </div>
     <div class="column is-4">
         {% include 'accounts/extends/side_block.html' %}
     </div>
 </div>
-<div class="pagination">
-    <span class="step-links">
-        {% if plustags.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ plustags.previous_page_number }}">previous</a>
-        {% endif %}
-        <span class="current">
-            Page {{ plustags.number }} of {{ plustags.paginator.num_pages }}.
-        </span>
-        {% if plustags.has_next %}
-        <a href="?page={{ plustags.next_page_number }}">next</a>
-        <a href="?page={{ plustags.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+
 {% endblock content %}

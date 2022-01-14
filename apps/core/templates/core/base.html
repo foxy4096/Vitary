@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" id="theme" href="{% static 'css/bulma_dark.css' %}">
+    <link rel="stylesheet" id="theme" href="{% static 'css/bulma_light.css' %}">
     <link rel="stylesheet" id="theme_style" href="{% static 'css/style_light.css' %}">
     <script src="{% static 'js/jquery.js' %}"></script>
     <meta name="mobile-web-app-capable" content="yes">
@@ -72,21 +72,10 @@
 
     <section class="section">
         <div class="container-fluid">
-            <div class="columns">
-                {% if show|default:True %}
-                <div class="column is-1 is-hidden-mobile">
-                    {% include 'core/side_block_left.html' %}
-                </div>
-                {% endif %}
-                <div class="column is-11">
-                    {% block content %}
+            {% block content %}
 
-                    {% endblock content %}
+            {% endblock content %}
 
-                </div>
-            </div>
-
-        </div>
         </div>
     </section>
     {% include 'core/footer.html' %}
@@ -125,15 +114,14 @@
     </script>
     <script>
         if (localStorage.getItem('theme') === 'dark') {
-            document.getElementById('theme').href ="{% static 'css/bulma_dark.css' %}";
-            document.getElementById('theme_style').href ="{% static 'css/style_dark.css' %}";
+            document.getElementById('theme').href = "{% static 'css/bulma_dark.css' %}";
+            document.getElementById('theme_style').href = "{% static 'css/style_dark.css' %}";
         }
         else if (localStorage.getItem('theme') === 'light') {
             document.getElementById('theme_style').href = "{% static 'css/style_light.css' %}";
             document.getElementById('theme').href = "{% static 'css/bulma_light.css' %}";
         }
     </script>
-    <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

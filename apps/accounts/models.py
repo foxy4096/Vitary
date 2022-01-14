@@ -4,10 +4,10 @@ from django.utils.safestring import mark_safe
 
 from django.contrib.auth.models import User
 
-from gdstorage.storage import GoogleDriveStorage
+# from gdstorage.storage import GoogleDriveStorage
 
-# Define Google Drive Storage
-gd_storage = GoogleDriveStorage()
+# # Define Google Drive Storage
+# gd_storage = GoogleDriveStorage()
 
 class Profile(models.Model):
     """
@@ -15,12 +15,13 @@ class Profile(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='uploads/',
-                              default='/uploads/default.jpg', blank=True, null=True, storage=gd_storage)
+                              default='/uploads/default.jpg', blank=True, null=True)
     follows = models.ManyToManyField(
         'self', related_name='followed_by', symmetrical=False)
     email_notif = models.BooleanField(
         default=True, verbose_name="Get Email Notifications")
     verified = models.BooleanField(default=False)
+    bio = models.TextField(max_length=500, blank=True, null=True, default="")
 
     def __str__(self):
         return self.user.username

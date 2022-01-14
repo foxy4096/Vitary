@@ -14,12 +14,11 @@ Notification
 <div class="box">
     <div class="level">
         <div class="level-left">
-            <h1 class="title is-1">Notifications <i class="fas fa-bell"></i></h1>
+            <h1 class="title is-1">Notifications</h1>
         </div>
         <div class="level-right">
             <div class="buttons">
-                <a href="{% url 'mark_as_read' %}" class="button is-primary is-rounded">Mark As Read  <i
-                        class="fas fa-check"></i></a>
+                <a href="{% url 'mark_as_read' %}" class="button is-success">Mark As Read  ✅</a>
             </div>
 
         </div>
@@ -29,8 +28,8 @@ Notification
 
 
             {% for notification in notifications %}
-            <div class="card">
-                <div class="card-content">
+            <div class="">
+                <div class="">
                     <div class="media">
                         <p>
                         <div class="media-left">
@@ -50,7 +49,7 @@ Notification
                         </div>
                         <div class="medai-right">
                             <a href="{% url 'notification_redirect' notification.pk %}"
-                                class="button is-primary is-rounded">View</a>
+                                class="button is-success">View 👀</a>
                         </div>
                         </p>
                     </div>
@@ -64,6 +63,21 @@ Notification
             </p>
             {% endif %}
         </div>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if notifications.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ notifications.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ notifications.number }} of {{ notifications.paginator.num_pages }}.
+                    </span>
+                    {% if notifications.has_next %}
+                    <a href="?page={{ notifications.next_page_number }}">next</a>
+                    <a href="?page={{ notifications.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
     </div>
     <div class="column is-4">
         {% include 'accounts/extends/side_block.html' %}

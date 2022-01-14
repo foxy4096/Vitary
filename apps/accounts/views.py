@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
+
 from .models import Profile
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, ProfileForm
@@ -52,7 +54,11 @@ def profile(request):
 
 def profile_view(request, username):
     usr = get_object_or_404(User, username=username)
-    return render(request, 'accounts/profile_view.html', {'usr': usr})
+    vits = usr.vits.all()
+    paginator = Paginator(vits, 5)
+    page = request.GET.get('page')
+    vits = paginator.get_page(page)
+    return render(request, 'accounts/profile_view.html', {'usr': usr, 'vits': vits})
 
 
 @login_required
@@ -89,22 +95,39 @@ def unfollow(request):
 @login_required
 def following(request):
     usr = request.user
-    return render(request, 'accounts/following.html', {'usr': usr})
+    followings = usr.profile.follows.all().order_by('-id')
+    paginator = Paginator(followings, 5)
+    page = request.GET.get('page')
+    followings = paginator.get_page(page)
+    return render(request, 'accounts/following.html', {'usr': usr, 'followings': followings})
 
 @login_required
 def followers(request):
     usr = request.user
-    return render(request, 'accounts/followers.html', {'usr': usr})
+    followers = usr.profile.follows.all().order_by('-id')
+    paginator = Paginator(followers, 5)
+    page = request.GET.get('page')
+    followers = paginator.get_page(page)
+    return render(request, 'accounts/followers.html', {'usr': usr, 'followers': followers})
 
 def user_following(request, username):
     usr = get_object_or_404(User, username=username)
+    followings = usr.profile.follows.all().order_by('-id')
+    paginator = Paginator(followings, 5)
+    page = request.GET.get('page')
+    followings = paginator.get_page(page)
     if usr == request.user:
         return redirect('following')
-    return render(request, 'accounts/following.html', {'usr': usr})
+        
+    return render(request, 'accounts/following.html', {'usr': usr, 'followings': followings})
 
 
 def user_followers(request, username):
     usr = get_object_or_404(User, username=username)
+    followers = usr.profile.follows.all().order_by('-id')
+    paginator = Paginator(followers, 5)
+    page = request.GET.get('page')
+    followers = paginator.get_page(page)
     if usr == request.user:
         return redirect('followers')
-    return render(request, 'accounts/followers.html', {'usr': usr})
+    return render(request, 'accounts/followers.html', {'usr': usr, 'followers': followers})

@@ -14,7 +14,7 @@ Following
             {% if usr.profile.follows.all %}
 
 
-            {% for person in usr.profile.follows.all %}
+            {% for person in followings %}
             <div class="level">
                 <div class="level-left">
                     <div class="media">
@@ -47,6 +47,21 @@ Following
             {% else %}
             <p>Not following anyone yet.</p>
             {% endif %}
+        </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if followings.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ followings.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ followings.number }} of {{ followings.paginator.num_pages }}.
+                </span>
+                {% if followings.has_next %}
+                <a href="?page={{ followings.next_page_number }}">next</a>
+                <a href="?page={{ followings.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
         </div>
     </div>
     <div class="column is-4">

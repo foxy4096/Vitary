@@ -1,28 +1,35 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-from gdstorage.storage import GoogleDriveStorage
-gd_storage = GoogleDriveStorage()
+
+# from gdstorage.storage import GoogleDriveStorage
+# gd_storage = GoogleDriveStorage()
+
 
 class Vit(models.Model):
     """
     Vit model
     """
+
     body = models.TextField()
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="vits")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="vits")
     date = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='uploads/images/', blank=True,
-                              null=True, help_text="You can upload upto one image per Vit", storage=gd_storage)
-    video = models.FileField(upload_to='uploads/videos/', blank=True,
-                             null=True, help_text="You can upload upto one video per Vit",
-                             storage=gd_storage)
+    image = models.ImageField(
+        upload_to="uploads/images/",
+        blank=True,
+        null=True,
+        help_text="You can upload upto one image per Vit",
+    )
+    video = models.FileField(
+        upload_to="uploads/videos/",
+        blank=True,
+        null=True,
+        help_text="You can upload upto one video per Vit",
+    )
     likes = models.ManyToManyField(User, related_name="liked_vits")
     like_count = models.IntegerField(default=0)
-    plustag = models.ManyToManyField('Plustag', blank=True)
-    to_reply_vits = models.ForeignKey(
-        'self', on_delete=models.SET_NULL, blank=True, null=True, verbose_name="To Reply Vit", related_name='reply')
-
+    plustag = models.ManyToManyField("Plustag", blank=True)
+    
 
     def save(self, *args, **kwargs):
         self.body = self.body.strip()
@@ -41,20 +48,22 @@ class Vit(models.Model):
         super().delete(*args, **kwargs)
 
     class Meta:
-        ordering = ['-date']
+        ordering = ["-date"]
 
     def get_absolute_url(self):
         from django.urls import reverse
-        return reverse('vit_detail', kwargs={'pk': self.pk})
+
+        return reverse("vit_detail", kwargs={"pk": self.pk})
 
     def latest_vits():
-        return Vit.objects.all().order_by('-like_count', '-date')[:5]
+        return Vit.objects.all().order_by("-like_count", "-date")[:5]
 
 
 class Plustag(models.Model):
     """
     Plustag model
     """
+
     name = models.CharField(max_length=50)
     rating = models.IntegerField(default=0)
 
@@ -62,4 +71,20 @@ class Plustag(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['-rating']
+        ordering = ["-rating"]
+
+class Comment(models.Model):
+    """
+    Comment model
+    """
+
+    body = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    vit = models.ForeignKey(Vit, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.user.username.title()}"
+
+    class Meta:
+        ordering = ["-date"]

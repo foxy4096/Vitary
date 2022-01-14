@@ -17,7 +17,7 @@ Report Abuse
                 {% csrf_token %}
                 {{form.as_p}}
                 <br>
-                <button class="button is-primary" type="submit">Submit</button>
+                <button class="button is-success" type="submit">Submit ✅</button>
             </form>
         </div>
     </div>
@@ -28,11 +28,11 @@ Report Abuse
 </div>
 
 <script>
-    inputs = document.querySelectorAll('textarea');
-    for (i = 0; i < inputs.length; i++) {
+    // inputs = document.querySelectorAll('textarea');
+    // for (i = 0; i < inputs.length; i++) {
 
-        inputs[i].classList.add('input');
-    }
+    //     inputs[i].classList.add('input');
+    // }
     document.querySelector('textarea').focus();
 </script>
 {% endblock content %}

@@ -5,12 +5,10 @@
 Blog
 {% endblock title %}
 {% block content %}
+<h1 class="title is-1">Blog</h1>
 <div class="columns">
     <div class="column is-8">
-        <div class="box">
-            <h1 class="title is-1">Blog 
-                <i class="fas fa-blog"></i>
-            </h1>
+        <div class="">
             {% for post in posts %}
             <div class="card article">
                 <div class="card-content">
@@ -37,8 +35,10 @@ Blog
                     <a href="{% url 'post_detail' post.slug %}" class="button is-success is-fullwidth">Read More</a>
                 </div>
             </div>
+            <br>
             {% endfor %}
         </div>
+        <br>
         <div class="pagination">
             <span class="step-links">
                 {% if posts.has_previous %}

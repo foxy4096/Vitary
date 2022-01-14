@@ -18,41 +18,47 @@
     <div id="navbarBasicExample" class="navbar-menu is-success">
         <div class="navbar-start">
             <a class="navbar-item" href="{% url 'home' %}">
-                Home <i class="fas fa-home"></i>
+                Home 🏡
             </a>
             {% if user.is_staff %}
 
             <a class="navbar-item" href="/admin/">
-                Admin <i class="fas fa-user-shield"></i>
+                Admin 🔐
             </a>
 
             {% endif %}
             <a class="navbar-item" href="{% url 'plustag_lists' %}">
-                PlusTags <i class="fas fa-plus"></i>
+                PlusTags ➕
             </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
-                    More <i class="fas fa-box"></i>
+                    More 📦
                 </a>
 
                 <div class="navbar-dropdown">
                     <a class="navbar-item" href="{% url 'peoples' %}">
-                        Find People <i class="fas fa-users"></i>
+                        Find People 👨‍👩‍👦‍👦
                     </a>
                     <a class="navbar-item" href="{% url 'post_list' %}">
-                        Blog Posts <i class="fas fa-blog"></i>
+                        Blog Posts 📝
+                    </a>
+                    <a class="navbar-item" href="{% url 'explore' %}">
+                        Explore 🌎
                     </a>
                     {% get_flatpages as flatpages %}
                     {% for page in flatpages %}
                     <a href="/pages{{ page.url }}" class="navbar-item">{{ page.title }}</a>
                     {% endfor %}
                     <a class="navbar-item" href="mailto:adityapriyadarshi669@gmail.com">
-                        Contact Us <i class="fas fa-envelope"></i>
+                        Contact Us 📧
                     </a>
                     <hr class="navbar-divider">
                     <a class="navbar-item"
-                        href="https://github.com/foxy4096/Vitary/issues/new?assignees=&labels=&template=bug_report.md&title=">
-                        Report an issue <i class="fas fa-bug"></i>
+                        href="https://github.com/Visualway/Vitary/issues/new?assignees=&labels=&template=bug_report.md&title=">
+                        Report an issue 🐛
+                    </a>
+                    <a href="https://github.com/Visualway/Vitary/issues/new?assignees=&labels=&template=feature_request.md&title=" class="navbar-item">
+                        Request a feature 📦
                     </a>
                 </div>
             </div>
@@ -75,23 +81,23 @@
                     {% if unread_notifications %}
 
                     <a class="button is-warning" href="{% url 'notification_page' %}">
-                        <i class="fas fa-bell"></i> ({{ unread_notifications.count }})
+                        🔔 ({{ unread_notifications.count }})
                     </a>
                     {% else %}
                     <a class="button is-warning" href="{% url 'notification_page' %}">
-                        <i class="fas fa-bell"></i>
+                        🔔
                     </a>
                     {% endif %}
                     <a class="button is-danger" href="{% url 'logout' %}">
-                        <strong>Logout</strong> <i class="fas fa-sign-out-alt"></i>
+                        <strong>Logout</strong> 🚪
                     </a>
                     </a>
                     {% else %}
                     <a class="button is-success" href="{% url 'signup' %}">
-                        <strong>Sign up</strong> <i class="fas fa-rocket"></i>
+                        <strong>Sign up</strong> 🚀
                     </a>
                     <a class="button" href="{% url 'login' %}">
-                        Log in <i class="fas fa-fingerprint"></i>
+                        Log in 🔐
                     </a>
                     {% endif %}
 

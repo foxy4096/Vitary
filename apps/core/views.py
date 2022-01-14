@@ -26,13 +26,13 @@ def home(request):
     else:
         return render(request, 'core/home/home_logged_out.html', {'show': False})
 
-def base_layout(request):
-	template='core/base.html'
-	return render(request,template)
 
 def peoples(request):
-    persons = User.objects.all()
-    return render(request, 'core/peoples.html', {'persons': persons})
+    persons = User.objects.all().order_by('-date_joined')
+    paginator = Paginator(persons, 5)
+    page_no = request.GET.get('page')
+    page_obj = paginator.get_page(page_no)
+    return render(request, 'core/peoples.html', {'persons': page_obj})
 
 def explore(request):
     vits = Vit.objects.all().order_by('-like_count', '-date')

@@ -11,8 +11,8 @@ from django.core.paginator import Paginator
 from .utilities import notify
 from apps.vit.utilities import find_mention, find_plustag
 
-from .forms import VitForm
-from .models import Vit, Plustag
+from .forms import VitForm, CommentForm
+from .models import Comment, Vit, Plustag
 
 
 @login_required
@@ -23,20 +23,6 @@ def add_vit(request):
             vit = form.save(commit=False)
             vit.user = request.user
             vit.save()
-            if request.POST.get("reply_vit_pk", "") != "":
-                reply_vit_pk = request.POST.get("reply_vit_pk", "")
-                reply_vit = get_object_or_404(Vit, id=reply_vit_pk)
-                vit.to_reply_vits = reply_vit
-                reply_vit.save()
-                vit.save()
-                if reply_vit.user != request.user:
-                    notify(
-                        message=f"{request.user.username.title()} replied to your Vit - '{reply_vit.body}'",
-                        notification_type="reply",
-                        to_user=reply_vit.user,
-                        by_user=request.user,
-                        link=reverse_lazy("vit_detail", kwargs={"pk": vit.id}),
-                    )
             find_mention(request=request, vit=vit)
             find_plustag(vit=vit)
             messages.success(request, "Vit added successfully")
@@ -85,9 +71,19 @@ def delete_vit(request, pk):
 @login_required
 def vit_detail(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
-    form = VitForm()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.vit = vit
+            comment.save()
+            messages.success(request, "Comment added successfully")
+            return redirect("vit_detail", pk=pk)
+    form = CommentForm()
+    comments = Comment.objects.filter(vit=vit)
     return render(
-        request, "vit/vit_detail.html", {"vit": vit, "showView": True, "form": form}
+        request, "vit/vit_detail.html", {"vit": vit, "showView": True, "form": form, "comments": comments}
     )
 
 @login_required

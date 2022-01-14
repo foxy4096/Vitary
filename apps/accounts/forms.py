@@ -40,7 +40,8 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('image', 'email_notif',)
+        fields = ('image', 'email_notif', 'bio')
         widgets = {
-            'email_notif': forms.CheckboxInput(attrs={'class': 'checkbox'})
+            'email_notif': forms.CheckboxInput(attrs={'class': 'checkbox'}),
+            'bio': forms.Textarea(attrs={'class': 'textarea'})
         }

@@ -3,11 +3,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .models import Notification
+from django.core.paginator import Paginator
+
 
 
 @login_required
 def notification_page(request):
-    return render(request, 'notification/notification_page.html')
+    notifications = Notification.objects.filter(to_user=request.user)
+    paginator = Paginator(notifications, 10)
+    page = request.GET.get('page')
+    notifications = paginator.get_page(page)
+    return render(request, 'notification/notification_page.html', {'notifications': notifications})
 
 
 @login_required

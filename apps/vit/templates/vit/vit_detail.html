@@ -33,12 +33,59 @@
       {% endif %}
     </div>
     <br>
-    <h1 class="title">Replies</h1>
-    {% include 'core/vit_form_inc.html' with title="Reply" %}
+    <h4 class="title is-4">Comments</h4>
+    <!-- Comment form -->
+    <form method="POST">
+      {% csrf_token %}
+      <div class="field">
+        <label class="label">Comment</label>
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img src="{{ user.profile.image.url }}" alt="{{user}}" class="is-rounded">
+            </figure>
+          </div>
+          <div class="media-content">
+            <div class="field">
+              <p class="control">
+                <textarea class="textarea" name="body" placeholder="Comment"></textarea>
+              </p>
+            </div>
+            <div class="field">
+              <p class="control">
+                <button type="submit" class="button is-success">
+                  Comment
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </form>
+    <!-- End comment form -->
     <br>
-    {% for reply in vit.reply.all %}
-    {% include 'vit/extends/vit_block.html' with showView=False %}
-    {% endfor %}
+    <div class="media-content">
+      {% for comment in comments %}
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user}}" class="is-rounded">
+          </figure>
+        </div>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <strong>{{ comment.user }}</strong>
+              <small>{{ comment.created_at | date:"F j, Y, g:i a" }}</small>
+              <br>
+              {{ comment.body }}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
       
   </div>
 

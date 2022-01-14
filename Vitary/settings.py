@@ -62,8 +62,7 @@ INSTALLED_APPS = [
     'apps.notification.apps.NotificationConfig',
     'apps.chat.apps.ChatConfig',
 
-    # 3rd Party apps
-    'gdstorage'
+    # 3rd Party
 
 ]
 
@@ -177,13 +176,6 @@ else:
 
 SITE_ID = int(env('SITE_ID', default=1))
 
-# Google Drive Storage Config
-if env('GOOGLE_DRIVE_KEY_FILE') == "True":
-    GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = BASE_DIR / 'GOOGLE_DRIVE_KEY_FILE.json'
-elif env('GOOGLE_DRIVE_KEY_FILE') == "False":
-    GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = None
-    GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE_CONTENTS = env('GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE_CONTENTS')
-GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = 'uploads'
 
 import re
 IGNORABLE_404_URLS = [

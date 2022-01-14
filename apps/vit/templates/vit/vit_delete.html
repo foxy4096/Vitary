@@ -5,13 +5,14 @@ Delete Vit
 {% endblock title %}
 {% block content %}
 <h1 class="title">Delete Vit?</h1>
+{% include 'vit/extends/vit_block.html' %}
     <form method="POST">
         <p>It cannot be undone!</p>
         {% csrf_token %}
         <input type="hidden" name="delete" value="Delete">
         <hr>
-        <button type="submit" class="button is-danger is-rounded">Delete 
-            <i class="fas fa-trash-alt"></i>
+        <button type="submit" class="button is-danger is-large">Delete 
+            🚮
         </button>
     </form>
 {% endblock content %}

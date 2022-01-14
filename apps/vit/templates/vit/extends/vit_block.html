@@ -15,10 +15,7 @@
                 </figure>
             </div>
             <div class="media-content">
-                {% if vit.to_reply_vits %}
-                    Replying to <a href="{{ vit.to_reply_vits.user.profile.url }}">{{ vit.to_reply_vits.user.username }}</a>
-                    on <a href="{% url 'vit_detail' vit.to_reply_vits.id %}">Vit no.{{vit.to_reply_vits.id}}</a>
-                {% endif %}
+                
                 {% if vit.user.get_full_name %}
                 <p class="title is-4">{{ vit.user.get_full_name | title }}{% if vit.user.profile.verified %}
                     <i class="fas fa-check-circle"></i>
@@ -48,33 +45,33 @@
         <div class="content">
             {{ vit.body | plustag | safe | mention | check_url | convert_markdown }}
             {% if vit.image %}
-            <i class="fas fa-camera"></i>
+            📸<a href="{{ vit.image.url }}">{{ vit.image.name }}</a>
             {% endif %}
             {% if vit.video %}
-             <i class="fas fa-video"></i>
+            🎥<a href="{{ vit.video.url }}">{{ vit.video.name }}</a>
             {% endif %}
             {% if vit.audio %}
             {% endif %}
             <br>
 
         {% if not showView %}   
-        <a href="{% url 'vit_detail' vit.id %}">View <i class="far fa-eye"></i></a>
+        <a href="{% url 'vit_detail' vit.id %}">View 👀</a>
         |       
         {% endif %}
         
         {% if user.is_authenticated %}    
         <a href="javascript:void(0);" onclick="like_vit('{{vit.pk}}');" class="vit_like" id="{{ vit.pk }}">
-           Like <i class="fas fa-heart"></i> <span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
+           Like 💖 <span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
            {% else %}
            <a href="{% url 'login' %}">
-            Like <i class="fas fa-heart"></i> <span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
+            Like 💖<span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
         {% endif %}
             
             {% if vit.user == user %}
             |
-            <a href="{% url 'edit_vit' vit.id %}">Edit <i class="fas fa-pencil-alt"></i></a>
+            <a href="{% url 'edit_vit' vit.id %}">Edit 📝</a>
             |
-            <a href="{% url 'delete_vit' vit.id %}">Delete <i class="fas fa-trash"></i></a>
+            <a href="{% url 'delete_vit' vit.id %}">Delete 🚮</a>
             {% endif %}
 
             <br>
@@ -84,8 +81,8 @@
             <a href="#vit-{{ vit.pk }}">
                 <i class="fas fa-link"></i>
             </a> 
-            <a href="{% url 'report_abuse' vit.pk %}" class="button is-danger is-small is-rounded">Report Abuse
-                 <i class="fas fa-exclamation-triangle"></i>
+            <a href="{% url 'report_abuse' vit.pk %}" class="button is-danger">Report Abuse
+                 ❗
             </a>
         </div>
     </div>

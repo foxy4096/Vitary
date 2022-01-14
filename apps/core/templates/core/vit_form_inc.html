@@ -1,10 +1,5 @@
 <form action="{% url 'add_vit' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    
-    {% if vit %}
-        <input type="hidden" name="reply_vit_pk" value="{{ vit.pk }}">
-    {% endif %}
-        
+    {% csrf_token %}  
     <div class="field">
         <div class="control">
             {{form.body}}
@@ -19,7 +14,7 @@
                             {{form.image}}
                             <span class="file-cta">
                                 <span class="file-icon">
-                                    <i class="fas fa-upload"></i>
+                                    📸
                                 </span>
                                 <span class="file-label">
                                     Add a photo
@@ -37,7 +32,7 @@
                             {{form.video}}
                             <span class="file-cta">
                                 <span class="file-icon">
-                                    <i class="fas fa-upload"></i>
+                                    🎥
                                 </span>
                                 <span class="file-label">
                                     Add a video
@@ -56,7 +51,7 @@
         <div class="control">
             <button class="button is-success">{{title}}   
                 <span class="icon is-small">
-                    <i class="fas fa-plus"></i>
+                    ➕
                 </span>
             </button>
         </div>
