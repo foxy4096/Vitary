@@ -81,7 +81,7 @@ class Comment(models.Model):
     body = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     vit = models.ForeignKey(Vit, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Comment by {self.user.username.title()}"
