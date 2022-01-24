@@ -1,6 +1,5 @@
 {% load static %}
 {% load mention %}
-{% load check_url %}
 {% load convert_markdown %}
 {% load plustag %}
 {% load humanize %}
@@ -8,82 +7,79 @@
     <div class="card-content">
         <div class="media">
             <div class="media-left">
-                
-                
+
+
                 <figure class="image is-48x48">
                     <img class="is-rounded" src="{{ vit.user.profile.image.url }}" alt="{{ user.username }}">
                 </figure>
             </div>
             <div class="media-content">
-                
-                {% if vit.user.get_full_name %}
-                <p class="title is-4">{{ vit.user.get_full_name | title }}{% if vit.user.profile.verified %}
-                    <i class="fas fa-check-circle"></i>
-                    {% endif %}</p>
-                {% else %}
-                <p class="title is-4">{{ vit.user.username | title }}{% if vit.user.profile.verified %}
-                    <i class="fas fa-check-circle"></i>
-
-                    {% endif %}</p>
-                {% endif %}
-                <p class="subtitle is-6"><a
-                        href="{% url 'profile_view' vit.user.username %}">@{{vit.user.username}}</a>
+                <h5 class="title is-5">{{ vit.user.get_full_name }}{% if vit.user.profile.verified %}
+                    <span class="is-small" style="color: rgb(46, 206, 107);">
+                        ✔️
+                    </span>
+                    {% endif %}
+                </h5>
+                <p class="subtitle is-6"><a href="{% url 'profile_view' vit.user.username %}">@{{vit.user.username}}</a>
                     {% if vit.user.is_superuser %}
-                    <span class="tag is-info is-rounded">Admin <i class="fas fa-check"></i></span>
+                    <span class="tag is-rounded">Admin ✔️</span>
                     {% endif %}
                     {% if vit.user.is_staff %}
-                    <span class="tag is-info is-rounded">Staff <i class="fas fa-check"></i></span>
+                    <span class="tag is-rounded">Staff ✔️</span>
                     {% endif %}
-                    
+
                     {% if not vit.user.profile in user.profile.follows.all and user.profile in vit.user.profile.follows.all %}
-                        <span class="tag is-primary is-light is-rounded">Following You</span>
+                    <span class="tag is-primary is-light is-rounded">Following You</span>
                     {% endif %}
-                        
+
                 </p>
             </div>
         </div>
         <div class="content">
-            {{ vit.body | plustag | safe | mention | check_url | convert_markdown }}
+            {{ vit.body | plustag | safe | mention | convert_markdown }}
             {% if vit.image %}
-            📸<a href="{{ vit.image.url }}">{{ vit.image.name }}</a>
+            📸<a href="{{ vit.image.url }}">{{ vit.image.name|truncatechars:20 }}</a>
             {% endif %}
             {% if vit.video %}
-            🎥<a href="{{ vit.video.url }}">{{ vit.video.name }}</a>
+            🎥<a href="{{ vit.video.url }}">{{ vit.video.name|truncatechars:20 }}</a>
             {% endif %}
             {% if vit.audio %}
             {% endif %}
             <br>
 
-        {% if not showView %}   
-        <a href="{% url 'vit_detail' vit.id %}">View 👀</a>
-        |       
-        {% endif %}
-        
-        {% if user.is_authenticated %}    
-        <a href="javascript:void(0);" onclick="like_vit('{{vit.pk}}');" class="vit_like" id="{{ vit.pk }}">
-           Like 💖 <span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
-           {% else %}
-           <a href="{% url 'login' %}">
-            Like 💖<span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
-        {% endif %}
             
+            <small><time datetime="{{ vit.date }}">{{ vit.date | naturaltime }}</time></small>
+            <br>
+        {% if not showView %}
+            <a href="{% url 'vit_detail' vit.id %}">View 👀</a>
+            |
+            {% endif %}
+            {% if user.is_authenticated %}
+            
+            <a href="javascript:void(0);" onclick="like_vit('{{vit.pk}}');" class="vit_like" id="{{ vit.pk }}">
+                Like 💖 <span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
+            {% else %}
+            |
+            <a href="{% url 'login' %}">
+                Like 💖<span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
+            {% endif %}
+            |
+            <a href="{% url 'vit_detail' vit.pk %}#comments">
+                Comment 💬 {{ vit.comment_set.all.count }}</span></a>
+            </a>
             {% if vit.user == user %}
             |
             <a href="{% url 'edit_vit' vit.id %}">Edit 📝</a>
             |
             <a href="{% url 'delete_vit' vit.id %}">Delete 🚮</a>
             {% endif %}
-
-            <br>
-            <small><time datetime="{{ vit.date }}">{{ vit.date | naturaltime }}</time></small>
-            <br>
-            <br>
-            <a href="#vit-{{ vit.pk }}">
-                <i class="fas fa-link"></i>
-            </a> 
-            <a href="{% url 'report_abuse' vit.pk %}" class="button is-danger">Report Abuse
+            |
+            <a href="{% url 'report_abuse' vit.pk %}">Report Abuse
                  ❗
             </a>
+            <br>
+            <br>
+            
         </div>
     </div>
 </div>

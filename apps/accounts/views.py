@@ -63,34 +63,51 @@ def profile_view(request, username):
 
 @login_required
 def follow(request):
-    if request.method == "POST":
-        usr = get_object_or_404(User, username=request.POST['username'])
-        if usr in request.user.profile.follows.all():
-            messages.error(request, "Already Followed!")
+    usr = get_object_or_404(User, username=request.GET['username'])
+    vit_id = request.GET.get('vit_id', '')
+    if usr in request.user.profile.follows.all():
+        messages.error(request, "Already Followed!")
+        if vit_id == '':
             return redirect('profile_view', username=usr.username)
         else:
-            request.user.profile.follows.add(usr.profile)
-            messages.success(request, "Followed Successfully!")
-            notify(message=f"{request.user.username.title()} Followed You",
-                   by_user=request.user, to_user=usr, notification_type="follow", link=reverse_lazy('profile_view', kwargs={'username': request.user.username}))
-            return redirect('profile_view', username=usr.username)
+            return redirect('vit_detail', pk=vit_id)
     else:
-        return redirect('home')
+        request.user.profile.follows.add(usr.profile)
+        request.user.profile.following_count = request.user.profile.follows.count()
+        usr.profile.follower_count = usr.profile.followed_by.count()
+        request.user.profile.save()
+        usr.profile.save()
+        messages.success(request, "Followed Successfully!")
+        notify(message=f"{request.user.username.title()} Followed You",
+                by_user=request.user, to_user=usr, notification_type="follow", link=reverse_lazy('profile_view', kwargs={'username': request.user.username}))
+        if vit_id == '':
+            return redirect('profile_view', username=usr.username)
+        else:
+            return redirect('vit_detail', pk=vit_id)
+
 
 
 @login_required
 def unfollow(request):
-    if request.method == "POST":
-        usr = get_object_or_404(User, username=request.POST['username'])
-        if not usr in request.user.profile.follows.all():
-            request.user.profile.follows.remove(usr.profile)
-            messages.success(request, "Unfollowed Successfully!")
+    usr = get_object_or_404(User, username=request.GET['username'])
+    vit_id = request.GET.get('vit_id', '')
+    if not usr in request.user.profile.follows.all():
+        request.user.profile.follows.remove(usr.profile)
+        request.user.profile.following_count = request.user.profile.follows.count()
+        usr.profile.follower_count = usr.profile.followed_by.count()
+        request.user.profile.save()
+        usr.profile.save()
+        messages.success(request, "Unfollowed Successfully!")
+        if vit_id == '':
             return redirect('profile_view', username=usr.username)
         else:
-            messages.error(request, "Already Unfollowed!")
-            return redirect('profile_view', username=usr.username)
+            return redirect('vit_detail', pk=vit_id)
     else:
-        return redirect('home')
+        messages.error(request, "Already Unfollowed!")
+        if vit_id == '':
+            return redirect('profile_view', username=usr.username)
+        else:
+            return redirect('vit_detail', pk=vit_id)
 
 @login_required
 def following(request):
@@ -104,7 +121,7 @@ def following(request):
 @login_required
 def followers(request):
     usr = request.user
-    followers = usr.profile.follows.all().order_by('-id')
+    followers = usr.profile.followed_by.all().order_by('-id')
     paginator = Paginator(followers, 5)
     page = request.GET.get('page')
     followers = paginator.get_page(page)
@@ -124,10 +141,15 @@ def user_following(request, username):
 
 def user_followers(request, username):
     usr = get_object_or_404(User, username=username)
-    followers = usr.profile.follows.all().order_by('-id')
+    followers = usr.profile.followed_by.all().order_by('-id')
     paginator = Paginator(followers, 5)
     page = request.GET.get('page')
     followers = paginator.get_page(page)
     if usr == request.user:
         return redirect('followers')
     return render(request, 'accounts/followers.html', {'usr': usr, 'followers': followers})
+
+
+@login_required
+def advanced_settings(request):
+    return render(request, 'accounts/advance.html')

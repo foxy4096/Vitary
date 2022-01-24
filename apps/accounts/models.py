@@ -15,19 +15,23 @@ class Profile(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='uploads/',
-                              default='/uploads/default.jpg', blank=True, null=True)
+                              default='/uploads/default.jpg')
     follows = models.ManyToManyField(
         'self', related_name='followed_by', symmetrical=False)
+    follower_count = models.IntegerField(default=0, editable=False)
+    following_count = models.IntegerField(default=0, editable=False)
     email_notif = models.BooleanField(
         default=True, verbose_name="Get Email Notifications")
     verified = models.BooleanField(default=False)
     bio = models.TextField(max_length=500, blank=True, null=True, default="")
+    header_image = models.ImageField(upload_to='uploads/', blank=True, null=True)
 
     def __str__(self):
         return self.user.username
 
     def delete(self, *args, **kwargs):
-        self.avatar.delete()
+        self.image.delete()
+        self.header_image.delete()
         super().delete(*args, **kwargs)
 
     def get_absolute_url(self):

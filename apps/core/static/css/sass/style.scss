@@ -1,0 +1,45 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+$Black: #191919;
+$BlackSecondary: #222121;
+$Grey: #1e242b;
+$White: #ECDBBA;
+$link: #845ef7;
+$success: #51cf66;
+$info: #4dabf7;
+$danger: #f03e3e;
+$warning: #ffd43b;
+
+
+$body-background-color: $Black;
+$family-sans-serif: "Roboto", sans-serif;
+$body-color: $White;
+$title-color: $White;
+$subtitle-color: $White;
+$navbar-background-color: $Black;
+$footer-background-color: $BlackSecondary;
+$card-background-color: $Grey;
+$card-color: $White;    
+$box-background-color: $Grey;
+$box-color: $White;
+$link-hover: $White;
+$navbar-background-color: $BlackSecondary;
+$navbar-item-hover-color: $White;
+$input-background-color: #4d535e;
+$input-color: $White;
+$navbar-item-color: $White;
+$navbar-item-hover-background-color: $Grey;
+$navbar-dropdown-background-color: $Grey;
+$navbar-dropdown-color: $White;
+$navbar-dropdown-hover-background-color: #616975;
+$content-heading-color: $White;
+
+$card-footer-padding: 0.15rem;
+$card-media-margin: 0.25rem;
+$code: $White;
+$pre: $White;
+$code-background: $Black;
+$pre-background: $Black;
+
+@import "../node_modules/bulma/bulma.sass";

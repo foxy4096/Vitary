@@ -9,14 +9,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" id="theme" href="{% static 'css/bulma_light.css' %}">
-    <link rel="stylesheet" id="theme_style" href="{% static 'css/style_light.css' %}">
+    <link rel="stylesheet" id="theme_style" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/jquery.js' %}"></script>
     <meta name="mobile-web-app-capable" content="yes">
+    {% if unread_notifications %}
+    <link rel="shortcut icon" href="{% static 'img/favicon_notif.ico' %}" type="image/x-icon">
+    {% else %}
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
     <link rel="mask-icon" href="{% static 'img/safari-pinned-tab.svg' %}" color="#5bbad5">
+    {% endif %}
     <!-- Primary Meta Tags -->
     <title>
 
@@ -55,9 +58,10 @@
 
 </head>
 
-<body class="dark">
+<body>
 
     {% include 'core/navbar.html' %}
+    {% include 'core/search_modal.html' %}
     {% if messages %}
 
     {% for message in messages %}
@@ -69,7 +73,6 @@
     {% endfor %}
 
     {% endif %}
-
     <section class="section">
         <div class="container-fluid">
             {% block content %}
@@ -111,16 +114,31 @@
             }
 
         });
-    </script>
-    <script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.getElementById('theme').href = "{% static 'css/bulma_dark.css' %}";
-            document.getElementById('theme_style').href = "{% static 'css/style_dark.css' %}";
+
+        // Open the searchModal
+        function openSearch() {
+            document.getElementById('searchModal').classList.add('is-active');
+            document.getElementById('search').focus();
         }
-        else if (localStorage.getItem('theme') === 'light') {
-            document.getElementById('theme_style').href = "{% static 'css/style_light.css' %}";
-            document.getElementById('theme').href = "{% static 'css/bulma_light.css' %}";
+
+        // Close the searchModal
+        function closeSearch() {
+            document.getElementById('searchModal').classList.remove('is-active');
         }
+
+        // run the openSearch if ctrl + q is pressed
+        document.addEventListener('keydown', function (e) {
+            if (e.ctrlKey && e.keyCode == 81) {
+                openSearch();
+            }
+        });
+
+        // run the closeSearch if ESC is pressed
+        document.addEventListener('keydown', function (e) {
+            if (e.keyCode == 27) {
+                closeSearch();
+            }
+        });
     </script>
 </body>
 

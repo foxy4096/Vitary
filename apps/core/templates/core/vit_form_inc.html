@@ -1,59 +1,63 @@
+{% if title == "Add Vit"%}
 <form action="{% url 'add_vit' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}  
-    <div class="field">
-        <div class="control">
-            {{form.body}}
+    {% elif title == "Edit Vit" %}
+<form action="{% url 'edit_vit' vit.pk %}" method="post" enctype="multipart/form-data">
+        {% endif %}
+        {% csrf_token %}
+        <div class="field">
+            <div class="control">
+                {{form.body}}
+            </div>
         </div>
-    </div>
-    <div class="field">
-        <div class="control">
-            <div class="columns">
-                <div class="column">
-                    <div class="file has-name is-small" id="form_image">
-                        <label class="file-label">
-                            {{form.image}}
-                            <span class="file-cta">
-                                <span class="file-icon">
-                                    📸
+        <div class="field">
+            <div class="control">
+                <div class="columns">
+                    <div class="column">
+                        <div class="file has-name is-small" id="form_image">
+                            <label class="file-label">
+                                {{form.image}}
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        📸
+                                    </span>
+                                    <span class="file-label">
+                                        Add a photo
+                                    </span>
                                 </span>
-                                <span class="file-label">
-                                    Add a photo
+                                <span class="file-name">
+                                    No photo uploaded
                                 </span>
-                            </span>
-                            <span class="file-name">
-                                No photo uploaded
-                            </span>
-                        </label>
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="column">
-                    <div class="file has-name is-small" id="form_video">
-                        <label class="file-label">
-                            {{form.video}}
-                            <span class="file-cta">
-                                <span class="file-icon">
-                                    🎥
+                    <div class="column">
+                        <div class="file has-name is-small" id="form_video">
+                            <label class="file-label">
+                                {{form.video}}
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        🎥
+                                    </span>
+                                    <span class="file-label">
+                                        Add a video
+                                    </span>
                                 </span>
-                                <span class="file-label">
-                                    Add a video
+                                <span class="file-name">
+                                    No video uploaded
                                 </span>
-                            </span>
-                            <span class="file-name">
-                                No video uploaded
-                            </span>
-                        </label>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="field">
-        <div class="control">
-            <button class="button is-success">{{title}}   
-                <span class="icon is-small">
-                    ➕
-                </span>
-            </button>
+        <div class="field">
+            <div class="control">
+                <button class="button is-link">{{title}}   
+                    <span class="icon is-small">
+                        ➕
+                    </span>
+                </button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>

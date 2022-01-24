@@ -1,10 +1,11 @@
 import json
 from django.http import JsonResponse
 
-
+from django.urls import reverse
 from django.contrib.auth.models import User
-
+from apps.notification.utilities import notify
 from .models import ChatMessage, Chat
+from apps.notification.utilities import notify
 
 
 def send_message_api(request):
@@ -16,6 +17,14 @@ def send_message_api(request):
             ChatMessage.objects.create(
                 chat=chat, created_by=request.user, message=message
             )
+            to_user = chat.users.all().exclude(users__in=[request.user])[0]
+            notify(
+                message=f"{request.user.get_full_name} sent you a message",
+                notification_type='message',
+                to_user=to_user,
+                by_user=request.user,
+                link=reverse('message_user', user_name=to_user.username)
+                )
             return JsonResponse({"status": "success", "message": message})
         return JsonResponse({"status": "error"})
     else:

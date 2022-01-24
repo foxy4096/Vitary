@@ -9,9 +9,10 @@ Login
 
 {% block content %}
 <div class="">
-<div class="columns">
+<div class="columns is-vcentered">
     <div class="column">
         <h1 class="title is-1 has-text-weight-bold">Login</h1>
+        <p class="subtitle">Login with your account you have created.</p>
         <form method="POST">
             {{ form.as_p }}
             {% csrf_token %}
@@ -19,21 +20,28 @@ Login
             <a href="{% url 'password_reset' %}">Forgot Password? 🔑</a>
             <p>Not have an account? <a href="{% url 'signup' %}">Sign Up 🚀</a></p>
             <br>
-            <button type="submit" class="button is-success">Login 🔐</button>
+            <button type="submit" class="button is-link">Login 🔐</button>
         </form>
     </div>
     <div class="column">
         <article class="image is-square">
-            <img src="{% static 'img/User_perspective_matte.png' %}" alt="" width="30" height="30">
+            <img src="{% static 'img/atomic-logged-out-1.png' %}" alt="" width="30" height="30">
         </article>
     </div>
 </div>
 </div>
+{% endblock content %}
+
+{% block script %}
 <script>
     inputs = document.querySelectorAll('input');
     for (i = 0; i < inputs.length; i++) {
         
         inputs[i].classList.add('input');
     }
+    inputs[1].placeholder = 'Username';
+    inputs[2].placeholder = 'Password';
+
 </script>
-{% endblock content %}
+{% endblock script %}
+    

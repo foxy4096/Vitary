@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-
+{% load static %}
 
 {% block title %}
 Logged Out
@@ -7,8 +7,16 @@ Logged Out
 
 
 {% block content %}
-<h1 class="title">Logged Out</h1>
-<p>You have been logged out.</p>
-<hr>
-<p class="subtitle">Go to <a href="{% url 'home' %}">Home <i class="fas fa-home"></i></a> or <a href="{% url 'login' %}">Login <i class="fas fa-lock"></i></a> again.</p>
+<div class="columns is-vcentered">
+    <div class="column">
+        <h1 class="title is-1 has-text-weight-bold">Logged Out</h1>
+        <p class="subtitle">You have been logged out.</p>
+        <p class="subtitle">Go to <a href="{% url 'home' %}">Home 🏡</a> or <a href="{% url 'login' %}">Login 🔐</a> again.</p>
+    </div>
+    <div class="column">
+        <article class="image">
+            <img src="{% static 'img/ginger-cat-734.png' %}">
+        </article>
+    </div>
+</div>
 {% endblock content %}

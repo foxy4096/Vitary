@@ -140,3 +140,5 @@ cython_debug/
 # Media
 media/
 GOOGLE_DRIVE_KEY_FILE.json
+staticfiles
+node_modules

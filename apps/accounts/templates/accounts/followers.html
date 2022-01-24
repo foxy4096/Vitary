@@ -3,12 +3,10 @@
 {% block title %}
 Follower
 {% endblock title %}
-
-
 {% block content %}
-<h1 class="title is-1">Follower</h1>
+<h1 class="title is-1 has-text-weight-bold">Follower</h1>
 <div class="columns">
-    <div class="column is-8">
+    <div class="column is-7">
         <div class="box">
             {% if usr.profile.followed_by.all %}
             {% for person in followers %}
@@ -17,7 +15,7 @@ Follower
                     <div class="media">
                         <div class="media-left">
                             <article class="image is-128x128">
-                                <img src="{{ person.image.url }}" class="is-rounded" alt="">
+                                <img src="{{ person.image.url }}" class="is-rounded" alt="{{ person.user.username }}">
                             </article>
                         </div>
                         <div class="media-right">
@@ -62,8 +60,8 @@ Follower
                 </span>
             </div>
     </div>
-    <div class="column is-4">
-        {% include 'accounts/extends/side_block.html' %}
+    <div class="column is-5">
+        {% include 'core/extends/side_block.html' %}
     </div>
 </div>
 {% endblock content %}

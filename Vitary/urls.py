@@ -8,11 +8,14 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.accounts.views import profile_view, user_following, user_followers
-from apps.vit.views import plustag_vits, plustag_lists
+from apps.vit.views import plustag_vits
 
 # APIs
 from apps.chat.api import get_message_api, send_message_api
 from apps.vit.api import add_like
+
+# Orginization
+from organizations.backends import invitation_backend
 
 
 urlpatterns = [
@@ -43,6 +46,7 @@ urlpatterns = [
     # Notification
     path('notification/', include('apps.notification.urls')),
 
+
     # API
     path('api/v1/vit/add_like/', add_like),
     path('api/v1/chat/get_message/', get_message_api),
@@ -50,20 +54,23 @@ urlpatterns = [
 
 
     # Plustag
-    path('p/', plustag_lists, name='plustag_lists'),
     path('p/<str:p>/', plustag_vits, name='plustag_vits'),
     
 
     # Blog
     path('blog/', include('apps.blog.urls')),
 
+
     # Flatpages
     path('pages/', include('django.contrib.flatpages.urls')),
+
 
     # Chat
     path('chat/', include('apps.chat.urls')),
 
-
+    # Orginization
+    path('o/', include('organizations.urls')),
+    path('i/', include(invitation_backend().get_urls())),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

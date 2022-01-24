@@ -10,67 +10,47 @@ Home
 
 {% block content %}
 <div class="columns">
-    <div class="column is-8">
+    <div class="column is-7">
         <div class="box">
-            <h1 class="title">Home
-                <i class="fas fa-home"></i>
-            </h1>
+            <h1 class="title is-1 has-text-weight-bold">Home</h1>
             {% include 'core/vit_form_inc.html' with title="Add Vit" %}
         </div>
-        <hr>
 
         {% if vits %}
+        
         {% for vit in vits %}
         {% include 'vit/extends/vit_block.html' %}
         {% endfor %}
+            
         {% else %}
-        Wow Such Empty <i class="fas fa-sad-tear"></i>, maybe try following some <a
+        Wow Such Empty 😢, maybe try following some <a
             href="{% url 'peoples' %}">people</a>.
         {% endif %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if vits.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ vits.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
+                </span>
+                {% if vits.has_next %}
+                <a href="?page={{ vits.next_page_number }}">next</a>
+                <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
-    <div class="column is-4">
-        {% include 'accounts/extends/side_block.html' %}
+    <div class="column is-5">
+        {% include 'core/extends/side_block.html' %}
     </div>
 </div>
-<div class="pagination">
-    <span class="step-links">
-        {% if vits.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ vits.previous_page_number }}">previous</a>
-        {% endif %}
-        <span class="current">
-            Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
-        </span>
-        {% if vits.has_next %}
-        <a href="?page={{ vits.next_page_number }}">next</a>
-        <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+
 {% endblock content %}
 
 {% block script %}
 <script>
-    // Just a simple script which sends the server to like a post
-    // for more info please see apps/vit/api.py
-    function like_vit(vit_id) {
-        fetch(`/api/v1/vit/add_like/?vit_pk=${vit_id}`, {
-            method: 'GET',
-            headers: {
-                'X-CSRFToken': '{{  csrf_token }}',
-                'type': 'application/json'
-            }
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            if (data.status == 'success') {
-                var like_count = document.getElementById('like_count_' + vit_id);
-                like_count.innerHTML = data.like_count;
-                var like_count = document.getElementById('like_count_' + vit_id);
-                like_count.innerHTML = data.likes;
-            }
-        });
-    }
     const fileInputImage = document.querySelector('#form_image input[type=file]');
     fileInputImage.onchange = () => {
         if (fileInputImage.files.length > 0) {

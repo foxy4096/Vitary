@@ -2,6 +2,7 @@
 
 {% load humanize %}
 {% load mention %}
+{% load convert_markdown %}
 
 {% block title %}
 {{ vit.body | truncatechars_html:50 | safe }}
@@ -9,36 +10,31 @@
 
 {% block content %}
 <div class="columns">
-  <div class="column">
+  <div class="column is-7">
     {% include 'vit/extends/vit_block.html'%}
-    <br>
-
-    <div class="columns">
-
       {% if vit.image %}
-      <div class="column">
-        <article class="image is-800x600">
-          <img src="{{ vit.image.url }}" alt="">
-        </article>
-      </div>
+        <div class="card">
+          <div class="card-image">
+            <article class="image">
+              <img src="{{ vit.image.url }}" alt="">
+            </article>
+          </div>
+        </div>
       {% endif %}
-
+        <br>
       {% if vit.video %}
-      <div class="column">
-        <article class="image is-800x600">
+          <article class="image">
           <video src="{{ vit.video.url }}" controls>Your Browser doesn't support Videos</video>
-        </article>
-      </div>
-
+          </article>
       {% endif %}
-    </div>
     <br>
-    <h4 class="title is-4">Comments</h4>
+    <h3 class="title is-3 has-text-weight-bold" id="comments">Comments ({{ vit.comment_set.count }})</h3>
+    {% if user.is_authenticated %}
     <!-- Comment form -->
-    <form method="POST">
+    <form method="POST" class="box">
       {% csrf_token %}
       <div class="field">
-        <label class="label">Comment</label>
+        <label class="subtitle">Comment</label>
         <div class="media">
           <div class="media-left">
             <figure class="image is-48x48">
@@ -48,13 +44,15 @@
           <div class="media-content">
             <div class="field">
               <p class="control">
-                <textarea class="textarea" name="body" placeholder="Comment"></textarea>
+                <textarea class="textarea" name="body" placeholder="Comment \n Use mentions and markdown"></textarea>
               </p>
             </div>
             <div class="field">
               <p class="control">
-                <button type="submit" class="button is-success">
-                  Comment
+                <button type="submit" class="button is-link">
+                  Comment <span class="is-small" style="color: rgb(46, 206, 107);">
+                        ✔️
+                    </span>
                 </button>
               </p>
             </div>
@@ -64,6 +62,11 @@
       </div>
     </form>
     <!-- End comment form -->
+    {% else %}
+    <p class="subtitle">
+      Please <a href="{% url 'login' %}">Login</a> to comment.
+    </p>
+    {% endif %}
     <br>
     <div class="media-content">
       {% for comment in comments %}
@@ -76,10 +79,10 @@
         <div class="media-content">
           <div class="content">
             <p>
-              <strong>{{ comment.user }}</strong>
-              <small>{{ comment.created_at | date:"F j, Y, g:i a" }}</small>
+              <a href="{% url 'profile_view' comment.user.username %}"><strong>@{{ comment.user }}</strong></a>
+              <small> on {{ comment.date | date:"F j, Y, g:i a" }}</small>
               <br>
-              {{ comment.body }}
+              {{ comment.body | safe | mention | convert_markdown }}
             </p>
           </div>
         </div>
@@ -89,33 +92,8 @@
       
   </div>
 
-<div class="column is-4">
-  {% include 'accounts/extends/side_block.html' %}
+<div class="column is-5">
+  {% include 'core/extends/side_block.html' %}
 </div>
 </div>
 {% endblock content %}
-
-{% block script %}
-<script>
-  // Just a simple script which sends the server to like a post
-  // for more info please see apps/vit/api.py
-  function like_vit(vit_id) {
-    fetch(`/api/v1/vit/add_like/?vit_pk=${vit_id}`, {
-      method: 'GET',
-      headers: {
-        'X-CSRFToken': '{{ csrf_token }}',
-        'type': 'application/json'
-      }
-    }).then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      if (data.status == 'success') {
-        var like_count = document.getElementById('like_count_' + vit_id);
-        like_count.innerHTML = data.like_count;
-        var like_count = document.getElementById('like_count_' + vit_id);
-        like_count.innerHTML = data.likes;
-      }
-    });
-  }
-</script>
-{% endblock script %}

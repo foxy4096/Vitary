@@ -8,7 +8,7 @@ from apps.notification.utilities import notify
 from .models import Abuse
 
 @receiver(post_save, sender=Abuse)
-def create_profile(sender, instance, created, **kwargs):
+def create_abuse(sender, instance, created, **kwargs):
     if created:
         mail_managers(
             subject='New Abuse',

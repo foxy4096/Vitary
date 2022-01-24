@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -18,7 +18,7 @@ def notification_page(request):
 
 @login_required
 def notification_redirect(request, pk):
-    notification = Notification.objects.get(pk=pk)
+    notification = get_object_or_404(Notification, id=pk)
     if notification.to_user == request.user:
         notification.is_read = True
         notification.save()

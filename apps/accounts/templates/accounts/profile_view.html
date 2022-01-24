@@ -5,71 +5,94 @@
 
 {% load static %}
 {% block title %}
-{{ usr.username | title }}
+{{ usr.get_full_name }} (@{{ usr.username }})
 {% endblock title %}
 {% block content %}
 <div class="columns">
-    <div class="column is-8">
-        <div class="box">
-            <figure class="image is-64x64">
-                <img class="is-rounded" src="{{ usr.profile.image.url }}">
-            </figure>
-            {% if usr.get_full_name %}
-            <p class="title is-4">{{ usr.get_full_name | title }}{% if usr.profile.verified %}
-                <i class="fas fa-check-circle"></i>
-                {% endif %}
-                <br>
-                <small class="small"><a>@{{usr.username}}</a></small>
-            </p>
-            {% else %}
-            <p class="title is-4">{{ usr.username | title }}{% if usr.profile.verified %}
-                <i class="fas fa-check-circle"></i>
-                <br>
-                {% endif %}
-                <small><a>@{{usr.username}}</a></small>
-
-            </p>
+    <div class="column is-7">
+        <div class="card">
+            {% if usr.profile.header_image %}
+            <div class="card-image">
+                <figure class="image 16by9">
+                    <img src="{{usr.profile.header_image.url}}" alt="Placeholder image">
+                </figure>
+            </div>
             {% endif %}
-            <p>
-                Followers: <a href="{% url 'followers' usr.username %}">{{ usr.profile.followed_by.count }}</a>
-                <br>
-                Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.follows.count }}</a>
-            </p>
-            <br>
-            <p>
-                {{ usr.profile.bio | mention | safe | convert_markdown}}
-            </p>
-            <br>
-            <div class="buttons">
-
-
-                {% if user == usr %}
-
-                <a href="{% url 'profile' %}" class="button is-success">Edit Profile  📝</a>
-                {% else %}
-
-                {% if not usr.profile in user.profile.follows.all %}
-                <form action="{% url 'follow' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="username" value="{{ usr.username }}">
-                    <button class="button is-success" type="submit">Follow  ➕</button>
-                </form>
-                {% else %}
-                <form action="{% url 'unfollow' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="username" value="{{ usr.username }}">
-                    <button class="button is-success" type="submit">Unfollow  ➖</button>
-                </form>
-                {% endif %}
-                {% endif %}
+            <div class="card-content">
                 
-                {% if not usr == user %}
-                  <a href="{% url 'message_user' usr.username %}" class="button is-success">Message  📨</a>
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-64x64 is-square">
+                    <img class="is-rounded" src="{{ usr.profile.image.url }}">
+                </figure>
+                    </div>
+                    <div class="media-content">
+
+                        <h4 class="title is-4 has-text-weight-bold">{{ usr.get_full_name }}
+                            {% if usr.profile.verified %}
+                            <span class="is-small" style="color: rgb(46, 206, 107);">
+                                ✔️
+                            </span>
+                            {% endif %}
+                        </h4>
+                        <p class="subtitle"><a>@{{usr.username}}</a>
+                            {% if usr.is_superuser %}
+                            <span class="tag is-rounded">Admin ✔️</span>
+                            {% endif %}
+                            {% if usr.is_staff %}
+                            <span class="tag is-rounded">Staff ✔️</span>
+                            {% endif %}
+                        </p>
+                        
+                    </div>
+                </div>
+                <p>
+                    Followers: <a href="{% url 'followers' usr.username %}">{{ usr.profile.follower_count }}</a>
+                    <br>
+                    Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.following_count }}</a>
+                </p>
+                <br>
+                <p class="content">
+                    {{ usr.profile.bio | mention | safe | convert_markdown}}
+                </p>
+                <br>
+                <div class="buttons">
+
+
+                    {% if user == usr %}
+
+                    <a href="{% url 'profile' %}" class="button is-link">Edit Profile  📝</a>
                     
-                {% endif %}
-                    
+                    {% if usr.profile.verified %}
+                        <a href="" class="button is-link">Create a Organization 👪</a>
+                    {% endif %}
+                        
+                    {% else %}
+
+                    {% if not usr.profile in user.profile.follows.all %}
+                    <form action="{% url 'follow' %}" method="GET">
+
+                        <input type="hidden" name="username" value="{{ usr.username }}">
+                        <button class="button is-success" type="submit">Follow  ➕</button>
+                    </form>
+                    {% else %}
+                    <form action="{% url 'unfollow' %}" method="GET">
+
+                        <input type="hidden" name="username" value="{{ usr.username }}">
+                        <button class="button is-link" type="submit">Unfollow  ➖</button>
+                    </form>
+                    {% endif %}
+                    {% endif %}
+
+                    {% if not usr == user %}
+                      <a href="{% url 'message_user' usr.username %}" class="button is-warning">Message  📨</a>
+
+                    {% endif %}
+
+                </div>
             </div>
         </div>
+        <br>
         {% for vit in vits %}
         {% include 'vit/extends/vit_block.html' %}
         {% endfor %}
@@ -89,33 +112,33 @@
             </span>
         </div>
     </div>
-    <div class="column is-4">
-        {% include 'accounts/extends/side_block.html' %}
+    <div class="column is-5">
+        {% include 'core/extends/side_block.html' %}
     </div>
     {% endblock content %}
 
 
     {% block script %}
     <script>
-         // Just a simple script which sends the server to like a post
-    // for more info please see apps/vit/api.py
-    function like_vit(vit_id) {
-        fetch(`/api/v1/vit/add_like/?vit_pk=${vit_id}`, {
-            method: 'GET',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-                'type': 'application/json'
-            }
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            if (data.status == 'success') {
-                var like_count = document.getElementById('like_count_' + vit_id);
-                like_count.innerHTML = data.like_count;
-                var like_count = document.getElementById('like_count_' + vit_id);
-                like_count.innerHTML = data.likes;
-            }
-        });
-    }
+        // Just a simple script which sends the server to like a post
+        // for more info please see apps/vit/api.py
+        function like_vit(vit_id) {
+            fetch(`/api/v1/vit/add_like/?vit_pk=${vit_id}`, {
+                method: 'GET',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'type': 'application/json'
+                }
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                if (data.status == 'success') {
+                    var like_count = document.getElementById('like_count_' + vit_id);
+                    like_count.innerHTML = data.like_count;
+                    var like_count = document.getElementById('like_count_' + vit_id);
+                    like_count.innerHTML = data.likes;
+                }
+            });
+        }
     </script>
     {% endblock script %}

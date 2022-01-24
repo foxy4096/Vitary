@@ -2,11 +2,13 @@ from django.core import paginator
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib import messages
+from django.db.models import Q
 from django.urls import reverse_lazy
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
+from django.contrib.auth.models import User
 
 from .utilities import notify
 from apps.vit.utilities import find_mention, find_plustag
@@ -23,7 +25,7 @@ def add_vit(request):
             vit = form.save(commit=False)
             vit.user = request.user
             vit.save()
-            find_mention(request=request, vit=vit)
+            find_mention(request=request, ntype="vit", vit=vit)
             find_plustag(vit=vit)
             messages.success(request, "Vit added successfully")
             return redirect("home")
@@ -43,7 +45,7 @@ def edit_vit(request, pk):
             form = VitForm(request.POST, request.FILES, instance=vit)
             if form.is_valid():
                 form.save()
-                find_mention(request=request, vit=vit)
+                find_mention(request=request, vit=vit, ntype="vit")
                 find_plustag(vit=vit)
                 messages.success(request, "Vit updated successfully")
                 return redirect("home")
@@ -52,7 +54,7 @@ def edit_vit(request, pk):
         request, "vit/vit_form.html", {"vit": vit, "form": form, "title": "Edit Vit"}
     )
 
-
+@login_required
 def delete_vit(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
     DANGER = 40
@@ -68,36 +70,37 @@ def delete_vit(request, pk):
     return render(request, "vit/vit_delete.html", {"vit": vit})
 
 
-@login_required
+
 def vit_detail(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.vit = vit
-            comment.save()
-            messages.success(request, "Comment added successfully")
-            return redirect("vit_detail", pk=pk)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.user = request.user
+                comment.vit = vit
+                comment.save()
+                find_mention(request=request, ntype="comment", comment=comment)
+                messages.success(request, "Comment added successfully")
+                return redirect("vit_detail", pk=pk)
     form = CommentForm()
     comments = Comment.objects.filter(vit=vit)
+    # Get the realted_persons as the user who have created the vit and the users mentioned in it
+    related_persons = [vit.user]
+    for user in vit.mentions.all():
+        related_persons.append(user)
+    related_persons = list(set(related_persons))
     return render(
-        request, "vit/vit_detail.html", {"vit": vit, "showView": True, "form": form, "comments": comments}
+        request,
+        "vit/vit_detail.html",
+        {"vit": vit, "showView": True, "form": form, "comments": comments, "related_persons": related_persons},
     )
 
-@login_required
-def plustag_lists(request):
-    plustags = Plustag.objects.all()
-    paginator = Paginator(plustags, 10)
-    page = request.GET.get('page')
-    plustags = paginator.get_page(page)
-    return render(request, "vit/plustags.html", {"plustags": plustags})
 
-@login_required
 def plustag_vits(request, p):
     plustag = get_object_or_404(Plustag, name=p)
     paginator = Paginator(plustag.vit_set.all(), 10)
-    page = request.GET.get('page')
+    page = request.GET.get("page")
     vits = paginator.get_page(page)
     return render(request, "vit/plustag_vits.html", {"plustag": plustag, "vits": vits})

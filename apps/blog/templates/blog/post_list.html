@@ -5,16 +5,19 @@
 Blog
 {% endblock title %}
 {% block content %}
-<h1 class="title is-1">Blog</h1>
+<h1 class="title is-1 has-text-weight-bold">Blog</h1>
 <div class="columns">
-    <div class="column is-8">
+    <div class="column is-7">
         <div class="">
             {% for post in posts %}
             <div class="card article">
-                <div class="card-content">
+                <div class="card-image">
                     {% if post.cover_img %}
-                    <article class="image is-16by9 block"><img src="{{ post.cover_img.url }}" alt=""></article>
+                    <article class="image block"><img src="{{ post.cover_img.url }}" alt=""></article>
                     {% endif %}
+                </div>
+                <div class="card-content">
+                    
                     <div class="media">
                         <div class="media-center">
                             <article class="image is-48x48">
@@ -23,7 +26,7 @@ Blog
                             </article>
                         </div>
                         <div class="media-content has-text-centered">
-                            <p class="title article-title">{{ post.title }}</p>
+                            <p class="title article-title has-text-weight-bold">{{ post.title }}</p>
                             <p class="subtitle is-6 article-subtitle">
                                 <a href="{% url 'profile_view' post.user.username %}">@{{post.user.username}}</a> {{ post.date | naturaltime }}
                             </p>
@@ -32,7 +35,7 @@ Blog
                     <div class="content article-body">
                         <p class="has-text-centered">{{ post.sdesc | truncatechars_html:190 }}</p>
                     </div>
-                    <a href="{% url 'post_detail' post.slug %}" class="button is-success is-fullwidth">Read More</a>
+                    <a href="{% url 'post_detail' post.slug %}" class="button is-success is-fullwidth">Read More 📖</a>
                 </div>
             </div>
             <br>
@@ -55,8 +58,8 @@ Blog
             </span>
         </div>
     </div>
-    <div class="column is-4">
-        {% include 'accounts/extends/side_block.html' %}
+    <div class="column is-5">
+        {% include 'core/extends/side_block.html' %}
     </div>
 </div>
 {% endblock content %}

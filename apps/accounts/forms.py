@@ -5,13 +5,20 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=True, help_text='Required.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    email = forms.EmailField()
+    first_name = forms.CharField(max_length=30, required=True, help_text='Required.', label='First Name')
+    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.', label='Last Name')
+    email = forms.EmailField(required=False)
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'input', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'input', 'placeholder': "Last Name"}),
+            'username': forms.TextInput(attrs={'class': 'input', 'placeholder': 'Username'}),
+            'email': forms.EmailInput(attrs={'class': 'input', 'placeholder': 'Email'}),
+        }
+
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -29,10 +36,10 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'email']
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'input'}),
-            'last_name': forms.TextInput(attrs={'class': 'input'}),
-            'username': forms.TextInput(attrs={'class': 'input'}),
-            'email': forms.EmailInput(attrs={'class': 'input'})
+            'first_name': forms.TextInput(attrs={'class': 'input', 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'class': 'input', 'placeholder': "Last Name"}),
+            'username': forms.TextInput(attrs={'class': 'input', 'placeholder': 'Username'}),
+            'email': forms.EmailInput(attrs={'class': 'input', 'placeholder': 'Email'}),
         }
 
 
@@ -40,8 +47,8 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('image', 'email_notif', 'bio')
+        fields = ('image', 'email_notif', 'header_image','bio')
         widgets = {
             'email_notif': forms.CheckboxInput(attrs={'class': 'checkbox'}),
-            'bio': forms.Textarea(attrs={'class': 'textarea'})
+            'bio': forms.Textarea(attrs={'class': 'textarea', 'placeholder': 'Tell us about yourself...,\n You can use Markdown and mentions.'})
         }

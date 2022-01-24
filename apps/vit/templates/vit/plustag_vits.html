@@ -9,7 +9,7 @@
 
 <div class="columns">
     <div class="column">
-        <div class="box">
+        <div class="">
         <h1 class="title is-1">+{{ plustag.name }}</h1>
         Rating: {{plustag.rating}}
         <br>
@@ -19,25 +19,26 @@
 
         {% endfor %}
         </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if vits.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ vits.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
+                </span>
+                {% if vits.has_next %}
+                <a href="?page={{ vits.next_page_number }}">next</a>
+                <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
-    <div class="column is-4">
-        {% include 'accounts/extends/side_block.html' %}
+    <div class="column is-5">
+        {% include 'core/extends/side_block.html' %}
 
     </div>
 </div>
-<div class="pagination">
-    <span class="step-links">
-        {% if vits.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ vits.previous_page_number }}">previous</a>
-        {% endif %}
-        <span class="current">
-            Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
-        </span>
-        {% if vits.has_next %}
-        <a href="?page={{ vits.next_page_number }}">next</a>
-        <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+
 {% endblock content %}

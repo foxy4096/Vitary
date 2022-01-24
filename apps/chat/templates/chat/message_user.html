@@ -10,23 +10,28 @@ Message: {{to_user.username.title}}
 
 <h1 class="title">Message: <a href="{% url 'profile_view' to_user.username %}">{{to_user.username.title}}</a></h1>
 <div class="columns">
-    <div class="column is-8">
+    <div class="column is-7">
         <div id="message-log" class="box">
-            
-            <p>Please wait loading the messages</p>
-                
+            <div class="has-text-centered">
+                <p>Please wait loading the messages</p>
+                <span class="button is-loading"></span>
+            </div>
         </div>
-        <input name="message" id="message-input" cols="30" rows="10" class="input" placeholder="Type a message..."></input>
+        <input name="message" id="message-input" cols="30" rows="10" class="input"
+            placeholder="Type a message..."></input>
         <br>
         <br>
         <button class="button is-success" onclick="sendMessage()" id="button-send">Send</button>
         {{ to_user.username | json_script:"user-name"}}
         {{ chat.id | json_script:"chat-id"}}
     </div>
-    <div class="column is-4">
-        {% include 'accounts/extends/side_block.html' %}
+    <div class="column is-5">
+        {% include 'core/extends/side_block.html' %}
     </div>
 </div>
+{% endblock content %}
+
+{% block script %}
 <script>
     var connected = true;
     $(document).ready(function () {
@@ -57,13 +62,12 @@ Message: {{to_user.username.title}}
             sendMessage();
         }
     });
-    function convertHTML(input)
-{
-  input = input.replace(/>/g, '&gt;');
-  input = input.replace(/</g, '&lt;');
+    function convertHTML(input) {
+        input = input.replace(/>/g, '&gt;');
+        input = input.replace(/</g, '&lt;');
 
-  return input;
-}
+        return input;
+    }
     function sendMessage() {
         if (document.getElementById('message-input').value != '') {
             var htmlString = convertHTML(document.getElementById('message-input').value);
@@ -91,6 +95,4 @@ Message: {{to_user.username.title}}
         }
     }
 </script>
-
-
-{% endblock content %}
+{% endblock script %}

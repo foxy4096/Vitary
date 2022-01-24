@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-od1y3j(!1bl7)s%n#1$xh1%p=v4q6-l$%&zns_18nv!mj_b_m!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', default=True)
 
-ALLOWED_HOSTS = ['vitary.pythonanywhere.com', 'localhost']
+ALLOWED_HOSTS = ['vitary.pythonanywhere.com', 'localhost', '192.168.182.210']
 
 
 # Application definition
@@ -62,8 +62,9 @@ INSTALLED_APPS = [
     'apps.notification.apps.NotificationConfig',
     'apps.chat.apps.ChatConfig',
 
-    # 3rd Party
-
+    # Third Party Apps
+    'django_cleanup.apps.CleanupConfig',
+    'organizations',
 ]
 
 MIDDLEWARE = [
@@ -185,3 +186,6 @@ CSRF_COOKIE_SECURE = env('CSRF_COOKIE_SECURE', default=False)
 
 MANAGERS = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
 ADMIN = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
+
+
+ORGS_SLUGFIELD = 'django_extensions.db.fields.AutoSlugField'

@@ -29,6 +29,7 @@ class Vit(models.Model):
     likes = models.ManyToManyField(User, related_name="liked_vits")
     like_count = models.IntegerField(default=0)
     plustag = models.ManyToManyField("Plustag", blank=True)
+    mentions = models.ManyToManyField(User, related_name="mentioned_vits")
     
 
     def save(self, *args, **kwargs):
@@ -40,7 +41,7 @@ class Vit(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Vit No.{self.pk} by {self.user.username.title()}"
+        return f"Vit No.{self.pk}"
 
     def delete(self, *args, **kwargs):
         self.image.delete()

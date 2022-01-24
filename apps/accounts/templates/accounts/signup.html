@@ -8,9 +8,10 @@ Sign Up
 
 {% block content %}
 <div class="">
-    <div class="columns">
+    <div class="columns is-vcentered">
         <div class="column">
             <h1 class="title is-1 has-text-weight-bold">Sign Up</h1>
+            <p class="subtitle">Just Fill the Information Below to Get Started</p>
             <form method="POST">
                 {% for field in form %}
                 <div class="fieldWrapper">
@@ -23,25 +24,37 @@ Sign Up
                 {% endfor %}
                 {% csrf_token %}
                 <br>
+                <p class="subtitle">
+                    By creating an account, you agree to the <a href="{% url 'terms' %}" target="_blank">Terms And Conditions</a>
+                </p>
                 <p>Already have an account? <a href="{% url 'login' %}">Login 🔐</a></p>
                 <br>
-                <button type="submit" class="button is-success">
+                <button type="submit" class="button is-link">
                     Sign Up 🚀
                 </button>
             </form>
         </div>
         <div class="column">
             <article class="image">
-                <img src="{% static 'img/Rocket_perspective_matte.png' %}" alt="">
+                <img src="{% static 'img/arabica-414.png' %}" alt="signup_hero">
             </article>
         </div>
     </div>
 </div>
+{% endblock content %}
+
+{% block script %}
 <script>
     inputs = document.querySelectorAll('input');
     for (i = 0; i < inputs.length; i++) {
         
         inputs[i].classList.add('input');
     }
-</script>
-{% endblock content %}
+    inputs[2].placeholder = 'First Name';
+    inputs[3].placeholder = 'Last Name';
+    inputs[4].placeholder = 'Email';
+    inputs[5].placeholder = 'Password';
+    inputs[6].placeholder = 'Confirm Password';
+</script>    
+{% endblock script %}
+    

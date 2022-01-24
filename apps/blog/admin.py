@@ -3,8 +3,9 @@ from django.contrib import admin
 from apps.blog.models import Post
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'date', 'user')
+    list_display = ('title', 'sdesc', 'date', 'user')
     exclude = ('slug', 'user') 
+    search_fields = ['title', 'body', 'user__username']
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

@@ -7,19 +7,20 @@ Home
 
 
 {% block content %}
-<div class="columns">
+
+<div class="columns is-vcentered">
     <div class="column">
-        <h1 class="title is-1">Vitary</h1>
-        <h1 class="title">The New Way To Make Friends Easily.</h1>
-        <p class="subtitle">Welcome To <strong>Vitary</strong></p>
+        <h1 class="title is-1 has-text-weight-bold">Vitary</h1>
+        <p class="subtitle">The New Way To Make Friends Easily.</p>
+        <p class="subtitle">Welcome To <b>Vitary</b></p>
         <div class="buttons">
-            <a href="{% url 'signup' %}" class="button is-success">Get Started 🚀</a>
-            <a href="{% url 'login' %}" class="button is-dark">Login 🔐</a>
+            <a href="{% url 'signup' %}" class="button is-link">Get Started 🚀</a>
+            <a href="{% url 'login' %}" class="button is-ghost">Login 🔐</a>
         </div>
     </div>
     <div class="column">
         <article class="image">
-            <img src="{% static 'img/Networking_perspective_matte.png' %}" alt="hero1" width="100" height="100">
+            <img src="{% static 'img/glossy-modern-witch.png' %}" alt="hero1">
         </article>
     </div>
 </div>

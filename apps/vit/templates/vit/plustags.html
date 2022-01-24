@@ -10,10 +10,11 @@
         <h1 class="title is-1">+PlusTags</h1>
 
         {% for plustag in plustags %}
-       
+        <div class="tile">
                 <h3 class="title is-5"><a href="{% url 'plustag_vits' plustag.name %}">+{{plustag.name}}</a>
                     Rating: {{plustag.rating}}
                 </h3>
+        </div>
             <br>
         {% endfor %}
         <div class="pagination">
@@ -32,8 +33,8 @@
             </span>
         </div>
     </div>
-    <div class="column is-4">
-        {% include 'accounts/extends/side_block.html' %}
+    <div class="column is-5">
+        {% include 'core/extends/side_block.html' %}
     </div>
 </div>
 

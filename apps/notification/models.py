@@ -11,6 +11,7 @@ class Notification(models.Model):
     NOTIFICATION_TYPES = [
         ('mention', 'Mention'),
         ('comment', 'Comment'),
+        ('message', 'Message'),
         ('like', 'Like'),
         ('follow', 'Follow'),
         ('abuse', 'Abuse'),

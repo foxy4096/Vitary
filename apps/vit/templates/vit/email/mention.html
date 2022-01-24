@@ -1,7 +1,33 @@
-{{ from.username.title }} wrote
+
+{% if vit %}
+        
+
+{{ from.username.title }} wrote in a Vit:
 
         {{ vit.body }}
 
+        {% if vit.image %}
+        📸 {{ vit.image }}
+        {% endif %}
+
+        {% if vit.video %}
+        🎥 {{ vit.video.name }}
+        {% endif %}
+
+        {{ vit.date|date:"F j, Y, g:i a" }}
+
+        <a href="{{ vit.get_absolute_url }}">View</a>
+
+{% else %}
+        
+        {{ from.username.title }} wrote in a Comment:
+        
+                {{ comment.body }}
+        
+                
+                {{ comment.date|date:"F j, Y, g:i a" }}
+
+{% endif %}
 
 You are reciving this email because you have Send Email Notification turned on on our site.
 

@@ -1,0 +1,16 @@
+{
+  "name": "vitarycss",
+  "version": "1.0.0",
+  "description": "css files for vitary",
+  "main": "sass/style.scss",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "bulma": "^0.7.2",
+    "node-sass": "^4.9.2"
+  },
+  "scripts": {
+    "css-build": "node-sass --omit-source-map-url sass/style.scss ./style.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  }
+}
