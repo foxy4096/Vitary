@@ -1,4 +1,3 @@
-from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -8,8 +7,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ReportAbuseForm
 
-from apps.vit.models import Vit, Comment, Plustag
+from django.conf import settings
+import stripe
+
+from apps.vit.models import Vit
 from django.contrib.auth.models import User
+from .models import Badge, Donation
 
 
 def redirect_to_home(request):
@@ -38,11 +41,11 @@ def peoples(request):
 
 def explore(request):
     vits = Vit.objects.all().order_by('-like_count', '-date')
-    # paginator = Paginator(vits, 5)
-    # page_no = request.GET.get('page')
-    # page_obj = paginator.get_page(page_no)
+    paginator = Paginator(vits, 5)
+    page_no = request.GET.get('page')
+    page_obj = paginator.get_page(page_no)
     context = {
-        'vits': vits,
+        'vits': page_obj,
     }
     return render(request, 'core/explore.html', context)
 
@@ -104,3 +107,57 @@ def search(request):
     
 def terms(request):
     return render(request, 'core/terms.html')
+
+def badge(request, pk):
+    badge = get_object_or_404(Badge, id=pk)
+    usr = badge.profile_set.all().order_by('-id')
+    paginator = Paginator(usr, 5)
+    page_no = request.GET.get('page')
+    page_obj = paginator.get_page(page_no)
+    return render(request, 'core/badge.html', {'badge': badge, 'usrs': page_obj})
+
+# @login_required
+# def donate(request):
+#     badge = Badge.objects.get_or_create(
+#         name="Donator 💸",
+#         description="This badge is given to people who have donated to us, to keep our server running and helped Vitary to stay alive",
+#         color="warning",
+#         special=True
+#     )[0]
+#     if request.method == "POST":
+#         request.user.profile.badges.set([badge])
+#         return render(request, 'core/donate_success.html')
+#     return render(request, 'core/donate.html')
+
+@login_required
+def donate(request):
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    if request.method == "POST":
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        amount = int(request.POST['amount'])
+        token = request.POST['stripeToken']
+        try:
+            charge = stripe.Charge.create(
+                amount=amount * 100,
+                currency='inr',
+                description='Donation to Vitary',
+                source=token,
+            )
+            Donation.objects.create(
+                user=request.user,
+                amount=amount,
+                stripe_charge_id=charge['id']
+            )
+            badge = Badge.objects.get_or_create(
+                    name="Donator 💸",
+                    description="This badge is given to people who have donated to us, to keep our server running and helped Vitary to stay alive",
+                    color="warning",
+                    special=True
+            )[0]
+            request.user.profile.badges.set([badge])
+            return render(request, 'core/donate_success.html')
+        except stripe.error.CardError as e:
+            messages.error(request, 'Your card was declined!')
+            print(e)
+            return redirect('donate')
+    return render(request, 'core/donate.html', {'stripe_public_key': stripe_public_key})

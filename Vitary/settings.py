@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+# OS environment variables
 import os
 from pathlib import Path
 
-# I don't know why env is not working
 import environ
 # Initialise environment variables
 env = environ.Env()
@@ -36,22 +36,15 @@ ALLOWED_HOSTS = ['vitary.pythonanywhere.com', 'localhost', '192.168.182.210']
 
 
 # Application definition
-
 INSTALLED_APPS = [
-    # Admin
     'django.contrib.admin',
-
-    # Auth
     'django.contrib.auth',
-
-    # Some Contrib Apps
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.sites',
-    'django.contrib.flatpages',
     'django.contrib.sitemaps',
 
     # My Apps
@@ -64,7 +57,6 @@ INSTALLED_APPS = [
 
     # Third Party Apps
     'django_cleanup.apps.CleanupConfig',
-    'organizations',
 ]
 
 MIDDLEWARE = [
@@ -92,6 +84,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'apps.notification.context_processors.notification',
                 'apps.vit.context_processors.get_latest_vits',
+                'apps.core.context_processors.latest_donations',
             ],
         },
     },
@@ -104,7 +97,7 @@ WSGI_APPLICATION = 'Vitary.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3', 
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
@@ -155,6 +148,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home'
 
+# For BrokenLink MiddleWare
+import re
+IGNORABLE_404_URLS = [
+    re.compile(r'\.(php|cgi)$'),
+    re.compile(r'^/phpmyadmin/'),
+    re.compile(r'^/apple-touch-icon.*\.png$'),
+    re.compile(r'^/favicon\.ico$'),
+    re.compile(r'^/robots\.txt$'),
+]
+
 # Email Config
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -167,25 +170,19 @@ else:
     EMAIL_HOST_USER = env('EMAIL_ADDRESS')
     EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
 
-
-
+# For Django Site Framwork
 SITE_ID = int(env('SITE_ID', default=1))
 
-
-import re
-IGNORABLE_404_URLS = [
-    re.compile(r'\.(php|cgi)$'),
-    re.compile(r'^/phpmyadmin/'),
-    re.compile(r'^/apple-touch-icon.*\.png$'),
-    re.compile(r'^/favicon\.ico$'),
-    re.compile(r'^/robots\.txt$'),
-]
-
+# For Secure Session
 SECURE_SSL_REDIRECT = env('SECURE_SSL_REDIRECT', default=False)
 CSRF_COOKIE_SECURE = env('CSRF_COOKIE_SECURE', default=False)
 
+
+# Manager and Admin
 MANAGERS = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
 ADMIN = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
 
 
-ORGS_SLUGFIELD = 'django_extensions.db.fields.AutoSlugField'
+# Stripe Config
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')

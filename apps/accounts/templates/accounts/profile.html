@@ -1,39 +1,36 @@
 {% extends 'core/base.html' %}
 
 {% block title %}
-Profile
+Your Profile
 {% endblock title %}
 
 
 {% block content %}
 <div class="columns">
     <div class="column">
-        <div class="">
-            <h1 class="title is-1 has-text-weight-bold">Profile</h1>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ uform.as_p }}
-                <br>
+        <h1 class="title is-1 has-text-weight-bold">Profile</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ uform.as_p }}
+            <br>
+            <figure class="image is-128x128">
+                <img class="is-rounded" src="{{ user.profile.image.url }}">
+            </figure>
+            <br>
+            {{ pform.as_p }}
+            <br>
+            <a href="{% url 'password_change' %}">Change Password 🔑</a>
+            <br>
 
-                <figure class="image is-128x128">
-                    <img class="is-rounded" src="{{ user.profile.image.url }}">
-                </figure>
-                <br>
-                {{ pform.as_p }}
-                <br>
-                <a href="{% url 'password_change' %}">Change Password 🔑</a>
-                <br>
-                
-                <br>
-                <br>
-                <div class="buttons">
+            <br>
+            <br>
+            <div class="buttons">
                 <button type="submit" class="button is-link">Save
                      💾
                 </button>
                 <a href="{% url 'advance_settings' %}" class="button is-link">Advance Settings 🔧</a>
-                </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
     <div class="column is-5">
         {% include 'core/extends/side_block.html' %}

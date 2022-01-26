@@ -1,8 +1,5 @@
 {% load static %}
 
-{% load flatpages %}
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,7 +52,15 @@
     <meta name="msapplication-TileColor" content="#603cba">
     <meta name="theme-color" content="#ffffff">
     <meta name="description" content="Vitary | Make New Friends Today!">
+<style>
 
+video {
+        margin-bottom:10px;
+        -moz-border-radius:20px;
+        -webkit-border-radius:20px;
+        border-radius:0.4rem;
+			}
+</style>
 </head>
 
 <body>
@@ -73,14 +78,19 @@
     {% endfor %}
 
     {% endif %}
+    {% block no_padding %}
+        
+    {% endblock no_padding %}
     <section class="section">
-        <div class="container-fluid">
+        <div class="container">
             {% block content %}
 
             {% endblock content %}
 
         </div>
     </section>
+    
+        
     {% include 'core/footer.html' %}
 
     {% block script %}

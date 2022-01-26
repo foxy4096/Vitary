@@ -1,0 +1,14 @@
+<div class="media">
+    <div class="media-left">
+        <article class="image is-64x64">
+            <img src="{{ person.profile.image.url }}" alt="{{ person.username}}" class="is-rounded">
+        </article>
+    </div>
+    <div class="media-content">
+        <h4 class="title is-4">{{ person.get_full_name }}</h4>
+        <p class="subtitle is-6"><a href="{% url 'profile_view' person.username %}">@{{person.username}}</a></p>
+    </div>
+    <div class="media-right">
+        <a href="{% url 'profile_view' person.username %}" class="button is-link is-rounded">View 👀</a>
+    </div>
+</div>

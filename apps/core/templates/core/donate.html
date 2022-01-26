@@ -1,0 +1,112 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+Donate
+{% endblock title %}
+
+
+{% block no_padding %}
+
+<div class="hero is-link has-text-centered">
+    <div class="hero-body">
+        <h1 class="title is-1 has-text-weight-bold">Donate</h1>
+        <p class="subtitle">
+            Support Vitary development by donating to the <a href="https://github.com/Visualway">Visualway</a>.
+        </p>
+    </div>
+</div>
+<section class="section has-text-centered">
+    <div class="container">
+        <form action="." method="post" class="has-text-centered" id="payment-form">
+            {% csrf_token %}
+            <div class="field has-addons">
+                <p class="control">
+                    <button class="button is-static">₹</button>
+                </p>
+                <div class="control is-expanded">
+                    <input type="text" class="input" placeholder="Enter the Amount" name="amount">
+                </div>
+            </div>
+            <br>
+            <!-- Injecting the stripe elements -->
+            <div id="card-errors"></div>
+            <div id="card-element" class="box"></div>
+            <br>
+            <div class="control">
+                <button class="button is-success is-large">Donate 💸</button>
+            </div>
+        </form>
+        <br>
+        <h1 class="title is-1">Others Options</h1>
+        <p class="subtitle">
+            You can donate us via other payment methods as well
+        </p>
+        <ul>
+            <li>
+                <h3 class="title is-3">
+                    Google Pay (UPI)
+                </h3>
+                <p class="content">
+                    Our UPI ID or VPA(Virtual Private Address) is 123456789@upi
+                </p>
+            </li>
+        </ul>
+    </div>
+</section>
+
+{% endblock no_padding %}
+
+{% block script %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe('{{ stripe_public_key }}');
+    var stripeElements = stripe.elements();
+    var cardElement = stripeElements.create('card', {
+        style: {
+            base: {
+                iconColor: '#c4f0ff',
+                color: '#fff',
+                fontWeight: '500',
+                fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+                fontSize: '16px',
+                fontSmoothing: 'antialiased',
+                ':-webkit-autofill': {
+                    color: '#fce883',
+                },
+                '::placeholder': {
+                    color: '#87BBFD',
+                },
+            },
+            invalid: {
+                iconColor: '#FFC7EE',
+                color: '#FFC7EE',
+            },
+        },
+    });
+    cardElement.mount('#card-element');
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        stripe.createToken(cardElement).then(function (result) {
+            if (result.error) {
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            }
+            else {
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+
+    function stripeTokenHandler(token) {
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        form.submit();
+    }
+</script>
+{% endblock script %}

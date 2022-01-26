@@ -7,8 +7,6 @@
     <div class="card-content">
         <div class="media">
             <div class="media-left">
-
-
                 <figure class="image is-48x48">
                     <img class="is-rounded" src="{{ vit.user.profile.image.url }}" alt="{{ user.username }}">
                 </figure>
@@ -22,40 +20,63 @@
                 </h5>
                 <p class="subtitle is-6"><a href="{% url 'profile_view' vit.user.username %}">@{{vit.user.username}}</a>
                     {% if vit.user.is_superuser %}
-                    <span class="tag is-rounded">Admin ✔️</span>
+                        <span class="tag is-rounded">Admin ✔️</span>
                     {% endif %}
                     {% if vit.user.is_staff %}
-                    <span class="tag is-rounded">Staff ✔️</span>
+                        <span class="tag is-rounded">Staff ✔️</span>
                     {% endif %}
+                    {% for badge in vit.user.profile.badges.all %}
+                        <a href="{% url 'badge' badge.id %}">
+                        <span class="tag is-rounded is-{{badge.color}}">
+                            {{ badge.name }}
+                        </span>
+                        </a>
+                    {% endfor %}
 
                     {% if not vit.user.profile in user.profile.follows.all and user.profile in vit.user.profile.follows.all %}
                     <span class="tag is-primary is-light is-rounded">Following You</span>
                     {% endif %}
-
                 </p>
             </div>
         </div>
         <div class="content">
+            <div class="mx-2 my-2">
             {{ vit.body | plustag | safe | mention | convert_markdown }}
-            {% if vit.image %}
-            📸<a href="{{ vit.image.url }}">{{ vit.image.name|truncatechars:20 }}</a>
-            {% endif %}
-            {% if vit.video %}
-            🎥<a href="{{ vit.video.url }}">{{ vit.video.name|truncatechars:20 }}</a>
-            {% endif %}
-            {% if vit.audio %}
-            {% endif %}
+            </div>
+                {% if not showView %}
+                    <div class="columns">
+                        {% if vit.image %}
+                            <div class="column">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <article class="image">
+                                            <img src="{{ vit.image.url }}" alt="vit_image" class="is-rounded">
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if vit.video %}
+                            <div class="column">
+                                <article class="image">
+                                    <video src="{{ vit.video.url }}" controls>Your Browser doesn't support Videos</video>
+                                </article>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            <small>
+                <time datetime="{{ vit.date }}">
+                    {{ vit.date | naturaltime }}
+                </time>
+            </small>
             <br>
-
-            
-            <small><time datetime="{{ vit.date }}">{{ vit.date | naturaltime }}</time></small>
-            <br>
-        {% if not showView %}
+            {% if not showView %}
             <a href="{% url 'vit_detail' vit.id %}">View 👀</a>
             |
             {% endif %}
             {% if user.is_authenticated %}
-            
+
             <a href="javascript:void(0);" onclick="like_vit('{{vit.pk}}');" class="vit_like" id="{{ vit.pk }}">
                 Like 💖 <span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
             {% else %}
@@ -79,7 +100,7 @@
             </a>
             <br>
             <br>
-            
+
         </div>
     </div>
 </div>

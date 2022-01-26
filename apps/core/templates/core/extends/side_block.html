@@ -1,9 +1,16 @@
 {% load humanize %}
 
-
+{% if request.path != '/home/' and user.is_authenticated %}
 <div class="card">
     <div class="card-content">
-        
+        <a href="{% url 'add_vit' %}" class="button is-primary is-fullwidth is-rounded">Add Vit ➕</a>
+    </div>
+</div>
+<br>
+{% endif %}
+<div class="card">
+    <div class="card-content">
+
         {% if related_persons %}
         <h3 class="title is-3">Related Persons</h3>
         {% for related_person in related_persons %}
@@ -17,29 +24,33 @@
             </div>
             <div class="media-content">
                 <h4 class="title is-4 is-small">
-                    {{ related_person.get_short_name }}
+                    {{ related_person.get_full_name }}
                 </h4>
-                <p class="is-6 subtitle"><a href="{% url 'profile_view' related_person.username %}">@{{ related_person.username }}</a></p>
+                <p class="is-6 subtitle">
+                    <a href="{% url 'profile_view' related_person.username %}">
+                        @{{ related_person.username }}
+                    </a>
+                </p>
             </div>
             <div class="media-right">
                 {% if user == related_person %}
-                
+
                 <a href="{% url 'profile' %}" class="button is-link is-small is-rounded">Edit Profile  📝</a>
                 {% else %}
-                
+
                 {% if not related_person.profile in user.profile.follows.all %}
                 <form action="{% url 'follow' %}" method="GET">
-                    
+
                     <input type="hidden" name="username" value="{{ related_person.username }}">
                     <input type="hidden" name="vit_id" value="{{ vit.pk }}">
                     <button class="button is-link is-small is-rounded" type="submit">Follow  ➕</button>
                 </form>
                 {% else %}
                 <form action="{% url 'unfollow' %}" method="GET">
-                    
+
                     <input type="hidden" name="username" value="{{ related_person.username }}">
                     <input type="hidden" name="vit_id" value="{{ vit.pk }}">
-                    
+
                     <button class="button is-link is-small is-rounded" type="submit">Unfollow  ➖</button>
                 </form>
                 {% endif %}
@@ -58,7 +69,8 @@
         {% for latest_vit in latest_vits %}
 
         <a href="{% url 'profile_view' latest_vit.user.username %}">{{ latest_vit.user }}</a>: <a
-            href="{{ latest_vit.get_absolute_url }}">{{latest_vit.body | truncatechars_html:40}}</a> <span class="date">{{ latest_vit.date | naturaltime }}</span>
+            href="{{ latest_vit.get_absolute_url }}">{{latest_vit.body | truncatechars_html:40}}</a> <span
+            class="date">{{ latest_vit.date | naturaltime }}</span>
         <br>
         {% endfor %}
 
@@ -81,7 +93,7 @@
                     <strong>{{ following.user.get_full_name }}</strong>
                 </h4>
                 <p class="subtitle is-6">
-                <a href="{% url 'profile_view' following %}">@{{ following.user.username }}</a>
+                    <a href="{% url 'profile_view' following %}">@{{ following.user.username }}</a>
                 </p>
             </div>
             <br>
@@ -106,7 +118,8 @@
                 <h4 class="title is-4">
                     <strong>{{ follower.user.get_full_name }}</strong>
                 </h4>
-                <p class="subtitle is-6"><a href="{% url 'profile_view' follower %}">@{{ follower.user.username }}</a></p>
+                <p class="subtitle is-6"><a href="{% url 'profile_view' follower %}">@{{ follower.user.username }}</a>
+                </p>
             </div>
             <br>
         </div>
@@ -127,8 +140,31 @@
         <p>You need to <a href="{% url 'login' %}">login</a> to see your following.</p>
         <hr>
         <div class="buttons">
-            <a href="{% url 'signup' %}" class="button is-success is-fullwidth">Sign Up 🚀</a>
-            <a href="{% url 'login' %}" class="button is-link is-fullwidth">Login 🔐</a>
-            {% endif %}
+            <a href="{% url 'signup' %}" class="button is-primary is-fullwidth is-rounded">Sign Up 🚀</a>
+            <a href="{% url 'login' %}" class="button is-white is-fullwidth is-outlined is-rounded">Login 🔐</a>
         </div>
+        {% endif %}
     </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-content">
+        {% if latest_donations %}
+        {% for donation in latest_donations %}
+        <div class="media">
+            <div class="media-content">
+                <a href="{% url 'profile_view' donation.user.username %}">@{{donation.user.username}}</a> donated to
+                Visualway to support us.
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <br>
+        <div class="buttons">
+            <a href="{% url 'donate' %}" class="button is-link is-rounded is-outlined">Donate Now 💲</a>
+            <a href="{% url 'donate' %}" class="button is-ghost is-rounded is-outlined">All Donations 💲</a>
+        </div>
+
+    </div>
+</div>
+<br>

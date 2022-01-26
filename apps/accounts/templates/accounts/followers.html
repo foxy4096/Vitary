@@ -7,43 +7,14 @@ Follower
 <h1 class="title is-1 has-text-weight-bold">Follower</h1>
 <div class="columns">
     <div class="column is-7">
-        <div class="box">
             {% if usr.profile.followed_by.all %}
             {% for person in followers %}
-            <div class="level">
-                <div class="level-left">
-                    <div class="media">
-                        <div class="media-left">
-                            <article class="image is-128x128">
-                                <img src="{{ person.image.url }}" class="is-rounded" alt="{{ person.user.username }}">
-                            </article>
-                        </div>
-                        <div class="media-right">
-                            <div class="content">
-                                <p>
-                                <p class="is-4-desktop is-6-mobile">
-                                    {% if person.user.get_full_name %}
-                                    {{person.user.get_full_name.title}}
-                                    {% else %}
-                                    {{person.user.username.title}}
-                                    {% endif %}
-                                </p>
-                                <a href="{% url 'profile_view' person.user.username %}"
-                                    class="href">@{{person.user.username}}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="level-right is-hidden-mobile">
-                    <a href="{% url 'profile_view' person.user.username %}" class="button is-success">View</a>
-                </div>
-            </div>
+            {% include 'core/extends/user_ext.html' with person=person.user %}
             {% endfor %}
             {% else %}
             <p>Not followed by anyone yet.</p>
-        
             {% endif %}
-        </div>
+        <br>
             <div class="pagination">
                 <span class="step-links">
                     {% if followers.has_previous %}

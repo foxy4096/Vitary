@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+{% load convert_markdown %}
+{% load mention %}
+{% block title %}
+    {{badge.name}} | Badge
+{% endblock title %}
+
+    
+    {% block content %}
+    <div class="columns">
+        <div class="column is-7">
+            <span class="tag is-large is-{{ badge.color }} is-rounded">{{ badge.name }}</span>
+            <br>
+            <br>
+            <p class="content">
+                {{ badge.description | convert_markdown| mention | safe }}
+            </p>
+            <br>
+            <p class="content">
+                <h3 class="title is-3">Requirements:</h3>
+                <br>
+                {% for requirement in badge.requirments_set.all %}
+                <h5 class="title is-5">{{ requirement.name }}</h5>
+                <div class="content">
+                    {{ requirement.description | convert_markdown| mention | safe }}
+                </div>
+                {% endfor %}
+            </p>
+            <br>
+            <p class="content">
+                <h3 class="title is-3">Users who have this badge</h3>
+                <br>
+                
+                {% if usrs %}
+                
+            {% for user in usrs %}
+            {% include 'core/extends/user_ext.html' with person=user.user %}
+            {% endfor %}
+                    
+                {% endif %}
+            </p>
+            <br>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if user.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ user.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ user.number }} of {{ user.paginator.num_pages }}.
+                    </span>
+                    {% if user.has_next %}
+                    <a href="?page={{ user.next_page_number }}">next</a>
+                    <a href="?page={{ user.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="column is-5">
+            {% include 'core/extends/side_block.html' %}
+        </div>
+    </div>
+    {% endblock content %}

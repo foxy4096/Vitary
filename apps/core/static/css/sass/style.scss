@@ -1,45 +1,46 @@
 @charset "utf-8";
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-$Black: #191919;
-$BlackSecondary: #222121;
-$Grey: #1e242b;
-$White: #ECDBBA;
-$link: #845ef7;
+// Base Colors
+$primary: #00bcd4;
+$black: #000000;
+$dark: #121212;
+$white: #fff;
+$link: $primary;
 $success: #51cf66;
-$info: #4dabf7;
+$info: #5c7cfa;
 $danger: #f03e3e;
 $warning: #ffd43b;
 
-
-$body-background-color: $Black;
 $family-sans-serif: "Roboto", sans-serif;
-$body-color: $White;
-$title-color: $White;
-$subtitle-color: $White;
-$navbar-background-color: $Black;
-$footer-background-color: $BlackSecondary;
-$card-background-color: $Grey;
-$card-color: $White;    
-$box-background-color: $Grey;
-$box-color: $White;
-$link-hover: $White;
-$navbar-background-color: $BlackSecondary;
-$navbar-item-hover-color: $White;
+$body-background-color: $black;
+$body-color: $white;
+$title-color: $white;
+$subtitle-color: $white;
+$navbar-background-color: $black;
+$footer-background-color: $dark;
+$card-background-color: $dark;
+$card-color: $white;    
+$box-background-color: $dark;
+$box-color: $white;
+$link-hover: $white;
+$navbar-background-color: $dark;
+$navbar-item-hover-color: $white;
 $input-background-color: #4d535e;
-$input-color: $White;
-$navbar-item-color: $White;
-$navbar-item-hover-background-color: $Grey;
-$navbar-dropdown-background-color: $Grey;
-$navbar-dropdown-color: $White;
+$input-color: $white;
+$navbar-item-color: $white;
+$navbar-item-hover-background-color: $dark;
+$navbar-dropdown-background-color: $dark;
+$navbar-dropdown-color: $white;
 $navbar-dropdown-hover-background-color: #616975;
-$content-heading-color: $White;
+$content-heading-color: $white;
 
 $card-footer-padding: 0.15rem;
+$card-radius: 0.5rem;
 $card-media-margin: 0.25rem;
-$code: $White;
-$pre: $White;
-$code-background: $Black;
-$pre-background: $Black;
+$code: $white;
+$pre: $white;
+$code-background: $black;
+$pre-background: $black;
 
 @import "../node_modules/bulma/bulma.sass";

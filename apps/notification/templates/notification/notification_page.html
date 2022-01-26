@@ -11,73 +11,70 @@ Notification
 {% block content %}
 <div class="columns">
     <div class="column">
-<div class="">
-    <div class="level">
-        <div class="level-left">
-            <h1 class="title is-1 has-text-weight-bold">Notifications</h1>
-        </div>
-        <div class="level-right">
-            <div class="buttons">
-                <a href="{% url 'mark_as_read' %}" class="button is-success">Mark As Read  ✅</a>
+        <div class="level">
+            <div class="level-left">
+                <h1 class="title is-1 has-text-weight-bold">Notifications</h1>
             </div>
-
-        </div>
-    </div>
-
-            {% if notifications %}
-
-
-            {% for notification in notifications %}
-            <div class="">
-                <div class="">
-                    <div class="media">
-                        <p>
-                        <div class="media-left">
-                            <a href="{% url 'profile_view' notification.by_user %}">
-                                <article class="image is-48x48 is-square">
-                                    <img src="{{ notification.by_user.profile.image.url }}" alt="" class="is-rounded">
-                                </article>
-                            </a>
-                        </div>
-                        <div class="media-content">
-                            <p>{{ notification.message | truncatechars:100 | safe | mention | check_url | convert_markdown }} <span class="tag is-primary">{{notification.notification_type | title}}</span></p>
-                            {% if not notification.is_read %}
-                            <span class="tag is-info is-danger">Unread</span>
-                            {% endif %}
-                            <br>
-                            {{ notification.date | naturaltime }}
-                        </div>
-                        <div class="medai-right">
-                            <a href="{% url 'notification_redirect' notification.pk %}"
-                                class="button is-success">View 👀</a>
-                        </div>
-                        </p>
-                    </div>
+            <div class="level-right">
+                <div class="buttons">
+                    <a href="{% url 'mark_as_read' %}" class="button is-dark is-inverted is-outlined">Mark As Read 
+                        <span class="is-small" style="color: rgb(46, 206, 107);">
+                            ✔️
+                        </span>
+                    </a>
                 </div>
             </div>
-            <br>
-            {% endfor %}
-            {% else %}
-            <p>
-                No notifications!
-            </p>
-            {% endif %}
         </div>
-            <div class="pagination">
-                <span class="step-links">
-                    {% if notifications.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ notifications.previous_page_number }}">previous</a>
-                    {% endif %}
-                    <span class="current">
-                        Page {{ notifications.number }} of {{ notifications.paginator.num_pages }}.
-                    </span>
-                    {% if notifications.has_next %}
-                    <a href="?page={{ notifications.next_page_number }}">next</a>
-                    <a href="?page={{ notifications.paginator.num_pages }}">last &raquo;</a>
-                    {% endif %}
-                </span>
+
+        {% if notifications %}
+
+
+        {% for notification in notifications %}
+        <div class="media">
+            <div class="media-left">
+                <a href="{% url 'profile_view' notification.by_user %}">
+                    <article class="image is-48x48 is-square">
+                        <img src="{{ notification.by_user.profile.image.url }}" alt="user" class="is-rounded">
+                    </article>
+                </a>
             </div>
+            <div class="media-content">
+                <p class="content">
+                    {{ notification.message | truncatechars:100 | safe | mention | check_url | convert_markdown }}
+                    <span class="tag is-link">{{ notification.notification_type | title }}</span>
+                    {% if not notification.is_read %}
+                    <span class="tag is-info">Unread</span>
+                    {% endif %}
+                    <br>
+                    {{ notification.date | naturaltime }}
+                </p>
+            </div>
+            <div class="media-right">
+                <a href="{% url 'notification_redirect' notification.pk %}" class="button is-link">View 👀</a>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>
+            No notifications!
+        </p>
+        {% endif %}
+        <br>
+        <div class="pagination">
+            <span class="step-links">
+                {% if notifications.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ notifications.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ notifications.number }} of {{ notifications.paginator.num_pages }}.
+                </span>
+                {% if notifications.has_next %}
+                <a href="?page={{ notifications.next_page_number }}">next</a>
+                <a href="?page={{ notifications.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
     <div class="column is-5">
         {% include 'core/extends/side_block.html' %}

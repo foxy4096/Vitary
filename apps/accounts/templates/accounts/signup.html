@@ -25,11 +25,11 @@ Sign Up
                 {% csrf_token %}
                 <br>
                 <p class="subtitle">
-                    By creating an account, you agree to the <a href="{% url 'terms' %}" target="_blank">Terms And Conditions</a>
+                    By creating an account, you agree to the <a href="{% url 'terms' %}" target="_blank" referrerpolicy="signup">Terms And Conditions</a>
                 </p>
                 <p>Already have an account? <a href="{% url 'login' %}">Login 🔐</a></p>
                 <br>
-                <button type="submit" class="button is-link">
+                <button type="submit" class="button is-primary is-rounded">
                     Sign Up 🚀
                 </button>
             </form>
@@ -38,6 +38,9 @@ Sign Up
             <article class="image">
                 <img src="{% static 'img/arabica-414.png' %}" alt="signup_hero">
             </article>
+            <p class="content has-text-centered">
+                Illustration by <a href="https://icons8.com/illustrations/author/5c07e68d82bcbc0092519bb6">Icons 8</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
+            </p>
         </div>
     </div>
 </div>

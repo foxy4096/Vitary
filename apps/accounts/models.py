@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 
 from django.contrib.auth.models import User
+from apps.core.models import Badge
 
 # from gdstorage.storage import GoogleDriveStorage
 
@@ -25,6 +26,7 @@ class Profile(models.Model):
     verified = models.BooleanField(default=False)
     bio = models.TextField(max_length=500, blank=True, null=True, default="")
     header_image = models.ImageField(upload_to='uploads/', blank=True, null=True)
+    badges = models.ManyToManyField(Badge)
 
     def __str__(self):
         return self.user.username

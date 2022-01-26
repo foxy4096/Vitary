@@ -42,6 +42,11 @@
                             {% if usr.is_staff %}
                             <span class="tag is-rounded">Staff ✔️</span>
                             {% endif %}
+                            
+                            {% for badge in usr.profile.badges.all %}
+                            <a href="{% url 'badge' badge.id %}"><span class="tag is-rounded is-{{badge.color}}">{{ badge.name }}</span></a>
+                            {% endfor %}
+                                
                         </p>
                         
                     </div>
@@ -61,19 +66,14 @@
 
                     {% if user == usr %}
 
-                    <a href="{% url 'profile' %}" class="button is-link">Edit Profile  📝</a>
-                    
-                    {% if usr.profile.verified %}
-                        <a href="" class="button is-link">Create a Organization 👪</a>
-                    {% endif %}
-                        
+                    <a href="{% url 'profile' %}" class="button is-link">Edit Profile  📝</a>                        
                     {% else %}
 
                     {% if not usr.profile in user.profile.follows.all %}
                     <form action="{% url 'follow' %}" method="GET">
 
                         <input type="hidden" name="username" value="{{ usr.username }}">
-                        <button class="button is-success" type="submit">Follow  ➕</button>
+                        <button class="button is-link" type="submit">Follow  ➕</button>
                     </form>
                     {% else %}
                     <form action="{% url 'unfollow' %}" method="GET">

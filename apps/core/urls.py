@@ -11,4 +11,6 @@ urlpatterns = [
     path('404/', views.page_404),
     path('search/', views.search, name='search'),
     path('terms/', views.terms, name='terms'),
+    path('badge/<int:pk>/', views.badge, name='badge'),
+    path('donate/', views.donate, name='donate'),
 ]

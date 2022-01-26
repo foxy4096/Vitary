@@ -14,9 +14,6 @@ from apps.vit.views import plustag_vits
 from apps.chat.api import get_message_api, send_message_api
 from apps.vit.api import add_like
 
-# Orginization
-from organizations.backends import invitation_backend
-
 
 urlpatterns = [
     # Admin
@@ -32,7 +29,7 @@ urlpatterns = [
 
 
     # Vit
-    path('vit/', include('apps.vit.urls')),
+    path('v/', include('apps.vit.urls')),
 
 
     # User
@@ -61,17 +58,8 @@ urlpatterns = [
     path('blog/', include('apps.blog.urls')),
 
 
-    # Flatpages
-    path('pages/', include('django.contrib.flatpages.urls')),
-
-
     # Chat
-    path('chat/', include('apps.chat.urls')),
-
-    # Orginization
-    path('o/', include('organizations.urls')),
-    path('i/', include(invitation_backend().get_urls())),
-
+    path('c/', include('apps.chat.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

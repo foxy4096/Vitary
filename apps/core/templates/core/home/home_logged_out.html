@@ -10,18 +10,21 @@ Home
 
 <div class="columns is-vcentered">
     <div class="column">
-        <h1 class="title is-1 has-text-weight-bold">Vitary</h1>
-        <p class="subtitle">The New Way To Make Friends Easily.</p>
-        <p class="subtitle">Welcome To <b>Vitary</b></p>
+        <h2 class="title is-2 has-text-weight-bold">
+            A New Way To Make Friends.
+        </h2>
         <div class="buttons">
-            <a href="{% url 'signup' %}" class="button is-link">Get Started 🚀</a>
-            <a href="{% url 'login' %}" class="button is-ghost">Login 🔐</a>
+            <a href="{% url 'signup' %}" class="button is-primary is-rounded">Join Now 🚀</a>
+            <a href="{% url 'login' %}" class="button is-ghost is-rounded">Login 🔐</a>
         </div>
     </div>
     <div class="column">
         <article class="image">
             <img src="{% static 'img/glossy-modern-witch.png' %}" alt="hero1">
         </article>
+        <p class="content has-text-centered">
+            Illustration by <a href="https://icons8.com/illustrations/author/5eb423ee01d03600140dff88">Tatiana Vinogradova</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
+        </p>
     </div>
 </div>
 {% endblock content %}

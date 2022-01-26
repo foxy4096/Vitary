@@ -11,7 +11,7 @@ Message: {{to_user.username.title}}
 <h1 class="title">Message: <a href="{% url 'profile_view' to_user.username %}">{{to_user.username.title}}</a></h1>
 <div class="columns">
     <div class="column is-7">
-        <div id="message-log" class="box">
+        <div id="message-log" class="box" style="overflow: scroll; height:min-content;">
             <div class="has-text-centered">
                 <p>Please wait loading the messages</p>
                 <span class="button is-loading"></span>
@@ -33,7 +33,6 @@ Message: {{to_user.username.title}}
 
 {% block script %}
 <script>
-    var connected = true;
     $(document).ready(function () {
 
         setInterval(function () {
@@ -44,7 +43,7 @@ Message: {{to_user.username.title}}
                     console.log(response);
                     $("#message-log").empty();
                     for (var key in response['messages']) {
-                        var temp = "<div class='container darker'><b>" + response.messages[key].created_by__username + "</b><p>" + response.messages[key].message + "</p><span class='time-left'>" + response.messages[key].created_at.slice(11, -3) + "</span></div>";
+                        var temp = "<div class='container darker'> <b>" + response.messages[key].created_by__username + "</b><p>" + response.messages[key].message + "</p><span class='time-left'>" + response.messages[key].created_at.slice(11, -3) + "</span></div>";
                         $("#message-log").append(temp);
                     }
                     $("#message-input").focus();
@@ -54,7 +53,7 @@ Message: {{to_user.username.title}}
                     console.log("Error");
                 }
             });
-        }, 1000);
+        }, 2000);
     });
     document.getElementById("message-input").addEventListener("keyup", function (event) {
         event.preventDefault();
@@ -87,6 +86,7 @@ Message: {{to_user.username.title}}
             }).then(function (data) {
                 if (data.status === 'success') {
                     document.getElementById('message-input').value = '';
+                    document.getElementById('message-log').innerHTML += "<div class='container darker'><b>" + data.message.created_by__username + "</b><p>" + data.message.message + "</p><span class='time-left'>" + data.message.created_at.slice(11, -3) + "</span></div>";
                 }
             });
         }

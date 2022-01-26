@@ -6,13 +6,13 @@ from django.contrib.auth.models import User
 from .models import Profile
 
 
-class ProfileInline(admin.TabularInline):
+class ProfileInline(admin.StackedInline):
     """
     Including the profile model in the user model by inline admin
     """
     model = Profile
     readonly_fields = ['profile_image', 'follower_count', 'following_count']
-    fields = ['profile_image', 'image', 'email_notif', 'verified', 'bio', 'follower_count', 'following_count', 'header_image']
+    fields = ['profile_image', 'image', 'email_notif', 'verified', 'bio', 'follower_count', 'following_count', 'header_image', 'badges']
     can_delete = False
 
 
