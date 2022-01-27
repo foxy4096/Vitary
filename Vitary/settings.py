@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'apps.chat.apps.ChatConfig',
 
     # Third Party Apps
-    'django_cleanup.apps.CleanupConfig',
+    # 'django_cleanup.apps.CleanupConfig',
     'gdstorage',
 ]
 
