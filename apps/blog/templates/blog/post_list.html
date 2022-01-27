@@ -5,9 +5,9 @@
 Blog
 {% endblock title %}
 {% block content %}
-<h1 class="title is-1 has-text-weight-bold">Blog</h1>
 <div class="columns">
     <div class="column is-7">
+        <h1 class="title is-1 has-text-weight-bold">Blog</h1>
         <div class="">
             {% for post in posts %}
             <div class="card article">
@@ -21,7 +21,7 @@ Blog
                     <div class="media">
                         <div class="media-center">
                             <article class="image is-48x48">
-                                <img src="{{ post.user.profile.image.url }}" class="author-image is-rounded"
+                                <img src="{{ post.user.profile.get_image_url }}" class="author-image is-rounded"
                                     alt="Placeholder image">
                             </article>
                         </div>

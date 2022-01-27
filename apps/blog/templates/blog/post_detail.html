@@ -24,7 +24,7 @@
                     <div class="media-center">
                         <article class="image is-48x48">
                             <a href="{% url 'profile_view' post.user.username %}">
-                            <img src="{{ post.user.profile.image.url }}" class="author-image is-rounded"
+                            <img src="{{ post.user.profile.get_image_url }}" class="author-image is-rounded"
                                 alt="Placeholder image">
                             </a>
                         </article>

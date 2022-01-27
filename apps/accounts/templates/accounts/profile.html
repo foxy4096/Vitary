@@ -14,21 +14,17 @@ Your Profile
             {{ uform.as_p }}
             <br>
             <figure class="image is-128x128">
-                <img class="is-rounded" src="{{ user.profile.image.url }}">
+                <img class="is-rounded" src="{{ user.profile.get_image_url }}">
             </figure>
             <br>
             {{ pform.as_p }}
             <br>
-            <a href="{% url 'password_change' %}">Change Password 🔑</a>
-            <br>
-
-            <br>
             <br>
             <div class="buttons">
-                <button type="submit" class="button is-link">Save
+                <button type="submit" class="button is-link is-rounded">Save
                      💾
                 </button>
-                <a href="{% url 'advance_settings' %}" class="button is-link">Advance Settings 🔧</a>
+                <a href="{% url 'advance_settings' %}" class="button is-link is-rounded">Advance Settings 🔧</a>
             </div>
         </form>
     </div>

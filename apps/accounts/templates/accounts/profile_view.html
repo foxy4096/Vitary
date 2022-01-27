@@ -14,7 +14,7 @@
             {% if usr.profile.header_image %}
             <div class="card-image">
                 <figure class="image 16by9">
-                    <img src="{{usr.profile.header_image.url}}" alt="Placeholder image">
+                    <img src="{{usr.profile.header_image}}" alt="Placeholder image">
                 </figure>
             </div>
             {% endif %}
@@ -23,7 +23,7 @@
                 <div class="media">
                     <div class="media-left">
                         <figure class="image is-64x64 is-square">
-                    <img class="is-rounded" src="{{ usr.profile.image.url }}">
+                    <img class="is-rounded" src="{{ usr.profile.get_image_url }}">
                 </figure>
                     </div>
                     <div class="media-content">
@@ -66,20 +66,20 @@
 
                     {% if user == usr %}
 
-                    <a href="{% url 'profile' %}" class="button is-link">Edit Profile  📝</a>                        
+                    <a href="{% url 'profile' %}" class="button is-link is-rounded">Edit Profile  📝</a>                        
                     {% else %}
 
                     {% if not usr.profile in user.profile.follows.all %}
                     <form action="{% url 'follow' %}" method="GET">
 
                         <input type="hidden" name="username" value="{{ usr.username }}">
-                        <button class="button is-link" type="submit">Follow  ➕</button>
+                        <button class="button is-link is-rounded" type="submit">Follow  ➕</button>
                     </form>
                     {% else %}
                     <form action="{% url 'unfollow' %}" method="GET">
 
                         <input type="hidden" name="username" value="{{ usr.username }}">
-                        <button class="button is-link" type="submit">Unfollow  ➖</button>
+                        <button class="button is-link is-rounded" type="submit">Unfollow  ➖</button>
                     </form>
                     {% endif %}
                     {% endif %}

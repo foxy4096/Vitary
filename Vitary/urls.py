@@ -25,11 +25,11 @@ urlpatterns = [
 
 
     # Accounts
-    path('accounts/', include('apps.accounts.urls')),
+    path('', include('apps.accounts.urls')),
 
 
     # Vit
-    path('v/', include('apps.vit.urls')),
+    path('vit/', include('apps.vit.urls')),
 
 
     # User

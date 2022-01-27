@@ -11,13 +11,14 @@ Donate
     <div class="hero-body">
         <h1 class="title is-1 has-text-weight-bold">Donate</h1>
         <p class="subtitle">
-            Support Vitary development by donating to the <a href="https://github.com/Visualway">Visualway</a>.
+            Support Vitary development by donating to the <a href="https://github.com/Visualway">Visualway</a> and get a shiny badge!
         </p>
     </div>
 </div>
 <section class="section has-text-centered">
     <div class="container">
         <form action="." method="post" class="has-text-centered" id="payment-form">
+            <input type="hidden" name="DTYPE" value="STRIPE">
             {% csrf_token %}
             <div class="field has-addons">
                 <p class="control">
@@ -37,6 +38,11 @@ Donate
             </div>
         </form>
         <br>
+        <p class="content">
+            We are a startup with the passion for creating workflow-centric apps, we put user-satisfaction at the center
+            of everything we do.
+        </p>
+        <br>
         <h1 class="title is-1">Others Options</h1>
         <p class="subtitle">
             You can donate us via other payment methods as well
@@ -47,10 +53,45 @@ Donate
                     Google Pay (UPI)
                 </h3>
                 <p class="content">
-                    Our UPI ID or VPA(Virtual Private Address) is 123456789@upi
+                    Our UPI ID or VPA(Virtual Private Address) is pankaj94.gov@okicici
+                </p>
+            </li>
+            <br>
+            <li>
+                <h3 class="title is-3">
+                    Buy Me A Coffee
+                </h3>
+                <p class="content">
+                <p><a href="https://www.buymeacoffee.com/rainboestrykr">
+                        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210"
+                            alt="rainboestrykr" /></a></p><br><br>
                 </p>
             </li>
         </ul>
+        <br>
+        <form action="." method="post">
+            <input type="hidden" name="DTYPE" value="OTHER">
+            {% csrf_token %}
+            <div class="field has-addons">
+                <p class="control">
+                    <button class="button is-static">₹</button>
+                </p>
+                <div class="control is-expanded">
+                    <input type="text" class="input" placeholder="Enter the Amount" name="amount">
+                </div>
+            </div>
+            <br>
+            <!-- File Upload -->
+            <div class="field">
+                <label class="label has-text-white">Upload Proof</label>
+                <div class="control">
+                    <input class="" type="file" name="proof">
+                </div>
+            </div>
+            <br>
+            <div class="control">
+                <button class="button is-success is-large is-rounded">Submit ✔️</button>
+        </form>
     </div>
 </section>
 

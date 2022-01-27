@@ -22,7 +22,7 @@ Message: {{to_user.username.title}}
                     <div class="media">
                         <div class="media-left">
                             <figure class="image is-48x48">
-                                <img src="{{ usr.profile.image.url }}" class="is-rounded">
+                                <img src="{{ usr.profile.get_image_url }}" class="is-rounded">
                             </figure>
                         </div>
                         <div class="media-content">

@@ -11,12 +11,22 @@ Advance Settings
     <h1 class="title is-1 has-text-weight-bold">Advance Settings</h1>
     <div class="card">
         <div class="card-content">
-            <h3 class="title is-3">Delete Your Account?</h3>
+            <h3 class="title is-3">Change the password?</h3>
             <div class="buttons">
-                <a href="" class="button is-link">Delete My Account</a>
+                <a href="{% url 'password_change' %}" class="button is-primary">Change my password</a>
             </div>
         </div>
     </div>
+    <br>
+    <div class="card">
+        <div class="card-content">
+            <h3 class="title is-3">Delete Your Account?</h3>
+            <div class="buttons">
+                <a href="{% url 'delete_account' %}" class="button is-danger">Delete My Account</a>
+            </div>
+        </div>
+    </div>
+    <br>
 
 {% endblock content %}
     

@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
     # Third Party Apps
     'django_cleanup.apps.CleanupConfig',
+    'gdstorage',
 ]
 
 MIDDLEWARE = [
@@ -186,3 +187,7 @@ ADMIN = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
 # Stripe Config
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+
+
+# Google Drive Config
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = BASE_DIR / 'GOOGLE_DRIVE_KEY_FILE.json'

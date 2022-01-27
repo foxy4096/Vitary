@@ -2,8 +2,8 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
-# from gdstorage.storage import GoogleDriveStorage
-# gd_storage = GoogleDriveStorage()
+from gdstorage.storage import GoogleDriveStorage
+gd_storage = GoogleDriveStorage()
 
 
 class Vit(models.Model):
@@ -19,12 +19,14 @@ class Vit(models.Model):
         blank=True,
         null=True,
         help_text="You can upload upto one image per Vit",
+        storage=gd_storage,
     )
     video = models.FileField(
         upload_to="uploads/videos/",
         blank=True,
         null=True,
         help_text="You can upload upto one video per Vit",
+        storage=gd_storage,
     )
     likes = models.ManyToManyField(User, related_name="liked_vits")
     like_count = models.IntegerField(default=0)
@@ -43,10 +45,6 @@ class Vit(models.Model):
     def __str__(self):
         return f"Vit No.{self.pk}"
 
-    def delete(self, *args, **kwargs):
-        self.image.delete()
-        self.video.delete()
-        super().delete(*args, **kwargs)
 
     class Meta:
         ordering = ["-date"]

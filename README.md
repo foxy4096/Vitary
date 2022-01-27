@@ -1,7 +1,6 @@
 # Vitary 
 A simple social media made with Django
 
-[![Django CI](https://github.com/foxy4096/Vitary/actions/workflows/django.yml/badge.svg)](https://github.com/foxy4096/Vitary/actions/workflows/django.yml)
 [![CodeQL](https://github.com/foxy4096/Vitary/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/foxy4096/Vitary/actions/workflows/codeql-analysis.yml)
 
 ## Installation :hammer_and_wrench:	
@@ -23,18 +22,23 @@ Add the enviroment variables :gear:
 In Powershell or terminal 💻
 
 ```
-touch .env
+touch Vitary/.env
 ```
 
 In `.env` add the following variables ➕
 
 ```
 DEBUG=True or False
-EMAIL_ADDRESS
-EMAIL_PASSWORD
-SITE_ID
+EMAIL_ADDRESS [Optional if DEBUG is True]
+EMAIL_PASSWORD [Optional if DEBUG is True]
+SITE_ID [Optional if DEBUG is True]
+STRIPE_PUBLIC_KEY
+STRIPE_SECRET_KEY
 ```
 
+Get the Google Drive JSON key from [Here](https://django-googledrive-storage.readthedocs.io/en/latest/)
+
+Rename it to `GOOGLE_DRIVE_KEY_FILE.json` and Put it in the Base Directory (At the ame level where the `manage.py` is located)
 
 Make a virtualenv 📡
 
@@ -115,12 +119,12 @@ python3 manage.py runserver
 ## Screenshot :camera:
 
 
-![Homepage](./screenshots/homepage_logged_out.jpeg)
+![Homepage](./screenshot/home_logged_out.jpeg)
 
-![signup](./screenshots/register.jpeg)
+![signup](./screenshot/sign_up.jpeg)
 
-![login](./screenshots/login.jpeg)
+![login](./screenshot/log_in.jpeg)
 
-![feed_home](./screenshots/feed_home.jpeg)
+![feed_home](./screenshot/home_logged_in.jpeg)
 
-![profile](./screenshots/profile.jpeg)
+![profile](./screenshot/profile.jpeg)

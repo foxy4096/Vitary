@@ -8,17 +8,7 @@ All Donations
 {% block content %}
 <div class="columns">
     <div class="column is-7">
-        <div class="level">
-            <div class="level-left">
-                <h1 class="title is-1 has-text-weight-bold">All Donations</h1>
-            </div>
-            <div class="level-right">
-                <a href="{% url 'my_donations' %}" class="button is-primary is-rounded">
-                    My Donations 💸
-                </a>
-            </div>
-        </div>
-        
+                <h1 class="title is-1 has-text-weight-bold">My Donations</h1>
         {% if donations %}
         {% for donation in donations %}
         <div class="media">
@@ -49,8 +39,8 @@ All Donations
             </span>
         </div>
         {% else %}
-        No one have donated us now. 😟
-            <br>
+        You have not donated us yet. 😟
+        <br>
             <br>
             <div class="buttons">
                 <a href="{% url 'donate' %}" class="button is-primary is-rounded">Donate Us 💸</a>

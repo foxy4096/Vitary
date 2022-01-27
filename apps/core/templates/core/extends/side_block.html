@@ -18,7 +18,7 @@
             <div class="media-left">
                 <a href="{% url 'profile_view' related_person.username %}">
                     <article class="image is-24x24 is-square">
-                        <img src="{{ related_person.profile.image.url }}" alt="" class="is-rounded">
+                        <img src="{{ related_person.profile.get_image_url }}" alt="" class="is-rounded">
                     </article>
                 </a>
             </div>
@@ -85,7 +85,7 @@
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48">
-                    <img src="{{ following.image.url }}" alt="" class="is-rounded">
+                    <img src="{{ following.get_image_url }}" alt="" class="is-rounded">
                 </article>
             </div>
             <div class="media-content">
@@ -111,7 +111,7 @@
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48">
-                    <img src="{{ follower.image.url }}" alt="" class="is-rounded">
+                    <img src="{{ follower.get_image_url }}" alt="" class="is-rounded">
                 </article>
             </div>
             <div class="media-content">
@@ -158,11 +158,14 @@
             </div>
         </div>
         {% endfor %}
+        {% else %}
+        No one have donated us now. 😟
         {% endif %}
+        <br>
         <br>
         <div class="buttons">
             <a href="{% url 'donate' %}" class="button is-link is-rounded is-outlined">Donate Now 💲</a>
-            <a href="{% url 'donate' %}" class="button is-ghost is-rounded is-outlined">All Donations 💲</a>
+            <a href="{% url 'all_donations' %}" class="button is-ghost is-rounded is-outlined">All Donations 💲</a>
         </div>
 
     </div>

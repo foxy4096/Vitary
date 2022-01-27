@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+All Donations
+{% endblock title %}
+
+
+{% block content %}
+<div class="columns">
+    <div class="column is-7">
+    <h1 class="title is-1 has-text-weight-bold">Request Badge</h1>
+    <br>
+    <span class="tag is-large is-{{ badge.color }} is-rounded">{{ badge.name }}</span> 
+    <br>
+    <br>
+    <p class="subtitle">
+        Please tell us why you want to get this badge.
+    </p>   
+    <form action="." method="POST">
+        <div class="field">
+            <label class="label has-text-white">Reason</label>
+            <div class="control">
+                <textarea class="textarea" name="message" placeholder="Reason"></textarea>
+            </div>
+        </div>
+        <br>
+        <div class="field">
+            <div class="control">
+                <button class="button is-primary is-rounded" type="submit">Request Badge ✔️</button>
+            </div>
+        </div>
+    </div>
+    <div class="column is-5">
+        {% include 'core/extends/side_block.html' %}
+    </div>
+</div>
+{% endblock content %}

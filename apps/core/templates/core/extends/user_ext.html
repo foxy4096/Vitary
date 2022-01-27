@@ -1,7 +1,7 @@
 <div class="media">
     <div class="media-left">
         <article class="image is-64x64">
-            <img src="{{ person.profile.image.url }}" alt="{{ person.username}}" class="is-rounded">
+            <img src="{{ person.profile.get_image_url }}" alt="{{ person.username}}" class="is-rounded">
         </article>
     </div>
     <div class="media-content">

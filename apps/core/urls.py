@@ -13,4 +13,7 @@ urlpatterns = [
     path('terms/', views.terms, name='terms'),
     path('badge/<int:pk>/', views.badge, name='badge'),
     path('donate/', views.donate, name='donate'),
+    path('all-donations/', views.all_donations, name='all_donations'),
+    path('my-donations/', views.my_donations, name='my_donations'),
+    path('request-badge/<int:pk>/', views.request_badge, name='request_badge'),
 ]

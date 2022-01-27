@@ -1,11 +1,11 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 
-from .models import Profile
+
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, ProfileForm
 from apps.notification.utilities import notify
@@ -153,3 +153,14 @@ def user_followers(request, username):
 @login_required
 def advanced_settings(request):
     return render(request, 'accounts/advance.html')
+
+@login_required
+def delete_account(request):
+    if request.method == "POST":
+        user = request.user
+        logout(request)
+        user.is_active = False
+        messages.success(request, "Account Deleted Successfully!")
+        return redirect('home')
+    else:
+        return render(request, 'accounts/delete_account.html')

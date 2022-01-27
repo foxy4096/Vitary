@@ -5,10 +5,11 @@ from django.core.paginator import Paginator
 from apps.vit.forms import VitForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import ReportAbuseForm
+from .forms import DonationProofForm, ReportAbuseForm, DonationProof, BadgeRequestForm
 
 from django.conf import settings
 import stripe
+from django.core.mail import mail_managers
 
 from apps.vit.models import Vit
 from django.contrib.auth.models import User
@@ -116,48 +117,85 @@ def badge(request, pk):
     page_obj = paginator.get_page(page_no)
     return render(request, 'core/badge.html', {'badge': badge, 'usrs': page_obj})
 
-# @login_required
-# def donate(request):
-#     badge = Badge.objects.get_or_create(
-#         name="Donator 💸",
-#         description="This badge is given to people who have donated to us, to keep our server running and helped Vitary to stay alive",
-#         color="warning",
-#         special=True
-#     )[0]
-#     if request.method == "POST":
-#         request.user.profile.badges.set([badge])
-#         return render(request, 'core/donate_success.html')
-#     return render(request, 'core/donate.html')
 
 @login_required
 def donate(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    proof_form = DonationProofForm()
     if request.method == "POST":
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        amount = int(request.POST['amount'])
-        token = request.POST['stripeToken']
-        try:
-            charge = stripe.Charge.create(
-                amount=amount * 100,
-                currency='inr',
-                description='Donation to Vitary',
-                source=token,
+        if request.POST.get('DTYPE') == 'STRIPT':
+            stripe.api_key = settings.STRIPE_SECRET_KEY
+            amount = int(request.POST['amount'])
+            token = request.POST['stripeToken']
+            try:
+                charge = stripe.Charge.create(
+                    amount=amount * 100,
+                    currency='inr',
+                    description='Donation to Vitary',
+                    source=token,
+                )
+                Donation.objects.create(
+                    user=request.user,
+                    amount=amount,
+                    stripe_charge_id=charge['id']
+                )
+                badge = Badge.objects.get_or_create(
+                        name="Donator 💸",
+                        description="This badge is given to people who have donated to us, to keep our server running and helped Vitary to stay alive",
+                        color="warning",
+                        special=True
+                )[0]
+                request.user.profile.badges.set([badge])
+                return render(request, 'core/donate_success.html')
+            except stripe.error.CardError as e:
+                messages.error(request, 'Your card was declined!')
+                print(e)
+                return redirect('donate')
+        elif request.POST.get('DTYPE') == 'OTHER':
+            proof_form = DonationProofForm(request.POST, request.FILES)
+            if proof_form.is_valid():
+                proof = proof_form.save(commit=False)
+                proof.user = request.user
+                proof.save()
+                mail_managers(
+                    'Donation Proof Submitted',
+                    'A user has submitted a donation proof. Please check the admin panel for more details.'
+                )
+                messages.success(request, 'Your proof has been submitted successfully')
+                return render(request, 'core/donate_success_other.html')
+    return render(request, 'core/donate.html', {'stripe_public_key': stripe_public_key, 'proof_form': proof_form})
+
+
+def all_donations(request):
+    donations = Donation.objects.all().order_by('-date')
+    paginator = Paginator(donations, 5)
+    page_no = request.GET.get('page')
+    page_obj = paginator.get_page(page_no)
+    return render(request, 'core/all_donations.html', {'donations': page_obj})
+
+def my_donations(request):
+    donations = Donation.objects.filter(user=request.user).order_by('-date')
+    paginator = Paginator(donations, 5)
+    page_no = request.GET.get('page')
+    page_obj = paginator.get_page(page_no)
+    return render(request, 'core/my_donations.html', {'donations': page_obj})
+
+def request_badge(request, pk):
+    badge = get_object_or_404(Badge, id=pk)
+    if request.method == 'POST':
+        form = BadgeRequestForm(request.POST)
+        if form.is_valid():
+            request_badge = form.save(commit=False)
+            request_badge.badge = badge
+            request_badge.user = request.user
+            request_badge.save()
+            mail_managers(
+                subject='Badge Request',
+                message='A user has requested a badge.\n\nBadge: ' + badge.name + '\n\nUser: ' + request.user.username + '\n\nDescription: ' + request_badge.description,
+                fail_silently=False
             )
-            Donation.objects.create(
-                user=request.user,
-                amount=amount,
-                stripe_charge_id=charge['id']
-            )
-            badge = Badge.objects.get_or_create(
-                    name="Donator 💸",
-                    description="This badge is given to people who have donated to us, to keep our server running and helped Vitary to stay alive",
-                    color="warning",
-                    special=True
-            )[0]
-            request.user.profile.badges.set([badge])
-            return render(request, 'core/donate_success.html')
-        except stripe.error.CardError as e:
-            messages.error(request, 'Your card was declined!')
-            print(e)
-            return redirect('donate')
-    return render(request, 'core/donate.html', {'stripe_public_key': stripe_public_key})
+            messages.success(request, 'Your request has been submitted successfully')
+            return redirect('home')
+    else:
+        form = BadgeRequestForm()
+    return render(request, 'core/request_badge.html', {'form': form, 'badge': badge})

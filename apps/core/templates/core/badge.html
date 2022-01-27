@@ -9,7 +9,15 @@
     {% block content %}
     <div class="columns">
         <div class="column is-7">
-            <span class="tag is-large is-{{ badge.color }} is-rounded">{{ badge.name }}</span>
+            <div class="level">
+                <div class="level-left">
+
+                    <span class="tag is-large is-{{ badge.color }} is-rounded">{{ badge.name }}</span>
+                </div>
+                <div class="level-right">
+                    <a href="{% url 'request_badge' badge.pk %}" class="button is-primary is-rounded">Request The Badge</a>
+                </div>
+            </div>
             <br>
             <br>
             <p class="content">
@@ -17,6 +25,10 @@
             </p>
             <br>
             <p class="content">
+                
+                {% if badge.requirments_set.all %}
+                    
+                
                 <h3 class="title is-3">Requirements:</h3>
                 <br>
                 {% for requirement in badge.requirments_set.all %}
@@ -25,6 +37,7 @@
                     {{ requirement.description | convert_markdown| mention | safe }}
                 </div>
                 {% endfor %}
+                {% endif %}
             </p>
             <br>
             <p class="content">
