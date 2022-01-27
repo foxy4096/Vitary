@@ -23,7 +23,7 @@
             {% if person.is_staff %}
             <span class="tag is-rounded">Staff ✔️</span>
             {% endif %}
-            <div class="is-hidden-mobile">
+            <span class="is-hidden-mobile">
             {% for badge in person.profile.badges.all %}
             <a href="{% url 'badge' badge.id %}">
                 <span class="tag is-rounded is-{{badge.color}}">
@@ -31,7 +31,7 @@
             </span>
         </a>
             {% endfor %}
-            </div>
+    </span>
         </p>
     </div>
     <div class="media-right">

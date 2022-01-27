@@ -22,11 +22,12 @@
                 </h5>
                 <p class="subtitle is-6"><a href="{% url 'profile_view' vit.user.username %}">@{{vit.user.username}}</a>
                     {% if vit.user.is_superuser %}
-                    <span class="tag is-rounded">Admin ✔️</span>
+                    <span class="tag is-rounded">Co-Founder ✔️</span>
                     {% endif %}
                     {% if vit.user.is_staff %}
                     <span class="tag is-rounded">Staff ✔️</span>
                     {% endif %}
+                    <span class="is-hidden-mobile">
                     {% for badge in vit.user.profile.badges.all %}
                     <a href="{% url 'badge' badge.id %}">
                         <span class="tag is-rounded is-{{badge.color}}">
@@ -34,7 +35,7 @@
                         </span>
                     </a>
                     {% endfor %}
-                    
+                    </span>
                     {% if not vit.user.profile in user.profile.follows.all and user.profile in vit.user.profile.follows.all %}
                     <span class="tag is-primary is-light is-rounded">Following You</span>
                     {% endif %}
