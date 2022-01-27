@@ -38,11 +38,11 @@ approve_badge_request.short_description = "Approve Badge Request"
 
 class DonationProofAdmin(admin.ModelAdmin):
     list_display = ['donation', 'proof']
-    action = [approve_donation]
+    actions = [approve_donation]
 
 class BadgeRequestAdmin(admin.ModelAdmin):
     list_display = ['user', 'badge', 'date', 'approved']
-    action = [approve_badge_request]
+    actions = [approve_badge_request]
 
 
 admin.site.register(Abuse, AbuseAdmin)
