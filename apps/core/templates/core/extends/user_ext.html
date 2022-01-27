@@ -5,8 +5,33 @@
         </article>
     </div>
     <div class="media-content">
-        <h4 class="title is-4">{{ person.get_full_name }}</h4>
-        <p class="subtitle is-6"><a href="{% url 'profile_view' person.username %}">@{{person.username}}</a></p>
+        <h4 class="title is-4">
+            {{ person.get_full_name }}
+            {% if person.profile.verified %}
+            <span class="is-small" style="color: rgb(46, 206, 107);">
+                ✔️
+            </span>
+            {% endif %}
+        </h4>
+        <p class="subtitle is-6">
+            <a href="{% url 'profile_view' person.username %}">
+                @{{person.username}}
+            </a>
+            {% if person.is_superuser %}
+            <span class="tag is-rounded">Admin ✔️</span>
+            {% endif %}
+            {% if person.is_staff %}
+            <span class="tag is-rounded">Staff ✔️</span>
+            {% endif %}
+
+            {% for badge in person.profile.badges.all %}
+            <a href="{% url 'badge' badge.id %}">
+                <span class="tag is-rounded is-{{badge.color}}">
+                    {{ badge.name }}
+            </span>
+        </a>
+            {% endfor %}
+        </p>
     </div>
     <div class="media-right">
         <a href="{% url 'profile_view' person.username %}" class="button is-link is-rounded">View 👀</a>
