@@ -23,13 +23,18 @@ def approve_donation(self, request, queryset):
     for donation in queryset:
         donation.approved = True
         donation.save()
+    self.message_user(request, "Selected donations approved")
+approve_donation.short_description = "Approve Donation"
+
+
 
 # Approve the badge request
 def approve_badge_request(self, request, queryset):
     for badge_request in queryset:
         badge_request.approved = True
         badge_request.save()
-
+    self.message_user(request, "Selected badge requests approved")
+approve_badge_request.short_description = "Approve Badge Request"
 
 class DonationProofAdmin(admin.ModelAdmin):
     list_display = ['donation', 'proof']
