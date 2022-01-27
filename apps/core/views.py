@@ -192,7 +192,7 @@ def request_badge(request, pk):
             mail_managers(
                 subject='Badge Request',
                 message='A user has requested a badge.\n\nBadge: ' + badge.name + '\n\nUser: ' + request.user.username + '\n\nDescription: ' + request_badge.description,
-                fail_silently=False
+                fail_silently=True
             )
             messages.success(request, 'Your request has been submitted successfully')
             return redirect('home')
