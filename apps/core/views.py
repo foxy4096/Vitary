@@ -191,7 +191,7 @@ def request_badge(request, pk):
             request_badge.save()
             mail_managers(
                 subject='Badge Request',
-                message='A user has requested a badge.\n\nBadge: ' + badge.name + '\n\nUser: ' + request.user.username + '\n\nDescription: ' + request_badge.description,
+                message='A user has requested a badge.\n\nBadge: ' + badge.name + '\n\nUser: ' + request.user.username + '\n\nMessage: ' + request_badge.message,
                 fail_silently=True
             )
             messages.success(request, 'Your request has been submitted successfully')

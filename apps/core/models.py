@@ -91,7 +91,7 @@ class BadgeRequest(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.approved:
-            self.user.badges.add(self.badge)
+            self.user.profile.badges.add(self.badge)
             self.user.save()
             self.user.email_user(
                 subject='Badge Approved',
@@ -115,6 +115,22 @@ class Donation(models.Model):
 
     class Meta:
         ordering = ["-date"]
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        badge = Badge.objects.get_or_create(
+                        name="Donator 💸",
+                        description="This badge is given to people who have donated to us, to keep our server running and helped Vitary to stay alive",
+                        color="warning",
+                        special=True
+                )[0]
+        self.user.profile.badges.add(badge)
+        self.user.save()
+        self.user.email_user(
+            subject='Donation',
+            message=f'You have donated ${self.amount}.',
+        )
+        super().save(*args, **kwargs)
 
 
 class DonationProof(models.Model):
