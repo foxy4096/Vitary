@@ -18,12 +18,12 @@
                 @{{person.username}}
             </a>
             {% if person.is_superuser %}
-            <span class="tag is-rounded">Admin ✔️</span>
+            <span class="tag is-rounded">Co-Founder ✔️</span>
             {% endif %}
             {% if person.is_staff %}
             <span class="tag is-rounded">Staff ✔️</span>
             {% endif %}
-
+            <div class="is-hidden-mobile">
             {% for badge in person.profile.badges.all %}
             <a href="{% url 'badge' badge.id %}">
                 <span class="tag is-rounded is-{{badge.color}}">
@@ -31,6 +31,7 @@
             </span>
         </a>
             {% endfor %}
+            </div>
         </p>
     </div>
     <div class="media-right">
