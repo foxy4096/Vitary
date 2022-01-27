@@ -32,6 +32,8 @@ DEBUG=True or False
 EMAIL_ADDRESS [Optional if DEBUG is True]
 EMAIL_PASSWORD [Optional if DEBUG is True]
 SITE_ID [Optional if DEBUG is True]
+SECURE_SSL_REDIRECT (Bool) [Optional if DEBUG is True]
+CSRF_COOKIE_SECURE (Bool) [Optional if DEBUG is True]
 STRIPE_PUBLIC_KEY
 STRIPE_SECRET_KEY
 ```
