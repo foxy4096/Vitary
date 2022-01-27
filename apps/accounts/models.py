@@ -14,7 +14,7 @@ class Profile(models.Model):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='uploads/',
-                              default='/uploads/default.jpg', storage=gd_storage)
+                              default='/uploads/default.jpg', storage=gd_storage, verbose_name='Profile Image')
     follows = models.ManyToManyField(
         'self', related_name='followed_by', symmetrical=False)
     follower_count = models.IntegerField(default=0, editable=False)
