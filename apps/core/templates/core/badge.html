@@ -14,9 +14,12 @@
 
                     <span class="tag is-large is-{{ badge.color }} is-rounded">{{ badge.name }}</span>
                 </div>
+                
+                {% if not badge in user.profile.badges.all %}
                 <div class="level-right">
                     <a href="{% url 'request_badge' badge.pk %}" class="button is-primary is-rounded">Request The Badge</a>
                 </div>
+                    {% endif %}
             </div>
             <br>
             <br>

@@ -171,6 +171,8 @@ def all_donations(request):
     page_obj = paginator.get_page(page_no)
     return render(request, 'core/all_donations.html', {'donations': page_obj})
 
+
+@login_required
 def my_donations(request):
     donations = Donation.objects.filter(user=request.user).order_by('-date')
     paginator = Paginator(donations, 5)
@@ -178,22 +180,27 @@ def my_donations(request):
     page_obj = paginator.get_page(page_no)
     return render(request, 'core/my_donations.html', {'donations': page_obj})
 
+@login_required
 def request_badge(request, pk):
     badge = get_object_or_404(Badge, id=pk)
-    if request.method == 'POST':
-        form = BadgeRequestForm(request.POST)
-        if form.is_valid():
-            request_badge = form.save(commit=False)
-            request_badge.badge = badge
-            request_badge.user = request.user
-            request_badge.save()
-            mail_managers(
-                subject='Badge Request',
-                message='A user has requested a badge.\n\nBadge: ' + badge.name + '\n\nUser: ' + request.user.username + '\n\nMessage: ' + request_badge.message,
-                fail_silently=True
-            )
-            messages.success(request, 'Your request has been submitted successfully')
-            return redirect('home')
+    if badge in request.user.profile.badges.all():
+        messages.error(request, 'You already have this badge!')
+        return redirect('home')
     else:
-        form = BadgeRequestForm()
-    return render(request, 'core/request_badge.html', {'form': form, 'badge': badge})
+        if request.method == 'POST':
+            form = BadgeRequestForm(request.POST)
+            if form.is_valid():
+                request_badge = form.save(commit=False)
+                request_badge.badge = badge
+                request_badge.user = request.user
+                request_badge.save()
+                mail_managers(
+                    subject='Badge Request',
+                    message='A user has requested a badge.\n\nBadge: ' + badge.name + '\n\nUser: ' + request.user.username + '\n\nMessage: ' + request_badge.message,
+                    fail_silently=True
+                )
+                messages.success(request, 'Your request has been submitted successfully')
+                return redirect('home')
+        else:
+            form = BadgeRequestForm()
+        return render(request, 'core/request_badge.html', {'form': form, 'badge': badge})
