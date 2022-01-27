@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load mention %}
+{% load convert_markdown %}
+{% load plustag %}
+{% load humanize %}
+
+{% block title %}
+{{ flatpage.title }}
+{% endblock title %}
+{% block content %} 
+<h1 class="title">{{ flatpage.title }}</h1>
+<p>{{ flatpage.content | plustag | safe | mention | convert_markdown }}</p>
+{% endblock content %}

@@ -1,4 +1,5 @@
 {% load static %}
+{% load flatpages %}
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'home' %}">
@@ -45,11 +46,12 @@
                     <a class="navbar-item" href="{% url 'explore' %}">
                         Explore 🌎
                     </a>
+                    {% get_flatpages as flatpages %}
+                    {% for page in flatpages %}
+                    <a href="/pages{{ page.url }}" class="navbar-item">{{ page.title }}</a>
+                    {% endfor %}
                     <a class="navbar-item" href="mailto:adityapriyadarshi669@gmail.com">
                         Contact Us 📧
-                    </a>
-                    <a class="navbar-item" href="{% url 'terms' %}">
-                        Terms and Conditions 📝
                     </a>
                     <hr class="navbar-divider">
                     <a class="navbar-item"

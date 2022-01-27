@@ -105,9 +105,7 @@ def search(request):
     else:
         return redirect('home')
 
-    
-def terms(request):
-    return render(request, 'core/terms.html')
+
 
 def badge(request, pk):
     badge = get_object_or_404(Badge, id=pk)

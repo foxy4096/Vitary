@@ -60,6 +60,9 @@ urlpatterns = [
 
     # Chat
     path('c/', include('apps.chat.urls')),
+
+    # Flatpages
+    path('pages/', include('django.contrib.flatpages.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
