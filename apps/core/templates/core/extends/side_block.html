@@ -84,7 +84,7 @@
         {% for following in user.profile.get_4_following %}
         <div class="media">
             <div class="media-left">
-                <article class="image is-48x48">
+                <article class="image is-48x48 is-square">
                     <img src="{{ following.get_image_url }}" alt="" class="is-rounded">
                 </article>
             </div>
@@ -117,7 +117,7 @@
         {% for follower in user.profile.get_4_followers %}
         <div class="media">
             <div class="media-left">
-                <article class="image is-48x48">
+                <article class="image is-48x48 is-square">
                     <img src="{{ follower.get_image_url }}" alt="" class="is-rounded">
                 </article>
             </div>

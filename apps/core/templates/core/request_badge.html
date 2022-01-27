@@ -17,6 +17,7 @@ All Donations
         Please tell us why you want to get this badge.
     </p>   
     <form action="." method="POST">
+        {% csrf_token %}
         <div class="field">
             <label class="label has-text-white">Reason</label>
             <div class="control">
