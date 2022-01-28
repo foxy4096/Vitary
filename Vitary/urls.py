@@ -25,7 +25,7 @@ urlpatterns = [
 
 
     # Accounts
-    path('', include('apps.accounts.urls')),
+    path('accounts/', include('apps.accounts.urls')),
 
 
     # Vit

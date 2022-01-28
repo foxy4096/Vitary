@@ -204,3 +204,7 @@ def request_badge(request, pk):
         else:
             form = BadgeRequestForm()
         return render(request, 'core/request_badge.html', {'form': form, 'badge': badge})
+
+
+def redirect_to_profile(request):
+    return redirect('profile')
