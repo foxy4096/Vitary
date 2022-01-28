@@ -69,7 +69,7 @@
         {% for latest_vit in latest_vits %}
 
         <a href="{% url 'profile_view' latest_vit.user.username %}">{{ latest_vit.user }}</a>: <a
-            href="{{ latest_vit.get_absolute_url }}">{{latest_vit.body | truncatechars_html:40}}</a> <span
+            href="{{ latest_vit.get_absolute_url }}">{{latest_vit.body | truncatechars:40}}</a> <span
             class="date">{{ latest_vit.date | naturaltime }}</span>
         <br>
         {% endfor %}
