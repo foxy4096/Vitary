@@ -40,6 +40,16 @@
 
     
     {% if vit %}
+    {% if vit.image and not vit.video %}
+    <meta property="og:image" content="{{ vit.image.url }}">
+    <meta property="twitter:image" content="{{ vit.image.url }}">
+    {% elif not vit.image and vit.video %}
+    <meta property="og:video" content="{{ vit.video.url }}">
+    
+    {% else %}
+    <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
+    <meta property="og:image" content="{% static 'img/android-chrome-192x192.png' %}">
+    {% endif %}
     <!-- Vit Page -->
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -47,17 +57,6 @@
     <meta property="og:title" content="Vitary | Make New Friends Today!">
     <meta property="og:description" content="{{ vit.body }}">
     
-    {% if vit.image and not vit.video %}
-    <meta property="og:image" content="{{ vit.image.url }}">
-    <meta property="twitter:image" content="{{ vit.image.url }}">
-    {% elif not vit.image and vit.video %}
-    <meta property="og:video" content="{{ vit.video.url }}">
-    <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
-
-    {% else %}
-    <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
-    <meta property="og:image" content="{% static 'img/android-chrome-192x192.png' %}">
-    {% endif %}
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{% url 'vit_detail' vit.id %}">
@@ -66,10 +65,6 @@
     {% elif onProfile|default:False %}
     <!-- Profile Page -->
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="profile">
-    <meta property="og:url" content="{% url 'profile_view' usr.username %}">
-    <meta property="og:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
-    <meta property="og:description" content="{{ usr.profile.bio }}">
     {% if usr.profile.image %}
     <meta property="og:image" content="{{ usr.profile.image.url }}">
     <meta property="twitter:image" content="{{ usr.profile.image.url }}">
@@ -77,6 +72,10 @@
     <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
     <meta property="og:image" content="{% static 'img/android-chrome-192x192.png' %}">
     {% endif %}
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="{% url 'profile_view' usr.username %}">
+    <meta property="og:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
+    <meta property="og:description" content="{{ usr.profile.bio }}">
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{% url 'profile_view' usr.username %}">

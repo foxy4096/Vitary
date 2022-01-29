@@ -101,7 +101,7 @@ def find_plustag(vit):
     results = vit.body.split()
     for word in results:
         if word[0] == '+' and word[1] != ' ':
-            plustag = Plustag.objects.get_or_create(name__exact=word[1:])
+            plustag = Plustag.objects.get_or_create(name=word[1:])
             vit.plustag.add(plustag[0])
             vit.save()
     
