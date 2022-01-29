@@ -59,6 +59,25 @@
     <meta property="twitter:url" content="{% url 'vit_detail' vit.id %}">
     <meta property="twitter:title" content="Vitary | Make New Friends Today!">
     <meta property="twitter:description" content="{{ vit.body }}">
+    {% elif onProfile|default:False %}
+    <!-- Profile Page -->
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="{% url 'profile_view' usr.username %}">
+    <meta property="og:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
+    <meta property="og:description" content="{{ usr.profile.bio }}">
+    {% if usr.profile.image %}
+    <meta property="og:image" content="{{ usr.profile.image.url }}">
+    <meta property="twitter:image" content="{{ usr.profile.image.url }}">
+    {% else %}
+    <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
+    <meta property="og:image" content="{% static 'img/android-chrome-192x192.png' %}">
+    {% endif %}
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{% url 'profile_view' usr.username %}">
+    <meta property="twitter:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
+    <meta property="twitter:description" content="{{ usr.profile.bio }}">
     {% else %}
 <!-- Normal Page -->
     <!-- Open Graph / Facebook -->

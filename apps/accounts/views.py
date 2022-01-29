@@ -58,7 +58,7 @@ def profile_view(request, username):
     paginator = Paginator(vits, 5)
     page = request.GET.get('page')
     vits = paginator.get_page(page)
-    return render(request, 'accounts/profile_view.html', {'usr': usr, 'vits': vits})
+    return render(request, 'accounts/profile_view.html', {'usr': usr, 'vits': vits, 'onProfile': True})
 
 
 @login_required
