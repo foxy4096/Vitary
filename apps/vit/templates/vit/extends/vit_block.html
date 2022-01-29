@@ -76,8 +76,8 @@
                               </svg>
                         </a>
                         {% endif %}
-                        <a href="javascript:void(0);" onclick="navigator.clipboard.writeText('vitary.pythonanywhere.com/vit/{{ vit.id }}/');" class="dropdown-item">
-                            Copy 
+                        <a href="javascript:void(0);" id="copyButton" onclick="copyLink('{{ vit.id }}')" class="dropdown-item">
+                            <span id="copyLink">Copy</span> 
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                 <rect x="8" y="8" width="12" height="12" rx="2" />
