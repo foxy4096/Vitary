@@ -35,6 +35,32 @@
     <meta name="title" content="Vitary">
     <meta name="description" content="Vitary | Make New Friends Today!">
 
+
+    
+
+    
+    {% if vit %}
+    <!-- Vit Page -->
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{% url 'vit_detail' vit.id %}">
+    <meta property="og:title" content="Vitary | Make New Friends Today!">
+    <meta property="og:description" content="{{ vit.body }}">
+    
+    {% if vit.image %}
+    <meta property="og:image" content="{{ vit.image.url }}">
+    <meta property="twitter:image" content="{{ vit.image.url }}">
+    {% else %}
+    <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
+    <meta property="og:image" content="{% static 'img/android-chrome-192x192.png' %}">
+    {% endif %}
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{% url 'vit_detail' vit.id %}">
+    <meta property="twitter:title" content="Vitary | Make New Friends Today!">
+    <meta property="twitter:description" content="{{ vit.body }}">
+    {% else %}
+<!-- Normal Page -->
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vitary.pythonanywhere.com/home/">
@@ -48,11 +74,15 @@
     <meta property="twitter:title" content="Vitary">
     <meta property="twitter:description" content="Vitary | Make New Friends Today!">
     <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
+
+    <!-- For PWA -->
     <meta name="apple-mobile-web-app-title" content="Vitary">
     <meta name="application-name" content="Vitary">
     <meta name="msapplication-TileColor" content="#603cba">
     <meta name="theme-color" content="#ffffff">
     <meta name="description" content="Vitary | Make New Friends Today!">
+    {% endif %}
+        
 <style>
 
 video {
