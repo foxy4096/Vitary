@@ -43,9 +43,8 @@
     {% if vit.image and not vit.video %}
     <meta property="og:image" content="{{ vit.image.url }}">
     <meta property="twitter:image" content="{{ vit.image.url }}">
-    {% elif not vit.image and vit.video %}
+    {% elif vit.video and not vit.image %}
     <meta property="og:video" content="{{ vit.video.url }}">
-    
     {% else %}
     <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
     <meta property="og:image" content="{% static 'img/android-chrome-192x192.png' %}">
