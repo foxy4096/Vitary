@@ -10,7 +10,7 @@
         <div class="media">
             <div class="media-left">
                 <figure class="image is-48x48 is-square">
-                    <img class="is-rounded" src="{{ vit.user.profile.get_image_url }}" alt="{{ user.username }}" lazy>
+                    <img class="is-rounded" src="{{ vit.user.profile.get_image_url }}" alt="{{ user.username }}" loading="lazy">
                 </figure>
             </div>
             <div class="media-content">
@@ -98,7 +98,9 @@
         </div>
         <div class="content">
             <div class="mx-2 my-2">
-            {{ vit.body | plustag | safe | mention | convert_markdown }}
+                <p class="content">
+                    {{ vit.body | plustag | safe | mention | convert_markdown }}
+                </p>
             </div>
                 {% if not showView %}
                     <div class="columns">
@@ -107,7 +109,7 @@
                                 <div class="card">
                                     <div class="card-image">
                                         <article class="image">
-                                            <img src="{{ vit.image.url }}" alt="vit_image" class="is-rounded" lazy>
+                                            <img src="{{ vit.image.url }}" alt="vit_image" class="is-rounded" loading="lazy">
                                         </article>
                                     </div>
                                 </div>
