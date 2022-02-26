@@ -32,7 +32,7 @@ SECRET_KEY = env('SECRET_KEY' ,default='django-insecure-od1y3j(!1bl7)s%n#1$xh1%p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', default=True)
 
-ALLOWED_HOSTS = ['vitary.pythonanywhere.com', 'localhost', '192.168.182.210']
+ALLOWED_HOSTS = ['vitary.pythonanywhere.com', 'localhost', '192.168.182.210', '*']
 
 
 # Application definition
@@ -55,10 +55,10 @@ INSTALLED_APPS = [
     'apps.blog.apps.BlogConfig',
     'apps.notification.apps.NotificationConfig',
     'apps.chat.apps.ChatConfig',
+    'apps.develop.apps.DevelopConfig',
 
     # Third Party Apps
     'django_cleanup.apps.CleanupConfig',
-    'gdstorage',
 ]
 
 MIDDLEWARE = [
@@ -188,7 +188,3 @@ ADMIN = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
 # Stripe Config
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
-
-
-# Google Drive Config
-GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = BASE_DIR / 'GOOGLE_DRIVE_KEY_FILE.json'

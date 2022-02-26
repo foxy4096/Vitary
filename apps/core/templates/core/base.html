@@ -1,14 +1,15 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="forest">
 
 <head>
     <meta charset="UTF-8">
+    <script src="{% static 'js/jquery.js' %}"></script>
     <meta name="google-site-verification" content="talpjIMGSLi3tqtLzbghCA_FL28jJPkrDM0K4wq_2Z0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" id="theme_style" href="{% static 'css/style.css' %}">
-    <script src="{% static 'js/jquery.js' %}"></script>
+    <link rel="stylesheet" id="theme_style" href="{% static 'css/custom.css' %}">
     <meta name="mobile-web-app-capable" content="yes">
     {% if unread_notifications %}
     <link rel="shortcut icon" href="{% static 'img/favicon_notif.ico' %}" type="image/x-icon">
@@ -34,11 +35,6 @@
     </title>
     <meta name="title" content="Vitary">
     <meta name="description" content="Vitary | Make New Friends Today!">
-
-
-    
-
-    
     {% if vit %}
     {% if vit.image and not vit.video %}
     <meta property="og:image" content="{{ vit.image.url }}">
@@ -56,7 +52,7 @@
     <meta property="og:url" content="{% url 'vit_detail' vit.id %}">
     <meta property="og:title" content="Vitary | Make New Friends Today!">
     <meta property="og:description" content="{{ vit.body }}">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{% url 'vit_detail' vit.id %}">
@@ -82,7 +78,7 @@
     <meta property="twitter:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
     <meta property="twitter:description" content="{{ usr.profile.bio }}">
     {% else %}
-<!-- Normal Page -->
+    <!-- Normal Page -->
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vitary.pythonanywhere.com/home/">
@@ -104,16 +100,7 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="description" content="Vitary | Make New Friends Today!">
     {% endif %}
-        
-<style>
 
-video {
-        margin-bottom:10px;
-        -moz-border-radius:20px;
-        -webkit-border-radius:20px;
-        border-radius:0.4rem;
-			}
-</style>
 </head>
 
 <body>
@@ -132,25 +119,24 @@ video {
 
     {% endif %}
     {% block no_padding %}
-        
+
     {% endblock no_padding %}
     <section class="section">
         <div class="container">
             {% block content %}
 
             {% endblock content %}
-
         </div>
     </section>
-    
-        
+
+
     {% include 'core/footer.html' %}
 
     {% block script %}
 
     {% endblock script %}
     <script src="{% static 'js/like.js' %}"></script>
-    <script src="{% static 'js/playOnVisible.js' %}"></script>
+    <script src="{% static 'js/follow.js' %}"></script>
     <!-- Bulma Navbar control -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {

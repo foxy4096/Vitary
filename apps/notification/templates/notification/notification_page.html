@@ -1,7 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load humanize %}
-{% load check_url %}
 {% load convert_markdown %}
 {% load mention %}
 
@@ -13,11 +12,14 @@ Notification
     <div class="column">
         <div class="level">
             <div class="level-left">
-                <h1 class="title is-1 has-text-weight-bold">Notifications</h1>
+                <h1 class="title is-1 has-text-weight-bold">
+                    Notifications
+                </h1>
             </div>
             <div class="level-right">
                 <div class="buttons">
-                    <a href="{% url 'mark_as_read' %}" class="button is-dark is-inverted is-outlined">Mark As Read 
+                    <a href="{% url 'mark_as_read' %}" class="button is-dark is-inverted is-outlined">
+                        Mark As Read 
                         <span class="is-small" style="color: rgb(46, 206, 107);">
                             ✔️
                         </span>
@@ -25,32 +27,33 @@ Notification
                 </div>
             </div>
         </div>
-
         {% if notifications %}
-
-
         {% for notification in notifications %}
         <div class="media">
             <div class="media-left">
                 <a href="{% url 'profile_view' notification.by_user %}">
                     <article class="image is-48x48 is-square">
-                        <img src="{{ notification.by_user.profile.get_image_url }}" alt="user" class="is-rounded">
+                        <img src="{{ notification.by_user.profile.image.url }}" alt="user" class="profile-img">
                     </article>
                 </a>
             </div>
             <div class="media-content">
                 <p class="content">
-                    {{ notification.message | truncatechars:100 | safe | mention | check_url | convert_markdown }}
-                    <span class="tag is-link">{{ notification.notification_type | title }}</span>
+                    {{ notification.message | truncatechars:100 | safe | mention | convert_markdown }}
+                    <span class="tag is-info">
+                        {{ notification.notification_type | title }}
+                    </span>
                     {% if not notification.is_read %}
-                    <span class="tag is-info">Unread</span>
+                    <span class="tag is-success">Unread</span>
                     {% endif %}
                     <br>
                     {{ notification.date | naturaltime }}
                 </p>
             </div>
             <div class="media-right">
-                <a href="{% url 'notification_redirect' notification.pk %}" class="button is-link">View 👀</a>
+                <a href="{% url 'notification_redirect' notification.pk %}" class="button is-info">
+                    View 👀
+                </a>
             </div>
         </div>
         {% endfor %}

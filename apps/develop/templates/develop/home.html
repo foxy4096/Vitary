@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+Home - Develope
+{% endblock title %}
+
+{% block content %}
+
+<!-- A page for developer dashboard to manage their api keys and domains and their profile -->
+
+<div class="columns is-vcentered">
+    <div class="column">
+        <h2 class="title is-2 has-text-weight-bold">
+            Build A New Way To Make Friends,
+        </h2>
+        <p class="subtitle">
+            with the help of our <a href="https://en.wikipedia.org/wiki/API">API 💻</a>.
+        </p>
+        <div class="buttons">           
+            {% if user.devprofile %}
+            <a href="{% url 'develop_dashboard' %}" class="button is-info">Dashboard 🚀</a>
+            {% else %}
+            <a href="{% url 'develop_join' %}" class="button is-info">Join Now 🚀</a>
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="column">
+        <article class="image">
+            <img src="{% static 'img/surr-568.png' %}" alt="hero1">
+        </article>
+        <p class="content has-text-centered">
+            Illustration by <a href="https://icons8.com/illustrations/author/5eb423ee01d03600140dff88">Tatiana
+                Vinogradova</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
+        </p>
+    </div>
+</div>
+{% endblock content %}

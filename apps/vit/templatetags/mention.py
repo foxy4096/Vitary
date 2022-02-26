@@ -19,7 +19,7 @@ def mention(value):
                 if user:
                     profile_link = reverse_lazy('profile_view', kwargs={
                                                 'username': user.username})
-                    j = f"<a href='{profile_link}'>{i}</a>"
+                    j = f"<a href='{profile_link}' data-toggle='tooltip' title='{user.username}'><b>{i}</b></a>"
                     value = value.replace(i, j)
             except User.DoesNotExist:
                 pass

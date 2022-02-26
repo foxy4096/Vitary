@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+Delete Account
+{% endblock title %}
+
+
+{% block content %}
+
+<h1 class="title is-1 has-text-weight-bold">Change Username?</h1>
+<div class="card">
+    <div class="card-content">
+        <form action="." method="post">
+            <h3 class="title is-3">Are you sure that you want to change your username?</h3>
+            {{form}}
+            {% csrf_token %}
+            <br>
+            <br>
+            <div class="buttons">
+                <button type="submit" class="button is-success">Change my username</button>
+                <a href="{% url 'home' %}" class="button is-ghost">No take me Home</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block script %}
+<script>
+    inputs = document.querySelectorAll('input');
+    for (i = 0; i < inputs.length; i++) {
+
+        inputs[i].classList.add('input');
+    }
+</script>
+{% endblock script %}

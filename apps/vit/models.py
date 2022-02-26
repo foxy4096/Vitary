@@ -2,10 +2,6 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
-from gdstorage.storage import GoogleDriveStorage
-gd_storage = GoogleDriveStorage()
-
-
 class Vit(models.Model):
     """
     Vit model
@@ -19,14 +15,12 @@ class Vit(models.Model):
         blank=True,
         null=True,
         help_text="You can upload upto one image per Vit",
-        storage=gd_storage,
     )
     video = models.FileField(
         upload_to="uploads/videos/",
         blank=True,
         null=True,
-        help_text="You can upload upto one video per Vit",
-        storage=gd_storage,
+        help_text="You can upload upto one video per Vit"
     )
     likes = models.ManyToManyField(User, related_name="liked_vits")
     like_count = models.IntegerField(default=0)
@@ -57,6 +51,18 @@ class Vit(models.Model):
     def latest_vits():
         return Vit.objects.all().order_by("-like_count", "-date")[:5]
 
+    def to_json(self):
+        return {
+            "id": self.id,
+            "body": self.body,
+            "user": self.user.username,
+            "date": self.date.strftime("%b %d, %Y %H:%M:%S"),
+            "image": self.image.url if self.image else None,
+            "video": self.video.url if self.video else None,
+            "likes": self.likes.count(),
+            "plustag": [plus.name for plus in self.plustag.all()],
+            "mentions": [mention.profile.to_json() for mention in self.mentions.all()],
+        }
 
 class Plustag(models.Model):
     """

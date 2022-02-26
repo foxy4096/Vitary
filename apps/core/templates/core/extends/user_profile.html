@@ -10,41 +10,39 @@
     </div>
     {% endif %}
     <div class="card-content">
-        
         <div class="media">
             <div class="media-left">
-                <figure class="image is-64x64 is-square">
-            <img class="is-rounded" src="{{ usr.profile.get_image_url }}">
-        </figure>
-            </div>
-            <div class="media-content">
-
-                <h4 class="title is-4 has-text-weight-bold">{{ usr.get_full_name }}
-                    {% if usr.profile.verified %}
-                    <span class="is-small" style="color: rgb(46, 206, 107);">
-                        ✔️
-                    </span>
-                    {% endif %}
-                </h4>
-                <p class="subtitle"><a href="{% url 'profile_view' usr.username %}">@{{usr.username}}</a>
-                    {% if usr.is_superuser %}
-                    <span class="tag is-rounded">Admin ✔️</span>
-                    {% endif %}
-                    {% if usr.is_staff %}
-                    <span class="tag is-rounded">Staff ✔️</span>
-                    {% endif %}
-                    
-                    {% for badge in usr.profile.badges.all %}
-                    <a href="{% url 'badge' badge.id %}"><span class="tag is-rounded is-{{badge.color}}">{{ badge.name }}</span></a>
-                    {% endfor %}
-                        
-                </p>
-                
+                <figure class="image is-96x96 is-square">
+                    <img class="profile-img" src="{{ usr.profile.image.url }}">
+                </figure>
             </div>
         </div>
-        
+        <h4 class="title is-4 has-text-weight-medium">{{ usr.get_full_name |default:usr.username }}
+            {% if usr.profile.verified %}
+            <span class="is-small" style="color: rgb(46, 206, 107);">
+                ✔️
+            </span>
+            {% endif %}
+        </h4>
+        <p class="subtitle"><a href="{% url 'profile_view' usr.username %}">@{{usr.username}}</a>
+            {% if usr.is_superuser %}
+            <span class="tag badge-white">Admin ✔️</span>
+            {% endif %}
+            {% if usr.is_staff %}
+            <span class="tag badge-white">Staff ✔️</span>
+            {% endif %}
+
+            {% for badge in usr.profile.badges.all %}
+            <a href="{% url 'badge' badge.id %}"><span class="tag is-{{badge.color}} badge-{{ badge.color }}">
+                    {{ badge.name }}
+                </span>
+            </a>
+            {% endfor %}
+
+        </p>
+
         <p class="content">
-            {{ usr.profile.bio | mention | safe | convert_markdown}}
+            {{ usr.profile.bio | mention | safe | convert_markdown | urlize}}
         </p>
     </div>
 </div>

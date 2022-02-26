@@ -1,0 +1,260 @@
+{% extends 'core/base.html' %}
+{% load mention %}
+{% load convert_markdown %}
+{% block title %}
+Dashboard - Develop
+{% endblock title %}
+
+{% block content %}
+
+<div class="columns">
+    <div class="column is-4">
+        <div class="box badge-primary">
+        <figure class="image is-128x128">
+            <img src="{{ user.profile.image.url }}" alt="{{ user }}" class="profile-img">
+        </figure>
+        <div id="devinfo">
+            <h3 class="title is-3 has-text-weight-medium" id="name">
+                {{ user.devprofile.get_full_name }}
+            </h3>
+            <p class="subtitle has-text-weight-light">
+                <a href="{% url 'profile_view' user.username %}">
+                    {{ user.username }}
+                </a>
+            </p>
+            <p id="bio">
+            <div id="bio_data">
+                {{ user.devprofile.bio | safe | mention | convert_markdown }}
+            </div>
+            </p>
+
+            {% if user.devprofile.github_username %}
+            <!-- Github -->
+            <p>
+                <a href="https://github.com/{{ user.devprofile.github_username }}" target="_blank">
+                    <span class="icon">
+                        🐱‍👤
+                    </span>
+                    <span>Github</span>
+                </a>
+            </p>
+            {% endif %}
+
+            {% if user.devprofile.twitter_username %}
+
+            <!-- Twitter -->
+            <p>
+                <a href="https://twitter.com/{{ user.devprofile.twitter_username }}/" target="_blank">
+                    <span class="icon">
+                        🦅
+                    </span>
+                    <span>Twitter</span>
+                </a>
+            </p>
+            {% endif %}
+
+            {% if user.devprofile.website %}
+            <p>
+                <a href="{{ user.devprofile.website }}" target="_blank">
+                    <span class="icon">
+                        🌎
+                    </span>
+                    <span>Website</span>
+                </a>
+            </p>
+
+            {% endif %}
+
+            <br>
+            <button class="button is-info is-fullwidth" id="editButton">Edit</button>
+        </div>
+        <div id="devform">
+            <div class="field">
+                <div class="control">
+                    {% csrf_token %}
+                    {{ form }}
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-info is-fullwidth" id="save_profile">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="box">
+            <div class="level">
+                <div class="level-left">
+                    <h1 class="title has-text-weight-bold">API Keys</h1>
+                </div>
+                <div class="level-right">
+                    <div class="buttons">
+                        {% if user.devprofile.public_key and user.devprofile.private_key %}
+                        <button class="button is-info" id="refreshKey">Refresh Key 🔃</button>
+                        <button class="button is-danger" id="revokeKey">Revoke Key 🗑</button>
+                        <button class="button is-info is-hidden" id="generateKey">Generate Key ⚙</button>
+                        {% else %}
+                        <button class="button is-info" id="generateKey">Generate Key ⚙</button>
+                        <button class="button is-info is-hidden" id="refreshKey">Refresh Key 🔃</button>
+                        <button class="button is-info is-hidden" id="generateKey">Generate Key ⚙</button>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+            <!-- Public Key -->
+            <div class="field">
+                <div class="control">
+                    <div class="tags has-addons">
+                        <span class="tag is-dark">Public Key</span>
+                        <span class="tag is-info" id="publicKey">{{ user.devprofile.public_key }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Private Key -->
+            <div class="field">
+                <div class="control">
+                    <div class="tags has-addons">
+                        <span class="tag is-dark">Private Key</span>
+                        <span class="tag is-info" id="privateKey">{{ user.devprofile.private_key }}</span>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="buttons">
+                <button class="button is-info" id="pub_cpy_btn">Copy Public Key </button>
+                <button class="button is-info" id="prv_cpy_btn">Copy Private Key</button>
+            </div>
+            <hr>
+            <h2 class="title is-2">Try It yourself</h2>
+            <p class="subtitle">Here is the quick code snippet you can use to try the API</p>
+            <div class="box">
+
+                <code class="code">
+                    curl -X GET http://localhost:8000/api/v1/vit/get_vits/ -H "Authorization: Key {{ user.devprofile.public_key }}"
+                </code>
+                <br>
+                <br>
+                <div class="buttons">
+                    <button class="button is-success" id="snippet-1">Copy 📋</button>
+                    <a href="{% url 'develop_docs' %}" class="button is-info">Docs 📔</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('#devform').hide();
+        $('#editButton').click(function () {
+            $('#devinfo').hide();
+            $('#devform').show();
+        });
+        // Generate Key
+        $('#generateKey').click(function () {
+            $.ajax({
+                url: '/develop/api/generate_api_key/',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    $('#publicKey').text(data.public_key);
+                    $('#privateKey').text(data.private_key);
+                    $('#refreshKey').removeClass('is-hidden');
+                    $('#generateKey').addClass('is-hidden');
+                }
+            });
+        });
+
+        // save profile
+        $('#save_profile').click(function () {
+            $('#save_profile').addClass('is-loading');
+            $('#bio_data').remove();
+            $.ajax({
+                url: '/develop/api/edit_profile/',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                data: {
+                    'first_name': $('#id_first_name').val(),
+                    'last_name': $('#id_last_name').val(),
+                    'email': $('#id_email').val(),
+                    'bio': $('#id_bio').val(),
+                    'github': $('#id_github_username').val(),
+                    'twitter': $('#id_twitter_username').val(),
+                    'website': $('#id_website').val()
+                },
+                success: function (data) {
+                    $('#name').text(data.profile.first_name + ' ' + data.profile.last_name);
+                    $('#bio').text(data.profile.bio);
+                    $('#devinfo').show();
+                    $('#devform').hide();
+                }
+            });
+        });
+
+        // Refresh Key
+        $('#refreshKey').click(function () {
+            $.ajax({
+                url: '/develop/api/refresh_api_key/',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    $('#publicKey').text(data.public_key);
+                    $('#privateKey').text(data.private_key);
+                }
+            });
+        });
+
+        // Copy Public Key
+        $('#pub_cpy_btn').click(function () {
+            navigator.clipboard.writeText($('#publicKey').text());
+        });
+
+        // Copy Private Key
+        $('#prv_cpy_btn').click(function () {
+            navigator.clipboard.writeText($('#privateKey').text());
+        });
+
+        //Copy snippet
+        $('#snippet-1').click(function () {
+            navigator.clipboard.writeText('curl -X GET http://localhost:8000/api/v1/vit/get_vits/ -H "Authorization: Key ' + $('#publicKey').text() + '"');
+            $('#snippet-1').text('Copied!');
+            setTimeout(function () {
+                $('#snippet-1').text('Copy 📋');
+            }, 1000);
+
+
+        });
+
+        // Revoke Key
+        $('#revokeKey').click(function () {
+            $.ajax({
+                url: '/develop/api/revoke_api_key/',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    $('#publicKey').text('None');
+                    $('#privateKey').text('None');
+                    $('#refreshKey').addClass('is-hidden');
+                    $('#generateKey').removeClass('is-hidden');
+                    $('#revokeKey').addClass('is-hidden');
+                }
+            });
+        });
+    });
+</script>
+{% endblock script %}

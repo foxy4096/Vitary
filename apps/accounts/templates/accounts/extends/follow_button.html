@@ -1,0 +1,11 @@
+{% if user.is_authenticated %}
+<button id="follow_{{ usr.username }}"
+    class="button is-success{% if small|default:False %}is-small{% endif %}"
+    onclick="follow('{{ usr.username }}')">
+    {% if usr.profile in user.profile.follows.all %}
+    Unfollow ➖
+    {% else %}
+    Follow ➕
+    {% endif %}
+</button>
+{% endif %}

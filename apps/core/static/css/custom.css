@@ -1,0 +1,41 @@
+.profile-img {
+  border-radius: 10%;
+}
+
+.badge-success {
+  box-shadow: 0px 0px 10px 0px rgb(6, 214, 44);
+}
+
+.badge-info {
+  box-shadow: 0px 0px 10px 0px #5c7cfa;
+}
+
+.badge-link {
+  box-shadow: 0px 0px 10px 0px #6669ff;
+}
+
+.badge-primary {
+  box-shadow: 0px 0px 10px 0px #00bcd4;
+}
+.badge-warning {
+  box-shadow: 0px 0px 10px 0px #ff9800;
+}
+
+.badge-danger {
+  box-shadow: 0px 0px 10px 0px #f44336;
+}
+.badge-dark {
+  box-shadow: 0px 0px 10px 0px #ffffff;
+}
+.badge-black {
+  box-shadow: 0px 0px 10px 0px #ffffff;
+}
+.badge-white {
+  box-shadow: 0px 0px 10px 0px #ffffff;
+}
+video {
+  margin-bottom: 10px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border-radius: 0.4rem;
+}

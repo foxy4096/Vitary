@@ -3,7 +3,7 @@
 {% if request.path != '/home/' and user.is_authenticated %}
 <div class="card">
     <div class="card-content">
-        <a href="{% url 'add_vit' %}" class="button is-primary is-fullwidth is-rounded">Add Vit ➕</a>
+        <a href="{% url 'add_vit' %}" class="button is-info is-fullwidth">Add Vit ➕</a>
     </div>
 </div>
 <br>
@@ -18,7 +18,7 @@
             <div class="media-left">
                 <a href="{% url 'profile_view' related_person.username %}">
                     <article class="image is-24x24 is-square">
-                        <img src="{{ related_person.profile.get_image_url }}" alt="" class="is-rounded">
+                        <img src="{{ related_person.profile.image.url }}" alt="" class="is-rounded">
                     </article>
                 </a>
             </div>
@@ -35,25 +35,9 @@
             <div class="media-right">
                 {% if user == related_person %}
 
-                <a href="{% url 'profile' %}" class="button is-link is-small is-rounded">Edit Profile  📝</a>
+                <a href="{% url 'profile' %}" class="button is-success is-small">Edit Profile  📝</a>
                 {% else %}
-
-                {% if not related_person.profile in user.profile.follows.all %}
-                <form action="{% url 'follow' %}" method="GET">
-
-                    <input type="hidden" name="username" value="{{ related_person.username }}">
-                    <input type="hidden" name="vit_id" value="{{ vit.pk }}">
-                    <button class="button is-link is-small is-rounded" type="submit">Follow  ➕</button>
-                </form>
-                {% else %}
-                <form action="{% url 'unfollow' %}" method="GET">
-
-                    <input type="hidden" name="username" value="{{ related_person.username }}">
-                    <input type="hidden" name="vit_id" value="{{ vit.pk }}">
-
-                    <button class="button is-link is-small is-rounded" type="submit">Unfollow  ➖</button>
-                </form>
-                {% endif %}
+                {% include 'accounts/extends/follow_button.html' with usr=related_person small=True %}
                 {% endif %}
             </div>
         </div>
@@ -68,24 +52,33 @@
 
         {% for latest_vit in latest_vits %}
 
-        <a href="{% url 'profile_view' latest_vit.user.username %}">{{ latest_vit.user }}</a>: <a
-            href="{{ latest_vit.get_absolute_url }}">{{latest_vit.body | truncatechars:40}}</a> <span
-            class="date">{{ latest_vit.date | naturaltime }}</span>
+        <a href="{% url 'profile_view' latest_vit.user.username %}">
+            {{ latest_vit.user }}
+        </a>: <a href="{{ latest_vit.get_absolute_url }}">
+            {{latest_vit.body | truncatechars:40}}
+        </a>
+        <span class="date">
+            {{latest_vit.date | naturaltime }}
+        </span>
         <br>
         {% endfor %}
-
-
-        <br>
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-content">
         {% if user.is_authenticated %}
 
-        <h1 class="title has-text-weight-bold">Follower ({{ user.profile.followed_by.all | length }})</h1>
+        <h1 class="title has-text-weight-bold">
+            Follower ({{ user.profile.followed_by.all | length }})
+        </h1>
         <br>
         {% if user.profile.followed_by.all %}
         {% for following in user.profile.get_4_following %}
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
-                    <img src="{{ following.get_image_url }}" alt="" class="is-rounded">
+                    <img src="{{ following.image.url }}" alt="." class="profile-img">
                 </article>
             </div>
             <div class="media-content">
@@ -100,7 +93,9 @@
                     </strong>
                 </h4>
                 <p class="subtitle is-6">
-                    <a href="{% url 'profile_view' following %}">@{{ following.user.username }}</a>
+                    <a href="{% url 'profile_view' following %}">
+                        @{{ following.user.username }}
+                    </a>
                 </p>
             </div>
             <br>
@@ -111,14 +106,16 @@
         No one is following you yet 🎈.
         {% endif %}
         <hr>
-        <h1 class="title has-text-weight-bold">Following ({{ user.profile.follows.all | length }})</h1>
+        <h1 class="title has-text-weight-bold">
+            Following ({{ user.profile.follows.all | length }})
+        </h1>
         <br>
         {% if user.profile.follows.all %}
         {% for follower in user.profile.get_4_followers %}
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
-                    <img src="{{ follower.get_image_url }}" alt="" class="is-rounded">
+                    <img src="{{ follower.image.url }}" alt="." class="profile-img">
                 </article>
             </div>
             <div class="media-content">
@@ -178,8 +175,8 @@
         <br>
         <br>
         <div class="buttons">
-            <a href="{% url 'donate' %}" class="button is-link is-rounded is-outlined">Donate Now 💲</a>
-            <a href="{% url 'all_donations' %}" class="button is-ghost is-rounded is-outlined">All Donations 💲</a>
+            <a href="{% url 'donate' %}" class="button is-info is-outlined">Donate Now 💲</a>
+            <a href="{% url 'all_donations' %}" class="button is-ghost is-outlined">All Donations 💲</a>
         </div>
 
     </div>

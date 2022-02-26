@@ -19,76 +19,92 @@
             </div>
             {% endif %}
             <div class="card-content">
-                
-                <div class="media">
-                    <div class="media-left">
-                        <figure class="image is-96x96 is-square">
-                    <img class="is-rounded" src="{{ usr.profile.get_image_url }}">
+                <figure class="image is-128x128">
+                    <img src="{{ usr.profile.image.url }}" alt="{{ user }}" class="profile-img">
                 </figure>
-                    </div>
-                    <div class="media-content">
+                <br>
+                <div id="info">
+                    <h3 class="title is-3 has-text-weight-medium" id="name">
+                        {{ usr.get_full_name | default:usr.username }}
+                        {% if usr.profile.verified %}
+                        <span class="is-small" style="color: rgb(46, 206, 107);" title="Verified">
+                            ✔️
+                        </span>
+                        {% endif %}
+                    </h3>
+                    <p class="subtitle has-text-weight-light">
+                        @{{ usr.username }}
+                        {% if usr.is_superuser %}
+                        <span class="badge-white tag" title="Co-Founder ✔">
+                            Co-Founder ✔️
+                        </span>
+                        {% endif %}
+                        {% if usr.is_staff %}
+                        <span class="badge-white tag" title="Staff ✔">
+                            Staff ✔️
+                        </span>
+                        {% endif %}
 
-                        <h4 class="title is-4 has-text-weight-bold">{{ usr.get_full_name }}
-                            {% if usr.profile.verified %}
-                            <span class="is-small" style="color: rgb(46, 206, 107);">
-                                ✔️
+                        {% for badge in usr.profile.badges.all %}
+                        <a href="{% url 'badge' badge.id %}">
+                            <span class="badge-{{badge.color}} tag is-{{badge.color}}" title="{{ badge.name }}">
+                                {{ badge.name }}
                             </span>
-                            {% endif %}
-                        </h4>
-                        <p class="subtitle"><a>@{{usr.username}}</a>
-                            {% if usr.is_superuser %}
-                            <span class="tag is-rounded">Co-Founder ✔️</span>
-                            {% endif %}
-                            {% if usr.is_staff %}
-                            <span class="tag is-rounded">Staff ✔️</span>
-                            {% endif %}
-                            
-                            {% for badge in usr.profile.badges.all %}
-                            <a href="{% url 'badge' badge.id %}"><span class="tag is-rounded is-{{badge.color}}">{{ badge.name }}</span></a>
-                            {% endfor %}
-                                
-                        </p>
-                        
-                    </div>
+                        </a>
+                        {% endfor %}
+                    </p>
                 </div>
-                <p>
-                    Followers: <a href="{% url 'followers' usr.username %}">{{ usr.profile.follower_count }}</a>
-                    <br>
-                    Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.following_count }}</a>
-                </p>
-                <br>
+
                 <p class="content">
-                    {{ usr.profile.bio | mention | safe | convert_markdown}}
+                    {{ usr.profile.bio | mention | safe | convert_markdown | urlize}}
                 </p>
                 <br>
-                <div class="buttons">
+                <span>
+                    Followers: <a href="{% url 'followers' usr.username %}">{{ usr.profile.follower_count }}</a>
 
-
+                    Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.following_count }}</a>
+                </span>
+                <br>
+                <br>
+                <div>
+                    <div class="columns">
+                        
+                        {% for group in usr.user_groups.all %}
+                        
+                        {% if user in group.memebers.all or group.is_public %}
+                            
+                        
+                        <div class="column">
+                            <figure class="image is-24x24">
+                                <a href="{% url 'group_detail' group.slug %}">
+                                    <img src="{{ group.image.url }}" alt="Group" class="profile-img" title="{{ group }}">
+                                </a>
+                            </figure>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
                     {% if user == usr %}
-
-                    <a href="{% url 'profile' %}" class="button is-link is-rounded">Edit Profile  📝</a>                        
+                    <div class="columns">
+                        <div class="column">
+                            <a href="{% url 'profile' %}" class="button is-success is-fullwidth">Edit Profile  📝</a>
+                        </div>
+                        <div class="column">
+                            <a href="{% url 'create_group' %}" class="button is-warning is-fullwidth">Create
+                                Group 📝</a>
+                        </div>
+                    </div>
                     {% else %}
 
-                    {% if not usr.profile in user.profile.follows.all %}
-                    <form action="{% url 'follow' %}" method="GET">
-
-                        <input type="hidden" name="username" value="{{ usr.username }}">
-                        <button class="button is-link is-rounded" type="submit">Follow  ➕</button>
-                    </form>
+                    {% if user.is_authenticated %}
+                    {% include 'accounts/extends/follow_button.html' with usr=usr %}
                     {% else %}
-                    <form action="{% url 'unfollow' %}" method="GET">
-
-                        <input type="hidden" name="username" value="{{ usr.username }}">
-                        <button class="button is-link is-rounded" type="submit">Unfollow  ➖</button>
-                    </form>
+                    <a href="{% url 'login' %}" class="button is-success">Follow ➕</a>
                     {% endif %}
                     {% endif %}
-
                     {% if not usr == user %}
                       <a href="{% url 'message_user' usr.username %}" class="button is-warning">Message  📨</a>
-
-                    {% endif %}
-
+                    {% endif %}      
                 </div>
             </div>
         </div>
@@ -116,29 +132,3 @@
         {% include 'core/extends/side_block.html' %}
     </div>
     {% endblock content %}
-
-
-    {% block script %}
-    <script>
-        // Just a simple script which sends the server to like a post
-        // for more info please see apps/vit/api.py
-        function like_vit(vit_id) {
-            fetch(`/api/v1/vit/add_like/?vit_pk=${vit_id}`, {
-                method: 'GET',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                    'type': 'application/json'
-                }
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                if (data.status == 'success') {
-                    var like_count = document.getElementById('like_count_' + vit_id);
-                    like_count.innerHTML = data.like_count;
-                    var like_count = document.getElementById('like_count_' + vit_id);
-                    like_count.innerHTML = data.likes;
-                }
-            });
-        }
-    </script>
-    {% endblock script %}

@@ -2,20 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from apps.vit.models import Vit
 
-from gdstorage.storage import GoogleDriveStorage
-gd_storage = GoogleDriveStorage()
-
 class Abuse(models.Model):
     """
     Abuse model
     """
     ABUSE_TYPE = (
-        ('1', 'Abuse'),
-        ('2', 'Inappropriate'),
-        ('3', 'Spam'),
-        ('4', 'Bullying'),
-        ('5', 'Sexual Content'),
-        ('6', 'Other'),
+        ('ABUSE', 'Abuse'),
+        ('INAPPROPRIATE', 'Inappropriate'),
+        ('SPAM', 'Spam'),
+        ('BULLYING', 'Bullying'),
+        ('SEXUAL_CONTENT', 'Sexual Content'),
+        ('OTHER', 'Other'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     abuse_type = models.CharField(max_length=50, choices=ABUSE_TYPE)
@@ -139,7 +136,7 @@ class DonationProof(models.Model):
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     donation = models.ForeignKey(Donation, on_delete=models.CASCADE, null=True, blank=True)
-    proof = models.FileField(storage=gd_storage)
+    proof = models.FileField(upload_to='proofs/')
     amount = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)

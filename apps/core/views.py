@@ -121,46 +121,33 @@ def donate(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     proof_form = DonationProofForm()
     if request.method == "POST":
-        if request.POST.get('DTYPE') == 'STRIPT':
-            stripe.api_key = settings.STRIPE_SECRET_KEY
-            amount = int(request.POST['amount'])
-            token = request.POST['stripeToken']
-            try:
-                charge = stripe.Charge.create(
-                    amount=amount * 100,
-                    currency='inr',
-                    description='Donation to Vitary',
-                    source=token,
-                )
-                Donation.objects.create(
-                    user=request.user,
-                    amount=amount,
-                    stripe_charge_id=charge['id']
-                )
-                badge = Badge.objects.get_or_create(
-                        name="Donator 💸",
-                        description="This badge is given to people who have donated to us, to keep our server running and helped Vitary to stay alive",
-                        color="warning",
-                        special=True
-                )[0]
-                request.user.profile.badges.set([badge])
-                return render(request, 'core/donate_success.html')
-            except stripe.error.CardError as e:
-                messages.error(request, 'Your card was declined!')
-                print(e)
-                return redirect('donate')
-        elif request.POST.get('DTYPE') == 'OTHER':
-            proof_form = DonationProofForm(request.POST, request.FILES)
-            if proof_form.is_valid():
-                proof = proof_form.save(commit=False)
-                proof.user = request.user
-                proof.save()
-                mail_managers(
-                    'Donation Proof Submitted',
-                    'A user has submitted a donation proof. Please check the admin panel for more details.'
-                )
-                messages.success(request, 'Your proof has been submitted successfully')
-                return render(request, 'core/donate_success_other.html')
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        amount = int(request.POST['amount'])
+        token = request.POST['stripeToken']
+        try:
+            charge = stripe.Charge.create(
+                amount=amount * 100,
+                currency='inr',
+                description='Donation to Vitary',
+                source=token,
+            )
+            Donation.objects.create(
+                user=request.user,
+                amount=amount,
+                stripe_charge_id=charge['id']
+            )
+            badge = Badge.objects.get_or_create(
+                    name="Donator 💸",
+                    description="This badge is given to people who have donated to us, to keep our server running and helped Vitary to stay alive",
+                    color="warning",
+                    special=True
+            )[0]
+            request.user.profile.badges.set([badge])
+            return render(request, 'core/donate_success.html')
+        except stripe.error.CardError as e:
+            messages.error(request, 'Your card was declined!')
+            print(e)
+            return redirect('donate')
     return render(request, 'core/donate.html', {'stripe_public_key': stripe_public_key, 'proof_form': proof_form})
 
 

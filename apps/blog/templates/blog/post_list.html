@@ -17,25 +17,28 @@ Blog
                     {% endif %}
                 </div>
                 <div class="card-content">
-                    
+
                     <div class="media">
                         <div class="media-center">
                             <article class="image is-48x48">
-                                <img src="{{ post.user.profile.get_image_url }}" class="author-image is-rounded"
+                                <img src="{{ post.user.profile.image.url }}" class="author-image profile-img mt-2"
                                     alt="Placeholder image">
                             </article>
                         </div>
-                        <div class="media-content has-text-centered">
+                        <div class="media-content ml-3">
                             <p class="title article-title has-text-weight-bold">{{ post.title }}</p>
                             <p class="subtitle is-6 article-subtitle">
-                                <a href="{% url 'profile_view' post.user.username %}">@{{post.user.username}}</a> {{ post.date | naturaltime }}
+                                <a href="{% url 'profile_view' post.user.username %}">
+                                    @{{post.user.username}}
+                                </a>
+                                {{ post.date | naturaltime }}
                             </p>
                         </div>
                     </div>
                     <div class="content article-body">
                         <p class="has-text-centered">{{ post.sdesc | truncatechars_html:190 }}</p>
                     </div>
-                    <a href="{% url 'post_detail' post.slug %}" class="button is-primary is-fullwidth is-rounded">Read More 📖</a>
+                    <a href="{% url 'post_detail' post.slug %}" class="button is-info is-fullwidth">Read More 📖</a>
                 </div>
             </div>
             <br>

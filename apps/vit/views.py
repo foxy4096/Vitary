@@ -38,7 +38,7 @@ def edit_vit(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
     DANGER = 40
     if request.user != vit.user:
-        messages.add_message(request, DANGER, "You are not allowed to edit this vit")
+        messages.add_message(request, DANGER, "You are not allowed to edit this vit \n You can only edit your own vit \n If you think this is a mistake, please contact the admin")
         return redirect("home")
     else:
         if request.method == "POST":
@@ -59,7 +59,7 @@ def delete_vit(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
     DANGER = 40
     if request.user != vit.user:
-        messages.add_message(request, DANGER, "You are not allowed to delete this vit")
+        messages.add_message(request, DANGER, "You are not allowed to delete this vit \n Just go away from here you filthy animal")
         return redirect("home")
     else:
         if request.method == "POST":

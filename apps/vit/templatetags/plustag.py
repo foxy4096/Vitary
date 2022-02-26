@@ -19,7 +19,7 @@ def plustag(value):
                 '/', '').replace('\\', '').replace('*', '').replace('=', '').replace('%', '').replace('$', '').replace('#', '').replace('^', '').replace('&', '').replace('|', '').replace('~', '').replace('`', '').replace('<', '').replace('>', '').replace("'", "")
                 plustag = Plustag.objects.get_or_create(name=stng)[0]
                 plustag_link = reverse_lazy('plustag_vits', kwargs={'p': plustag.name})
-                j = f"<a href='{plustag_link}'>{i}</a>"
+                j = f"<a href='{plustag_link}'><b>{i}</b></a>"
                 value = value.replace(i, j)
             except:
                 pass

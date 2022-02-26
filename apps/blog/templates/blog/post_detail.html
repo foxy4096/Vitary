@@ -22,14 +22,14 @@
                 
                 <div class="media">
                     <div class="media-center">
-                        <article class="image is-48x48">
+                        <article class="image is-48x48 mt-2">
                             <a href="{% url 'profile_view' post.user.username %}">
-                            <img src="{{ post.user.profile.get_image_url }}" class="author-image is-rounded"
+                            <img src="{{ post.user.profile.image.url }}" class="author-image profile-img"
                                 alt="Placeholder image">
                             </a>
                         </article>
                     </div>
-                    <div class="media-content has-text-centered">
+                    <div class="media-content has-text-left mx-2">
                         <p class="title article-title has-text-weight-bold">{{ post.title }}</p>
                         <p class="subtitle is-6 article-subtitle">
                             <a href="{% url 'profile_view' post.user.username %}">@{{post.user.username}}</a> {{ post.date | naturaltime }}

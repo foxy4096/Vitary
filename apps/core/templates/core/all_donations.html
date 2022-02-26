@@ -13,7 +13,7 @@ All Donations
                 <h1 class="title is-1 has-text-weight-bold">All Donations</h1>
             </div>
             <div class="level-right">
-                <a href="{% url 'my_donations' %}" class="button is-primary is-rounded">
+                <a href="{% url 'my_donations' %}" class="button is-info">
                     My Donations 💸
                 </a>
             </div>
@@ -24,7 +24,7 @@ All Donations
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48">
-                    <img src="{{ donation.user.profile.get_image_url }}" alt="img" class="is-rounded">
+                    <img src="{{ donation.user.profile.image.url }}" alt="img" class="profile-img">
                 </article>
             </div>
             <div class="media-content">
@@ -53,7 +53,7 @@ All Donations
             <br>
             <br>
             <div class="buttons">
-                <a href="{% url 'donate' %}" class="button is-primary is-rounded">Donate Us 💸</a>
+                <a href="{% url 'donate' %}" class="button is-info">Donate Us 💸</a>
             </div>
         {% endif %}
     </div>

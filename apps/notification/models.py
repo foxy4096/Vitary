@@ -15,6 +15,7 @@ class Notification(models.Model):
         ('like', 'Like'),
         ('follow', 'Follow'),
         ('abuse', 'Abuse'),
+        ('invitation', 'Invitation'),
     ]
     message = models.TextField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)

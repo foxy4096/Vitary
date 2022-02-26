@@ -3,17 +3,12 @@
 {% block title %}
 +{{ plustag.name }}
 {% endblock title %}
-
 {% block content %}
-
-
 <div class="columns">
     <div class="column">
         <div class="">
-        <h1 class="title is-1">+{{ plustag.name }}</h1>
-        Rating: {{plustag.rating}}
-        <br>
-        <br>
+        <h1 class="title is-1 has-text-weight-light has-text-centered">+{{ plustag.name }}</h1>
+        <p class="subtitle has-text-centered">Rating: {{plustag.rating}}</p>
         {% for vit in vits %}
         {% include 'vit/extends/vit_block.html'%}
 

@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% load mention %}
+
+{% load convert_markdown %}
+
+{% block title %}
+
+Documentation - Develop
+
+{% endblock title %}
+
+
+{% block content %}
+
+<h1 class="title is-1"><a href="{% url 'develop_docs' %}">Documentation</a></h1>
+
+
+<h3 class="title is-3">{{ doc.title }} - {{ doc.category.name }}</h3>
+<p class="subtitle">{{ doc.description }}</p>
+<hr>
+<div class="content">
+    {{ doc.content | safe | mention | convert_markdown  }}
+</div>
+
+
+{% endblock content %}

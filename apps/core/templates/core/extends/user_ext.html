@@ -1,7 +1,7 @@
 <div class="media">
     <div class="media-left">
         <article class="image is-64x64 is-square">
-            <img src="{{ person.profile.get_image_url }}" alt="{{ person.username}}" class="is-rounded" loading="lazy">
+            <img src="{{ person.profile.image.url }}" alt="{{ person.username}}" class="profile-img" loading="lazy">
         </article>
     </div>
     <div class="media-content">
@@ -17,24 +17,10 @@
             <a href="{% url 'profile_view' person.username %}">
                 @{{person.username}}
             </a>
-            {% if person.is_superuser %}
-            <span class="tag is-rounded">Co-Founder ✔️</span>
-            {% endif %}
-            {% if person.is_staff %}
-            <span class="tag is-rounded">Staff ✔️</span>
-            {% endif %}
-            <span class="is-hidden-mobile">
-            {% for badge in person.profile.badges.all %}
-            <a href="{% url 'badge' badge.id %}">
-                <span class="tag is-rounded is-{{badge.color}}">
-                    {{ badge.name }}
-            </span>
-        </a>
-            {% endfor %}
     </span>
         </p>
     </div>
     <div class="media-right">
-        <a href="{% url 'profile_view' person.username %}" class="button is-link is-rounded">View 👀</a>
+        <a href="{% url 'profile_view' person.username %}" class="button is-info is-small">View 👀</a>
     </div>
 </div>

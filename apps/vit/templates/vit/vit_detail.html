@@ -12,56 +12,57 @@
 <div class="columns">
   <div class="column is-7">
     {% include 'vit/extends/vit_block.html'%}
-      {% if vit.image %}
-        <div class="card">
-          <div class="card-image">
-            <article class="image">
-              <img src="{{ vit.image.url }}" alt="">
-            </article>
-          </div>
-        </div>
-      {% endif %}
-        <br>
-      {% if vit.video %}
-          <article class="image">
-          <video src="{{ vit.video.url }}" controls>Your Browser doesn't support Videos</video>
-          </article>
-      {% endif %}
+    {% if vit.image %}
+    <div class="card">
+      <div class="card-image">
+        <article class="image">
+          <img src="{{ vit.image.url }}" alt="">
+        </article>
+      </div>
+    </div>
+    {% endif %}
     <br>
-    <h3 class="title is-3 has-text-weight-bold" id="comments">Comments ({{ vit.comment_set.count }})</h3>
+    {% if vit.video %}
+    <article class="image">
+      <video src="{{ vit.video.url }}" controls>
+        Your Browser doesn't support Videos
+      </video>
+    </article>
+    {% endif %}
+    <br>
+    <h3 class="title is-3 has-text-weight-bold" id="comments">
+      Comments ({{ vit.comment_set.count }})
+    </h3>
     {% if user.is_authenticated %}
-    <!-- Comment form -->
     <form method="POST" class="box">
       {% csrf_token %}
       <div class="field">
-        <label class="subtitle">Comment</label>
         <div class="media">
           <div class="media-left">
             <figure class="image is-48x48">
-              <img src="{{ user.profile.get_image_url }}" alt="{{user}}" class="is-rounded">
+              <img src="{{ user.profile.image.url }}" alt="{{user}}" class="is-rounded">
             </figure>
           </div>
           <div class="media-content">
             <div class="field">
               <p class="control">
-                <textarea class="textarea" name="body" placeholder="Comment \n Use mentions and markdown"></textarea>
+                <textarea class="textarea" name="body" placeholder="Write Comment here, Use mentions and markdown">
+                </textarea>
               </p>
             </div>
             <div class="field">
               <p class="control">
                 <button type="submit" class="button is-link">
                   Comment <span class="is-small" style="color: rgb(46, 206, 107);">
-                        ✔️
-                    </span>
+                    ✔️
+                  </span>
                 </button>
               </p>
             </div>
           </div>
         </div>
-        
       </div>
     </form>
-    <!-- End comment form -->
     {% else %}
     <p class="subtitle">
       Please <a href="{% url 'login' %}">Login</a> to comment.
@@ -73,27 +74,31 @@
       <div class="media">
         <div class="media-left">
           <figure class="image is-48x48 is-square">
-            <img src="{{ comment.user.profile.get_image_url }}" alt="{{comment.user}}" class="is-rounded">
+            <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user}}" class="is-rounded">
           </figure>
         </div>
         <div class="media-content">
           <div class="content">
             <p>
-              <a href="{% url 'profile_view' comment.user.username %}"><strong>@{{ comment.user }}</strong></a>
-              <small> on {{ comment.date | date:"F j, Y, g:i a" }}</small>
+              <a href="{% url 'profile_view' comment.user.username %}">
+                <strong>
+                  @{{ comment.user }}
+                </strong>
+              </a>
+              <small>
+                on {{ comment.date | naturaltime }}
+              </small>
               <br>
-              {{ comment.body | safe | mention | convert_markdown }}
+              {{ comment.body | safe | mention | convert_markdown | urlize }}
             </p>
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
-      
   </div>
-
-<div class="column is-5">
-  {% include 'core/extends/side_block.html' %}
-</div>
+  <div class="column is-5">
+    {% include 'core/extends/side_block.html' %}
+  </div>
 </div>
 {% endblock content %}

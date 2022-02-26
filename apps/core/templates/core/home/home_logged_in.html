@@ -9,28 +9,29 @@ Home
 
 
 {% block content %}
-<div class="columns">
+<div class="columns" id="app">
     <div class="column is-7">
         <div class="box">
-            <h1 class="title is-1 has-text-weight-bold">Home</h1>
+            <h1 class="title is-1 has-text-weight-bold has-text-centered">Home</h1>
             {% include 'core/vit_form_inc.html' with title="Add Vit" %}
         </div>
-
+        <br>
         {% if vits %}
-        
         {% for vit in vits %}
         {% include 'vit/extends/vit_block.html' %}
         {% endfor %}
-            
+
         {% else %}
-        Wow Such Empty 😢, maybe try following some <a
-            href="{% url 'peoples' %}">people</a>.
+        <p class="subtitle">
+            Wow Such Empty 😢, maybe try following some <a href="{% url 'peoples' %}">people</a>.
+        </p>
         {% endif %}
         <br>
         <div class="pagination">
             <span class="step-links">
                 {% if vits.has_previous %}
                 <a href="?page=1">&laquo; first</a>
+                 
                 <a href="?page={{ vits.previous_page_number }}">previous</a>
                 {% endif %}
                 <span class="current">
@@ -38,6 +39,7 @@ Home
                 </span>
                 {% if vits.has_next %}
                 <a href="?page={{ vits.next_page_number }}">next</a>
+                 
                 <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
@@ -49,23 +51,3 @@ Home
 </div>
 
 {% endblock content %}
-
-{% block script %}
-<script>
-    const fileInputImage = document.querySelector('#form_image input[type=file]');
-    fileInputImage.onchange = () => {
-        if (fileInputImage.files.length > 0) {
-            const fileName = document.querySelector('#form_image .file-name');
-            fileName.textContent = fileInputImage.files[0].name;
-        }
-    }
-    const fileInputVideo = document.querySelector('#form_video input[type=file]');
-    fileInputVideo.onchange = () => {
-        if (fileInputVideo.files.length > 0) {
-            const fileName = document.querySelector('#form_video .file-name');
-            fileName.textContent = fileInputVideo.files[0].name;
-        }
-    }
-
-</script>
-{% endblock script %}

@@ -12,12 +12,12 @@
             <div class="level">
                 <div class="level-left">
 
-                    <span class="tag is-large is-{{ badge.color }} is-rounded">{{ badge.name }}</span>
+                    <span class="badge-{{badge.color}} tag is-large is-{{ badge.color }}">{{ badge.name }}</span>
                 </div>
                 
                 {% if not badge in user.profile.badges.all %}
                 <div class="level-right">
-                    <a href="{% url 'request_badge' badge.pk %}" class="button is-primary is-rounded">Request The Badge</a>
+                    <a href="{% url 'request_badge' badge.pk %}" class="button is-success">Request The Badge</a>
                 </div>
                     {% endif %}
             </div>

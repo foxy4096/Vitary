@@ -4,96 +4,107 @@
 {% load plustag %}
 {% load humanize %}
 <div class="card" id="vit-{{ vit.pk }}">
-    <header class="card-header">
-      </header>
     <div class="card-content">
         <div class="media">
             <div class="media-left">
                 <figure class="image is-48x48 is-square">
-                    <img class="is-rounded" src="{{ vit.user.profile.get_image_url }}" alt="{{ user.username }}" loading="lazy">
+                    <img class="profile-img" src="{{ vit.user.profile.image.url }}" alt="{{ user.username }}"
+                        loading="lazy">
                 </figure>
             </div>
             <div class="media-content">
                 <h5 class="title is-5">{{ vit.user.get_full_name }}{% if vit.user.profile.verified %}
-                    <span class="is-small" style="color: rgb(46, 206, 107);">
+                    <span class="is-small" style="color: rgb(46, 206, 107);" title="Verified">
                         ✔️
                     </span>
                     {% endif %}
                 </h5>
-                <p class="subtitle is-6"><a href="{% url 'profile_view' vit.user.username %}">@{{vit.user.username}}</a>
+                <p class="subtitle is-6"><a href="{% url 'profile_view' vit.user.username %}"
+                        title="{{ vit.user.get_full_name }}">@{{vit.user.username}}</a>
                     {% if vit.user.is_superuser %}
-                    <span class="tag is-rounded">Co-Founder ✔️</span>
+                    <span class="badge-black tag mx-1" title="Co-Founder ✔">Co-Founder ✔️</span>
                     {% endif %}
                     {% if vit.user.is_staff %}
-                    <span class="tag is-rounded">Staff ✔️</span>
+                    <span class="badge-black tag mx-1" title="Staff ✔">Staff ✔️</span>
                     {% endif %}
                     <span class="is-hidden-mobile">
-                    {% for badge in vit.user.profile.badges.all %}
-                    <a href="{% url 'badge' badge.id %}">
-                        <span class="tag is-rounded is-{{badge.color}}">
-                            {{ badge.name }}
-                        </span>
-                    </a>
-                    {% endfor %}
+                        {% for badge in vit.user.profile.badges.all %}
+                        <a href="{% url 'badge' badge.id %}">
+                            <span class="badge-{{badge.color}} mx-1 tag is-{{badge.color}}" title="{{ badge.name }}">
+                                {{ badge.name }}
+                            </span>
+                        </a>
+                        {% endfor %}
                     </span>
-                    {% if not vit.user.profile in user.profile.follows.all and user.profile in vit.user.profile.follows.all %}
-                    <span class="tag is-primary is-light is-rounded">Following You</span>
-                    {% endif %}
+<!-- {% if not vit.user.profile in user.profile.follows.all and user.profile in vit.user.profile.follows.all %}
+<span class="tag is-primary is-light is-rounded">Following You</span>
+{% endif %} -->
                 </p>
             </div>
             <div class="media-right">
                 <div class="dropdown is-right is-hoverable">
                     <div class="dropdown-trigger">
-                      <button class="button is-ghost" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <circle cx="12" cy="12" r="1" />
-                            <circle cx="12" cy="19" r="1" />
-                            <circle cx="12" cy="5" r="1" />
-                          </svg>
-                      </button>
+                        <button class="button is-ghost" aria-haspopup="true" aria-controls="dropdown-menu">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical"
+                                width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="#ffffff" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <circle cx="12" cy="12" r="1" />
+                                <circle cx="12" cy="19" r="1" />
+                                <circle cx="12" cy="5" r="1" />
+                            </svg>
+                        </button>
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div class="dropdown-content">                       
-                        {% if vit.user == request.user %}                           
-                        <a href="{% url 'edit_vit' vit.id %}" class="dropdown-item">
-                            Edit 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
-                                <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
-                              </svg>
-                        </a>
-                        <a href="{% url 'delete_vit' vit.id %}" class="dropdown-item">
-                            Delete 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <line x1="4" y1="7" x2="20" y2="7" />
-                                <line x1="10" y1="11" x2="10" y2="17" />
-                                <line x1="14" y1="11" x2="14" y2="17" />
-                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                              </svg>
-                        </a>
-                        {% endif %}
-                        <a href="javascript:void(0);" id="copyButton" onclick="copyLink('{{ vit.id }}')" class="dropdown-item">
-                            <span id="copyLink_{{ vit.id }}">Copy</span> 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <rect x="8" y="8" width="12" height="12" rx="2" />
-                                <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2" />
-                              </svg>
+                        <div class="dropdown-content">
+                            {% if vit.user == request.user %}
+                            <a href="{% url 'edit_vit' vit.id %}" class="dropdown-item">
+                                Edit 
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil"
+                                    width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="#ffffff"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+                                    <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                                </svg>
                             </a>
-                        <a href="{% url 'report_abuse' vit.pk %}" class="dropdown-item">
-                            Report 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flag-2" width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="#ffec00" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M5 14h14v-9h-14v16" />
-                              </svg>
-                        </a>
-                      </div>
+                            <a href="{% url 'delete_vit' vit.id %}" class="dropdown-item">
+                                Delete 
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+                                    width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="#ff2825"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <line x1="4" y1="7" x2="20" y2="7" />
+                                    <line x1="10" y1="11" x2="10" y2="17" />
+                                    <line x1="14" y1="11" x2="14" y2="17" />
+                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                </svg>
+                            </a>
+                            {% endif %}
+                            <a href="javascript:void(0);" id="copyButton" onclick="copyLink('{{ vit.id }}')"
+                                class="dropdown-item">
+                                <span id="copyLink_{{ vit.id }}">Copy</span> 
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy"
+                                    width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="" />
+                                    <rect x="8" y="8" width="12" height="12" rx="2" />
+                                    <path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2" />
+                                </svg>
+                            </a>
+                            <a href="{% url 'report_abuse' vit.pk %}" class="dropdown-item">
+                                Report 
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-flag-2"
+                                    width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="#ffec00"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M5 14h14v-9h-14v16" />
+                                </svg>
+                            </a>
+                        </div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
         <div class="content">
@@ -102,69 +113,80 @@
                     {{ vit.body | plustag | safe | mention | convert_markdown }}
                 </p>
             </div>
-                {% if not showView %}
-                    <div class="columns">
-                        {% if vit.image %}
-                            <div class="column">
-                                <div class="card">
-                                    <div class="card-image">
-                                        <article class="image">
-                                            <img src="{{ vit.image.url }}" alt="vit_image" class="is-rounded" loading="lazy">
-                                        </article>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                        {% if vit.video %}
-                            <div class="column">
-                                <article class="image">
-                                    <video src="{{ vit.video.url }}" controls>Your Browser doesn't support Videos</video>
-                                </article>
-                            </div>
-                        {% endif %}
+            {% if not showView %}
+            <div class="columns">
+                {% if vit.image %}
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <article class="image">
+                                <img src="{{ vit.image.url }}" alt="vit_image" class="is-rounded" loading="lazy">
+                            </article>
+                        </div>
                     </div>
+                </div>
                 {% endif %}
+                {% if vit.video %}
+                <div class="column">
+                    <article class="image">
+                        <video src="{{ vit.video.url }}" controls>Your Browser doesn't support Videos</video>
+                    </article>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
             <small>
                 <time datetime="{{ vit.date }}">
                     {{ vit.date | naturaltime }}
                 </time>
             </small>
             <br>
-            
+
         </div>
     </div>
     <footer class="card-footer">
         {% if not showView %}
-            <a href="{% url 'vit_detail' vit.id %}" class="card-footer-item">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="96" height="96" viewBox="0 0 24 24" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <circle cx="12" cy="12" r="2" />
-                    <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" />
-                  </svg>
-            </a>
-            {% endif %}
-            {% if user.is_authenticated %}
-            <a href="javascript:void(0);" onclick="like_vit('{{vit.pk}}');" class="vit_like card-footer-item" id="{{ vit.pk }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="96" height="96" viewBox="0 0 24 24" stroke-width="1" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                  </svg> <span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
-            {% else %}
-            <a href="{% url 'login' %}" class="card-footer-item">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="96" height="96" viewBox="0 0 24 24" stroke-width="1" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                  </svg><span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
-            {% endif %}
-            <a href="{% url 'vit_detail' vit.pk %}#comments" class="card-footer-item">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2" width="94" height="96" viewBox="0 0 24 24" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
-                    <line x1="8" y1="9" x2="16" y2="9" />
-                    <line x1="8" y1="13" x2="14" y2="13" />
-                  </svg>
-                 {{ vit.comment_set.all.count }}</span></a>
-            </a>
-      </footer>
+        <a href="{% url 'vit_detail' vit.id %}" class="card-footer-item">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="96" height="96"
+                viewBox="0 0 24 24" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <circle cx="12" cy="12" r="2" />
+                <path
+                    d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" />
+            </svg>
+        </a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <a href="javascript:void(0);" onclick="like_vit('{{vit.pk}}');" class="vit_like card-footer-item"
+            id="{{ vit.pk }}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="96" height="96"
+                viewBox="0 0 24 24" stroke-width="1" stroke="#ff2825" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path {% if user in vit.likes.all %} fill="#ff2825" {% endif %}
+                    d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" id="vit_like_{{ vit.pk }}_icon" />
+            </svg> <span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
+        {% else %}
+        <a href="{% url 'login' %}" class="card-footer-item">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart" width="96" height="96"
+                viewBox="0 0 24 24" stroke-width="1" stroke="#ff2825" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+            </svg><span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span></a>
+        {% endif %}
+        <a href="{% url 'vit_detail' vit.pk %}#comments" class="card-footer-item">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-2" width="94"
+                height="96" viewBox="0 0 24 24" stroke-width="1" stroke="#ffffff" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 20l-3 -3h-2a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-2l-3 3" />
+                <line x1="8" y1="9" x2="16" y2="9" />
+                <line x1="8" y1="13" x2="14" y2="13" />
+            </svg>
+             {{ vit.comment_set.all.count }}</span></a>
+        </a>
+    </footer>
 </div>
 <br>
