@@ -31,7 +31,7 @@ Dashboard - Develop
             {% if user.devprofile.github_username %}
             <!-- Github -->
             <p>
-                <a href="https://github.com/{{ user.devprofile.github_username }}" target="_blank">
+                <a href="https://github.com/{{ user.devprofile.github_username }}" target="_blank" rel="noopener noreferrer">
                     <span class="icon">
                         🐱‍👤
                     </span>
@@ -44,7 +44,7 @@ Dashboard - Develop
 
             <!-- Twitter -->
             <p>
-                <a href="https://twitter.com/{{ user.devprofile.twitter_username }}/" target="_blank">
+                <a href="https://twitter.com/{{ user.devprofile.twitter_username }}/" target="_blank" rel="noopener noreferrer">
                     <span class="icon">
                         🦅
                     </span>
@@ -55,7 +55,7 @@ Dashboard - Develop
 
             {% if user.devprofile.website %}
             <p>
-                <a href="{{ user.devprofile.website }}" target="_blank">
+                <a href="{{ user.devprofile.website }}" target="_blank" rel="noopener noreferrer">
                     <span class="icon">
                         🌎
                     </span>
