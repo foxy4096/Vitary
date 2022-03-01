@@ -8,6 +8,27 @@
 {{ vit.body | truncatechars_html:50 | safe }}
 {% endblock title %}
 
+
+{% block meta %}
+{% if vit.image %}
+<meta property="og:image" content="{{ vit.image.url }}">
+<meta property="twitter:image" content="{{ vit.image.url }}">
+{% endif %}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="{% url 'vit_detail' vit.id %}">
+<meta property="og:title" content="Vitary | Make New Friends Today!">
+<meta property="og:description" content="{{ vit.body }}">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{% url 'vit_detail' vit.id %}">
+<meta property="twitter:title" content="Vitary | Make New Friends Today!">
+<meta property="twitter:description" content="{{ vit.body }}">
+{% endblock meta %}
+
+
 {% block content %}
 <div class="columns">
   <div class="column is-7">
@@ -16,7 +37,7 @@
     <div class="card">
       <div class="card-image">
         <article class="image">
-          <img src="{{ vit.image.url }}" alt="">
+          <img src="{{ vit.image.url }}" alt="image">
         </article>
       </div>
     </div>
@@ -34,25 +55,35 @@
       Comments ({{ vit.comment_set.count }})
     </h3>
     {% if user.is_authenticated %}
-    <form method="POST" class="box">
+    <form method="POST">
       {% csrf_token %}
       <div class="field">
         <div class="media">
           <div class="media-left">
             <figure class="image is-48x48">
-              <img src="{{ user.profile.image.url }}" alt="{{user}}" class="is-rounded">
+              <img src="{{ user.profile.image.url }}" alt="{{user}}" class="profile-img">
             </figure>
           </div>
           <div class="media-content">
             <div class="field">
               <p class="control">
-                <textarea class="textarea" name="body" placeholder="Write Comment here, Use mentions and markdown">
-                </textarea>
+                <textarea class="textarea" name="body"
+                  placeholder="Write Comment here, Use mentions and markdown"></textarea>
+              <p class="help"><a href="https://www.markdownguide.org/" target="_blank">
+                  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"
+                    data-view-component="true">
+                    <path fill-rule="evenodd" fill="white"
+                      d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z">
+                    </path>
+                  </svg>
+                  Styling with Markdown is supported
+                </a>
+              </p>
               </p>
             </div>
             <div class="field">
               <p class="control">
-                <button type="submit" class="button is-link">
+                <button type="submit" class="button is-info">
                   Comment <span class="is-small" style="color: rgb(46, 206, 107);">
                     ✔️
                   </span>
@@ -74,19 +105,23 @@
       <div class="media">
         <div class="media-left">
           <figure class="image is-48x48 is-square">
-            <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user}}" class="is-rounded">
+            <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user}}" class="profile-img">
           </figure>
         </div>
         <div class="media-content">
           <div class="content">
             <p>
-              <a href="{% url 'profile_view' comment.user.username %}">
-                <strong>
-                  @{{ comment.user }}
-                </strong>
-              </a>
+              <span>
+                {{ comment.user.get_full_name| default:comment.user.username }}
+                <a href="{% url 'profile_view' comment.user.username %}">
+                  <strong>
+                    @{{ comment.user }}
+                  </strong>
+                </a>
+              </span>
+              <br>
               <small>
-                on {{ comment.date | naturaltime }}
+                {{ comment.date | naturaltime }}
               </small>
               <br>
               {{ comment.body | safe | mention | convert_markdown | urlize }}

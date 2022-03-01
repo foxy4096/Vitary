@@ -86,7 +86,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'apps.notification.context_processors.notification',
                 'apps.vit.context_processors.get_latest_vits',
-                'apps.core.context_processors.latest_donations',
             ],
         },
     },

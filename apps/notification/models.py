@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-
 class Notification(models.Model):
     """
     This class represents the Notification model.
@@ -15,7 +14,6 @@ class Notification(models.Model):
         ('like', 'Like'),
         ('follow', 'Follow'),
         ('abuse', 'Abuse'),
-        ('invitation', 'Invitation'),
     ]
     message = models.TextField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)

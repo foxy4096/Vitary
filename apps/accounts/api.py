@@ -1,4 +1,3 @@
-import json
 from django.http import JsonResponse
 
 from django.contrib.auth.models import User
@@ -14,6 +13,7 @@ def user_view_api(request, username):
     """
     Returns the profile of the user with the given username.
     """
+    user = KeyBackend().authenticate(request)
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
@@ -28,16 +28,15 @@ def user_search_api(request):
     user = KeyBackend().authenticate(request)
     if request.user.is_authenticated:
         try:
-            username = request.GET.get('username')
-            users = User.objects.filter(Q(username__icontains=username) | Q(email__icontains=username) | Q(first_name__icontains=username) | Q(last_name__icontains=username))
+            query = request.GET.get('query')
+            users = User.objects.filter(Q(username__icontains=query) | Q(email__icontains=query) | Q(first_name__icontains=query) | Q(last_name__icontains=query))
             return JsonResponse({'users': [user.profile.to_json() for user in users]})
         except User.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=404)
     else:
         return JsonResponse({'error': 'You must be logged in'}, status=401)
 
-   
-    
+
 def follow(request):
     """
     Follows the user with the given username in the request data.

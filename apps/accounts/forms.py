@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.text import slugify
 
-from .models import Profile, Group
+from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, help_text='Required.', label='First Name')
@@ -63,24 +63,3 @@ class UsernameForm(forms.Form):
         widgets = {
             'username': forms.TextInput(attrs={'class': 'input', 'placeholder': 'Username'}),
         }
-        
-
-class GroupForm(forms.ModelForm):
-    class Meta:
-        model = Group
-        fields = ['name', 'description', 'image', 'is_public']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'input', 'placeholder': 'Group Name'}),
-            'description': forms.Textarea(attrs={'class': 'textarea', 'placeholder': 'Group Description'}),
-            'image': forms.FileInput(attrs={'class': 'input', 'placeholder': 'Group Image'}),
-            'is_public': forms.CheckboxInput(attrs={'class': 'checkbox'}),
-        }
-
-        def save(self, commit=True):
-            group = super().save(commit=False)
-            group.name = self.cleaned_data['name']
-            group.description = self.cleaned_data['description']
-            if commit:
-                group.slug = slugify(group.name)
-                group.save()
-            return group

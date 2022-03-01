@@ -70,6 +70,7 @@ class Plustag(models.Model):
     """
 
     name = models.CharField(max_length=50)
+    description = models.TextField(max_length=500, blank=True, null=True)
     rating = models.IntegerField(default=0)
 
     def __str__(self):

@@ -10,6 +10,9 @@ People
 <div class="columns">
     <div class="column is-7">
         <h1 class="title is-1 has-text-weight-bold">People</h1>
+        <p class="subtitle">
+            Find new people.
+        </p>
         {% if persons %}
         {% for person in persons %}
         {% include 'core/extends/user_ext.html' with person=person %}

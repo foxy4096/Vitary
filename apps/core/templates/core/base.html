@@ -1,15 +1,13 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en" data-theme="forest">
-
 <head>
     <meta charset="UTF-8">
     <script src="{% static 'js/jquery.js' %}"></script>
     <meta name="google-site-verification" content="talpjIMGSLi3tqtLzbghCA_FL28jJPkrDM0K4wq_2Z0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" id="theme_style" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" id="theme_style" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <meta name="mobile-web-app-capable" content="yes">
     {% if unread_notifications %}
     <link rel="shortcut icon" href="{% static 'img/favicon_notif.ico' %}" type="image/x-icon">
@@ -19,79 +17,32 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
     <link rel="mask-icon" href="{% static 'img/safari-pinned-tab.svg' %}" color="#5bbad5">
     {% endif %}
-    <!-- Primary Meta Tags -->
     <title>
-
         {% if user.is_authenticated %}
-
         {% if unread_notifications %}
         ({{unread_notifications.count}})
-
         {% endif %}
-
         {% endif %}
-
         {% block title %}{% endblock title %} | Vitary
     </title>
     <meta name="title" content="Vitary">
     <meta name="description" content="Vitary | Make New Friends Today!">
-    {% if vit %}
-    {% if vit.image and not vit.video %}
-    <meta property="og:image" content="{{ vit.image.url }}">
-    <meta property="twitter:image" content="{{ vit.image.url }}">
-    {% elif vit.video and not vit.image %}
-    <meta property="og:video" content="{{ vit.video.url }}">
-    <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
-    {% else %}
-    <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
-    <meta property="og:image" content="{% static 'img/android-chrome-192x192.png' %}">
-    {% endif %}
-    <!-- Vit Page -->
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{% url 'vit_detail' vit.id %}">
-    <meta property="og:title" content="Vitary | Make New Friends Today!">
-    <meta property="og:description" content="{{ vit.body }}">
+    {% block meta %}
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{% url 'vit_detail' vit.id %}">
-    <meta property="twitter:title" content="Vitary | Make New Friends Today!">
-    <meta property="twitter:description" content="{{ vit.body }}">
-    {% elif onProfile|default:False %}
-    <!-- Profile Page -->
-    <!-- Open Graph / Facebook -->
-    {% if usr.profile.image %}
-    <meta property="og:image" content="{{ usr.profile.image.url }}">
-    <meta property="twitter:image" content="{{ usr.profile.image.url }}">
-    {% else %}
-    <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
-    <meta property="og:image" content="{% static 'img/android-chrome-192x192.png' %}">
-    {% endif %}
-    <meta property="og:type" content="profile">
-    <meta property="og:url" content="{% url 'profile_view' usr.username %}">
-    <meta property="og:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
-    <meta property="og:description" content="{{ usr.profile.bio }}">
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{% url 'profile_view' usr.username %}">
-    <meta property="twitter:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
-    <meta property="twitter:description" content="{{ usr.profile.bio }}">
-    {% else %}
-    <!-- Normal Page -->
-    <!-- Open Graph / Facebook -->
+    {% endblock meta %}
+    <!-- Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vitary.pythonanywhere.com/home/">
     <meta property="og:title" content="Vitary">
     <meta property="og:description" content="Vitary | Make New Friends Today!">
-    <meta property="og:image" content="{% static 'img/android-chrome-192x192.png' %}">
+    <meta property="og:image" content="{% static 'img/logo_header.png' %}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://vitary.pythonanywhere.com/home/">
     <meta property="twitter:title" content="Vitary">
     <meta property="twitter:description" content="Vitary | Make New Friends Today!">
-    <meta property="twitter:image" content="{% static 'img/android-chrome-192x192.png' %}">
+    <meta property="twitter:image" content="{% static 'img/logo_header.png' %}">
 
     <!-- For PWA -->
     <meta name="apple-mobile-web-app-title" content="Vitary">
@@ -99,8 +50,6 @@
     <meta name="msapplication-TileColor" content="#603cba">
     <meta name="theme-color" content="#ffffff">
     <meta name="description" content="Vitary | Make New Friends Today!">
-    {% endif %}
-
 </head>
 
 <body>
@@ -122,7 +71,7 @@
 
     {% endblock no_padding %}
     <section class="section">
-        <div class="container">
+        <div class="container-fluid">
             {% block content %}
 
             {% endblock content %}
@@ -135,6 +84,8 @@
     {% block script %}
 
     {% endblock script %}
+    <script src="https://3gc941nr9yx8.statuspage.io/embed/script.js"></script>
+
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/follow.js' %}"></script>
     <!-- Bulma Navbar control -->

@@ -5,9 +5,7 @@
 Advance Settings
 {% endblock title %}
 
-
 {% block content %}
-
 <h1 class="title is-1 has-text-weight-bold">Advance Settings</h1>
 <div class="card">
     <div class="card-content">
@@ -15,12 +13,12 @@ Advance Settings
         <div class="buttons">
             <a href="{% url 'change_username' %}" class="button is-success">Change my username</a>
         </div>
-        <hr>
+        <br>
         <h3 class="title is-3">Change the password?</h3>
         <div class="buttons">
             <a href="{% url 'password_change' %}" class="button is-info">Change my password</a>
         </div>
-        <hr>
+        <br>
         <h3 class="title is-3">Delete Your Account?</h3>
         <div class="buttons">
             <a href="{% url 'delete_account' %}" class="button is-danger">Delete My Account</a>
@@ -28,5 +26,4 @@ Advance Settings
     </div>
 </div>
 <br>
-
 {% endblock content %}

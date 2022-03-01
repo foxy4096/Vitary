@@ -1,11 +1,16 @@
 {% extends 'core/base.html' %}
 {% load humanize %}
+
 {% block title %}
 Delete Vit
 {% endblock title %}
+
 {% block content %}
+
 <h1 class="title">Delete Vit?</h1>
+<div class="column is-7">
 {% include 'vit/extends/vit_block.html' %}
+</div>
     <form method="POST">
         <p>It cannot be undone!</p>
         {% csrf_token %}

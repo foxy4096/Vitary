@@ -1,4 +1,5 @@
 import json
+import re
 from django.http import JsonResponse
 from django.urls import reverse
 
@@ -34,7 +35,7 @@ def like(request):
         except Vit.DoesNotExist:
             return JsonResponse({'error': 'Vit not found'}, status=404)
     else:
-        return JsonResponse({'status': 'failure'})
+        return JsonResponse({'error': 'You must be logged in'}, status=401)
 
 
 def get_vits(request):
@@ -43,7 +44,7 @@ def get_vits(request):
         vits = Vit.objects.filter(user=request.user)
         return JsonResponse({'vits': [vit.to_json() for vit in vits]})
     else:
-        return JsonResponse({'error': 'You must be logged in'})
+        return JsonResponse({'error': 'You must be logged in'}, status=401)
 
 
 def get_vit(request):
@@ -56,11 +57,14 @@ def get_vit(request):
         except:
             return JsonResponse({'error': 'Vit not found'}, status=404)
     else:
-        return JsonResponse({'error': 'You must be logged in'})
+        return JsonResponse({'error': 'You must be logged in'}, status=401)
 
 
 @csrf_exempt
 def add_vit(request):
+    """
+    Add a new vit with API, currently image and video are not supported
+    """
     user = KeyBackend().authenticate(request)
     if request.method == "POST":
         if request.user.is_authenticated:
@@ -73,8 +77,60 @@ def add_vit(request):
                 find_plustag(vit=vit)
                 return JsonResponse({'status': 'success', 'vit': vit.to_json()}, status=201)
             else:
-                print(form.errors)
                 return JsonResponse({'error': 'No vit body provided'}, status=400)
+        else:
+            return JsonResponse({'error': 'You must be logged in'}, status=401)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+@csrf_exempt
+def edit_vit(request):
+    """
+    Edit a vit with API
+    """
+    user = KeyBackend().authenticate(request)
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            try:
+                vit = Vit.objects.get(id=request.POST.get('vit_pk'))
+                if vit.user == request.user:
+                    form = VitForm(request.POST, instance=vit)
+                    if form.is_valid():
+                        vit = form.save(commit=False)
+                        vit.save()
+                        find_mention(vit=vit, request=request, ntype="vit")
+                        find_plustag(vit=vit)
+                        return JsonResponse({'status': 'success', 'vit': vit.to_json()}, status=201)
+                    else:
+                        return JsonResponse({'error': 'No vit body provided'}, status=400)
+                else:
+                    return JsonResponse({'error': 'You do not have permission to edit this vit'}, status=403)
+            except Vit.DoesNotExist:
+                return JsonResponse({'error': 'Vit not found'}, status=404)
+        else:
+            return JsonResponse({'error': 'You must be logged in'}, status=401)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+@csrf_exempt
+def delete_vit(request):
+    """
+    Delete a vit with API
+    """
+    user = KeyBackend().authenticate(request)
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            try:
+                vit = Vit.objects.get(id=request.POST.get('vit_pk'))
+                if vit.user == request.user:
+                    vit.delete()
+                    return JsonResponse({'status': 'success'}, status=200)
+                else:
+                    return JsonResponse({'error': 'You do not have permission to delete this vit'}, status=403)
+            except Vit.DoesNotExist:
+                return JsonResponse({'error': 'Vit not found'}, status=404)
         else:
             return JsonResponse({'error': 'You must be logged in'}, status=401)
     else:

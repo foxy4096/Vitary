@@ -1,21 +1,24 @@
+# Some thingies for media and static files
 from django.conf import settings
 from django.conf.urls.static import static
-# from django.conf.urls import url
 from django.urls import re_path
 from django.views.static import serve
 
-
+# Some thingies for admin
 from django.contrib import admin
+
+# Some thingies for urls
 from django.urls import path, include
+
 
 from apps.accounts.views import profile, user_following, user_followers
 from apps.vit.views import plustag_vits
 
 # APIs
-from apps.core.api import zen
+from apps.core.api import zen, get_routes
 from apps.chat.api import get_message_api, send_message_api
 from apps.accounts.api import follow, user_view_api, user_search_api
-from apps.vit.api import like, get_vits, add_vit, get_vit
+from apps.vit.api import like, get_vits, add_vit, get_vit, edit_vit, delete_vit
 
 
 # Status
@@ -39,7 +42,7 @@ urlpatterns = [
 
 
     # User
-    path('user/<str:username>/', include([
+    path('u/<str:username>/', include([
         path('', profile, name='profile_view'),
         path('following/', user_following, name='following'),
         path('followers/', user_followers, name='followers')
@@ -52,12 +55,17 @@ urlpatterns = [
 
     # API
     # Core
+    path('api/v1/', get_routes),
     path('api/v1/zen/', zen),
+
     # Vits
     path('api/v1/vit/like/', like),
     path('api/v1/vit/get_vits/', get_vits),
     path('api/v1/vit/get_vit/', get_vit),
     path('api/v1/vit/add_vit/', add_vit),
+    path('api/v1/vit/edit_vit/', edit_vit),
+    path('api/v1/vit/delete_vit/', delete_vit),
+    
 
     # Users
     path('api/v1/follow/', follow),
@@ -70,7 +78,7 @@ urlpatterns = [
 
 
     # Plustag
-    path('p/<str:p>/', plustag_vits, name='plustag_vits'),
+    path('plustag/<str:p>/', plustag_vits, name='plustag_vits'),
 
 
     # Blog
@@ -78,7 +86,7 @@ urlpatterns = [
 
 
     # Chat
-    path('c/', include('apps.chat.urls')),
+    path('chat/', include('apps.chat.urls')),
 
     # Flatpages
     path('pages/', include('django.contrib.flatpages.urls')),

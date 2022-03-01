@@ -5,15 +5,12 @@ from django.core.paginator import Paginator
 from apps.vit.forms import VitForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import DonationProofForm, ReportAbuseForm, DonationProof, BadgeRequestForm
+from .forms import ReportAbuseForm
 
-from django.conf import settings
-import stripe
-from django.core.mail import mail_managers
 
 from apps.vit.models import Vit
 from django.contrib.auth.models import User
-from .models import Badge, Donation
+from .models import Badge
 
 
 def redirect_to_home(request):
@@ -70,6 +67,8 @@ def report_abuse(request, pk):
 def page_404(request):
     return render(request, '404.html')
 
+
+
 def search(request):
     original_query = request.GET.get('q', '')
     query = original_query
@@ -115,82 +114,6 @@ def badge(request, pk):
     page_obj = paginator.get_page(page_no)
     return render(request, 'core/badge.html', {'badge': badge, 'usrs': page_obj})
 
-
-@login_required
-def donate(request):
-    stripe_public_key = settings.STRIPE_PUBLIC_KEY
-    proof_form = DonationProofForm()
-    if request.method == "POST":
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        amount = int(request.POST['amount'])
-        token = request.POST['stripeToken']
-        try:
-            charge = stripe.Charge.create(
-                amount=amount * 100,
-                currency='inr',
-                description='Donation to Vitary',
-                source=token,
-            )
-            Donation.objects.create(
-                user=request.user,
-                amount=amount,
-                stripe_charge_id=charge['id']
-            )
-            badge = Badge.objects.get_or_create(
-                    name="Donator 💸",
-                    description="This badge is given to people who have donated to us, to keep our server running and helped Vitary to stay alive",
-                    color="warning",
-                    special=True
-            )[0]
-            request.user.profile.badges.set([badge])
-            return render(request, 'core/donate_success.html')
-        except stripe.error.CardError as e:
-            messages.error(request, 'Your card was declined!')
-            print(e)
-            return redirect('donate')
-    return render(request, 'core/donate.html', {'stripe_public_key': stripe_public_key, 'proof_form': proof_form})
-
-
-def all_donations(request):
-    donations = Donation.objects.all().order_by('-date')
-    paginator = Paginator(donations, 5)
-    page_no = request.GET.get('page')
-    page_obj = paginator.get_page(page_no)
-    return render(request, 'core/all_donations.html', {'donations': page_obj})
-
-
-@login_required
-def my_donations(request):
-    donations = Donation.objects.filter(user=request.user).order_by('-date')
-    paginator = Paginator(donations, 5)
-    page_no = request.GET.get('page')
-    page_obj = paginator.get_page(page_no)
-    return render(request, 'core/my_donations.html', {'donations': page_obj})
-
-@login_required
-def request_badge(request, pk):
-    badge = get_object_or_404(Badge, id=pk)
-    if badge in request.user.profile.badges.all():
-        messages.error(request, 'You already have this badge!')
-        return redirect('home')
-    else:
-        if request.method == 'POST':
-            form = BadgeRequestForm(request.POST)
-            if form.is_valid():
-                request_badge = form.save(commit=False)
-                request_badge.badge = badge
-                request_badge.user = request.user
-                request_badge.save()
-                mail_managers(
-                    subject='Badge Request',
-                    message='A user has requested a badge.\n\nBadge: ' + badge.name + '\n\nUser: ' + request.user.username + '\n\nMessage: ' + request_badge.message,
-                    fail_silently=True
-                )
-                messages.success(request, 'Your request has been submitted successfully')
-                return redirect('home')
-        else:
-            form = BadgeRequestForm()
-        return render(request, 'core/request_badge.html', {'form': form, 'badge': badge})
 
 
 def redirect_to_profile(request):

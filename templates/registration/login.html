@@ -37,10 +37,12 @@ Login
 
 {% block script %}
 <script>
+    // Just some simple workaround to add classes and placeholder to inputs
     inputs = document.querySelectorAll('input');
     for (i = 0; i < inputs.length; i++) {
         
         inputs[i].classList.add('input');
+        inputs[i].classList.add('is-large');
     }
     inputs[1].placeholder = 'Username';
     inputs[2].placeholder = 'Password';

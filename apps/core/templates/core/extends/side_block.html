@@ -3,22 +3,21 @@
 {% if request.path != '/home/' and user.is_authenticated %}
 <div class="card">
     <div class="card-content">
-        <a href="{% url 'add_vit' %}" class="button is-info is-fullwidth">Add Vit ➕</a>
+        <a href="{% url 'add_vit' %}" class="button is-info is-fullwidth is-large">Add Vit ➕</a>
     </div>
 </div>
 <br>
 {% endif %}
 <div class="card">
     <div class="card-content">
-
         {% if related_persons %}
         <h3 class="title is-3">Related Persons</h3>
         {% for related_person in related_persons %}
         <div class="media">
             <div class="media-left">
                 <a href="{% url 'profile_view' related_person.username %}">
-                    <article class="image is-24x24 is-square">
-                        <img src="{{ related_person.profile.image.url }}" alt="" class="is-rounded">
+                    <article class="image is-32x32 is-square">
+                        <img src="{{ related_person.profile.image.url }}" alt="" class="profile-img">
                     </article>
                 </a>
             </div>
@@ -35,7 +34,7 @@
             <div class="media-right">
                 {% if user == related_person %}
 
-                <a href="{% url 'profile' %}" class="button is-success is-small">Edit Profile  📝</a>
+                <a href="{% url 'profile' %}" class="button is-info is-small">Edit Profile  📝</a>
                 {% else %}
                 {% include 'accounts/extends/follow_button.html' with usr=related_person small=True %}
                 {% endif %}
@@ -157,28 +156,3 @@
         {% endif %}
     </div>
 </div>
-<br>
-<div class="card">
-    <div class="card-content">
-        {% if latest_donations %}
-        {% for donation in latest_donations %}
-        <div class="media">
-            <div class="media-content">
-                <a href="{% url 'profile_view' donation.user.username %}">@{{donation.user.username}}</a> donated to
-                Visualway to support us.
-            </div>
-        </div>
-        {% endfor %}
-        {% else %}
-        No one have donated us now. 😟
-        {% endif %}
-        <br>
-        <br>
-        <div class="buttons">
-            <a href="{% url 'donate' %}" class="button is-info is-outlined">Donate Now 💲</a>
-            <a href="{% url 'all_donations' %}" class="button is-ghost is-outlined">All Donations 💲</a>
-        </div>
-
-    </div>
-</div>
-<br>

@@ -1,10 +1,8 @@
 from django import forms
-from django.forms import ModelForm
-from django import forms
 
-from .models import Abuse, BadgeRequest, DonationProof
+from .models import Abuse
 
-class ReportAbuseForm(ModelForm):
+class ReportAbuseForm(forms.ModelForm):
     class Meta:
         model = Abuse
         fields = ['abuse_type', 'description']
@@ -12,19 +10,3 @@ class ReportAbuseForm(ModelForm):
             'description': forms.Textarea(attrs={'class': 'textarea','placeholder': 'Describe the abuse',
                                                                         'id': 'body'}),
         }
-
-
-class BadgeRequestForm(ModelForm):
-    class Meta:
-        model = BadgeRequest
-        fields = ['message']
-        widgets = {
-            'message': forms.Textarea(attrs={'class': 'textarea','placeholder': 'Describe the abuse',
-                                                                        'id': 'body'}),
-        }
-
-
-class DonationProofForm(ModelForm):
-    class Meta:
-        model = DonationProof
-        fields = ['proof',]

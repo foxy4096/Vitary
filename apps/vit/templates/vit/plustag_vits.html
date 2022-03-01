@@ -1,18 +1,34 @@
 {% extends 'core/base.html' %}
 {% load humanize %}
+
 {% block title %}
 +{{ plustag.name }}
 {% endblock title %}
+
 {% block content %}
 <div class="columns">
     <div class="column">
-        <div class="">
-        <h1 class="title is-1 has-text-weight-light has-text-centered">+{{ plustag.name }}</h1>
-        <p class="subtitle has-text-centered">Rating: {{plustag.rating}}</p>
-        {% for vit in vits %}
-        {% include 'vit/extends/vit_block.html'%}
+        <div>
+            <h1 class="title is-1 has-text-weight-semibold has-text-centered">+{{ plustag.name }}</h1>
+            <p class="subtitle has-text-centered">Rating: {{plustag.rating}}</p>
+            <div class="has-text-centered">
+                {% if user.is_staff %}
+                <a href="/admin/vit/plustag/{{ plustag.id }}/change/" class="button is-info my-2"
+                    target="_blank">Edit description</a>
+                {% endif %}
+            </div>
 
-        {% endfor %}
+            {% if plustag.description %}
+
+
+            <div class="box">
+                <p>{{ plustag.description }}</p>
+            </div>
+            {% endif %}
+            {% for vit in vits %}
+            {% include 'vit/extends/vit_block.html'%}
+
+            {% endfor %}
         </div>
         <div class="pagination">
             <span class="step-links">
@@ -35,5 +51,4 @@
 
     </div>
 </div>
-
 {% endblock content %}

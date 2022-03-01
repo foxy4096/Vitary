@@ -15,6 +15,5 @@ class DocumentationAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
-
 admin.site.register(DocumentationCategory, DocumentationCategoryAdmin)
 admin.site.register(Documentation, DocumentationAdmin)

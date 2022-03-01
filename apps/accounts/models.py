@@ -23,7 +23,7 @@ class Profile(models.Model):
     verified = models.BooleanField(default=False)
     bio = models.TextField(max_length=500, blank=True, null=True, default="")
     header_image = models.ImageField(upload_to='uploads/', blank=True, null=True)
-    badges = models.ManyToManyField(Badge)
+    badges = models.ManyToManyField(Badge, blank=True)
 
     def __str__(self):
         """
@@ -54,7 +54,7 @@ class Profile(models.Model):
         """
         Returns the profile image
         """
-        return mark_safe(f'<img src="{self.get_image_url()}" height=50 / style="border-radius: 10%">')
+        return mark_safe(f'<img src="{self.image.url}" height=50 / style="border-radius: 10%">')
 
     def to_json(self):
         """
@@ -74,83 +74,4 @@ class Profile(models.Model):
             'verified': self.verified,
         }
 
-class Group(models.Model):
-    """
-    Group model
-    """
-    name = models.CharField(max_length=50, unique=True)
-    description = models.TextField(blank=True, null=True)
-    slug = models.SlugField(max_length=50, unique=True)
-    image = models.ImageField(upload_to='uploads/',
-                                default='/uploads/default.jpg', verbose_name='Group Image')
-    members = models.ManyToManyField(User, related_name='user_groups')
-    admin = models.ManyToManyField(User)
-    date = models.DateTimeField(auto_now_add=True)
-    is_public = models.BooleanField(default=False, verbose_name="Public Group")
 
-    def __str__(self):
-        """
-        String representation of the model
-        """
-        return self.name
-
-    def get_absolute_url(self): 
-        """
-        Returns the absolute url to the group
-        """
-        from django.urls import reverse
-        return reverse('group_view', kwargs={'slug': self.slug})
-
-    def to_json(self):
-        """
-        Returns a json representation of the model
-        """
-        return {
-            'id': self.id,
-            'name': self.name,
-            'description': self.description,
-            'slug': self.slug,
-            'image': self.image.url,
-            'members': [member.to_json() for member in self.members.all()],
-            'admin': self.admin.all(),
-            'date': self.date,
-            'is_public': self.is_public,
-        }
-
-class GroupInvitation(models.Model):
-    """
-    Group invitation model
-    """
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invitations')
-    invited_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
-    is_accepted = models.BooleanField(default=False)
-
-    def __str__(self):
-        """
-        String representation of the model
-        """
-        return self.user.username + " to " + self.group.name
-
-    def to_json(self):
-        """
-        Returns a json representation of the model
-        """
-        return {
-            'id': self.id,
-            'group': self.group.to_json(),
-            'user': self.user.profile.to_json(),
-            'date': self.date,
-            'is_accepted': self.is_accepted,
-        }
-
-    def accept(self):
-        """
-        Accepts the invitation
-        """
-        self.is_accepted = True
-        self.save()
-        self.group.members.add(self.user)
-        self.group.save()
-        

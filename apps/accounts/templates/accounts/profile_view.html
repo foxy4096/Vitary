@@ -2,11 +2,27 @@
 {% load humanize %}
 {% load mention %}
 {% load convert_markdown %}
-
 {% load static %}
+
 {% block title %}
 {{ usr.get_full_name }} (@{{ usr.username }})
 {% endblock title %}
+
+{% block meta %}
+<!-- Facebook -->
+<meta property="og:type" content="profile">
+<meta property="og:image" content="{{ usr.profile.image.url }}">
+<meta property="og:url" content="{% url 'profile_view' usr.username %}">
+<meta property="og:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
+<meta property="og:description" content="{{ usr.profile.bio }}">
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:image" content="{{ usr.profile.image.url }}">
+<meta property="twitter:url" content="{% url 'profile_view' usr.username %}">
+<meta property="twitter:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
+<meta property="twitter:description" content="{{ usr.profile.bio }}">
+{% endblock meta %}
+
 {% block content %}
 <div class="columns">
     <div class="column is-7">
@@ -67,35 +83,13 @@
                 <br>
                 <br>
                 <div>
-                    <div class="columns">
-                        
-                        {% for group in usr.user_groups.all %}
-                        
-                        {% if user in group.memebers.all or group.is_public %}
-                            
-                        
-                        <div class="column">
-                            <figure class="image is-24x24">
-                                <a href="{% url 'group_detail' group.slug %}">
-                                    <img src="{{ group.image.url }}" alt="Group" class="profile-img" title="{{ group }}">
-                                </a>
-                            </figure>
-                        </div>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
                     {% if user == usr %}
                     <div class="columns">
                         <div class="column">
                             <a href="{% url 'profile' %}" class="button is-success is-fullwidth">Edit Profile  📝</a>
                         </div>
-                        <div class="column">
-                            <a href="{% url 'create_group' %}" class="button is-warning is-fullwidth">Create
-                                Group 📝</a>
-                        </div>
                     </div>
                     {% else %}
-
                     {% if user.is_authenticated %}
                     {% include 'accounts/extends/follow_button.html' with usr=usr %}
                     {% else %}
@@ -104,7 +98,7 @@
                     {% endif %}
                     {% if not usr == user %}
                       <a href="{% url 'message_user' usr.username %}" class="button is-warning">Message  📨</a>
-                    {% endif %}      
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -131,4 +125,4 @@
     <div class="column is-5">
         {% include 'core/extends/side_block.html' %}
     </div>
-    {% endblock content %}
+{% endblock content %}

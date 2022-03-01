@@ -14,7 +14,7 @@ class DevProfile(models.Model):
     github_username = models.CharField(max_length=50, blank=True, null=True)
     twitter_username = models.CharField(max_length=50, blank=True, null=True)
     website = models.CharField(max_length=50, blank=True, null=True)
-    bio = models.TextField(blank=True, null=True)
+    bio = models.TextField(blank=True, null=True, default="")
     public_key = models.CharField(max_length=50, blank=True, null=True)
     private_key = models.CharField(max_length=50, blank=True, null=True)
 

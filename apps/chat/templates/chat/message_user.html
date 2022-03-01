@@ -7,10 +7,14 @@ Message: {{to_user.username.title}}
 {% endblock title %}
 
 {% block content %}
-
-<h1 class="title">Message: <a href="{% url 'profile_view' to_user.username %}">{{to_user.username.title}}</a></h1>
 <div class="columns">
     <div class="column is-7">
+        <div class="level">
+            <figure class="image is-32x32">
+                <img src="{{ to_user.profile.image.url }}" alt="Profile Image" class="profile-img">
+            </figure>
+            <p class="title">Message: <a href="{% url 'profile_view' to_user.username %}">{{to_user.username.title}}</a></p>
+        </div>
         <div id="message-log" class="box" style="overflow: scroll; height:min-content;">
             <div class="has-text-centered">
                 <p>Please wait loading the messages</p>
@@ -21,7 +25,7 @@ Message: {{to_user.username.title}}
             placeholder="Type a message..."></input>
         <br>
         <br>
-        <button class="button is-success" onclick="sendMessage()" id="button-send">Send</button>
+        <button class="button is-success" onclick="sendMessage()" id="button-send">Send ✈</button>
         {{ to_user.username | json_script:"user-name"}}
         {{ chat.id | json_script:"chat-id"}}
     </div>
@@ -34,7 +38,6 @@ Message: {{to_user.username.title}}
 {% block script %}
 <script>
     $(document).ready(function () {
-
         setInterval(function () {
             $.ajax({
                 type: 'GET',
@@ -70,6 +73,7 @@ Message: {{to_user.username.title}}
     function sendMessage() {
         if (document.getElementById('message-input').value != '') {
             var htmlString = convertHTML(document.getElementById('message-input').value);
+            $('#button-send').addClass('is-loading');
             fetch('/api/v1/chat/send_message/', {
                 method: 'POST',
                 headers: {
@@ -85,6 +89,7 @@ Message: {{to_user.username.title}}
                 return response.json();
             }).then(function (data) {
                 if (data.status === 'success') {
+                    $('#button-send').removeClass('is-loading');
                     document.getElementById('message-input').value = '';
                     document.getElementById('message-log').innerHTML += "<div class='container darker'><b>" + data.message.created_by__username + "</b><p>" + data.message.message + "</p><span class='time-left'>" + data.message.created_at.slice(11, -3) + "</span></div>";
                 }

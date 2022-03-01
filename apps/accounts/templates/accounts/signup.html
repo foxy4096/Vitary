@@ -1,54 +1,57 @@
 {% extends 'core/base.html' %}
 {% load static %}
+
 {% block title %}
 Sign Up
-{%endblock title %} 
+{% endblock title %}
+
 {% block content %}
-<div class="">
-    <div class="columns is-vcentered">
-        <div class="column">
-            <h1 class="title is-1 has-text-weight-bold">Sign Up</h1>
-            <p class="subtitle">Just Fill the Information Below to Get Started</p>
-            <form method="POST">
-                {% for field in form %}
-                <div class="fieldWrapper">
-                    {{ field.errors }}
-                    {{ field.label_tag }}
-                     {{ field }}
-                     {% if field.help_text %}
-                    <p class="help">{{ field.help_text|safe }}</p>
-                    {% endif %}
-                </div>
-                {% endfor %} {% csrf_token %}
-                <br />
-                <p class="subtitle">
-                    By creating an account, you agree to the
-                    <a href="/pages/terms/" target="_blank" referrerpolicy="signup">Terms And Conditions</a>
-                </p>
-                <p>Already have an account? <a href="{% url 'login' %}">Login 🔐</a></p>
-                <br />
-                <button type="submit" class="button is-info is-large">
-                    Sign Up 🚀
-                </button>
-            </form>
-        </div>
-        <div class="column">
-            <article class="image">
-                <img src="{% static 'img/arabica-414.png' %}" alt="signup_hero" />
-            </article>
-            <p class="content has-text-centered">
-                Illustration by
-                <a href="https://icons8.com/illustrations/author/5c07e68d82bcbc0092519bb6">Icons 8</a>
-                from <a href="https://icons8.com/illustrations">Ouch!</a>
+<div class="columns is-vcentered">
+    <div class="column">
+        <h1 class="title is-1 has-text-weight-bold">Sign Up</h1>
+        <p class="subtitle">Just Fill the Information Below to Get Started</p>
+        <form method="POST">
+            {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.errors }}
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+            {% endfor %} {% csrf_token %}
+            <br />
+            <p class="subtitle">
+                By creating an account, you agree to the
+                <a href="/pages/terms/" target="_blank" referrerpolicy="signup">Terms And Conditions</a>
             </p>
-        </div>
+            <p>Already have an account? <a href="{% url 'login' %}">Login 🔐</a></p>
+            <br />
+            <button type="submit" class="button is-info is-large">
+                Sign Up 🚀
+            </button>
+        </form>
+    </div>
+    <div class="column">
+        <article class="image">
+            <img src="{% static 'img/arabica-414.png' %}" alt="signup_hero" />
+        </article>
+        <p class="content has-text-centered">
+            Illustration by
+            <a href="https://icons8.com/illustrations/author/5c07e68d82bcbc0092519bb6">Icons 8</a>
+            from <a href="https://icons8.com/illustrations">Ouch!</a>
+        </p>
     </div>
 </div>
-{% endblock content %} {% block script %}
+{% endblock content %}
+
+{% block script %}
 <script>
     inputs = document.querySelectorAll("input");
     for (i = 0; i < inputs.length; i++) {
         inputs[i].classList.add("input");
+        inputs[i].classList.add("is-large");
     }
     inputs[2].placeholder = "First Name";
     inputs[3].placeholder = "Last Name";

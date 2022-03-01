@@ -1,22 +1,22 @@
 {% extends 'core/base.html' %}
 {% load static %}
+
 {% block title %}
 Following
 {% endblock title %}
-
 
 {% block content %}
 <h1 class="title is-1">Following</h1>
 <div class="columns">
     <div class="column is-7">
-            {% if usr.profile.follows.all %}
-            {% for person in followings %}
-            {% include 'core/extends/user_ext.html' with person=person.user %}
-            {% endfor %}
-            {% else %}
-            <p>Not following anyone yet.</p>
-            {% endif %}
-            <br>
+        {% if usr.profile.follows.all %}
+        {% for person in followings %}
+        {% include 'core/extends/user_ext.html' with person=person.user %}
+        {% endfor %}
+        {% else %}
+        <p>Not following anyone yet.</p>
+        {% endif %}
+        <br>
         <div class="pagination">
             <span class="step-links">
                 {% if followings.has_previous %}

@@ -1,14 +1,10 @@
-from django.core import paginator
 from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib import messages
-from django.db.models import Q
-from django.urls import reverse_lazy
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
-from django.contrib.auth.models import User
 
 from .utilities import notify
 from apps.vit.utilities import find_mention, find_plustag
@@ -38,7 +34,7 @@ def edit_vit(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
     DANGER = 40
     if request.user != vit.user:
-        messages.add_message(request, DANGER, "You are not allowed to edit this vit \n You can only edit your own vit \n If you think this is a mistake, please contact the admin")
+        messages.add_message(request, DANGER, "You are not allowed to edit this vit, You can only edit your own vit")
         return redirect("home")
     else:
         if request.method == "POST":
@@ -59,7 +55,7 @@ def delete_vit(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
     DANGER = 40
     if request.user != vit.user:
-        messages.add_message(request, DANGER, "You are not allowed to delete this vit \n Just go away from here you filthy animal")
+        messages.add_message(request, DANGER, "You are not allowed to delete this vit, Just go away from here you filthy animal")
         return redirect("home")
     else:
         if request.method == "POST":

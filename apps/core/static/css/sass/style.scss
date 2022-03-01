@@ -1,18 +1,20 @@
 @charset "utf-8";
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 
 // Base Colors
-$primary: #00bcd4;
+$ghost: #f8f8f8;
+$primary: #006ad4;
 $black: #000000;
 $dark: #121212;
 $white: #fff;
-$link: $primary;
+$link: #7d95df;
 $success: #51cf66;
 $info: #5c7cfa;
 $danger: #f03e3e;
 $warning: #ffd43b;
 
-$family-sans-serif: "Roboto", sans-serif;
+$family-sans-serif: 'Poppins', sans-serif;
 $body-background-color: $black;
 $body-color: $white;
 $title-color: $white;
@@ -26,7 +28,7 @@ $box-color: $white;
 $link-hover: $white;
 $navbar-background-color: $dark;
 $navbar-item-hover-color: $white;
-$input-background-color: #4d535e;
+$input-background-color: #252930;
 $input-color: $white;
 $navbar-item-color: $white;
 $navbar-item-hover-background-color: $dark;
