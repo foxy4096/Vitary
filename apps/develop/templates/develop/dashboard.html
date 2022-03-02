@@ -135,7 +135,7 @@ Dashboard - Develop
             <div class="box">
 
                 <code class="code">
-                    curl -X GET http://localhost:8000/api/v1/vit/get_vits/ -H "Authorization: Key {{ user.devprofile.private_key }}"
+                    curl -X GET https://vitary.pythonanywhere.com/api/v1/vit/get_vits/ -H "Authorization: Key {{ user.devprofile.private_key }}"
                 </code>
                 <br>
                 <br>
@@ -229,7 +229,7 @@ Dashboard - Develop
 
         //Copy snippet
         $('#snippet-1').click(function () {
-            navigator.clipboard.writeText('curl -X GET http://localhost:8000/api/v1/vit/get_vits/ -H "Authorization: Key ' + $('#privateKey').text() + '"');
+            navigator.clipboard.writeText('curl -X GET https://vitary.pythonanywhere.com/api/v1/vit/get_vits/ -H "Authorization: Key ' + $('#privateKey').text() + '"');
             $('#snippet-1').text('Copied!');
             setTimeout(function () {
                 $('#snippet-1').text('Copy 📋');
