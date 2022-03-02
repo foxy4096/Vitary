@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Vit, Plustag
+from .models import Vit, Plustag, Comment
 
 class VitAdmin(admin.ModelAdmin):
     list_display = ['body', 'user', 'image', 'video', 'like_count', 'date']
@@ -14,3 +14,4 @@ class PlustagAdmin(admin.ModelAdmin):
 
 admin.site.register(Vit, VitAdmin)
 admin.site.register(Plustag, PlustagAdmin)
+admin.site.register(Comment)
