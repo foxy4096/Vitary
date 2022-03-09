@@ -1,6 +1,7 @@
 import json
 import re
 from django.http import JsonResponse
+from django.db.models import Q
 from django.urls import reverse
 
 from django.views.decorators.csrf import csrf_exempt
@@ -41,7 +42,8 @@ def like(request):
 def get_vits(request):
     user = KeyBackend().authenticate(request)
     if request.user.is_authenticated:
-        vits = Vit.objects.filter(user=request.user)
+        vits = Vit.objects.filter(Q(user=request.user) | Q(
+            user__profile__in=request.user.profile.follows.all()) | Q(user__profile__in=request.user.profile.followed_by.all())).order_by('-date')
         return JsonResponse({'vits': [vit.to_json() for vit in vits]})
     else:
         return JsonResponse({'error': 'You must be logged in'}, status=401)
