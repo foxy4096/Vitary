@@ -10,9 +10,11 @@ Following
 <div class="columns">
     <div class="column is-7">
         {% if usr.profile.follows.all %}
+        <div class="columns is-multiline">
         {% for person in followings %}
         {% include 'core/extends/user_ext.html' with person=person.user %}
         {% endfor %}
+        </div>
         {% else %}
         <p>Not following anyone yet.</p>
         {% endif %}

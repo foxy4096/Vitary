@@ -14,9 +14,11 @@ People
             Find new people.
         </p>
         {% if persons %}
-        {% for person in persons %}
-        {% include 'core/extends/user_ext.html' with person=person %}
-        {% endfor %}
+        <div class="columns is-multiline">
+            {% for person in persons %}
+            {% include 'core/extends/user_ext.html' with person=person %}
+            {% endfor %}
+        </div>
         <br>
         <div class="pagination">
             <span class="step-links">

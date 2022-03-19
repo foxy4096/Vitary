@@ -15,7 +15,7 @@ Search
         <div class="">
             <div class="tabs is-centered is-boxed">
                 <ul>
-                    
+
                     {% if stype == "vits" %}
                     <li class="is-active"><a>Vits 📰</a></li>
                     <li><a href="{% url 'search' %}?q={{query}}&stype=users">Users 👤</a></li>
@@ -24,72 +24,77 @@ Search
                     <li class="is-active"><a>Users 👤</a></li>
                     {% endif %}
                 </ul>
-              </div>
-              
-              {% if stype == "vits" %}
-                  
-              
-              {% if vits %}
-                  
-              
-              {% for vit in vits %}
-              {% include 'vit/extends/vit_block.html' %}
-              {% endfor %}
-              <div class="pagination">
-                  <span class="step-links">
-                      {% if vits.has_previous %}
-                      <a href="{% url 'search' %}?q={{query}}&stype=vits&page=1">&laquo; first</a>
-                      <a href="{% url 'search' %}?q={{query}}&stype=vits&page={{ vits.previous_page_number }}">previous</a>
-                      {% endif %}
-                      <span class="current">
-                          Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
-                        </span>
-                        {% if vits.has_next %}
-                        <a href="{% url 'search' %}?q={{query}}&stype=vits&page={{ vits.next_page_number }}">next</a>
-                        <a href="{% url 'search' %}?q={{query}}&stype=vits&page={{ vits.paginator.num_pages }}">last &raquo;</a>
-                        {% endif %}
-                    </span>
-                </div>
-                {% else %}
-                <p class="subtitle">
-                    No results found.
-                </p>
-                {% endif %}
-                {% endif %}
-            
-            {% if stype == "users" %}
-            
-            {% if persons %}
-                
-            
-            {% for person in persons %}
-            {% include 'core/extends/user_ext.html' with person=person %}
+            </div>
+
+            {% if stype == "vits" %}
+
+
+            {% if vits %}
+
+
+            {% for vit in vits %}
+            {% include 'vit/extends/vit_block.html' %}
             {% endfor %}
             <div class="pagination">
                 <span class="step-links">
-                    {% if persons.has_previous %}
-                    <a href="{% url 'search' %}?q={{query}}&stype=users&page=1">&laquo; first</a>
-                    <a href="{% url 'search' %}?q={{query}}&stype=users&page={{ persons.previous_page_number }}">previous</a>
+                    {% if vits.has_previous %}
+                    <a href="{% url 'search' %}?q={{query}}&stype=vits&page=1">&laquo; first</a>
+                    <a
+                        href="{% url 'search' %}?q={{query}}&stype=vits&page={{ vits.previous_page_number }}">previous</a>
                     {% endif %}
                     <span class="current">
-                        Page {{ persons.number }} of {{ persons.paginator.num_pages }}.
-                      </span>
-                      {% if persons.has_next %}
-                      <a href="{% url 'search' %}?q={{query}}&stype=users&page={{ persons.next_page_number }}">next</a>
-                      <a href="{% url 'search' %}?q={{query}}&stype=users&page={{ persons.paginator.num_pages }}">last &raquo;</a>
-                      {% endif %}
-                  </span>
-              </div>
+                        Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
+                    </span>
+                    {% if vits.has_next %}
+                    <a href="{% url 'search' %}?q={{query}}&stype=vits&page={{ vits.next_page_number }}">next</a>
+                    <a href="{% url 'search' %}?q={{query}}&stype=vits&page={{ vits.paginator.num_pages }}">last
+                        &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
             {% else %}
             <p class="subtitle">
                 No results found.
             </p>
             {% endif %}
             {% endif %}
-            
+
+            {% if stype == "users" %}
+
+            {% if persons %}
+
+            <div class="columns is-multiline">
+                {% for person in persons %}
+                {% include 'core/extends/user_ext.html' with person=person %}
+            </div>
+            {% endfor %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if persons.has_previous %}
+                    <a href="{% url 'search' %}?q={{query}}&stype=users&page=1">&laquo; first</a>
+                    <a
+                        href="{% url 'search' %}?q={{query}}&stype=users&page={{ persons.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ persons.number }} of {{ persons.paginator.num_pages }}.
+                    </span>
+                    {% if persons.has_next %}
+                    <a href="{% url 'search' %}?q={{query}}&stype=users&page={{ persons.next_page_number }}">next</a>
+                    <a href="{% url 'search' %}?q={{query}}&stype=users&page={{ persons.paginator.num_pages }}">last
+                        &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+            {% else %}
+            <p class="subtitle">
+                No results found.
+            </p>
+            {% endif %}
+            {% endif %}
+
         </div>
     </div>
-    
+
     <div class="column is-5">
         {% include 'core/extends/side_block.html' %}
     </div>

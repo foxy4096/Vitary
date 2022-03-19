@@ -1,26 +1,18 @@
-<div class="media">
-    <div class="media-left">
-        <article class="image is-64x64 is-square">
-            <img src="{{ person.profile.image.url }}" alt="{{ person.username}}" class="profile-img" loading="lazy">
-        </article>
-    </div>
-    <div class="media-content">
-        <h4 class="title is-4">
-            {{ person.get_full_name }}
-            {% if person.profile.verified %}
-            <span class="is-small" style="color: rgb(46, 206, 107);">
-                ✔️
-            </span>
-            {% endif %}
-        </h4>
-        <p class="subtitle is-6">
-            <a href="{% url 'profile_view' person.username %}">
-                @{{person.username}}
-            </a>
-    </span>
-        </p>
-    </div>
-    <div class="media-right">
-        <a href="{% url 'profile_view' person.username %}" class="button is-info is-small">View 👀</a>
+<div class="column is-one-third">
+    <div class="card">
+        <div class="card-content has-text-centered">
+            <img src="{{ person.profile.image.url }}" alt="{{person}}" style="text-align: center; border-radius: 20px;">
+            <br>
+            <h3 class="title is-3">
+                {{ person.get_full_name|default:person.get_username }}
+                {% if person.profile.verified %}
+                <span class="is-small" style="color: rgb(46, 206, 107);">
+                    ✔️
+                </span>
+                {% endif %}
+            </h3>
+            <p class="subtitle">@{{ person.get_username }}</p>
+            <a href="{% url 'profile_view' person.get_username %}" class="button is-link is-medium">View</a>
+        </div>
     </div>
 </div>
