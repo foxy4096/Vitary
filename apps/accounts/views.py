@@ -1,16 +1,10 @@
-from django.http import Http404
-from django.shortcuts import redirect, render, get_object_or_404
-from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.shortcuts import redirect, render, get_object_or_404
 
-from django.urls import reverse
-
-from django.contrib.auth.decorators import login_required
-from apps.notification.utilities import notify
 from .forms import UserForm, ProfileForm
 from .forms import UserRegisterForm, UsernameForm
 
@@ -29,7 +23,8 @@ def signup(request):
         else:
             if User.objects.filter(username=request.POST['username']).exists():
                 messages.add_message(
-                    request, 40, 'Username already exists! \n Woops look like someone have already taken your identity', extra_tags='danger')
+                    request, 40, 'Username already exists! \n Woops look like someone have already taken your identity',
+                    extra_tags='danger')
                 return redirect('signup')
             elif request.POST['password1'] != request.POST['password2']:
                 messages.add_message(

@@ -197,6 +197,7 @@ Dashboard - Develop
                     $('#name').text(data.profile.first_name + ' ' + data.profile.last_name);
                     $('#bio').text(data.profile.bio);
                     $('#devinfo').show();
+                    $('#save_profile').removeClass('is-loading');
                     $('#devform').hide();
                 }
             });

@@ -11,15 +11,18 @@ def generate_api_key(request):
         if DevProfile.objects.filter(user=request.user).exists():
             devprofile = DevProfile.objects.get(user=request.user)
             if devprofile.public_key and devprofile.private_key:
-                return JsonResponse({'public_key': str(devprofile.public_key), 'private_key': str(devprofile.private_key)})
+                return JsonResponse(
+                    {'public_key': str(devprofile.public_key), 'private_key': str(devprofile.private_key)})
             else:
                 devprofile.public_key, devprofile.private_key = secrets.token_hex(16), secrets.token_hex(16)
                 devprofile.save()
-                return JsonResponse({'public_key': str(devprofile.public_key), 'private_key': str(devprofile.private_key)})
+                return JsonResponse(
+                    {'public_key': str(devprofile.public_key), 'private_key': str(devprofile.private_key)})
         else:
             return JsonResponse({'error': 'You don\'t have a Dev Profile'})
     else:
         return JsonResponse({'error': 'You must be logged in'})
+
 
 def refresh_api_key(request):
     if request.user.is_authenticated:
@@ -32,6 +35,7 @@ def refresh_api_key(request):
             return JsonResponse({'error': 'You don\'t have a Dev Profile'})
     else:
         return JsonResponse({'error': 'You must be logged in'})
+
 
 def revoke_api_key(request):
     if request.user.is_authenticated:

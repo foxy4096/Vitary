@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from apps.develop.models import DevProfile
 from .models import Profile
 
+
 class ProfileInline(admin.StackedInline):
     """
     Including the profile model in the user model by inline admin
@@ -22,20 +23,22 @@ class ProfileInline(admin.StackedInline):
         'following_count',
         'header_image',
         'badges'
-        ]
+    ]
     can_delete = False
+
 
 class DevProfileInline(admin.StackedInline):
     """
     Include the dev profile in the user model by inline admin
     """
     readonly_fields = [
-        'first_name', 'last_name', 
-        'email', 'github_username', 
-        'twitter_username', 'website', 
+        'first_name', 'last_name',
+        'email', 'github_username',
+        'twitter_username', 'website',
         'bio', 'public_key'
-        ]
+    ]
     model = DevProfile
+
 
 def make_verified(self, request, queryset):
     """
@@ -45,7 +48,10 @@ def make_verified(self, request, queryset):
         user.profile.verified = True
         user.profile.save()
     self.message_user(request, "Selected users verified")
+
+
 make_verified.short_description = "Make Selected Users Verified"
+
 
 def make_unverified(self, request, queryset):
     """  
@@ -55,8 +61,9 @@ def make_unverified(self, request, queryset):
         user.profile.verified = False
         user.profile.save()
     self.message_user(request, "Selected users unverified")
-make_unverified.short_description = "Make Selected Users Unverified"
 
+
+make_unverified.short_description = "Make Selected Users Unverified"
 
 
 class UserAdmin(BaseUserAdmin):
