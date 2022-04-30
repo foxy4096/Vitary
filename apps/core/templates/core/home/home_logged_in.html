@@ -16,16 +16,18 @@ Home
             {% include 'core/vit_form_inc.html' with title="Add Vit" %}
         </div>
         <br>
-        {% if vits %}
-        {% for vit in vits %}
-        {% include 'vit/extends/vit_block.html' %}
-        {% endfor %}
+        <div id="data">
+            {% if vits %}
+            {% for vit in vits %}
+            {% include 'vit/extends/vit_block.html' %}
+            {% endfor %}
 
-        {% else %}
-        <p class="subtitle">
-            Wow Such Empty 😢, maybe try following some <a href="{% url 'peoples' %}">people</a>.
-        </p>
-        {% endif %}
+            {% else %}
+            <p class="subtitle">
+                Wow Such Empty 😢, maybe try following some <a href="{% url 'peoples' %}">people</a>.
+            </p>
+            {% endif %}
+        </div>
         <br>
         <div class="pagination">
             <span class="step-links">
@@ -38,7 +40,7 @@ Home
                     Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
                 </span>
                 {% if vits.has_next %}
-                <a href="?page={{ vits.next_page_number }}">next</a>
+                <a href="?page={{ vits.next_page_number }}" class="next">next</a>
                  
                 <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
@@ -51,4 +53,14 @@ Home
 </div>
 
 {% endblock content %}
-    
+
+
+{% block script %}
+<script>
+    let ias = new InfiniteAjaxScroll('.data', {
+        item: '.item',
+        next: '.next',
+        pagination: '.pagination'
+    });
+</script>
+{% endblock script %}
