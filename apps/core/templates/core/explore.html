@@ -7,13 +7,10 @@ Explore
 
 
 {% block content %}
+<h1 class="title is-3 has-text-weight-light my-0">Explore</h1>
 <div class="columns">
     <div class="column is-7">
-        <h1 class="title is-1 has-text-weight-bold">Explore</h1>
-        <p class="subtitle">
-            Explore the Vitary
-        </p>
-        <div class="">
+        <div id="data" class="mx-0">
             {% if vits %}
         
             {% for vit in vits %}
@@ -32,7 +29,7 @@ Explore
                         Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
                     </span>
                     {% if vits.has_next %}
-                    <a href="?page={{ vits.next_page_number }}">next</a>
+                    <a href="?page={{ vits.next_page_number }}" class="next">next</a>
                     <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
                     {% endif %}
                 </span>
@@ -44,3 +41,8 @@ Explore
     </div>
 </div>
 {% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/scroll.js' %}"></script>
+{% endblock script %}
+    

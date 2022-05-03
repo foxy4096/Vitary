@@ -100,9 +100,9 @@
     </p>
     {% endif %}
     <br>
-    <div class="media-content">
+    <div class="media-content" id="comments_list">
       {% for comment in comments %}
-      <div class="media">
+      <div class="media comment">
         <div class="media-left">
           <figure class="image is-48x48 is-square">
             <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user}}" class="profile-img">
@@ -131,9 +131,37 @@
       </div>
       {% endfor %}
     </div>
+    <div class="pagination">
+      <span class="step-links">
+          {% if comments.has_previous %}
+          <a href="?page=1">&laquo; first</a>
+           
+          <a href="?page={{ comments.previous_page_number }}">previous</a>
+          {% endif %}
+          <span class="current">
+              Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
+          </span>
+          {% if comments.has_next %}
+          <a href="?page={{ comments.next_page_number }}" class="next">next</a>
+           
+          <a href="?page={{ comments.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+  </div>
   </div>
   <div class="column is-5">
     {% include 'core/extends/side_block.html' %}
   </div>
 </div>
 {% endblock content %}
+
+{% block script %}
+  <script>
+let ias_comments = new InfiniteAjaxScroll("#comments_list", {
+  item: ".comment",
+  next: ".next",
+  pagination: ".pagination",
+});
+  </script>
+{% endblock script %}
+  

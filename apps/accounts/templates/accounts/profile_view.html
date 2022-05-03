@@ -69,6 +69,12 @@
                         </a>
                         {% endfor %}
                     </p>
+                    {% if usr.devprofile %}
+                    <p class="has-text-weight-light is-underlined">
+                        Highlights
+                    </p>
+                    <a href="url">Developer 💻</a>
+                    {% endif %}
                 </div>
 
                 <p class="content">
@@ -76,7 +82,7 @@
                 </p>
                 <br>
                 <span>
-                    Followers: <a href="{% url 'followers' usr.username %}">{{ usr.profile.follower_count }}</a>
+                    Followers: <a href="{% url 'followers' usr.username %}" id="follower_count">{{ usr.profile.follower_count }}</a>
 
                     Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.following_count }}</a>
                 </span>
@@ -102,10 +108,11 @@
                 </div>
             </div>
         </div>
-        <br>
-        {% for vit in vits %}
-        {% include 'vit/extends/vit_block.html' %}
-        {% endfor %}
+        <div id="data">
+            {% for vit in vits %}
+            {% include 'vit/extends/vit_block.html' %}
+            {% endfor %}
+        </div>
         <div class="pagination">
             <span class="step-links">
                 {% if vits.has_previous %}
@@ -116,7 +123,7 @@
                     Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
                 </span>
                 {% if vits.has_next %}
-                <a href="?page={{ vits.next_page_number }}">next</a>
+                <a href="?page={{ vits.next_page_number }}" class="next">next</a>
                 <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
@@ -125,4 +132,10 @@
     <div class="column is-5">
         {% include 'core/extends/side_block.html' %}
     </div>
-{% endblock content %}
+    {% endblock content %}
+
+    {% block script %}
+    <script src="{% static 'js/scroll.js' %}"></script>
+    {% endblock script %}
+        
+        

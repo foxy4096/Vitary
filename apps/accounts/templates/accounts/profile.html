@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-
+{% load bulma_tags %}
 {% block title %}
 Your Profile
 {% endblock title %}
@@ -11,9 +11,9 @@ Your Profile
     </div>
     <div class="column">
         <div class="box">
-            <h1 class="title is-1 has-text-weight-bold has-text-centered is-underlined">Profile</h1>
+            <h1 class="title is-1 has-text-weight-bold has-text-centered">Profile</h1>
             <form method="POST" enctype="multipart/form-data">
-                {{ uform }}
+                {{ uform | bulma }}
                 {{ pform }}
                 <p class="help"><a href="https://www.markdownguide.org/" target="_blank">
                     <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"

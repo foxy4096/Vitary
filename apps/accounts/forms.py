@@ -13,12 +13,7 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
-        widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'input', 'placeholder': 'First Name'}),
-            'last_name': forms.TextInput(attrs={'class': 'input', 'placeholder': "Last Name"}),
-            'username': forms.TextInput(attrs={'class': 'input', 'placeholder': 'Username'}),
-            'email': forms.EmailInput(attrs={'class': 'input', 'placeholder': 'Email'}),
-        }
+
 
 
     def save(self, commit=True):
@@ -36,12 +31,6 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
-        widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'input', 'placeholder': 'First Name'}),
-            'last_name': forms.TextInput(attrs={'class': 'input', 'placeholder': "Last Name"}),
-            'email': forms.EmailInput(attrs={'class': 'input', 'placeholder': 'Email'}),
-        }
-
 
 
 class ProfileForm(forms.ModelForm):
@@ -60,6 +49,3 @@ class UsernameForm(forms.Form):
     class Meta:
         model = User
         fields = ['username']
-        widgets = {
-            'username': forms.TextInput(attrs={'class': 'input', 'placeholder': 'Username'}),
-        }

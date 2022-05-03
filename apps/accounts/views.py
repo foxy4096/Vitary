@@ -65,7 +65,7 @@ def profile(request, username):
     """
     usr = get_object_or_404(User, username=username)
     vits = usr.vits.all()
-    paginator = Paginator(vits, 5)
+    paginator = Paginator(vits, 2)
     page = request.GET.get('page')
     vits = paginator.get_page(page)
     return render(request, 'accounts/profile_view.html', {'usr': usr, 'vits': vits, 'onProfile': True})

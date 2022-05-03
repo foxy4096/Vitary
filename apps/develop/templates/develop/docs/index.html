@@ -12,19 +12,37 @@ Documentation - Develop
 
 
 {% block content %}
+<div class="columns">
+    <div class="column is-2">
+        {% include 'develop/docs/extends/table_of_contents.html' %}
+    </div>
+    <div class="column">
+        <h1 class="title is-1"><a href="{% url 'develop_docs' %}" class="has-text-white">📖 Developer Documentation</a>
+        </h1>
+        {% for doc in docs %}
+        <div class="media">
+            <div class="media-left">
+                <h3 class="title is-3">{{ doc.title }}</h3>
+                <p class="subtitle is-6 has-text-weight-light">
+                    {{doc.category}}
+                </p>
+            </div>
+            <div class="media-content">
 
-<h1 class="title is-1"><a href="{% url 'develop_docs' %}">Documentation</a></h1>
-
-<h2 class="title is-2">Index</h2>
-
-{% for doc in docs %}
-
-<h4 class="title is-4">{{ doc.title }}</h4>
-<p class="subtitle">{{ doc.description }}</p>
-<a href="{% url 'develop_docs_detail' doc.slug %}" class="">View</a>
-
-<hr>
-
-{% endfor %}
-
+                <p class="content">
+                    {{ doc.description }}
+                </p>
+            </div>
+            <div class="media-right">
+                <a href="{% url 'develop_docs_detail' doc.slug %}" class="button is-primary is-outlined">
+                    <span class="icon">
+                        📖
+                    </span>
+                    <span>Read</span>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}

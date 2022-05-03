@@ -5,10 +5,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
-
-from .utilities import notify
-from apps.vit.utilities import find_mention, find_plustag
-
 from .forms import VitForm, CommentForm
 from .models import Comment, Vit, Plustag
 
@@ -21,8 +17,6 @@ def add_vit(request):
             vit = form.save(commit=False)
             vit.user = request.user
             vit.save()
-            find_mention(request=request, ntype="vit", vit=vit)
-            find_plustag(vit=vit)
             messages.success(request, "Vit added successfully")
             return redirect("home")
     form = VitForm()
@@ -41,8 +35,6 @@ def edit_vit(request, pk):
             form = VitForm(request.POST, request.FILES, instance=vit)
             if form.is_valid():
                 form.save()
-                find_mention(request=request, vit=vit, ntype="vit")
-                find_plustag(vit=vit)
                 messages.success(request, "Vit updated successfully")
                 return redirect("home")
     form = VitForm(instance=vit)
@@ -77,12 +69,13 @@ def vit_detail(request, pk):
                 comment.user = request.user
                 comment.vit = vit
                 comment.save()
-                find_mention(request=request, ntype="comment", comment=comment)
                 messages.success(request, "Comment added successfully")
                 return redirect("vit_detail", pk=pk)
     form = CommentForm()
     comments = Comment.objects.filter(vit=vit)
-    # Get the realted_persons as the user who have created the vit and the users mentioned in it
+    paginator = Paginator(comments, 3)
+    page = request.GET.get("page")
+    comments = paginator.get_page(page)
     related_persons = [vit.user]
     for user in vit.mentions.all():
         related_persons.append(user)
@@ -96,7 +89,11 @@ def vit_detail(request, pk):
 
 def plustag_vits(request, p):
     plustag = get_object_or_404(Plustag, name=p)
-    paginator = Paginator(plustag.vit_set.all(), 10)
+    paginator = Paginator(plustag.vit_set.all(), 5)
     page = request.GET.get("page")
     vits = paginator.get_page(page)
     return render(request, "vit/plustag_vits.html", {"plustag": plustag, "vits": vits})
+
+def view_comment(request, pk, vit_pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    return render(request, "vit/comment/view.html", {"comment": comment})

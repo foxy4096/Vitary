@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load bulma_tags %}
 {% load static %}
 
 
@@ -14,7 +15,7 @@ Login
         <h1 class="title is-1 has-text-weight-bold">Login</h1>
         <p class="subtitle">Login with your account you have created.</p>
         <form method="POST">
-            {{ form.as_p }}
+            {{ form|bulma }}
             {% csrf_token %}
             <br>
             <a href="{% url 'password_reset' %}">Forgot Password? 🔑</a>
@@ -33,20 +34,4 @@ Login
     </div>
 </div>
 </div>
-{% endblock content %}
-
-{% block script %}
-<script>
-    // Just some simple workaround to add classes and placeholder to inputs
-    inputs = document.querySelectorAll('input');
-    for (i = 0; i < inputs.length; i++) {
-        
-        inputs[i].classList.add('input');
-        inputs[i].classList.add('is-large');
-    }
-    inputs[1].placeholder = 'Username';
-    inputs[2].placeholder = 'Password';
-
-</script>
-{% endblock script %}
-    
+{% endblock content %}    

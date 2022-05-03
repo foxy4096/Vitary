@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load convert_markdown %}
+{% load mention %}
+{% block title %}
+{{comment.body}}
+{% endblock title %}
+
+{% block content %}
+<div class="box">
+    <div class="buttons">
+        <a href="{% url 'vit_detail' comment.vit.pk %}" class="button is-medium is-info">View Vit</a>
+    </div>
+    <div class="media comment">
+        <div class="media-left">
+            <figure class="image is-48x48 is-square">
+                <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user}}" class="profile-img">
+            </figure>
+        </div>
+        <div class="media-content">
+            <div class="content">
+                <p>
+                    <span>
+                        {{ comment.user.get_full_name| default:comment.user.username }}
+                        <a href="{% url 'profile_view' comment.user.username %}">
+                            <strong>
+                                @{{ comment.user }}
+                            </strong>
+                        </a>
+                    </span>
+                    <br>
+                    <small>
+                        {{ comment.date | naturaltime }}
+                    </small>
+                    <br>
+                    {{ comment.body | safe | mention | convert_markdown }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

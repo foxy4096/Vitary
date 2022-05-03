@@ -5,9 +5,9 @@
 Blog
 {% endblock title %}
 {% block content %}
+<h1 class="title is-1 has-text-weight-bold">Blog</h1>
 <div class="columns">
     <div class="column is-7">
-        <h1 class="title is-1 has-text-weight-bold">Blog</h1>
         <div class="">
             {% for post in posts %}
             <div class="card article">
@@ -26,7 +26,7 @@ Blog
                             </article>
                         </div>
                         <div class="media-content ml-3">
-                            <p class="title article-title has-text-weight-bold">{{ post.title }}</p>
+                            <p class="title article-title has-text-weight-light">{{ post.title }}</p>
                             <p class="subtitle is-6 article-subtitle">
                                 <a href="{% url 'profile_view' post.user.username %}">
                                     @{{post.user.username}}
@@ -36,7 +36,7 @@ Blog
                         </div>
                     </div>
                     <div class="content article-body">
-                        <p class="has-text-centered">{{ post.sdesc | truncatechars_html:190 }}</p>
+                        <p class="content mt-3 mx-6">{{ post.sdesc }}</p>
                     </div>
                     <a href="{% url 'post_detail' post.slug %}" class="button is-info is-fullwidth">Read More 📖</a>
                 </div>

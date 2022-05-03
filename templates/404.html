@@ -10,14 +10,26 @@
 {% block content %}
 <div class="columns is-vcentered">
     <div class="column">
-        <h1 class="title is-1 has-text-weight-bold">404 Not Found</h1>
-        <p class="subtitle">The resource doesn't exist.</p>
-        <p class="subtitle">Go to <a href="{% url 'home' %}">Home 🏡</a>.</p>
+        <h1 class="title is-1 has-text-weight-bold" style="font-size: 4rem;
+        padding-bottom: 40px;
+        line-height: 1;
+        font-weight: 800;
+        font-family: 'Work Sans', sans-serif;
+        color: transparent;
+        background-clip: text;
+        -webkit-background-clip: text;
+        background: -webkit-linear-gradient(45deg, #7a50c8 10%, #17f5a0 50%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-fill-color: transparent;">404 Not Found</h1>
+        <p class="subtitle is-3">The resource doesn't exist.</p>
+        <p class="subtitle is-2">Go to <a href="{% url 'home' %}">Home 🏡</a>.</p>
     </div>
     <div class="column">
         <img src="{% static 'img/surr-404.png' %}" alt="">
         <p class="content has-text-centered">
-            Illustration by <a href="https://icons8.com/illustrations/author/60872b904391d1000c87ab70">Marina Mogulskaya</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
+            Illustration by <a href="https://icons8.com/illustrations/author/60872b904391d1000c87ab70">Marina
+                Mogulskaya</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
         </p>
     </div>
 </div>

@@ -14,7 +14,7 @@ People
             Find new people.
         </p>
         {% if persons %}
-        <div class="columns is-multiline">
+        <div class="" id="data">
             {% for person in persons %}
             {% include 'core/extends/user_ext.html' with person=person %}
             {% endfor %}
@@ -30,7 +30,7 @@ People
                     Page {{ persons.number }} of {{ persons.paginator.num_pages }}.
                 </span>
                 {% if persons.has_next %}
-                <a href="?page={{ persons.next_page_number }}">next</a>
+                <a href="?page={{ persons.next_page_number }}" class="next">next</a>
                 <a href="?page={{ persons.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
@@ -44,3 +44,7 @@ People
     </div>
 </div>
 {% endblock content %}
+{% block script %}
+<script src="{% static 'js/scroll.js' %}"></script>
+{% endblock script %}
+    

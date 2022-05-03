@@ -46,7 +46,7 @@ def get_routes(request):
         },
         {
             'name': 'follow',
-            'path': '/api/v1/accounts/follow/',
+            'path': '/api/v1/follow/',
             'method': 'POST',
             'description': 'Follow a user',
             'data': {
@@ -56,7 +56,7 @@ def get_routes(request):
         },
         {
             'name': 'user_view_api',
-            'path': '/api/v1/accounts/user_view/',
+            'path': '/api/v1/user/',
             'method': 'GET',
             'description': 'Get a user',
             'data': {
@@ -66,7 +66,7 @@ def get_routes(request):
         },
         {
             'name': 'user_search_api',
-            'path': '/api/v1/accounts/user_search/',
+            'path': '/api/v1/search/',
             'method': 'GET',
             'description': 'Search for a user',
             'data': {
@@ -98,7 +98,7 @@ def get_routes(request):
             'method': 'GET',
             'description': 'Get a vit',
             'data': {
-                'vit_id': 'The id of the vit you want to get',
+                'vit_pk': 'The id of the vit you want to get',
             },
             'required_login': True,
         },

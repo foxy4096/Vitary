@@ -27,6 +27,7 @@ Home
                 Wow Such Empty 😢, maybe try following some <a href="{% url 'peoples' %}">people</a>.
             </p>
             {% endif %}
+            <br>
         </div>
         <br>
         <div class="pagination">
@@ -51,16 +52,9 @@ Home
         {% include 'core/extends/side_block.html' %}
     </div>
 </div>
-
 {% endblock content %}
 
-
 {% block script %}
-<script>
-    let ias = new InfiniteAjaxScroll('#data', {
-        item: '.item',
-        next: '.next',
-        pagination: '.pagination'
-    });
-</script>
+<script src="{% static 'js/scroll.js' %}"></script>
 {% endblock script %}
+    

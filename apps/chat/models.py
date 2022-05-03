@@ -9,7 +9,7 @@ class Chat(models.Model):
         ordering = ['-modified_at']
 
     def __str__(self):
-        return f"{self.users[0]} and {self.users[1]}"
+        return f"{self.users.all()[0]} and {self.users.all()[1]}"
 
 
 class ChatMessage(models.Model):

@@ -9,15 +9,17 @@ Following
 <h1 class="title is-1">Following</h1>
 <div class="columns">
     <div class="column is-7">
-        {% if usr.profile.follows.all %}
-        <div class="columns is-multiline">
-        {% for person in followings %}
-        {% include 'core/extends/user_ext.html' with person=person.user %}
-        {% endfor %}
+        <div id="data">
+            {% if usr.profile.follows.all %}
+            <div class="">
+                {% for person in followings %}
+                {% include 'core/extends/user_ext.html' with person=person.user %}
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>Not following anyone yet.</p>
+            {% endif %}
         </div>
-        {% else %}
-        <p>Not following anyone yet.</p>
-        {% endif %}
         <br>
         <div class="pagination">
             <span class="step-links">
@@ -29,7 +31,7 @@ Following
                     Page {{ followings.number }} of {{ followings.paginator.num_pages }}.
                 </span>
                 {% if followings.has_next %}
-                <a href="?page={{ followings.next_page_number }}">next</a>
+                <a href="?page={{ followings.next_page_number }}" class="next">next</a>
                 <a href="?page={{ followings.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
@@ -40,3 +42,6 @@ Following
     </div>
 </div>
 {% endblock content %}
+{% block script %}
+<script src="{% static 'js/scroll.js' %}"></script>
+{% endblock script %}

@@ -3,7 +3,6 @@
 {% load static %}
 {% load convert_markdown %}
 {% load mention %}
-{% load check_url %}
 {% block title %}
 {{ post.title | truncatechars_html:50 }} | Blog
 {% endblock title %}
@@ -15,8 +14,6 @@
                 {% if post.cover_img %}
                     <article class="image block"><img src="{{ post.cover_img.url }}" alt=""></article>
                 {% endif %}
-                    
-
             </div>
             <div class="card-content">
                 
@@ -30,7 +27,7 @@
                         </article>
                     </div>
                     <div class="media-content has-text-left mx-2">
-                        <p class="title article-title has-text-weight-bold">{{ post.title }}</p>
+                        <p class="title article-title has-text-weight-light">{{ post.title }}</p>
                         <p class="subtitle is-6 article-subtitle">
                             <a href="{% url 'profile_view' post.user.username %}">@{{post.user.username}}</a> {{ post.date | naturaltime }}
                         </p>

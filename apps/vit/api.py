@@ -54,8 +54,8 @@ def get_vit(request):
     if request.user.is_authenticated:
         print(request.GET.get('vit_pk'))
         try:
-            vit = Vit.objects.get(id=request.GET.get('vit_pk'))
-            return JsonResponse({'vit': vit.to_json()})
+            vit = Vit.objects.get(pk=request.GET.get('vit_pk'))
+            return JsonResponse({'vit': vit.to_json()}, status=200)
         except:
             return JsonResponse({'error': 'Vit not found'}, status=404)
     else:

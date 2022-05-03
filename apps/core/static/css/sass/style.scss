@@ -1,20 +1,18 @@
 @charset "utf-8";
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
-
+@import url('https://fonts.googleapis.com/css2?family=Mukta&display=swap');
 // Base Colors
 $ghost: #f8f8f8;
-$primary: #006ad4;
+$primary: #50C878;
 $black: #000000;
 $dark: #121212;
 $white: #fff;
 $link: #7d95df;
-$success: #51cf66;
+$success: #50C878;
 $info: #5c7cfa;
 $danger: #f03e3e;
 $warning: #ffd43b;
 
-$family-sans-serif: 'Poppins', sans-serif;
+$family-sans-serif: 'Mukta', sans-serif;
 $body-background-color: $black;
 $body-color: $white;
 $title-color: $white;
@@ -53,5 +51,11 @@ $code: $white;
 $pre: $white;
 $code-background: $black;
 $pre-background: $black;
+
+$menu-item-color: $white;
+$menu-item-hover-color: $white;
+$menu-item-hover-background-color: $dark;
+$menu-item-background-color: $dark;
+$menu-content-background-color: #1b1d20;
 
 @import "../node_modules/bulma/bulma.sass";

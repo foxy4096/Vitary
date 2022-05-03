@@ -31,8 +31,8 @@ def home(request):
 
 
 def peoples(request):
-    persons = User.objects.all().order_by('-date_joined')
-    paginator = Paginator(persons, 5)
+    persons = User.objects.all().order_by('-profile__follower_count')
+    paginator = Paginator(persons, 3)
     page_no = request.GET.get('page')
     page_obj = paginator.get_page(page_no)
     return render(request, 'core/peoples.html', {'persons': page_obj})

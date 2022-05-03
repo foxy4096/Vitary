@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load bulma_tags %}
+
 
 {% block title %}
 Sign Up
@@ -11,16 +13,8 @@ Sign Up
         <h1 class="title is-1 has-text-weight-bold">Sign Up</h1>
         <p class="subtitle">Just Fill the Information Below to Get Started</p>
         <form method="POST">
-            {% for field in form %}
-            <div class="fieldWrapper">
-                {{ field.errors }}
-                {{ field.label_tag }}
-                {{ field }}
-                {% if field.help_text %}
-                <p class="help">{{ field.help_text|safe }}</p>
-                {% endif %}
-            </div>
-            {% endfor %} {% csrf_token %}
+            {{form|bulma}}
+            {% csrf_token %}
             <br />
             <p class="subtitle">
                 By creating an account, you agree to the
@@ -45,18 +39,3 @@ Sign Up
     </div>
 </div>
 {% endblock content %}
-
-{% block script %}
-<script>
-    inputs = document.querySelectorAll("input");
-    for (i = 0; i < inputs.length; i++) {
-        inputs[i].classList.add("input");
-        inputs[i].classList.add("is-large");
-    }
-    inputs[2].placeholder = "First Name";
-    inputs[3].placeholder = "Last Name";
-    inputs[4].placeholder = "Email";
-    inputs[5].placeholder = "Password";
-    inputs[6].placeholder = "Confirm Password";
-</script>
-{% endblock script %}

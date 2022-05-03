@@ -3,7 +3,7 @@
 {% load convert_markdown %}
 {% load plustag %}
 {% load humanize %}
-<div class="card item" id="vit-{{ vit.pk }}">
+<div class="card item my-4" id="vit-{{ vit.pk }}">
     <div class="card-content">
         <div class="media">
             <div class="media-left">
@@ -36,9 +36,9 @@
                         </a>
                         {% endfor %}
                     </span>
-<!-- {% if not vit.user.profile in user.profile.follows.all and user.profile in vit.user.profile.follows.all %}
-<span class="tag is-primary is-light is-rounded">Following You</span>
-{% endif %} -->
+    {% if not vit.user.profile in user.profile.follows.all and user.profile in vit.user.profile.follows.all %}
+    <span class="tag is-primary is-light" title="Following You">Following You</span>
+    {% endif %}
                 </p>
             </div>
             <div class="media-right">
@@ -109,7 +109,7 @@
         </div>
         <div class="content">
             <div class="mx-2 my-2">
-                <p class="content">
+                <p class="content px-4">
                     {{ vit.body | plustag | safe | mention | convert_markdown }}
                 </p>
             </div>
@@ -119,7 +119,7 @@
                 <div class="column">
                     <div class="card">
                         <div class="card-image">
-                            <article class="image">
+                            <article class="image vit_image">
                                 <img src="{{ vit.image.url }}" alt="vit_image" class="is-rounded" loading="lazy">
                             </article>
                         </div>
@@ -136,7 +136,7 @@
             </div>
             {% endif %}
             <small>
-                <time datetime="{{ vit.date }}">
+                <time datetime="{{ vit.date }}" class="has-text-muted">
                     {{ vit.date | naturaltime }}
                 </time>
             </small>
@@ -189,4 +189,3 @@
         </a>
     </footer>
 </div>
-<br>

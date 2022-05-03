@@ -59,6 +59,7 @@ INSTALLED_APPS = [
 
     # Third Party Apps
     'django_cleanup.apps.CleanupConfig',
+    'bulma',
 ]
 
 MIDDLEWARE = [
@@ -84,8 +85,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.core.context_processors.web_url',
                 'apps.notification.context_processors.notification',
                 'apps.vit.context_processors.get_latest_vits',
+                'apps.develop.context_processors.get_documentation_categories',
             ],
         },
     },
@@ -173,6 +176,8 @@ else:
 
 # For Django Site Framwork
 SITE_ID = int(env('SITE_ID', default=1))
+
+WEB_HOST = env('WEB_HOST', default='localhost:8000')
 
 # For Secure Session
 SECURE_SSL_REDIRECT = env('SECURE_SSL_REDIRECT', default=False)

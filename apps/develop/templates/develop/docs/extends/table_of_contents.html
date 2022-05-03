@@ -1,0 +1,29 @@
+<aside class="menu">
+    <p class="menu-label">
+        <h4 class="title is-4">
+            Table of Contents 📃
+        </h4>
+    </p>
+    
+    {% if request.path != '/develop/docs/' %}
+    {% endif %}
+    <hr>
+    <ul class="menu-list">
+        {% for category in doc_category %}
+        <li>
+                {{ category.name }}
+            <ul>
+                {% for docs in category.documentation_set.all %}
+                <li>
+                    {% if docs.slug in request.path %}
+                    <a href="{% url 'develop_docs_detail' docs.slug %}" class="is-active">{{ docs.title }}</a>
+                    {% else %}
+                    <a href="{% url 'develop_docs_detail' docs.slug %}">{{ docs.title }}</a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+</aside>

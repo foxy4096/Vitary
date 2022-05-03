@@ -21,8 +21,3 @@ class NotificationTestCast(TestCase):
     def test_notification_page_loads(self):
         response = self.client.get('/notification/')
         self.assertEqual(response.status_code, 200)
-
-    def test_for_unread_notification(self):
-        notification = Notification.objects.filter(
-            to_user__username="testuser2").first()
-        self.assertEqual(notification.message, "Testuser Followed You")

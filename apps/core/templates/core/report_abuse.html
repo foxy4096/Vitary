@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load bulma_tags %}
 
 {% block title %}
 Report Abuse
@@ -15,9 +16,9 @@ Report Abuse
             {% include 'vit/extends/vit_block.html' %}
             <form action="" method="post">
                 {% csrf_token %}
-                {{form.as_p}}
+                {{form|bulma}}
                 <br>
-                <button class="button is-success" type="submit">Submit ✅</button>
+                <button class="button is-primary is-large" type="submit">Submit ✔️</button>
             </form>
         </div>
     </div>
@@ -26,13 +27,11 @@ Report Abuse
         {% include 'core/extends/side_block.html' %}
     </div>
 </div>
-
-<script>
-    // inputs = document.querySelectorAll('textarea');
-    // for (i = 0; i < inputs.length; i++) {
-
-    //     inputs[i].classList.add('input');
-    // }
-    document.querySelector('textarea').focus();
-</script>
 {% endblock content %}
+
+{% block script %}
+<script>
+    document.querySelector('textarea').focus();
+</script>    
+{% endblock script %}
+    

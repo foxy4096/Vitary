@@ -60,10 +60,10 @@ class FollowTest(TestCase):
         )
 
     def follow_user(self):
-        response = self.client.post('/accounts/follow/', {
+        response = self.client.post('/api/v1/follow/', {
             'username': 'testuser',
         })
-        self.assertRedirects(response, '/accounts/profile/')
+        self.assertEqual(response.status_code, 200)
 
 
 def UnfollowTest(TestCase):
@@ -74,10 +74,10 @@ def UnfollowTest(TestCase):
         )
 
     def unfollow_user(self):
-        response = self.client.post('/accounts/unfollow/', {
+        response = self.client.post('/api/v1/follow/', {
             'username': 'testuser',
         })
-        self.assertRedirects(response, '/accounts/profile/')
+        self.assertEqual(response.status_code, 200)
 
 
 class Profile_view_test(TestCase):

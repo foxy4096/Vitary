@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load bulma_tags %}
 {% block title %}
 Join Us - Develop
 {% endblock title %}
@@ -24,8 +25,8 @@ Join Us - Develop
                                     class="is-rounded">
                             </article>
                         </div>
-                        <div class="media-right">
-                            <h6 class="title is-6">{{ user.get_full_name }}</h6>
+                        <div class="media-right mx-0">
+                            <h6 class="title is-5">{{ user.get_full_name }}</h6>
                             <p class="subtitle is-6"><a href="{% url 'profile_view' user.username %}">@{{ user.username }}</a></>
                         </div>
                     </div>
@@ -42,7 +43,7 @@ Join Us - Develop
         <form action="" method="post">
             <div class="field">
                 <div class="control">
-                    {{form}}
+                    {{form|bulma}}
                 </div>
             </div>
             {% csrf_token %}
