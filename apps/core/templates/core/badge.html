@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load convert_markdown %}
+{% load static %}
 {% load mention %}
 {% block title %}
 {{badge.name}} | Badge
@@ -40,29 +41,28 @@
         <p class="content">
         <h3 class="title is-3">Users who have this badge</h3>
         <br>
-
+        <div id="data">
         {% if usrs %}
-        <div class="columns is-multiline">
-            {% for user in usrs %}
-            {% include 'core/extends/user_ext.html' with person=user.user %}
-            {% endfor %}
-        </div>
-
-        {% endif %}
+                {% for user in usrs %}
+                {% include 'core/extends/user_ext.html' with person=user.user %}
+                {% endfor %}
+                {% endif %}
+            </div>
         </p>
-        <br>
+        <div id="spinner1" class="spinner has-text-centered"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+      <div class="no-more"></div>
         <div class="pagination">
             <span class="step-links">
-                {% if user.has_previous %}
+                {% if usrs.has_previous %}
                 <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ user.previous_page_number }}">previous</a>
+                <a href="?page={{ usrs.previous_page_number }}">previous</a>
                 {% endif %}
                 <span class="current">
-                    Page {{ user.number }} of {{ user.paginator.num_pages }}.
+                    Page {{ usrs.number }} of {{ usrs.paginator.num_pages }}.
                 </span>
-                {% if user.has_next %}
-                <a href="?page={{ user.next_page_number }}">next</a>
-                <a href="?page={{ user.paginator.num_pages }}">last &raquo;</a>
+                {% if usrs.has_next %}
+                <a href="?page={{ usrs.next_page_number }}" class="next">next</a>
+                <a href="?page={{ usrs.paginator.num_pages }}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>
@@ -72,3 +72,6 @@
     </div>
 </div>
 {% endblock content %}
+{% block script %}
+<script src="{% static 'js/scroll.js' %}"></script>
+{% endblock script %}
