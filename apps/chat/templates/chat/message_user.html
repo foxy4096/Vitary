@@ -9,13 +9,18 @@ Message: {{to_user.username.title}}
 {% block content %}
 <div class="columns">
     <div class="column is-7">
-        <div class="level">
-            <figure class="image is-32x32">
-                <img src="{{ to_user.profile.image.url }}" alt="Profile Image" class="profile-img">
+        <div class="media box">
+            <div class="media-left">
+            <figure class="image is-48x48">
+                <img src="{{ to_user.profile.image.url }}" alt="Profile Image" class="is-rounded">
             </figure>
-            <p class="title">Message: <a href="{% url 'profile_view' to_user.username %}">{{to_user.username.title}}</a></p>
+            </div>
+            <div class="media-content">
+                <h5 class="title is-5">{{ to_user.get_full_name }}</h5>
+                <p class="subtitle"><a href="{% url 'profile_view' to_user.username %}">@{{to_user.username }}</a></p>
+            </div>
         </div>
-        <div id="message-log" class="box" style="overflow: scroll; height:min-content;">
+        <div id="message-log" class="box" style="overflow: scroll; height:30%;">
             <div class="has-text-centered">
                 <p>Please wait loading the messages</p>
                 <span class="button is-loading"></span>
@@ -37,6 +42,7 @@ Message: {{to_user.username.title}}
 
 {% block script %}
 <script>
+    let times_pinged = 0;
     $(document).ready(function () {
         setInterval(function () {
             $.ajax({
@@ -46,10 +52,30 @@ Message: {{to_user.username.title}}
                     console.log(response);
                     $("#message-log").empty();
                     for (var key in response['messages']) {
-                        var temp = "<div class='container darker'> <b>" + response.messages[key].created_by__username + "</b><p>" + response.messages[key].message + "</p><span class='time-left'>" + response.messages[key].created_at.slice(11, -3) + "</span></div>";
-                        $("#message-log").append(temp);
+                        var message_block = `
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-48x48">
+                                    <img src="/u/${response.messages[key].created_by__username}/image/" alt="Profile Image" class="is-rounded">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <p><b><a href="/u/${response.messages[key].created_by__username}">${response.messages[key].created_by__first_name} ${response.messages[key].created_by__last_name}</b></a>
+                                   <br>
+                                    ${response['messages'][key]['message']}</p>
+                                    <small class='time-left'>${response.messages[key].created_at.slice(11, -8)} GMT</small>
+                            </div>
+                        </div>
+                        `;
+                        $("#message-log").append(message_block);
+                        // Scroll to the bottom
                     }
                     $("#message-input").focus();
+                    times_pinged = times_pinged + 1;
+                    if (times_pinged == 1) {
+                        $("#message-log").scrollTop($("#message-log")[0].scrollHeight);
+                    }
+
                 },
                 error: function (response) {
                     console.log(response);

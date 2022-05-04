@@ -169,3 +169,11 @@ def change_username(request):
     else:
         form = UsernameForm(initial={'username': request.user.username})
     return render(request, 'accounts/change_username.html', {'form': form})
+
+
+def user_image(request, username):
+    """
+    View for getting the image of a user
+    """
+    usr = get_object_or_404(User, username=username)
+    return redirect(usr.profile.image.url)

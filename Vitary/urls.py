@@ -11,7 +11,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 
-from apps.accounts.views import profile, user_following, user_followers
+from apps.accounts.views import profile, user_following, user_followers, user_image
 from apps.vit.views import plustag_vits
 
 # APIs
@@ -45,7 +45,8 @@ urlpatterns = [
     path('u/<str:username>/', include([
         path('', profile, name='profile_view'),
         path('following/', user_following, name='following'),
-        path('followers/', user_followers, name='followers')
+        path('followers/', user_followers, name='followers'),
+        path('image/', user_image, name='image'),       
     ])),
 
 

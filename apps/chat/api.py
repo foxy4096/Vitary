@@ -39,11 +39,11 @@ def get_message_api(request):
             chat = chat.filter(users__in=[to_user])
             chat_messages = ChatMessage.objects.filter(chat=chat[0])
             messages = []
-            messages = list(chat_messages.values("id", "message", "created_by__username", "created_at"))
-            if len(messages) < 10:
+            messages = list(chat_messages.values("id", "message", "created_by__username", "created_at", "created_by__first_name", "created_by__last_name"))
+            if len(messages) < 30:
                 messages = messages
             else:
-                messages = messages[len(messages)-10:]
+                messages = messages[len(messages)-30:]
             context = {
                 "status": "success",
                 "chat": list(chat.values("id", "users", "modified_at")),
