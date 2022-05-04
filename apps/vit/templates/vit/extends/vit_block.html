@@ -39,6 +39,11 @@
     {% if not vit.user.profile in user.profile.follows.all and user.profile in vit.user.profile.follows.all %}
     <span class="tag is-primary is-light" title="Following You">Following You</span>
     {% endif %}
+    
+    {% if vit.nsfw %}
+    <span class="tag is-danger is-light badge-danger" title="NSFW">NSFW</span>
+    {% endif %}
+        
                 </p>
             </div>
             <div class="media-right">

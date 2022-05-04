@@ -36,7 +36,7 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('image', 'header_image', 'bio','email_notif')
+        fields = ('image', 'header_image', 'bio','email_notif', 'allow_nsfw')
         widgets = {
             'email_notif': forms.CheckboxInput(attrs={'class': 'checkbox'}),
             'bio': forms.Textarea(attrs={'class': 'textarea', 'placeholder': 'Tell us about yourself...,\n You can use Markdown and mentions.'}),

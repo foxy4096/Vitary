@@ -75,8 +75,6 @@ def add_vit(request):
                 vit = form.save(commit=False)
                 vit.user = request.user
                 vit.save()
-                find_mention(vit=vit, request=request, ntype="vit")
-                find_plustag(vit=vit)
                 return JsonResponse({'status': 'success', 'vit': vit.to_json()}, status=201)
             else:
                 return JsonResponse({'error': 'No vit body provided'}, status=400)
@@ -101,8 +99,6 @@ def edit_vit(request):
                     if form.is_valid():
                         vit = form.save(commit=False)
                         vit.save()
-                        find_mention(vit=vit, request=request, ntype="vit")
-                        find_plustag(vit=vit)
                         return JsonResponse({'status': 'success', 'vit': vit.to_json()}, status=201)
                     else:
                         return JsonResponse({'error': 'No vit body provided'}, status=400)

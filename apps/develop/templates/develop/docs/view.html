@@ -13,7 +13,7 @@ Documentation - Develop
 
 {% block content %}
 
-<h1 class="title is-1"><a href="{% url 'develop_docs' %}" class="has-text-white">📖 Developer Documentation</a></h1>
+<h1 class="title is-1"><a href="{% url 'develop_docs' %}" class="has-text-white">📖 Documentation</a></h1>
 <div class="columns">
     <div class="column is-2">
         {% include 'develop/docs/extends/table_of_contents.html' %}
@@ -25,7 +25,9 @@ Documentation - Develop
               <li class="is-active"><a href="#" aria-current="page">{{ doc.title }}</a></li>
             </ul>
           </nav>
-        <p class="subtitle">{{ doc.description }}</p>
+        <div class="content">
+            {{ doc.description | safe | mention | convert_markdown }}
+        </div>
         <hr>
         <div class="content">
             {{ doc.content | safe | mention | convert_markdown }}

@@ -49,13 +49,26 @@ $card-radius: 0.5rem;
 $card-media-margin: 0.25rem;
 $code: $white;
 $pre: $white;
-$code-background: $black;
-$pre-background: $black;
+$code-background: #1f2124;
+$pre-background: #1f2124;
 
 $menu-item-color: $white;
 $menu-item-hover-color: $white;
 $menu-item-hover-background-color: $dark;
 $menu-item-background-color: $dark;
 $menu-content-background-color: #1b1d20;
+$menu-nested-list-padding-left: 0rem;
+
+$file-border-color: $white;
+$file-cta-background-color: $primary;
+$file-cta-color: $white;
+$file-cta-hover-background-color: $primary;
+$file-cta-active-color: $white;
+$file-name-border-color: $white;
+
+$content-blockquote-background-color: #1b1d20;
+$content-blockquote-color: $white;
+$content-blockquote-border-color: $white;
+
 
 @import "../node_modules/bulma/bulma.sass";

@@ -21,6 +21,15 @@ Follower
         <p>Not followed by anyone yet.</p>
         {% endif %}
         <br>
+      <div class="no-more">No more content</div>
+            <div id="spinner1" class="spinner has-text-centered">
+                <div class="lds-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
         <div class="pagination">
             <span class="step-links">
                 {% if followers.has_previous %}

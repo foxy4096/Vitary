@@ -89,7 +89,10 @@ def vit_detail(request, pk):
 
 def plustag_vits(request, p):
     plustag = get_object_or_404(Plustag, name=p)
-    paginator = Paginator(plustag.vit_set.all(), 5)
+    vits = plustag.vit_set.all()
+    if request.user.is_authenticated and not request.user.profile.allow_nsfw:
+        vits = vits.exclude(nsfw=True)
+    paginator = Paginator(vits, 5)
     page = request.GET.get("page")
     vits = paginator.get_page(page)
     return render(request, "vit/plustag_vits.html", {"plustag": plustag, "vits": vits})

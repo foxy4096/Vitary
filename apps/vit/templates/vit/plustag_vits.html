@@ -13,8 +13,8 @@
             <p class="subtitle has-text-centered">Rating: {{plustag.rating}}</p>
             <div class="has-text-centered">
                 {% if user.is_staff %}
-                <a href="/admin/vit/plustag/{{ plustag.id }}/change/" class="button is-info my-2"
-                    target="_blank">Edit description</a>
+                <a href="/admin/vit/plustag/{{ plustag.id }}/change/" class="button is-info my-2" target="_blank">Edit
+                    description</a>
                 {% endif %}
             </div>
 
@@ -29,8 +29,17 @@
 
                 {% for vit in vits %}
                 {% include 'vit/extends/vit_block.html'%}
-                
+
                 {% endfor %}
+            </div>
+            <div class="no-more">No more content</div>
+            <div id="spinner1" class="spinner has-text-centered">
+                <div class="lds-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
         </div>
         <div class="pagination">
@@ -59,4 +68,3 @@
 {% block script %}
 <script src="{% static 'js/scroll.js' %}"></script>
 {% endblock script %}
-    

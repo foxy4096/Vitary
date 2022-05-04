@@ -149,17 +149,29 @@ curl -X GET https://vitary.pythonanywhere.com/api/v1/vit/get_vits/ -H "Authoriza
                 </div>
             </div>
                 <h1 class="title">
-                    Enter the vit ID to get the vit as a JSON object
+                    MicroPost Client
                 </h1>
+                <p class="subtitle">
+                    Here is a small client you can use to test the API, Only Support GET requests at the moment.
+                    <br>
+                    You can use the add the GET request parameters in the URL.
+                    The Routes can be found in the docs or <a href="/api/v1/" target="_blank">here</a>
+                </p>
                 <div class="field">
-                    <div class="label"><label for="label">Vit ID</label></div>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Enter the Vit ID" id="vit_id">
-                        <button class="button is-primary my-2" id="magic">Click Me!</button>    
+                        <div class="label"><label for="label">Enter the URL</label></div>
+                        <input class="input is-large" type="text" placeholder="Enter the relative URL. eg: '/api/v1/zen/'" id="send_url" value="/api/v1/zen/">
+                        <div class="buttons">
+                            <button class="button is-primary my-2" id="send_get">Send GET</button>    
+                        </div>
                     </div>  
+                    <br>
                     <div id="content" class="code has-background-white has-text-black is-family-monospace px-2 py-2"
-                    style="overflow: scroll;">
-
+                    style="
+                    overflow: scroll;
+                    overflow-x: hidden;
+                    ">
+                    No Data Yet!
                     </div>
                 </div>
         </div>
@@ -275,19 +287,27 @@ curl -X GET https://vitary.pythonanywhere.com/api/v1/vit/get_vits/ -H "Authoriza
             });
         });
     });
-    $("#magic").click(function () {
+
+    // Send GET
+    $("#send_get").click(function () {
+        $('#send_get').addClass('is-loading');
+        console.log($('#send_url').val());
         $.ajax({
-            url: '/api/v1/vit/get_vit/',
+            url: $('#send_url').val(),
             type: 'GET',
             headers: {
                 'X-CSRFToken': '{{ csrf_token }}'
             },
-            data: {
-                'vit_pk': $('#vit_id').val()
-            },
             success: function (data) {
-                $('#content').text(JSON.stringify(data, null, 2));
-            }   
+                $('#content').text(JSON.stringify(data));
+                $('#send_get').removeClass('is-loading');
+            },
+            error: function (data) {
+                $('#content').text(JSON.stringify(data));
+                $('#send_get').removeClass('is-loading');
+            }
+        }).done(function () {
+            $('#send_get').removeClass('is-loading');
         });
     });
 </script>

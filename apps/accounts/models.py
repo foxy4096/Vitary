@@ -24,6 +24,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True, null=True, default="")
     header_image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     badges = models.ManyToManyField(Badge, blank=True)
+    allow_nsfw = models.BooleanField("Allow NSFW Content", default=False)
 
     def __str__(self):
         """
@@ -72,6 +73,7 @@ class Profile(models.Model):
             'follower_count': self.follower_count,
             'following_count': self.following_count,
             'verified': self.verified,
+            'allow_nsfw': self.allow_nsfw,
         }
 
 

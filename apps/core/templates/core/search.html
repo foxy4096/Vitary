@@ -47,7 +47,8 @@ Search
                         Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
                     </span>
                     {% if vits.has_next %}
-                    <a href="{% url 'search' %}?q={{query}}&stype=vits&page={{ vits.next_page_number }}" class="next">next</a>
+                    <a href="{% url 'search' %}?q={{query}}&stype=vits&page={{ vits.next_page_number }}"
+                        class="next">next</a>
                     <a href="{% url 'search' %}?q={{query}}&stype=vits&page={{ vits.paginator.num_pages }}">last
                         &raquo;</a>
                     {% endif %}
@@ -80,7 +81,8 @@ Search
                         Page {{ persons.number }} of {{ persons.paginator.num_pages }}.
                     </span>
                     {% if persons.has_next %}
-                    <a href="{% url 'search' %}?q={{query}}&stype=users&page={{ persons.next_page_number }}" class="next">next</a>
+                    <a href="{% url 'search' %}?q={{query}}&stype=users&page={{ persons.next_page_number }}"
+                        class="next">next</a>
                     <a href="{% url 'search' %}?q={{query}}&stype=users&page={{ persons.paginator.num_pages }}">last
                         &raquo;</a>
                     {% endif %}
@@ -92,7 +94,15 @@ Search
             </p>
             {% endif %}
             {% endif %}
-
+            <div class="no-more">No more content</div>
+            <div id="spinner1" class="spinner has-text-centered">
+                <div class="lds-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -105,4 +115,3 @@ Search
 {% block script %}
 <script src="{% static 'js/scroll.js' %}"></script>
 {% endblock script %}
-    

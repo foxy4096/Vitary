@@ -80,7 +80,7 @@ def get_routes(request):
             'method': 'POST',
             'description': 'Like a vit',
             'data': {
-                'vit_id': 'The id of the vit you want to like',
+                'vit_pk': 'The id of the vit you want to like',
             },
             'required_login': True,
         },
@@ -121,7 +121,7 @@ def get_routes(request):
             'method': 'POST',
             'description': 'Edit a vit',
             'data': {
-                'vit_id': 'The id of the vit you want to edit',
+                'vit_pk': 'The id of the vit you want to edit',
                 'body': 'The body of the vit you want to edit',
             },
             'required_login': True,
@@ -132,7 +132,7 @@ def get_routes(request):
             'method': 'POST',
             'description': 'Delete a vit',
             'data': {
-                'vit_id': 'The id of the vit you want to delete',
+                'vit_pk': 'The id of the vit you want to delete',
             },
             'required_login': True,
         }

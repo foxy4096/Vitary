@@ -26,6 +26,7 @@ class Vit(models.Model):
     like_count = models.IntegerField(default=0)
     plustag = models.ManyToManyField("Plustag", blank=True)
     mentions = models.ManyToManyField(User, related_name="mentioned_vits")
+    nsfw = models.BooleanField("Is the Content NSFW?", default=False, help_text="Mark as NSFW if the content is not safe for work")
     
 
     def save(self, *args, **kwargs):
@@ -62,6 +63,7 @@ class Vit(models.Model):
             "likes": self.likes.count(),
             "plustag": [plus.name for plus in self.plustag.all()],
             "mentions": [mention.profile.to_json() for mention in self.mentions.all()],
+            "nsfw": self.nsfw,
         }
 
 class Plustag(models.Model):

@@ -69,7 +69,7 @@ urlpatterns = [
 
     # Users
     path('api/v1/follow/', follow),
-    path('api/v1/user/<str:username>/', user_view_api),
+    path('api/v1/user/', user_view_api),
     path('api/v1/users/search/', user_search_api),
 
     # Chat

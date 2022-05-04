@@ -130,6 +130,7 @@
         </div>
       </div>
       {% endfor %}
+      <div id="spinner1" class="spinnercomments"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
     </div>
     <div class="pagination">
       <span class="step-links">
@@ -161,6 +162,7 @@ let ias_comments = new InfiniteAjaxScroll("#comments_list", {
   item: ".comment",
   next: ".next",
   pagination: ".pagination",
+  spinner: '.spinnercomments',
 });
   </script>
 {% endblock script %}

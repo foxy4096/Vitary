@@ -34,7 +34,7 @@
             <div class="media-right">
                 {% if user == related_person %}
 
-                <a href="{% url 'profile' %}" class="button is-info is-small">Edit Profile  📝</a>
+                <a href="{% url 'profile' %}" class="button is-link is-small">Edit Profile  📝</a>
                 {% else %}
                 {% include 'accounts/extends/follow_button.html' with usr=related_person small=True %}
                 {% endif %}
@@ -150,8 +150,8 @@
         <p>You need to <a href="{% url 'login' %}">login</a> to see your following.</p>
         <hr>
         <div class="buttons">
-            <a href="{% url 'signup' %}" class="button is-primary is-fullwidth is-rounded">Sign Up 🚀</a>
-            <a href="{% url 'login' %}" class="button is-white is-fullwidth is-outlined is-rounded">Login 🔐</a>
+            <a href="{% url 'signup' %}" class="button is-primary is-fullwidth">Sign Up 🚀</a>
+            <a href="{% url 'login' %}" class="button is-white is-fullwidth is-outlined">Login 🔐</a>
         </div>
         {% endif %}
     </div>

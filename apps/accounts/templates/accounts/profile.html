@@ -14,7 +14,8 @@ Your Profile
             <h1 class="title is-1 has-text-weight-bold has-text-centered">Profile</h1>
             <form method="POST" enctype="multipart/form-data">
                 {{ uform | bulma }}
-                {{ pform }}
+                {{ pform.as_p }}
+                <br>
                 <p class="help"><a href="https://www.markdownguide.org/" target="_blank">
                     <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"
                         data-view-component="true">

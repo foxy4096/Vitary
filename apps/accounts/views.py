@@ -18,7 +18,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, 'Account created successfully \n Now go to your profile and update your profile')
+            messages.success(request, 'Account created successfully')
             return redirect('profile')
         else:
             if User.objects.filter(username=request.POST['username']).exists():
@@ -28,7 +28,7 @@ def signup(request):
                 return redirect('signup')
             elif request.POST['password1'] != request.POST['password2']:
                 messages.add_message(
-                    request, 40, "Passwords do not match \n don't rush you dumbo", extra_tags='danger')
+                    request, 40, "Passwords do not match \n Please don't rush.", extra_tags='danger')
                 return redirect('signup')
             else:
                 messages.add_message(
@@ -51,7 +51,7 @@ def profile_edit(request):
         if uform.is_valid() and pform.is_valid():
             uform.save()
             pform.save()
-            messages.success(request, "Profile Edited Successfully! \n You look awful!")
+            messages.success(request, "Profile Edited Successfully! \n You look nice!")
             return redirect('profile')
     else:
         uform = UserForm(instance=request.user)
@@ -65,6 +65,8 @@ def profile(request, username):
     """
     usr = get_object_or_404(User, username=username)
     vits = usr.vits.all()
+    if request.user.is_authenticated and not request.user.profile.allow_nsfw:
+            vits = vits.exclude(nsfw=True)
     paginator = Paginator(vits, 2)
     page = request.GET.get('page')
     vits = paginator.get_page(page)
@@ -90,7 +92,7 @@ def followers(request):
     View for getting the followers
     """
     usr = request.user
-    followers = usr.profile.followed_by.all().order_by('-id')
+    followers = usr.profile.followed_by.all().order_by('-followed_by')
     paginator = Paginator(followers, 5)
     page = request.GET.get('page')
     followers = paginator.get_page(page)

@@ -21,7 +21,9 @@ def home(request):
     if request.user.is_authenticated:
         vits = Vit.objects.filter(Q(user=request.user) | Q(
             user__profile__in=request.user.profile.follows.all()) | Q(user__profile__in=request.user.profile.followed_by.all())).order_by('-date')
-        paginator = Paginator(vits, 5)
+        if not request.user.profile.allow_nsfw:
+            vits = vits.exclude(nsfw=True)
+        paginator = Paginator(vits, 5) if vits else Paginator(Vit.objects.all().order_by('-like_count', '-date'), 5)
         page_no = request.GET.get('page')
         page_obj = paginator.get_page(page_no)
         form = VitForm()
@@ -39,6 +41,8 @@ def peoples(request):
 
 def explore(request):
     vits = Vit.objects.all().order_by('-like_count', '-date')
+    if request.user.is_authenticated and not request.user.profile.allow_nsfw:
+            vits = vits.exclude(nsfw=True)
     paginator = Paginator(vits, 5)
     page_no = request.GET.get('page')
     page_obj = paginator.get_page(page_no)

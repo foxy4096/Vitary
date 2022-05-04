@@ -4,6 +4,7 @@ from django.contrib import admin
 from .models import DevProfile, DocumentationCategory, Documentation
 class DocumentationAdmin(admin.StackedInline):
     model = Documentation
+    extra = 0
     prepopulated_fields = {'slug': ('title',)}
 
 

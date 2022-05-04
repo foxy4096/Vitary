@@ -17,32 +17,27 @@ Documentation - Develop
         {% include 'develop/docs/extends/table_of_contents.html' %}
     </div>
     <div class="column">
-        <h1 class="title is-1"><a href="{% url 'develop_docs' %}" class="has-text-white">📖 Developer Documentation</a>
+        <h1 class="title is-1"><a href="{% url 'develop_docs' %}" class="has-text-white">📖 Documentation</a>
         </h1>
-        {% for doc in docs %}
+        {% for cat in doc_category %}
         <div class="media">
-            <div class="media-left">
-                <h3 class="title is-3">{{ doc.title }}</h3>
-                <p class="subtitle is-6 has-text-weight-light">
-                    {{doc.category}}
-                </p>
-            </div>
             <div class="media-content">
-
-                <p class="content">
-                    {{ doc.description }}
+                <h3 class="is-size-2"><a href="#{{cat.name}}" id="{{ cat.name }}">#</a> {{ cat.name }}</h3>
+                <p class="is-4">
+                    <small>
+                        {{cat.description | safe | mention | convert_markdown}}
+                    </small>
                 </p>
-            </div>
-            <div class="media-right">
-                <a href="{% url 'develop_docs_detail' doc.slug %}" class="button is-primary is-outlined">
-                    <span class="icon">
-                        📖
-                    </span>
-                    <span>Read</span>
-                </a>
+                <ul>
+                    {% for doc in cat.documentation_set.all %}
+                    <li>
+                        <a href="{% url 'develop_docs_detail' doc.slug %}">&rsaquo; {{ doc.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
+        <br>
         {% endfor %}
     </div>
-</div>
-{% endblock content %}
+    {% endblock content %}

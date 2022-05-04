@@ -9,13 +9,13 @@ from apps.develop.backends import KeyBackend
 from apps.notification.utilities import notify
 
 
-def user_view_api(request, username):
+def user_view_api(request):
     """
     Returns the profile of the user with the given username.
     """
     user = KeyBackend().authenticate(request)
     try:
-        user = User.objects.get(username=username)
+        user = User.objects.get(username=request.GET.get('username'))
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     return JsonResponse({'user': user.profile.to_json()})
