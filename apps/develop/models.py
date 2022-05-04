@@ -66,8 +66,8 @@ class DocumentationCategory(models.Model):
 
     class Meta:
         ordering = ["-name"]
-        verbose_name = "Documentation"
-        verbose_name_plural = "Documentation"
+        verbose_name = "Documentation Category"
+        verbose_name_plural = "Documentation Categories"
 
     def to_json(self):
         return {
