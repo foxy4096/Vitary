@@ -1,4 +1,6 @@
 import re
+import requests
+from bs4 import BeautifulSoup
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -11,7 +13,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 from django.contrib.auth.models import User
-from .models import Vit, Plustag, Comment
+from .models import Vit, Plustag, Comment, Embed
 
 from apps.notification.utilities import notify
 
@@ -27,6 +29,20 @@ def save_vit(sender, instance, **kwargs):
             plustag = Plustag.objects.get_or_create(name=word[1:])
             instance.plustag.add(plustag[0])
             instance.save()
+
+    # Save Embed
+    urls = re.findall(r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+", body)
+    for url in urls:
+        embed = Embed.objects.get_or_create(url=url, vit=instance)[0]
+        res = requests.get(url)
+        soup = BeautifulSoup(res.text, "html.parser")
+        if soup.find("meta", property="og:title"):
+            embed.title = soup.find("meta", property="og:title")["content"]
+        if soup.find("meta", property="og:description"):
+            embed.description = soup.find("meta", property="og:description")["content"]
+        if soup.find("meta", property="og:image"):
+            embed.image_url = soup.find("meta", property="og:image")["content"]
+        embed.save()
 
     # Save Mention
     results = re.findall("(^|[^@\w])@(\w{1,150})", body)

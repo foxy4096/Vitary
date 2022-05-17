@@ -96,3 +96,20 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["-date"]
+
+
+class Embed(models.Model):
+    """
+    Embed model
+    """
+
+    url = models.URLField()
+    vit = models.ForeignKey(Vit, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField(max_length=500, blank=True, null=True)
+    image_url = models.URLField(blank=True, null=True)
+    video_url = models.URLField(blank=True, null=True)
+    
+
+    def __str__(self):
+        return f"Embed {self.url}"

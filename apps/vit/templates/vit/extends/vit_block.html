@@ -62,6 +62,19 @@
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                         <div class="dropdown-content">
+                            
+                            {% if user.is_authenticated and user.is_superuser %}                            
+                            <a href="/admin/vit/vit/{{ vit.pk }}/" class="dropdown-item" target="_blank">
+                                Admin Edit 
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil"
+                                    width="52" height="52" viewBox="0 0 24 24" stroke-width="1" stroke="#ffffff"
+                                    fill="green" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+                                    <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                                </svg>
+                            </a>
+                            {% endif %}
                             {% if vit.user == request.user %}
                             <a href="{% url 'edit_vit' vit.id %}" class="dropdown-item">
                                 Edit 
@@ -114,8 +127,36 @@
         </div>
         <div class="content">
             <div class="mx-2 my-2">
-                <p class="content px-4">
+                <p class="content px-4" style="overflow-y: scroll;">
                     {{ vit.body | plustag | safe | mention | convert_markdown }}
+                    <div class="columns is-multiline">
+                        {% for embed in vit.embed_set.all %}
+                        <div class="column">
+                            
+                            
+                            
+                            <div class="card">
+                                {% if embed.image_url and not embed.video_url %}
+                                <div class="card-image">
+                                    <article class="image">
+                                        <img src="{{embed.image_url}}" alt="Placeholder image">
+                                    </article>
+                                </div>
+                                
+                                {% elif embed.video_url and embed.image_url %}
+                                    <iframe src="{{embed.video_url}}" frameborder="0"></iframe>
+                                    
+                                {% endif %}
+                        <div class="card-content has-background-black">
+                            <h4 class="title is-4 has-text-weight-light pt-0 mt-0"><a href="{{ embed.url }}" target="_blank">{{ embed.title }}</a></h4>
+                            <div style="overflow-y: scroll;">
+                                {{embed.description| truncatechars:90 | default:"No description provided"}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    {% endfor %}
+                </div>
                 </p>
             </div>
             {% if not showView %}
