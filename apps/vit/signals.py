@@ -33,17 +33,19 @@ def save_vit(sender, instance, **kwargs):
     # Save Embed
     urls = re.findall(r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+", body)
     for url in urls:
-        embed = Embed.objects.get_or_create(url=url, vit=instance)[0]
-        res = requests.get(url)
-        soup = BeautifulSoup(res.text, "html.parser")
-        if soup.find("meta", property="og:title"):
-            embed.title = soup.find("meta", property="og:title")["content"]
-        if soup.find("meta", property="og:description"):
-            embed.description = soup.find("meta", property="og:description")["content"]
-        if soup.find("meta", property="og:image"):
-            embed.image_url = soup.find("meta", property="og:image")["content"]
-        embed.save()
-
+        try:
+            embed = Embed.objects.get_or_create(url=url, vit=instance)[0]
+            res = requests.get(url)
+            soup = BeautifulSoup(res.text, "html.parser")
+            if soup.find("meta", property="og:title"):
+                embed.title = soup.find("meta", property="og:title")["content"]
+            if soup.find("meta", property="og:description"):
+                embed.description = soup.find("meta", property="og:description")["content"]
+            if soup.find("meta", property="og:image"):
+                embed.image_url = soup.find("meta", property="og:image")["content"]
+            embed.save()
+        except:
+            pass
     # Save Mention
     results = re.findall("(^|[^@\w])@(\w{1,150})", body)
     for result in results:
