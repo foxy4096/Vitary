@@ -66,7 +66,7 @@ def get_routes(request):
         },
         {
             'name': 'user_search_api',
-            'path': '/api/v1/search/',
+            'path': '/api/v1/users/search/',
             'method': 'GET',
             'description': 'Search for a user',
             'data': {

@@ -163,7 +163,7 @@ def change_username(request):
             user = request.user
             user.username = form.cleaned_data['username']
             user.save()
-            messages.success(request, "Username Changed Successfully! \n Now nobody knows who are you dumbo!")
+            messages.success(request, "Username Changed Successfully!")
             return redirect('profile')
 
     else:

@@ -87,6 +87,67 @@ Dashboard - Develop
                 </div>
             </div>
         </div>
+        <div class="box">
+            <div class="media">
+                <div class="media-left">
+                    <h3 class="title is-3">
+                        My Bots 🤖
+                    </h3>
+                </div>
+                <div class="media-right">
+                    <button class="button is-primary" onclick="$('#bot_form').toggleClass('is-active')">
+                        Create a New Bot
+                    </button>
+                </div>
+            </div>
+            <hr>
+            {% for bot in user.owner.all %}
+            <div class="media">
+
+                <div class="media-left">
+                    <figure class="image is-32x32">
+                            <img src="{{ bot.user.profile.image.url }}" alt="{{ bot }}" class="is-rounded">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <p class="title is-5">
+                                {{ bot.name }}
+                        </p>
+                    </div>
+                    <div class="media-right">
+                        <a href="{% url 'develop_bot_detail' bot.id %}" class="button is-primary">
+                            View
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+                
+        </div>
+    </div>
+    <div class="modal" id="bot_form">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="card">
+                <div class="card-content">
+                    <h1 class="title is-1">
+                        Create A New Bot
+                    </h1>
+                    <form action="{% url 'develop_bot_create' %}" method="post">
+                        {{bot_form | bulma}}
+                        {% csrf_token %}
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-primary is-fullwidth">
+                                    Create Bot
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close" onclick="$('#bot_form').toggleClass('is-active')"></button>
+
     </div>
     <div class="column">
         <div class="box">
@@ -137,9 +198,8 @@ Dashboard - Develop
             <p class="subtitle">Here is the quick code snippet you can use to try the API</p>
             <div class="box has-background-black">
                 <div class="code has-background-white has-text-black is-family-monospace px-2 py-2"
-                style="overflow: scroll;"
-                >
-curl -X GET https://vitary.pythonanywhere.com/api/v1/vit/get_vits/ -H "Authorization: Key {{ user.devprofile.private_key }}"
+                    style="overflow: scroll;">
+                    curl -X GET https://vitary.pythonanywhere.com/api/v1/vit/get_vits/ -H "Authorization: Key {{ user.devprofile.private_key }}"
                 </div>
                 <br>
                 <br>
@@ -148,32 +208,32 @@ curl -X GET https://vitary.pythonanywhere.com/api/v1/vit/get_vits/ -H "Authoriza
                     <a href="{% url 'develop_docs' %}" class="button is-info">Docs 📔</a>
                 </div>
             </div>
-                <h1 class="title">
-                    MicroPost Client
-                </h1>
-                <p class="subtitle">
-                    Here is a small client you can use to test the API, Only Support GET requests at the moment.
-                    <br>
-                    You can use the add the GET request parameters in the URL.
-                    The Routes can be found in the docs or <a href="/api/v1/" target="_blank">here</a>
-                </p>
-                <div class="field">
-                    <div class="control">
-                        <div class="label"><label for="label">Enter the URL</label></div>
-                        <input class="input is-large" type="text" placeholder="Enter the relative URL. eg: '/api/v1/zen/'" id="send_url" value="/api/v1/zen/">
-                        <div class="buttons">
-                            <button class="button is-primary my-2" id="send_get">Send GET</button>    
-                        </div>
-                    </div>  
-                    <br>
-                    <div id="content" class="code has-background-white has-text-black is-family-monospace px-2 py-2"
-                    style="
+            <h1 class="title">
+                MicroPost Client
+            </h1>
+            <p class="subtitle">
+                Here is a small client you can use to test the API, Only Support GET requests at the moment.
+                <br>
+                You can use the add the GET request parameters in the URL.
+                The Routes can be found in the docs or <a href="/api/v1/" target="_blank">here</a>
+            </p>
+            <div class="field">
+                <div class="control">
+                    <div class="label"><label for="label">Enter the URL</label></div>
+                    <input class="input is-large" type="text" placeholder="Enter the relative URL. eg: '/api/v1/zen/'"
+                        id="send_url" value="/api/v1/zen/">
+                    <div class="buttons">
+                        <button class="button is-primary my-2" id="send_get">Send GET</button>
+                    </div>
+                </div>
+                <br>
+                <div id="content" class="code has-background-white has-text-black is-family-monospace px-2 py-2" style="
                     overflow: scroll;
                     overflow-x: hidden;
                     ">
                     No Data Yet!
-                    </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>

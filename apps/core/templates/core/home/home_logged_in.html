@@ -11,9 +11,10 @@ Home
 {% block content %}
 <div class="columns" id="app">
     <div class="column is-7">
-        <div class="box">
-            <h1 class="title is-1 has-text-weight-bold has-text-centered">Home</h1>
-            {% include 'core/vit_form_inc.html' with title="Add Vit" %}
+        <div class="card">
+            <div class="card-content">
+                {% include 'core/vit_form_inc.html' with title="Add Vit" %}
+            </div>
         </div>
         <br>
         <div id="data">
@@ -29,7 +30,14 @@ Home
             {% endif %}
             <br>
         </div>
-      <div id="spinner1" class="spinner has-text-centered"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+        <div id="spinner1" class="spinner has-text-centered">
+            <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
         <br>
         <div class="pagination">
             <span class="step-links">
@@ -58,4 +66,3 @@ Home
 {% block script %}
 <script src="{% static 'js/scroll.js' %}"></script>
 {% endblock script %}
-    

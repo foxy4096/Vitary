@@ -4,7 +4,7 @@
     <div class="media-left">
         <article class="image is-48x48 is-square">
             <a href="{% url 'profile_view' person %}">
-                <img src="{{ person.profile.image.url }}" alt="." class="is-rounded">
+                <img src="{{ person.profile.image.url }}" alt="." class="is-rounded profile-img">
             </a>
         </article>
     </div>
@@ -19,6 +19,13 @@
                     ✔️
                 </span>
                 {% endif %}
+                
+                {% if person.bot %}
+                <span class="is-small" style="color: rgb(46, 206, 107);">
+                    🤖
+                </span>
+                {% endif %}
+                    
             </strong>
         </h4>
         <p class="subtitle is-6 mb-0"><a href="{% url 'profile_view' person %}">

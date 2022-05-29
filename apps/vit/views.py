@@ -39,7 +39,7 @@ def edit_vit(request, pk):
                 return redirect("home")
     form = VitForm(instance=vit)
     return render(
-        request, "vit/vit_form.html", {"vit": vit, "form": form, "title": "Edit Vit"}
+        request, "vit/vit_form.html", {"vit": vit, "vit_form": form, "title": "Edit Vit"}
     )
 
 @login_required

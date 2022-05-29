@@ -1,7 +1,7 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-
+import uuid
 
 class DevProfile(models.Model):
     """
@@ -103,4 +103,79 @@ class Documentation(models.Model):
             'content': self.content,
             'documentation_category': self.documentation_category.name,
             'date': self.date.strftime("%b %d, %Y %H:%M:%S"),
+        }
+
+
+
+class Bot(models.Model):
+    """
+    Bot model
+    """
+    name = models.CharField(max_length=50, unique=True)
+    description = models.TextField(blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner", blank=True, null=True)
+    date = models.DateTimeField(auto_now=True)
+    private_key = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["-date"]
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'date': self.date.strftime("%b %d, %Y %H:%M:%S"),
+            'endpoint': self.endpoint,
+        }
+
+class WebHook(models.Model):
+    """
+    WebHook model
+    """
+    REQUEST_TYPE_CHOICES = (
+        ('GET', 'GET'),
+        ('POST', 'POST'),
+    )
+    EVENT_TYPE = (
+        ('on_vit_mention', 'On Vit Mention'),
+        ('on_comment_mention', 'On Comment Mention'),
+        ('on_follow', 'On Follow'),
+        ('on_message', 'On Message'),
+    )
+    CONTENT_TYPE = (
+        ('application/json', 'application/json'),
+        ('application/x-www-form-urlencoded', 'application/x-www-form-urlencoded'),
+    )
+    name = models.CharField(max_length=50, unique=True)
+    description = models.TextField(blank=True, null=True)
+    bot = models.ForeignKey(Bot, on_delete=models.CASCADE, blank=True, null=True)
+    payload_url = models.CharField(max_length=50)
+    event_type = models.CharField(max_length=50, choices=EVENT_TYPE, blank=True, null=True)
+    method = models.CharField(max_length=5, choices=REQUEST_TYPE_CHOICES, default='GET')
+    content_type = models.CharField(max_length=50, choices=CONTENT_TYPE, default='application/json')
+    date = models.DateTimeField(auto_now=True)
+    required_authentication = models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["-date"]
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'date': self.date.strftime("%b %d, %Y %H:%M:%S"),
+            'url': self.url,
+            'event_type': self.event_type,
+            'method': self.method,
+            'required_authentication': self.required_authentication,
         }

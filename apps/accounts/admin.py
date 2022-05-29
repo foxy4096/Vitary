@@ -22,7 +22,8 @@ class ProfileInline(admin.StackedInline):
         'follower_count',
         'following_count',
         'header_image',
-        'badges'
+        'badges',
+        'status'
     ]
     can_delete = False
 

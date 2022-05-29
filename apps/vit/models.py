@@ -62,7 +62,7 @@ class Vit(models.Model):
             "video": self.video.url if self.video else None,
             "likes": self.likes.count(),
             "plustag": [plus.name for plus in self.plustag.all()],
-            "mentions": [mention.profile.to_json() for mention in self.mentions.all()],
+            "mentions": [mention.profile.user.username for mention in self.mentions.all()],
             "nsfw": self.nsfw,
         }
 

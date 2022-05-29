@@ -88,6 +88,7 @@ TEMPLATES = [
                 'apps.core.context_processors.web_url',
                 'apps.notification.context_processors.notification',
                 'apps.vit.context_processors.get_latest_vits',
+                'apps.vit.context_processors.vit_form',
                 'apps.develop.context_processors.get_documentation_categories',
             ],
         },

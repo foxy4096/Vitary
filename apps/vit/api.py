@@ -49,12 +49,11 @@ def get_vits(request):
         return JsonResponse({'error': 'You must be logged in'}, status=401)
 
 
-def get_vit(request):
+def get_vit(request, id):
     user = KeyBackend().authenticate(request)
     if request.user.is_authenticated:
-        print(request.GET.get('vit_pk'))
         try:
-            vit = Vit.objects.get(pk=request.GET.get('vit_pk'))
+            vit = Vit.objects.get(id=id)
             return JsonResponse({'vit': vit.to_json()}, status=200)
         except:
             return JsonResponse({'error': 'Vit not found'}, status=404)

@@ -11,6 +11,11 @@ class Profile(models.Model):
     """
     Extending the base user model
     """
+    STATUS = (
+        ("online", "Online"),
+        ("away", "Away"),
+        ("colorful", "Colorful")
+    )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='uploads/',
                               default='/uploads/default.jpg', verbose_name='Profile Image')
@@ -24,6 +29,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True, null=True, default="")
     header_image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     badges = models.ManyToManyField(Badge, blank=True)
+    status = models.CharField(max_length=50, choices=STATUS, default="online")
     allow_nsfw = models.BooleanField("Allow NSFW Content", default=False)
 
     def __str__(self):
@@ -55,7 +61,7 @@ class Profile(models.Model):
         """
         Returns the profile image
         """
-        return mark_safe(f'<img src="{self.image.url}" height=50 / style="border-radius: 10%">')
+        return mark_safe(f'<img src="{self.image.url}" height=100px / style="border-radius: 50%">')
 
     def to_json(self):
         """

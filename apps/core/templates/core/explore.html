@@ -7,20 +7,26 @@ Explore
 
 
 {% block content %}
-<h1 class="title is-3 has-text-weight-light my-0">Explore</h1>
+<h1 class="title is-1 has-text-weight-bold">Explore</h1>
 <div class="columns">
     <div class="column is-7">
-        <div id="data" class="mx-0">
+        <div id="data">
             {% if vits %}
-        
             {% for vit in vits %}
             {% include 'vit/extends/vit_block.html' %}
             {% endfor %}
-        {% else %}
-        Wow Such Empty 😢
-        {% endif %}
-      <div id="spinner1" class="spinner has-text-centered"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
-      <div class="no-more"></div>
+            {% else %}
+            Wow Such Empty 😢
+            {% endif %}
+            <div id="spinner1" class="spinner has-text-centered">
+                <div class="lds-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="no-more"></div>
             <div class="pagination">
                 <span class="step-links">
                     {% if vits.has_previous %}
@@ -47,4 +53,3 @@ Explore
 {% block script %}
 <script src="{% static 'js/scroll.js' %}"></script>
 {% endblock script %}
-    

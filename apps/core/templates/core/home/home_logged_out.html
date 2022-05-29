@@ -7,36 +7,17 @@ Home
 
 
 {% block content %}
-<div class="hero">
-    <div 
-    class="is-one-fifth" 
-    style="
-    text-align: center;
-    margin: auto;
-    width: 60%;
-    ">
-        <h2 class="has-text-center" style="
-        font-size: 4rem;
-        padding-bottom: 40px;
-        line-height: 1;
-        font-weight: 800;
-        font-family: 'Work Sans', sans-serif;
-        color: transparent;
-        background-clip: text;
-        -webkit-background-clip: text;
-        background: -webkit-linear-gradient(-45deg, #50C878 30%, #2563eb 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        ">
+<div class="columns is-vcentered">
+    <div class="column">
+        <h2 class="has-text-center home-page-title">
             A New Way To Make Friends.
         </h2>
-        <div>
+        <div class="buttons">
             <a href="{% url 'signup' %}" class="button is-info is-large">Join Now 🚀</a>
             <a href="{% url 'login' %}" class="button is-ghost is-large">Login 🔐</a>
         </div>
     </div>
-    <br>
-    <div class="Hero">
+    <div class="column">
         <article class="image">
             <img src="{% static 'img/glossy-modern-witch.png' %}" alt="hero1">
         </article>

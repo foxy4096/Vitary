@@ -25,7 +25,7 @@
 
 {% block content %}
 <div class="columns">
-    <div class="column is-7">
+    <div class="column is-7 mt-4">
         <div class="card">
             {% if usr.profile.header_image %}
             <div class="card-image">
@@ -36,7 +36,7 @@
             {% endif %}
             <div class="card-content">
                 <figure class="image is-128x128">
-                    <img src="{{ usr.profile.image.url }}" alt="{{ user }}" class="is-rounded">
+                    <img src="{{ usr.profile.image.url }}" alt="{{ user }}" class="is-rounded profile-img {% if usr.profile.header_image %} profile-img-page {% endif %} {{ usr.profile.status }}">
                 </figure>
                 <br>
                 <div id="info">
@@ -60,7 +60,11 @@
                             Staff ✔️
                         </span>
                         {% endif %}
-
+                        {% if usr.bot %}
+                        <span class="badge-white tag" title="Bot 🤖">
+                            Bot 🤖
+                        </span>
+                        {% endif %}
                         {% for badge in usr.profile.badges.all %}
                         <a href="{% url 'badge' badge.id %}">
                             <span class="badge-{{badge.color}} tag is-{{badge.color}}" title="{{ badge.name }}">

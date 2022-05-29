@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="forest">
+<html lang="en" data-theme="forest" id="">
+
 <head>
     <meta charset="UTF-8">
     <script src="{% static 'js/jquery.js' %}"></script>
@@ -26,11 +27,11 @@
         {% block title %}{% endblock title %} | Vitary
     </title>
     {% block meta %}
-    
+
     {% endblock meta %}
     <meta name="title" content="Vitary">
     <meta name="description" content="Vitary | Make New Friends Today!">
-    
+
     <!-- Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vitary.pythonanywhere.com/home/">
@@ -53,7 +54,7 @@
     <meta name="description" content="Vitary | Make New Friends Today!">
 </head>
 
-<body>
+<body id>
 
     {% include 'core/navbar.html' %}
     {% include 'core/search_modal.html' %}
@@ -84,27 +85,18 @@
 
     <script src="https://3gc941nr9yx8.statuspage.io/embed/script.js"></script>
 
+
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/follow.js' %}"></script>
     <script src="{% static 'js/infinite-ajax-scroll.js' %}"></script>
     <script src="{% static 'js/navbar.js' %}"></script>
+    <script src="{% static 'js/copy.js' %}"></script>
     <script src="{% static 'js/surprise.js' %}"></script>
+    <script src="{% static 'js/mention_suggests.js' %}"></script>
+    <script src="{% static 'js/anchor.min.js' %}"></script>
+    {% block script %}
 
-    <!-- Bulma Navbar control -->
-    <script>
-        
-        function copyLink(id) {
-            var copyText = "https://vitary.pythonanywhere.com/vit/" + id + "/";
-            navigator.clipboard.writeText(copyText);
-            document.getElementById("copyLink_" + id).innerHTML = "Copied!";
-            setTimeout(function () {
-                document.getElementById("copyLink" + id).innerHTML = "Copy";
-            }, 2000);
-        }
-        </script>
-{% block script %}
-
-{% endblock script %}
+    {% endblock script %}
 </body>
 
 </html>

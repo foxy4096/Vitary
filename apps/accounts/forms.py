@@ -36,12 +36,13 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('image', 'header_image', 'bio','email_notif', 'allow_nsfw')
+        fields = ('image', 'header_image', 'bio','email_notif','allow_nsfw', 'status')
         widgets = {
             'email_notif': forms.CheckboxInput(attrs={'class': 'checkbox'}),
             'bio': forms.Textarea(attrs={'class': 'textarea', 'placeholder': 'Tell us about yourself...,\n You can use Markdown and mentions.'}),
             'header_image': forms.FileInput(attrs={'class': 'input', 'style': '''width: 100%;''', 'id': 'header_image'}),
             'image': forms.FileInput(attrs={'class': 'input', 'style': '''width: 100%;''', 'id': 'image'}),
+            'status': forms.Select(attrs={'class': 'input', 'style': '''width: 100%;''', 'id': 'status'}),
         }
 
 class UsernameForm(forms.Form):

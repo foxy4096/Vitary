@@ -32,7 +32,7 @@ class KeyBackend:
 
         if key:
             try:
-                user = User.objects.get(devprofile__private_key=key)
+                user = User.objects.get(devprofile__private_key=key) if User.objects.filter(devprofile__private_key=key).exists() else User.objects.get(bot__private_key=key)
                 login(request, user)
                 return user
             except User.DoesNotExist:

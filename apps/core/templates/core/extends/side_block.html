@@ -1,16 +1,16 @@
 {% load humanize %}
 
 {% if request.path != '/home/' and user.is_authenticated %}
-<div class="card">
+<div class="card mt-4">
     <div class="card-content">
         <a href="{% url 'add_vit' %}" class="button is-success is-fullwidth is-large">Add Vit ➕</a>
     </div>
 </div>
 <br>
 {% endif %}
+{% if related_persons %}
 <div class="card">
     <div class="card-content">
-        {% if related_persons %}
         <h3 class="title is-3">Related Persons</h3>
         {% for related_person in related_persons %}
         <div class="media">
@@ -44,11 +44,10 @@
     </div>
 </div>
 <br>
+{% endif %}
 <div class="card">
     <div class="card-content">
-        {% endif %}
-        <h1 class="title has-text-weight-bold">Latest</h1>
-
+        <h1 class="title has-text-weight-bold">Latest 🔥</h1>
         {% for latest_vit in latest_vits %}
 
         <a href="{% url 'profile_view' latest_vit.user.username %}">

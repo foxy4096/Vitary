@@ -18,4 +18,12 @@ urlpatterns = [
     path('docs/', views.DocsIndexView.as_view(), name='develop_docs'),
     path('docs/<str:slug>/', views.DocsDetailView.as_view(), name='develop_docs_detail'),
 
+    # Bot
+    path('bot/create/', views.bot_create, name='develop_bot_create'),
+    path('bot/<int:id>/', views.bot_detail, name='develop_bot_detail'),
+    path('bot/<int:id>/delete/', views.bot_delete, name='develop_bot_delete'),
+    path('bot/<int:id>/webhook/create/', views.webhook_create, name='webhook_create'),
+    path('bot/<int:id>/webhook/<int:webhook_id>/delete/', views.webhook_delete, name='webhook_delete'),
+    path('bot/<int:id>/webhook/<int:webhook_id>/edit/', views.webhook_edit, name='webhook_edit'),
+
 ]

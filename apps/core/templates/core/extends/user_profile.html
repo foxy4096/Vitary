@@ -12,8 +12,8 @@
     <div class="card-content">
         <div class="media">
             <div class="media-left">
-                <figure class="image is-96x96 is-square">
-                    <img class="is-rounded" src="{{ usr.profile.image.url }}">
+                <figure class="image is-96x96">
+                    <img class="is-rounded profile-img {% if usr.profile.header_image %} profile-img-page {% endif %}  {{ usr.profile.status }}" src="{{ usr.profile.image.url }}" title="{{ usr.profile.status.title }}">
                 </figure>
             </div>
         </div>
@@ -25,6 +25,7 @@
             {% endif %}
         </h4>
         <p class="subtitle is-6"><a href="{% url 'profile_view' usr.username %}">@{{usr.username}}</a>
+            <br>
             <br>
             {% if usr.is_superuser %}
             <span class="tag badge-white">Admin ✔️</span>

@@ -61,11 +61,11 @@ urlpatterns = [
 
     # Vits
     path('api/v1/vit/like/', like),
-    path('api/v1/vit/get_vits/', get_vits),
-    path('api/v1/vit/get_vit/', get_vit),
-    path('api/v1/vit/add_vit/', add_vit),
-    path('api/v1/vit/edit_vit/', edit_vit),
-    path('api/v1/vit/delete_vit/', delete_vit),
+    path('api/v1/vit/', get_vits),
+    path('api/v1/vit/<int:id>/', get_vit),
+    path('api/v1/vit/add/', add_vit),
+    path('api/v1/vit/edit/', edit_vit),
+    path('api/v1/vit/delete/', delete_vit),
     
 
     # Users
