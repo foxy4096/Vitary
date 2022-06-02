@@ -128,9 +128,11 @@ def save_vit(sender, instance, created, **kwargs):
                             if res.status_code == 200:
                                 bot_user.profile.status = "online"
                                 bot_user.profile.save()
+                            else:
+                                bot_user.profile.status = "away"
+                                bot_user.profile.save()
             except:
-                bot_user.profile.status = "away"
-                bot_user.profile.save()
+                pass
 
 
 @receiver(post_save, sender=Comment)
@@ -182,45 +184,47 @@ def save_comment(sender, instance, **kwargs):
                 )
                 mail.attach_alternative(html_message, "text/html")
                 mail.send()
-
-            if User.objects.get(username=result).bot:
-                bot_user = User.objects.get(username=result)
-                webhooks = bot_user.bot.webhook_set.all()
-                for webhook in webhooks:
-                    if webhook.event_type == "on_comment_mention":
-                        try:
-                            if webhook.method == "GET":
-                                res = requests.get(
-                                    webhook.payload_url,
-                                    data=json.dumps({
-                                        "from": user.username,
-                                        "comment": instance.pk,
-                                        "body": body,
-                                    }),
-                                    headers={
-                                        "Authorization": f"Key {webhook.bot.private_key}"
-                                        if webhook.required_authentication
-                                        else "",
-                                        "Content-Type": webhook.content_type,
-                                    },
-                                )
-                            elif webhook.method == "POST":
-                                res = requests.post(
-                                    webhook.payload_url,
-                                    data=json.dumps({
-                                        "from": user.username,
-                                        "comment": instance.pk,
-                                        "body": body,
-                                    }),
-                                    headers={
-                                        "Authorization": f"Key {webhook.bot.private_key}"
-                                        if webhook.required_authentication
-                                        else "",
-                                        "Content-Type": webhook.content_type,
-                                    },
-                                )
-                            if res.status_code == 200:
-                                bot_user.profile.status = "online"
-                        except:
-                            bot_user.profile.status = "away"
-                        bot_user.profile.save()
+            try:
+                if User.objects.get(username=result).bot:
+                    bot_user = User.objects.get(username=result)
+                    webhooks = bot_user.bot.webhook_set.all()
+                    for webhook in webhooks:
+                        if webhook.event_type == "on_comment_mention":
+                            try:
+                                if webhook.method == "GET":
+                                    res = requests.get(
+                                        webhook.payload_url,
+                                        data=json.dumps({
+                                            "from": user.username,
+                                            "comment": instance.pk,
+                                            "body": body,
+                                        }),
+                                        headers={
+                                            "Authorization": f"Key {webhook.bot.private_key}"
+                                            if webhook.required_authentication
+                                            else "",
+                                            "Content-Type": webhook.content_type,
+                                        },
+                                    )
+                                elif webhook.method == "POST":
+                                    res = requests.post(
+                                        webhook.payload_url,
+                                        data=json.dumps({
+                                            "from": user.username,
+                                            "comment": instance.pk,
+                                            "body": body,
+                                        }),
+                                        headers={
+                                            "Authorization": f"Key {webhook.bot.private_key}"
+                                            if webhook.required_authentication
+                                            else "",
+                                            "Content-Type": webhook.content_type,
+                                        },
+                                    )
+                                if res.status_code == 200:
+                                    bot_user.profile.status = "online"
+                            except:
+                                bot_user.profile.status = "away"
+                            bot_user.profile.save()
+            except:
+                pass

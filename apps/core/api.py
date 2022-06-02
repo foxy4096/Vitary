@@ -86,7 +86,7 @@ def get_routes(request):
         },
         {
             'name': 'get_vits',
-            'path': '/api/v1/vit/get_vits/',
+            'path': '/api/v1/vit/',
             'method': 'GET',
             'description': 'Get vits',
             'required_login': True,
@@ -94,17 +94,14 @@ def get_routes(request):
         },
         {
             'name': 'get_vit',
-            'path': '/api/v1/vit/get_vit/',
+            'path': '/api/v1/vit/<int:id>/',
             'method': 'GET',
             'description': 'Get a vit',
-            'data': {
-                'vit_pk': 'The id of the vit you want to get',
-            },
             'required_login': True,
         },
         {
             'name': 'add_vit',
-            'path': '/api/v1/vit/add_vit/',
+            'path': '/api/v1/vit/add/',
             'method': 'POST',
             'description': 'Add a vit',
             'data': {
@@ -117,7 +114,7 @@ def get_routes(request):
         },
         {
             'name': 'edit_vit',
-            'path': '/api/v1/vit/edit_vit/',
+            'path': '/api/v1/vit/edit/',
             'method': 'POST',
             'description': 'Edit a vit',
             'data': {
@@ -128,7 +125,7 @@ def get_routes(request):
         },
         {
             'name': 'delete_vit',
-            'path': '/api/v1/vit/delete_vit/',
+            'path': '/api/v1/vit/delete/',
             'method': 'POST',
             'description': 'Delete a vit',
             'data': {
