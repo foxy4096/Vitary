@@ -111,7 +111,7 @@ class Embed(models.Model):
     url = models.URLField()
     vit = models.ForeignKey(Vit, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    description = models.TextField(max_length=500, blank=True, null=True)
+    description = models.TextField(max_length=500, blank=True, null=True, default='')
     image_url = models.URLField(blank=True, null=True)
     video_url = models.URLField(blank=True, null=True)
 

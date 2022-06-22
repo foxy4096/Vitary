@@ -132,24 +132,20 @@
                     <div class="columns is-multiline">
                         {% for embed in vit.embed_set.all %}
                         <div class="column">
-                            
-                            
-                            
                             <div class="card">
                                 {% if embed.image_url and not embed.video_url %}
                                 <div class="card-image">
                                     <article class="image">
-                                        <img src="{{embed.image_url}}" alt="Placeholder image">
+                                        <a href="{{ embed.url }}" target="_blank"><img src="{{embed.image_url}}" alt="Placeholder image"></a>
                                     </article>
                                 </div>
-                                
                                 {% elif embed.video_url and embed.image_url %}
                                     <iframe src="{{embed.video_url}}" frameborder="0"></iframe>
                                     
                                 {% endif %}
                         <div class="card-content has-background-black">
                             <h4 class="title is-4 has-text-weight-light pt-0 mt-0"><a href="{{ embed.url }}" target="_blank">{{ embed.title }}</a></h4>
-                            <div style="overflow-y: scroll;">
+                            <div class="content">
                                 {{embed.description| truncatechars:90 | default:"No description provided"}}
                             </div>
                         </div>

@@ -108,22 +108,20 @@ def find_embed_url(vit: Vit):
         r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
         vit.body,
     )
-    try:
-        for url in urls:
-            embed = Embed.objects.get_or_create(url=url, vit=vit)[0]
+    for url in urls:
+        try:
             res = requests.get(url)
             soup = BeautifulSoup(res.text, "html.parser")
             if soup.find("meta", property="og:title"):
+                embed = Embed.objects.get_or_create(url=url, vit=vit)[0]
                 embed.title = soup.find("meta", property="og:title")["content"]
-            if soup.find("meta", property="og:description"):
-                embed.description = soup.find("meta", property="og:description")[
-                    "content"
-                ]
-            if soup.find("meta", property="og:image"):
-                embed.image_url = soup.find("meta", property="og:image")["content"]
-            embed.save()
-    except:
-        pass
+                if soup.find("meta", property="og:description"):
+                    embed.description = soup.find("meta", property="og:description").get("content", '')
+                if soup.find("meta", property="og:image"):
+                    embed.image_url = soup.find("meta", property="og:image")["content"]
+                embed.save()
+        except:
+            pass
 
 
 def find_plustags(vit: Vit):
