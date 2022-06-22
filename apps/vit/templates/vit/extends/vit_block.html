@@ -128,7 +128,7 @@
         <div class="content">
             <div class="mx-2 my-2">
                 <p class="content px-4" style="overflow-y: scroll;">
-                    {{ vit.body | plustag | striptags |  safe | mention | convert_markdown }}
+                    {{ vit.body | plustag | striptags |  safe | mention | convert_markdown | urlize }}
                     <div class="columns is-multiline">
                         {% for embed in vit.embed_set.all %}
                         <div class="column">

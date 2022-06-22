@@ -32,7 +32,7 @@ SECRET_KEY = env('SECRET_KEY' ,default='django-insecure-od1y3j(!1bl7)s%n#1$xh1%p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG', default=True)
 
-ALLOWED_HOSTS = ['vitary.pythonanywhere.com', 'localhost', '192.168.182.210', '*']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'apps.blog.apps.BlogConfig',
     'apps.notification.apps.NotificationConfig',
     'apps.chat.apps.ChatConfig',
-    'apps.develop.apps.DevelopConfig',
 
     # Third Party Apps
     'django_cleanup.apps.CleanupConfig',
@@ -70,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'Vitary.urls'
@@ -89,7 +89,6 @@ TEMPLATES = [
                 'apps.notification.context_processors.notification',
                 'apps.vit.context_processors.get_latest_vits',
                 'apps.vit.context_processors.vit_form',
-                'apps.develop.context_processors.get_documentation_categories',
             ],
         },
     },
@@ -153,15 +152,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home'
 
-# For BrokenLink MiddleWare
-import re
-IGNORABLE_404_URLS = [
-    re.compile(r'\.(php|cgi)$'),
-    re.compile(r'^/phpmyadmin/'),
-    re.compile(r'^/apple-touch-icon.*\.png$'),
-    re.compile(r'^/favicon\.ico$'),
-    re.compile(r'^/robots\.txt$'),
-]
 
 # Email Config
 if DEBUG:
@@ -178,7 +168,7 @@ else:
 # For Django Site Framwork
 SITE_ID = int(env('SITE_ID', default=1))
 
-WEB_HOST = env('WEB_HOST', default='localhost:8000')
+WEB_HOST = env('WEB_HOST', default='http://localhost:8000')
 
 # For Secure Session
 SECURE_SSL_REDIRECT = env('SECURE_SSL_REDIRECT', default=False)

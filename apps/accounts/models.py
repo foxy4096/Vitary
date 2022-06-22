@@ -1,36 +1,39 @@
 from django.db import models
 
 from django.utils.safestring import mark_safe
+import secrets
 
 from django.contrib.auth.models import User
 from apps.core.models import Badge
-
-
+from django.conf import settings
 
 class Profile(models.Model):
     """
     Extending the base user model
     """
-    STATUS = (
-        ("online", "Online"),
-        ("away", "Away"),
-        ("colorful", "Colorful")
-    )
+
+    STATUS = (("online", "Online"), ("away", "Away"), ("colorful", "Colorful"))
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='uploads/',
-                              default='/uploads/default.jpg', verbose_name='Profile Image')
+    image = models.ImageField(
+        upload_to="uploads/",
+        default="/uploads/default.jpg",
+        verbose_name="Profile Image",
+    )
     follows = models.ManyToManyField(
-        'self', related_name='followed_by', symmetrical=False)
+        "self", related_name="followed_by", symmetrical=False
+    )
     follower_count = models.IntegerField(default=0, editable=False)
     following_count = models.IntegerField(default=0, editable=False)
     email_notif = models.BooleanField(
-        default=True, verbose_name="Get Email Notifications")
+        default=True, verbose_name="Get Email Notifications"
+    )
     verified = models.BooleanField(default=False)
     bio = models.TextField(max_length=500, blank=True, null=True, default="")
-    header_image = models.ImageField(upload_to='uploads/', blank=True, null=True)
+    header_image = models.ImageField(upload_to="uploads/", blank=True, null=True)
     badges = models.ManyToManyField(Badge, blank=True)
     status = models.CharField(max_length=50, choices=STATUS, default="online")
     allow_nsfw = models.BooleanField("Allow NSFW Content", default=False)
+    auth_token = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         """
@@ -43,7 +46,8 @@ class Profile(models.Model):
         Returns the absolute url to the profile
         """
         from django.urls import reverse
-        return reverse('profile_view', kwargs={'username': self.user.username})
+
+        return reverse("profile_view", kwargs={"username": self.user.username})
 
     def get_4_followers(self):
         """
@@ -61,25 +65,31 @@ class Profile(models.Model):
         """
         Returns the profile image
         """
-        return mark_safe(f'<img src="{self.image.url}" height=100px / style="border-radius: 50%">')
+        return mark_safe(
+            f'<img src="{self.image.url}" height=100px / style="border-radius: 50%">'
+        )
 
     def to_json(self):
         """
         Returns a json representation of the model
         """
         return {
-            'id': self.id,
-            'username': self.user.username,
-            'first_name': self.user.first_name,
-            'last_name': self.user.last_name,
-            'email': self.user.email,
-            'bio': self.bio,
-            'image': self.image.url if self.image else None,
-            'header_image': self.header_image.url if self.header_image else None,
-            'follower_count': self.follower_count,
-            'following_count': self.following_count,
-            'verified': self.verified,
-            'allow_nsfw': self.allow_nsfw,
+            "id": self.id,
+            "username": self.user.username,
+            "first_name": self.user.first_name,
+            "last_name": self.user.last_name,
+            "email": self.user.email,
+            "bio": self.bio,
+            "image": f"{settings.WEB_HOST}{self.image.url}" if self.image else None,
+            "header_image": f"{settings.WEB_HOST}{self.header_image.url}" if self.header_image else None,
+            "follower_count": self.follower_count,
+            "following_count": self.following_count,
+            "verified": self.verified,
+            "allow_nsfw": self.allow_nsfw,
         }
 
-
+    def get_auth_token(self):
+        if self.auth_token is None:
+            self.auth_token = secrets.token_hex(16)
+            self.save()
+        return self.auth_token

@@ -11,8 +11,8 @@
 
 {% block meta %}
 {% if vit.image %}
-<meta property="og:image" content="{{ vit.image.url }}">
-<meta property="twitter:image" content="{{ vit.image.url }}">
+<meta property="og:image" content="{{web_url}}{{ vit.image.url }}">
+<meta property="twitter:image" content="{{web_url}}{{ vit.image.url }}">
 {% endif %}
 
 <!-- Open Graph / Facebook -->

@@ -2,6 +2,7 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+
 class Vit(models.Model):
     """
     Vit model
@@ -20,14 +21,17 @@ class Vit(models.Model):
         upload_to="uploads/videos/",
         blank=True,
         null=True,
-        help_text="You can upload upto one video per Vit"
+        help_text="You can upload upto one video per Vit",
     )
     likes = models.ManyToManyField(User, related_name="liked_vits")
     like_count = models.IntegerField(default=0)
     plustag = models.ManyToManyField("Plustag", blank=True)
     mentions = models.ManyToManyField(User, related_name="mentioned_vits")
-    nsfw = models.BooleanField("Is the Content NSFW?", default=False, help_text="Mark as NSFW if the content is not safe for work")
-    
+    nsfw = models.BooleanField(
+        "Is the Content NSFW?",
+        default=False,
+        help_text="Mark as NSFW if the content is not safe for work",
+    )
 
     def save(self, *args, **kwargs):
         self.body = self.body.strip()
@@ -39,7 +43,6 @@ class Vit(models.Model):
 
     def __str__(self):
         return f"Vit No.{self.pk}"
-
 
     class Meta:
         ordering = ["-date"]
@@ -62,9 +65,10 @@ class Vit(models.Model):
             "video": self.video.url if self.video else None,
             "likes": self.likes.count(),
             "plustag": [plus.name for plus in self.plustag.all()],
-            "mentions": [mention.profile.user.username for mention in self.mentions.all()],
+            "mentions": [mention.username for mention in self.mentions.all()],
             "nsfw": self.nsfw,
         }
+
 
 class Plustag(models.Model):
     """
@@ -80,6 +84,7 @@ class Plustag(models.Model):
 
     class Meta:
         ordering = ["-rating"]
+
 
 class Comment(models.Model):
     """
@@ -109,7 +114,6 @@ class Embed(models.Model):
     description = models.TextField(max_length=500, blank=True, null=True)
     image_url = models.URLField(blank=True, null=True)
     video_url = models.URLField(blank=True, null=True)
-    
 
     def __str__(self):
         return f"Embed {self.url}"

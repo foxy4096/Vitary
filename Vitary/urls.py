@@ -15,13 +15,9 @@ from apps.accounts.views import profile, user_following, user_followers, user_im
 from apps.vit.views import plustag_vits
 
 # APIs
-from apps.core.api import zen, get_routes
 from apps.chat.api import get_message_api, send_message_api
-from apps.accounts.api import follow, user_view_api, user_search_api
-from apps.vit.api import like, get_vits, add_vit, get_vit, edit_vit, delete_vit
-
-
-# Status
+from apps.accounts.api import follow, user_search_api
+from apps.vit.api import like
 
 
 urlpatterns = [
@@ -55,25 +51,9 @@ urlpatterns = [
 
 
     # API
-    # Core
-    path('api/v1/', get_routes),
-    path('api/v1/zen/', zen),
-
-    # Vits
     path('api/v1/vit/like/', like),
-    path('api/v1/vit/', get_vits),
-    path('api/v1/vit/<int:id>/', get_vit),
-    path('api/v1/vit/add/', add_vit),
-    path('api/v1/vit/edit/', edit_vit),
-    path('api/v1/vit/delete/', delete_vit),
-    
-
-    # Users
     path('api/v1/follow/', follow),
-    path('api/v1/user/', user_view_api),
     path('api/v1/users/search/', user_search_api),
-
-    # Chat
     path('api/v1/chat/get_message/', get_message_api),
     path('api/v1/chat/send_message/', send_message_api),
 
@@ -91,12 +71,6 @@ urlpatterns = [
 
     # Flatpages
     path('pages/', include('django.contrib.flatpages.urls')),
-
-    # Develop
-    path('develop/', include('apps.develop.urls')),
-
-    # status
-
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

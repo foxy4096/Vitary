@@ -3,7 +3,6 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
-from apps.develop.models import DevProfile
 from .models import Profile
 
 
@@ -26,19 +25,6 @@ class ProfileInline(admin.StackedInline):
         'status'
     ]
     can_delete = False
-
-
-class DevProfileInline(admin.StackedInline):
-    """
-    Include the dev profile in the user model by inline admin
-    """
-    readonly_fields = [
-        'first_name', 'last_name',
-        'email', 'github_username',
-        'twitter_username', 'website',
-        'bio', 'public_key'
-    ]
-    model = DevProfile
 
 
 def make_verified(self, request, queryset):
@@ -71,7 +57,7 @@ class UserAdmin(BaseUserAdmin):
     """
     Adding the profile inline in user model admin
     """
-    inlines = [ProfileInline, DevProfileInline]
+    inlines = [ProfileInline,]
     actions = [make_verified, make_unverified]
 
 
