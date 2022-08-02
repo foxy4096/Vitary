@@ -54,9 +54,9 @@
     <meta name="description" content="Vitary | Make New Friends Today!">
 </head>
 
-<body id>
-
+<body   >
     {% include 'core/navbar.html' %}
+    <div hx-boost="true">
     {% include 'core/search_modal.html' %}
     {% if messages %}
 
@@ -69,26 +69,27 @@
     {% endfor %}
 
     {% endif %}
-    {% block no_padding %}
 
-    {% endblock no_padding %}
-    <section class="section">
-        <div class="container-fluid">
-            {% block content %}
-
-            {% endblock content %}
-        </div>
-    </section>
-
-
-    {% include 'core/footer.html' %}
+        {% block no_padding %}
+        
+        {% endblock no_padding %}
+        <section class="section">
+            <div class="container-fluid">
+                {% block content %}
+                
+                {% endblock content %}
+            </div>
+        </section>
+        
+        
+        {% include 'core/footer.html' %}
+    </div>
 
     <script src="https://3gc941nr9yx8.statuspage.io/embed/script.js"></script>
-
-
+      <script src="https://unpkg.com/htmx.org@1.8.0"></script>
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/follow.js' %}"></script>
-    <script src="{% static 'js/infinite-ajax-scroll.js' %}"></script>
+    <!-- <script src="{% static 'js/infinite-ajax-scroll.js' %}"></script> -->
     <script src="{% static 'js/navbar.js' %}"></script>
     <script src="{% static 'js/copy.js' %}"></script>
     <script src="{% static 'js/surprise.js' %}"></script>

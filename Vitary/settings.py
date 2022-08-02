@@ -182,3 +182,5 @@ ADMIN = [('foxy4096', 'adityapriyadarshi669@gmail.com')]
 # Stripe Config
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+
+# NINJA_DOCS_VIEW = 'redoc'

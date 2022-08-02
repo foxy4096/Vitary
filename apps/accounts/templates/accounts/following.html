@@ -21,15 +21,6 @@ Following
             {% endif %}
         </div>
         <br>
-      <div class="no-more"></div>
-            <div id="spinner1" class="spinner has-text-centered">
-                <div class="lds-ring">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
         <div class="pagination">
             <span class="step-links">
                 {% if followings.has_previous %}
@@ -51,6 +42,4 @@ Following
     </div>
 </div>
 {% endblock content %}
-{% block script %}
-<script src="{% static 'js/scroll.js' %}"></script>
-{% endblock script %}
+

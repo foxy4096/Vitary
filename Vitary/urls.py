@@ -50,13 +50,11 @@ urlpatterns = [
     path('notification/', include('apps.notification.urls')),
 
 
-    # API
     path('api/v1/vit/like/', like),
     path('api/v1/follow/', follow),
     path('api/v1/users/search/', user_search_api),
     path('api/v1/chat/get_message/', get_message_api),
     path('api/v1/chat/send_message/', send_message_api),
-
 
     # Plustag
     path('plustag/<str:p>/', plustag_vits, name='plustag_vits'),

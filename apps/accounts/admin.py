@@ -11,7 +11,7 @@ class ProfileInline(admin.StackedInline):
     Including the profile model in the user model by inline admin
     """
     model = Profile
-    readonly_fields = ['profile_image', 'follower_count', 'following_count']
+    readonly_fields = ['profile_image', 'follower_count', 'following_count', 'auth_token']
     fields = [
         'profile_image',
         'image',
@@ -22,7 +22,8 @@ class ProfileInline(admin.StackedInline):
         'following_count',
         'header_image',
         'badges',
-        'status'
+        'status',
+        'auth_token'
     ]
     can_delete = False
 
