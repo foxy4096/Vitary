@@ -1,9 +1,10 @@
-# Vitary 
+# Vitary
+
 A simple social media made with Django
 
 [![CodeQL](https://github.com/foxy4096/Vitary/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/foxy4096/Vitary/actions/workflows/codeql-analysis.yml)
 
-## Installation :hammer_and_wrench:	
+## Installation :hammer_and_wrench:
 
 Get the source code 💻
 
@@ -51,7 +52,7 @@ pip install virtualenv
 and
 
 ```
-virtuatenv venv
+virtualenv venv
 ```
 
 Install the dependencies 🔨
@@ -63,11 +64,13 @@ pip install -r req.txt
 Make Migrations 💿
 
 On Windows:
+
 ```
 python manage.py makemigrations
 ```
 
-On *nix systemm:
+On \*nix systemm:
+
 ```
 python3 manage.py makemigrations
 ```
@@ -75,11 +78,13 @@ python3 manage.py makemigrations
 Migrate the database 🏃‍♂️
 
 On Windows:
+
 ```
 python manage.py migrate
 ```
 
-On *nix systemm:
+On \*nix systemm:
+
 ```
 python3 manage.py migrate
 ```
@@ -87,11 +92,13 @@ python3 manage.py migrate
 Create the superuser 🤵
 
 On Windows :
+
 ```
 python manage.py createsuperuser
 ```
 
-On *nix systemm:
+On \*nix systemm:
+
 ```
 python3 manage.py createsuperuser
 ```
@@ -99,18 +106,20 @@ python3 manage.py createsuperuser
 Run the server 🚀
 
 On Windows:
+
 ```
 python manage.py runserver
 ```
 
-On *nix systemm:
+On \*nix systemm:
+
 ```
 python3 manage.py runserver
 ```
 
 <hr>
 
-## Tools 🔧 
+## Tools 🔧
 
 [Python](https://python.org) the programming language
 
@@ -119,7 +128,6 @@ python3 manage.py runserver
 [Visual Studio Code](https://code.visualstudio.com) Free source code editor
 
 ## Screenshot :camera:
-
 
 ![Homepage](./screenshot/home_logged_out.jpeg)
 
