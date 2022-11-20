@@ -100,6 +100,7 @@
                 <p class="content px-4" style="overflow-y: scroll;">
                     {{ vit.body | striptags | plustag | safe | mention | convert_markdown }}
                 </p>
+                <br>
                 <div class="columns is-multiline">
                     {% if vit.embed_set.all|length > 1 %}
                     {% for embed in vit.embed_set.all %}
