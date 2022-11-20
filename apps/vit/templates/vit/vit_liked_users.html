@@ -9,11 +9,11 @@
 {% endblock no_padding %}
 
 {% block content %}
+<a role="button" onclick="window.history.back()" class="button is-small">&lt;~ Back</a>
+<br>
+<br>
 <div class="columns">
     <div class="column is-8">
-        <a role="button" onclick="window.history.back()" class="button is-small">Back</a>
-        <br>
-        <br>
         <div class="box">
             {% for person in liked_users %}
             {% include 'core/islands/user_ext.html' with person=person %}
