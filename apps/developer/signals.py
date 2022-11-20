@@ -8,7 +8,7 @@ from .models import DevProfile, Token, Bot
 @receiver(post_save, sender=DevProfile)
 def create_token(sender, instance, created, **kwargs):
     if created:
-        Token.objects.create(user=instance)
+        Token.objects.create(devprofile=instance)
 
 
 @receiver(post_save, sender=Bot)
