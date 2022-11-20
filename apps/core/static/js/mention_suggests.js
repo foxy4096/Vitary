@@ -31,7 +31,7 @@ $("#body").keydown(function () {
                                         ${user.first_name} ${user.last_name}
                                         </strong>
                                         </h4>
-                                        <p class="subtitle is-6 mb-0"><a href='javascript:void(0);' onclick='ins("${user.username}")'>${user.username}</a></p>
+                                        <p class="subtitle is-6 mb-0"><a href='javascript:void(0);' onclick='ins("${user.username}")'>@${user.username}</a></p>
                                     </div>
                                     <div class='media-right'>
                                         <a  href='javascript:void(0);' onclick='ins("${user.username}")' class='button is-primary'>Add</a>
@@ -55,4 +55,5 @@ function ins(username) {
       .val()
       .replace(word, "@" + username)
   );
+  $("#body").focus();
 }

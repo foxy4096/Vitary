@@ -5,39 +5,26 @@
 Explore
 {% endblock title %}
 
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading="Explore" %}
+{% endblock no_padding %}
 
 {% block content %}
-<h1 class="title is-1 has-text-weight-bold">Explore</h1>
 <div class="columns">
-    <div class="column is-7">
+    <div class="column is-8">
         <div id="data">
-            {% if vits %}
             {% for vit in vits %}
-            {% include 'vit/extends/vit_block.html' %}
+            {% include 'vit/islands/vit_block.html' %}
+            {% empty %}
+            <p class="subtitle">
+                Wow Such Empty 😢
+            </p>
             {% endfor %}
-            {% else %}
-            Wow Such Empty 😢
-            {% endif %}
-            <div class="pagination">
-                <span class="step-links">
-                    {% if vits.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ vits.previous_page_number }}">previous</a>
-                    {% endif %}
-                    <span class="current">
-                        Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
-                    </span>
-                    {% if vits.has_next %}
-                    <a href="?page={{ vits.next_page_number }}" class="next">next</a>
-                    <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
+            {% include 'core/islands/pagination.html' with page=vits %}
         </div>
     </div>
-    <div class="column is-5">
-        {% include 'core/extends/side_block.html' %}
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
     </div>
 </div>
 {% endblock content %}
-

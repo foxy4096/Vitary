@@ -5,70 +5,36 @@
 {% block title %}
 {{badge.name}} | Badge
 {% endblock title %}
-
-
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading="Badges" %}
+{% endblock no_padding %}
 {% block content %}
 <div class="columns">
-    <div class="column is-7">
+    <div class="column is-8">
         <div class="level">
             <div class="level-left">
-
                 <span class="badge-{{badge.color}} tag is-large is-{{ badge.color }}">{{ badge.name }}</span>
             </div>
         </div>
-        <br>
-        <br>
         <p class="content">
-            {{ badge.description | convert_markdown| mention | safe }}
+            {{ badge.description | convert_markdown | mention | safe }}
         </p>
-        <br>
-        <p class="content">
 
-            {% if badge.requirments_set.all %}
-
-
-        <h3 class="title is-3">Requirements:</h3>
-        <br>
-        {% for requirement in badge.requirments_set.all %}
-        <h5 class="title is-5">{{ requirement.name }}</h5>
-        <div class="content">
-            {{ requirement.description | convert_markdown| mention | safe }}
-        </div>
-        {% endfor %}
-        {% endif %}
-        </p>
         <br>
         <p class="content">
         <h3 class="title is-3">Users who have this badge</h3>
-        <br>
-        <div id="data">
-        {% if usrs %}
-                {% for user in usrs %}
-                {% include 'core/extends/user_ext.html' with person=user.user %}
-                {% endfor %}
-                {% endif %}
-            </div>
-        </p>
-        <div id="spinner1" class="spinner has-text-centered"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
-      <div class="no-more"></div>
-        <div class="pagination">
-            <span class="step-links">
-                {% if usrs.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ usrs.previous_page_number }}">previous</a>
-                {% endif %}
-                <span class="current">
-                    Page {{ usrs.number }} of {{ usrs.paginator.num_pages }}.
-                </span>
-                {% if usrs.has_next %}
-                <a href="?page={{ usrs.next_page_number }}" class="next">next</a>
-                <a href="?page={{ usrs.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
+        <div class="box">
+            {% if usrs %}
+            {% for user in usrs %}
+            {% include 'core/islands/user_ext.html' with person=user.user %}
+            {% endfor %}
+            {% endif %}
         </div>
+        </p>
+        {% include 'core/islands/pagination.html' with page=usrs %}
     </div>
-    <div class="column is-5">
-        {% include 'core/extends/side_block.html' %}
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
     </div>
 </div>
 {% endblock content %}

@@ -1,9 +1,9 @@
 {% load humanize %}
 
-{% if request.path != '/home/' and user.is_authenticated %}
-<div class="card mt-4">
+{% if request.path != '/feed/' and user.is_authenticated %}
+<div class="card">
     <div class="card-content">
-        <a href="{% url 'add_vit' %}" class="button is-success is-fullwidth is-large">Add Vit ➕</a>
+        <a href="{% url 'add_vit' %}" class="button is-fullwidth is-large">Add Vit ➕</a>
     </div>
 </div>
 <br>
@@ -49,15 +49,18 @@
     <div class="card-content">
         <h1 class="title has-text-weight-bold">Latest 🔥</h1>
         {% for latest_vit in latest_vits %}
+        <small>
 
-        <a href="{% url 'profile_view' latest_vit.user.username %}">
-            {{ latest_vit.user }}
-        </a>: <a href="{{ latest_vit.get_absolute_url }}">
-            {{latest_vit.body | truncatechars:40}}
-        </a>
-        <span class="date">
-            {{latest_vit.date | naturaltime }}
-        </span>
+            <a href="{% url 'profile_view' latest_vit.user.username %}">
+                {{ latest_vit.user }}
+            </a>: <a href="{{ latest_vit.get_absolute_url }}">
+
+                {{latest_vit.body | truncatechars:40}}
+            </a>
+            <span class="date">
+                {{latest_vit.date | naturaltime }}
+            </span>
+        </small>
         <br>
         {% endfor %}
     </div>
@@ -149,8 +152,8 @@
         <p>You need to <a href="{% url 'login' %}">login</a> to see your following.</p>
         <hr>
         <div class="buttons">
-            <a href="{% url 'signup' %}" class="button is-primary is-fullwidth">Sign Up 🚀</a>
-            <a href="{% url 'login' %}" class="button is-white is-fullwidth is-outlined">Login 🔐</a>
+            <a href="{% url 'signup' %}" class="button is-fullwidth">Sign Up 🚀</a>
+            <a href="{% url 'login' %}" class="button is-info is-fullwidth is-outlined">Login 🔐</a>
         </div>
         {% endif %}
     </div>

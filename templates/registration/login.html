@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 {% load bulma_tags %}
 {% load static %}
+{% load socialaccount %}
 
 
 {% block title %}
@@ -8,9 +9,12 @@ Login
 {% endblock title %}
 
 
+
+{% block no_padding %}
+    {% include 'core/islands/header.html' with heading="Authentication" %}
+{% endblock no_padding %}
 {% block content %}
-<div class="">
-<div class="columns is-vcentered">
+<div class="columns" hx-boost="flase">
     <div class="column">
         <h1 class="title is-1 has-text-weight-bold">Login</h1>
         <p class="subtitle">Login with your account you have created.</p>
@@ -21,7 +25,17 @@ Login
             <a href="{% url 'password_reset' %}">Forgot Password? 🔑</a>
             <p>Not have an account? <a href="{% url 'signup' %}">Sign Up 🚀</a></p>
             <br>
-            <button type="submit" class="button is-info is-large">Login 🔐</button>
+            <div class="buttons">
+                <button type="submit" class="button is-large">Login 🔐</button>
+                <a href='{% provider_login_url "github" %}' class="button is-white is-outlined is-large">
+                    <span>
+                        Login With GitHub
+                    </span>
+                    <span class="icon">
+                        <i class="bi bi-github"></i>
+                    </span>
+                </a>
+            </div>
         </form>
     </div>
     <div class="column">
@@ -29,9 +43,10 @@ Login
             <img src="{% static 'img/atomic-logged-out-1.png' %}" alt="" width="30" height="30">
         </article>
         <p class="content has-text-centered">
-            Illustration by <a href="https://icons8.com/illustrations/author/60c868b228e02f000aef145d">AsIa Vitalyevna</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
+            Illustration by <a href="https://icons8.com/illustrations/author/60c868b228e02f000aef145d">AsIa
+                Vitalyevna</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
         </p>
     </div>
 </div>
 </div>
-{% endblock content %}    
+{% endblock content %}

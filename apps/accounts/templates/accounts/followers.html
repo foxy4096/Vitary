@@ -5,42 +5,24 @@
 Follower
 {% endblock title %}
 
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading="Follower" %}
+{% endblock no_padding %}
+
 {% block content %}
-<h1 class="title is-1 has-text-weight-bold">Follower</h1>
 <div class="columns">
-    <div class="column is-7">
-        {% if usr.profile.followed_by.all %}
-        <div class="">
-            <div id="data">
-                {% for person in followers %}
-                {% include 'core/extends/user_ext.html' with person=person.user %}
-                {% endfor %}
-            </div>
+    <div class="column is-8">
+        <div class="box">
+            {% for person in followers %}
+            {% include 'core/islands/user_ext.html' with person=person.user %}
+            {% empty %}
+            <p>Not followed by anyone yet.</p>
+            {% endfor %}
         </div>
-        {% else %}
-        <p>Not followed by anyone yet.</p>
-        {% endif %}
-        <br>
-        <div class="pagination">
-            <span class="step-links">
-                {% if followers.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ followers.previous_page_number }}">previous</a>
-                {% endif %}
-                <span class="current">
-                    Page {{ followers.number }} of {{ followers.paginator.num_pages }}.
-                </span>
-                {% if followers.has_next %}
-                <a href="?page={{ followers.next_page_number }}" class="next">next</a>
-                <a href="?page={{ followers.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+        {% include 'core/islands/pagination.html' with page=followers %}
     </div>
-    <div class="column is-5">
-        {% include 'core/extends/side_block.html' %}
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
     </div>
 </div>
 {% endblock content %}
-
-    

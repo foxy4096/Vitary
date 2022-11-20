@@ -8,10 +8,11 @@ class PlustagAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_per_page = 10
 
-class CommentAdmin(admin.TabularInline):
-    readonly_fields = ['body','user', 'vit', 'date']
-    extra = 0
-    model = Comment
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['body','user', 'vit', 'date']
+    fields = ['body','user', 'vit', 'date']
+    readonly_fields = ['user', 'vit', 'date']
+
 class EmbedAdmin(admin.TabularInline):
     readonly_fields = ['url', 'vit', 'title', 'description', 'image_url', 'video_url']
     extra = 0
@@ -19,7 +20,7 @@ class EmbedAdmin(admin.TabularInline):
 
 class VitAdmin(admin.ModelAdmin):
     list_display = ['body', 'user', 'image', 'video', 'like_count', 'date']
-    inlines = [CommentAdmin, EmbedAdmin]
+    inlines = [EmbedAdmin]
     list_filter = ['user', 'date']
     search_fields = ['body']
     list_per_page = 10
@@ -28,4 +29,5 @@ class VitAdmin(admin.ModelAdmin):
     
 
 admin.site.register(Vit, VitAdmin)
+admin.site.register(Comment, CommentAdmin)
 admin.site.register(Plustag, PlustagAdmin)

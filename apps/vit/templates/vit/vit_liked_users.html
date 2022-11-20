@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+    Likes
+{% endblock title %}
+    
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading="Likes" %}
+{% endblock no_padding %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-8">
+        <a role="button" onclick="window.history.back()" class="button is-small">Back</a>
+        <br>
+        <br>
+        <div class="box">
+            {% for person in liked_users %}
+            {% include 'core/islands/user_ext.html' with person=person %}
+            {% empty %}
+            <p>No one is at the party yet!</p>
+            {% endfor %}
+        </div>
+        <br>
+        {% include 'core/islands/pagination.html' with page=liked_users %}
+    </div>
+
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,42 +1,46 @@
 {% extends 'core/base.html' %}
 {% load bulma_tags %}
+{% load socialaccount %}
 {% block title %}
 Your Profile
 {% endblock title %}
 
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading="Edit Profile" %}
+{% endblock no_padding %}
+
 {% block content %}
-<div class="columns">
-    <div class="column is-4 is-hidden-mobile">
-        {% include 'core/extends/user_profile.html' with usr=user %}
+<form method="POST" enctype="multipart/form-data">
+    {{ uform | bulma }}
+    {{ pform | bulma}}
+    <br>
+    <p class="help"><a href="https://www.markdownguide.org/" target="_blank">
+            <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true">
+                <path fill-rule="evenodd" fill="white"
+                    d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z">
+                </path>
+            </svg>
+            Styling with Markdown is supported
+        </a>
+    </p>
+    {% csrf_token %}
+    <br>
+    <br>
+    <div class="buttons">
+        <button type="submit" class="button is-success">Save
+            💾
+        </button>
+        <a href='{% provider_login_url "github" process="connect" %}' class="button is-dark">
+            <span>
+                Connect With GitHub
+            </span>
+            <span class="icon">
+                <i class="bi bi-github"></i>
+            </span>
+        </a>
+
+
+        <a href="{% url 'advance_settings' %}" class="button is-link is-warning">Advance Settings 🔧</a>
     </div>
-    <div class="column">
-        <div class="box">
-            <h1 class="title is-1 has-text-weight-bold has-text-centered">Profile</h1>
-            <form method="POST" enctype="multipart/form-data">
-                {{ uform | bulma }}
-                {{ pform.as_p }}
-                <br>
-                <p class="help"><a href="https://www.markdownguide.org/" target="_blank">
-                    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"
-                        data-view-component="true">
-                        <path fill-rule="evenodd" fill="white"
-                            d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z">
-                        </path>
-                    </svg>
-                    Styling with Markdown is supported
-                </a>
-            </p>
-                {% csrf_token %}
-                <br>
-                <br>
-                <div class="buttons">
-                    <button type="submit" class="button is-success">Save
-                        💾
-                    </button>
-                    <a href="{% url 'advance_settings' %}" class="button is-link is-warning">Advance Settings 🔧</a>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+</form>
 {% endblock content %}

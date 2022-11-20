@@ -4,11 +4,18 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
     <script src="{% static 'js/jquery.js' %}"></script>
     <meta name="google-site-verification" content="talpjIMGSLi3tqtLzbghCA_FL28jJPkrDM0K4wq_2Z0" />
+    <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/srcery.min.css">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    
+    <script>hljs.highlightAll();</script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <meta name="mobile-web-app-capable" content="yes">
     {% if unread_notifications %}
     <link rel="shortcut icon" href="{% static 'img/favicon_notif.ico' %}" type="image/x-icon">
@@ -54,39 +61,33 @@
     <meta name="description" content="Vitary | Make New Friends Today!">
 </head>
 
-<body   >
+<body>
     {% include 'core/navbar.html' %}
-    <div hx-boost="true">
-    {% include 'core/search_modal.html' %}
-    {% if messages %}
-
-    {% for message in messages %}
-    <article class="message is-{{ message.tags }}">
-        <div class="message-body">
-            {{ message }}
-        </div>
-    </article>
-    {% endfor %}
-
-    {% endif %}
+    <div hx-boost="false">
+        {% include 'core/search_modal.html' %}
 
         {% block no_padding %}
-        
+
         {% endblock no_padding %}
+        {% include 'core/islands/messages.html' %}
+
         <section class="section">
             <div class="container-fluid">
                 {% block content %}
-                
+
                 {% endblock content %}
             </div>
         </section>
-        
-        
+
+
         {% include 'core/footer.html' %}
     </div>
 
+
+    {% if not DEBUG %}
     <script src="https://3gc941nr9yx8.statuspage.io/embed/script.js"></script>
-      <script src="https://unpkg.com/htmx.org@1.8.0"></script>
+    {% endif %}
+    <script src="{% static 'js/htmx.js' %}"></script>
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/follow.js' %}"></script>
     <!-- <script src="{% static 'js/infinite-ajax-scroll.js' %}"></script> -->
@@ -95,6 +96,13 @@
     <script src="{% static 'js/surprise.js' %}"></script>
     <script src="{% static 'js/mention_suggests.js' %}"></script>
     <script src="{% static 'js/anchor.min.js' %}"></script>
+
+    <!-- Some Custom Script -->
+    <script>
+        $(".message-header>.delete").click(function() {
+            $(this).parent().parent().remove();
+        });
+    </script>
     {% block script %}
 
     {% endblock script %}

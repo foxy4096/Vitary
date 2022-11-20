@@ -52,6 +52,16 @@ class Vit(models.Model):
 
         return reverse("vit_detail", kwargs={"pk": self.pk})
 
+    def like_vit(self, user:User):
+        if user in self.likes.all():
+            self.likes.remove(user)
+            self.like_count -= 1
+            self.save()
+        else:
+            self.likes.add(user)
+            self.like_count += 1
+            self.save()
+
     def latest_vits():
         return Vit.objects.all().order_by("-like_count", "-date")[:5]
 
@@ -68,6 +78,7 @@ class Vit(models.Model):
             "mentions": [mention.username for mention in self.mentions.all()],
             "nsfw": self.nsfw,
         }
+
 
 
 class Plustag(models.Model):

@@ -4,64 +4,50 @@
 {% block title %}
 +{{ plustag.name }}
 {% endblock title %}
-
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading="Plustag" %}
+{% endblock no_padding %}
 {% block content %}
 <div class="columns">
-    <div class="column">
+    <div class="column is-8">
         <div>
-            <h1 class="title is-1 has-text-weight-semibold has-text-centered">+{{ plustag.name }}</h1>
-            <p class="subtitle has-text-centered">Rating: {{plustag.rating}}</p>
-            <div class="has-text-centered">
-                {% if user.is_staff %}
-                <a href="/admin/vit/plustag/{{ plustag.id }}/change/" class="button is-info my-2" target="_blank">Edit
-                    description</a>
-                {% endif %}
-            </div>
-
-            {% if plustag.description %}
-
-
             <div class="box">
-                <p>{{ plustag.description }}</p>
-            </div>
-            {% endif %}
-            <div id="data">
-
-                {% for vit in vits %}
-                {% include 'vit/extends/vit_block.html'%}
-
-                {% endfor %}
-            </div>
-            <div class="no-more"></div>
-            <div id="spinner1" class="spinner has-text-centered">
-                <div class="lds-ring">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <h1 class="title is-1">
+                            <span class="icon box has-background-dark">
+                                <i class="bi bi-plus"></i>
+                            </span>
+                            <span>{{ plustag.name.title }}</span>
+                        </h1>
+                    </div>
+                    <div class="column is-1">
+                        {% if user.is_staff %}
+                        <a href="{% url 'admin:vit_plustag_change' plustag.id %}" class="button is-info is-outlined"
+                            target="_blank"><span class="icon"><i class="bi bi-pencil-square"></i></span></a>
+                        {% endif %}
+                    </div>
                 </div>
+
+                {% if plustag.description %}
+                <div class="box">
+                    <p>{{ plustag.description }}</p>
+                </div>
+                {% endif %}
             </div>
+            {% for vit in vits %}
+            {% include 'vit/islands/vit_block.html'%}
+            {% empty %}
+            <p class="subtitle">
+                There are no vits for this plustag, maybe they were deleted.
+                {% endfor %}
         </div>
-        <div class="pagination">
-            <span class="step-links">
-                {% if vits.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ vits.previous_page_number }}">previous</a>
-                {% endif %}
-                <span class="current">
-                    Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
-                </span>
-                {% if vits.has_next %}
-                <a href="?page={{ vits.next_page_number }}" class="next">next</a>
-                <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+        {% include 'core/islands/pagination.html' with page=vits %}
+
     </div>
-    <div class="column is-5">
-        {% include 'core/extends/side_block.html' %}
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
 
     </div>
 </div>
 {% endblock content %}
-

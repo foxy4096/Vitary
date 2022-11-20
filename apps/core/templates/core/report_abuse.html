@@ -11,20 +11,17 @@ Report Abuse
 
 <div class="columns">
     <div class="column is-7">
-        <div class="">
-            <h1 class="title is-1">Report Abuse</h1>
-            {% include 'vit/extends/vit_block.html' %}
-            <form action="" method="post">
-                {% csrf_token %}
-                {{form|bulma}}
-                <br>
-                <button class="button is-primary is-large" type="submit">Submit ✔️</button>
-            </form>
-        </div>
+        <h1 class="title is-1">Report</h1>
+        <form action="." method="post">
+            {% csrf_token %}
+            {{form|bulma}}
+            <br>
+            <button class="button is-primary is-large" type="submit">Submit ✔️</button>
+        </form>
     </div>
 
-    <div class="column is-5">
-        {% include 'core/extends/side_block.html' %}
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
     </div>
 </div>
 {% endblock content %}
@@ -32,6 +29,5 @@ Report Abuse
 {% block script %}
 <script>
     document.querySelector('textarea').focus();
-</script>    
+</script>
 {% endblock script %}
-    

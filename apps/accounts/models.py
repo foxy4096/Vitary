@@ -2,6 +2,7 @@ from django.db import models
 
 from django.utils.safestring import mark_safe
 import secrets
+from django_resized import ResizedImageField
 
 from django.contrib.auth.models import User
 from apps.core.models import Badge
@@ -14,7 +15,8 @@ class Profile(models.Model):
 
     STATUS = (("online", "Online"), ("away", "Away"), ("colorful", "Colorful"))
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(
+    image = ResizedImageField(
+        size=[600, 600], crop=["middle", "center"],
         upload_to="uploads/",
         default="/uploads/default.jpg",
         verbose_name="Profile Image",

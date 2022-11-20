@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+
+{% block no_padding %}
+<div class="no-bottom-border hero is-black is-medium">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+                <img 
+                src="{% static 'img/Vitary_logo_small.png' %}" 
+                alt="Logo" 
+                style="
+                filter: drop-shadow(0 0 1rem #5cf5ae42);
+                "
+                >
+            <h1 class="title is-1">
+                Welcome to Vitary!
+            </h1>
+            <h2 class="subtitle">
+                A New Way To Make Friends.
+            </h2>
+            <div hx-boost="false">
+                <a href="{% url 'signup' %}" class="button is-large">Join Now 🚀</a>
+                <a href="{% url 'login' %}" class="button is-success is-outlined is-large">Login 🔐</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock no_padding %}

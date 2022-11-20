@@ -19,7 +19,8 @@ def add_vit(request):
             vit.save()
             messages.success(request, "Vit added successfully")
             return redirect("home")
-    form = VitForm()
+    form = VitForm(initial={'body': request.GET.get("vit_body", "")})
+    print(request.GET.get("vit_body", ""))
     return render(request, "vit/vit_form.html", {"form": form, "title": "Add Vit"})
 
 
@@ -28,7 +29,11 @@ def edit_vit(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
     DANGER = 40
     if request.user != vit.user:
-        messages.add_message(request, DANGER, "You are not allowed to edit this vit, You can only edit your own vit")
+        messages.add_message(
+            request,
+            DANGER,
+            "You are not allowed to edit this vit, You can only edit your own vit",
+        )
         return redirect("home")
     else:
         if request.method == "POST":
@@ -39,15 +44,22 @@ def edit_vit(request, pk):
                 return redirect("home")
     form = VitForm(instance=vit)
     return render(
-        request, "vit/vit_form.html", {"vit": vit, "vit_form": form, "title": "Edit Vit"}
+        request,
+        "vit/vit_form.html",
+        {"vit": vit, "vit_form": form, "title": "Edit Vit"},
     )
+
 
 @login_required
 def delete_vit(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
     DANGER = 40
     if request.user != vit.user:
-        messages.add_message(request, DANGER, "You are not allowed to delete this vit, Just go away from here you filthy animal")
+        messages.add_message(
+            request,
+            DANGER,
+            "You are not allowed to delete this vit, Just go away from here you filthy animal",
+        )
         return redirect("home")
     else:
         if request.method == "POST":
@@ -56,7 +68,6 @@ def delete_vit(request, pk):
                 messages.success(request, "Vit deleted successfully")
                 return redirect("home")
     return render(request, "vit/vit_delete.html", {"vit": vit})
-
 
 
 def vit_detail(request, pk):
@@ -83,7 +94,13 @@ def vit_detail(request, pk):
     return render(
         request,
         "vit/vit_detail.html",
-        {"vit": vit, "showView": True, "form": form, "comments": comments, "related_persons": related_persons},
+        {
+            "vit": vit,
+            "showView": True,
+            "form": form,
+            "comments": comments,
+            "related_persons": related_persons,
+        },
     )
 
 
@@ -92,11 +109,21 @@ def plustag_vits(request, p):
     vits = plustag.vit_set.all()
     if request.user.is_authenticated and not request.user.profile.allow_nsfw:
         vits = vits.exclude(nsfw=True)
-    paginator = Paginator(vits, 5)
+    paginator = Paginator(vits, 10)
     page = request.GET.get("page")
     vits = paginator.get_page(page)
     return render(request, "vit/plustag_vits.html", {"plustag": plustag, "vits": vits})
 
+
 def view_comment(request, pk, vit_pk):
     comment = get_object_or_404(Comment, pk=pk)
     return render(request, "vit/comment/view.html", {"comment": comment})
+
+
+def vit_liked_users(request, vit_pk):
+    vit = get_object_or_404(Vit, pk=vit_pk)
+    liked_users = vit.likes.all().order_by('-date_joined')
+    paginator = Paginator(liked_users, 10)
+    page = request.GET.get("page")
+    liked_users = paginator.get_page(page)
+    return render(request, "vit/vit_liked_users.html", {"liked_users": liked_users})

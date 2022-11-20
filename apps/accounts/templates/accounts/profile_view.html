@@ -23,9 +23,10 @@
 <meta property="twitter:description" content="{{ usr.profile.bio }}">
 {% endblock meta %}
 
+
 {% block content %}
 <div class="columns">
-    <div class="column is-7 mt-4">
+    <div class="column is-8">
         <div class="card">
             {% if usr.profile.header_image %}
             <div class="card-image">
@@ -36,15 +37,18 @@
             {% endif %}
             <div class="card-content">
                 <figure class="image is-128x128">
-                    <img src="{{ usr.profile.image.url }}" alt="{{ user }}" class="is-rounded profile-img {% if usr.profile.header_image %} profile-img-page {% endif %} {{ usr.profile.status }}">
+                    <img src="{{ usr.profile.image.url }}" alt="{{ user }}"
+                        class="is-rounded profile-img {% if usr.profile.header_image %} profile-img-page {% endif %} {{ usr.profile.status }}">
                 </figure>
                 <br>
                 <div id="info">
                     <h3 class="title is-3 has-text-weight-medium" id="name">
-                        {{ usr.get_full_name | default:usr.username }}
+                        <span>
+                            {{ usr.get_full_name | default:usr.username }}
+                        </span>
                         {% if usr.profile.verified %}
-                        <span class="is-small" style="color: rgb(46, 206, 107);" title="Verified">
-                            ✔️
+                        <span class="icon" title="Verified">
+                            <i class="bi bi-check-circle-fill"></i>
                         </span>
                         {% endif %}
                     </h3>
@@ -77,71 +81,55 @@
                     <p class="has-text-weight-light is-underlined">
                         Highlights
                     </p>
-                    <a href="{% url 'develop_home' %}">Developer 💻</a>
+                    <a href="{% url 'developer_home' %}">Developer 💻</a>
                     {% endif %}
                 </div>
-
                 <p class="content">
                     {{ usr.profile.bio | mention | safe | convert_markdown}}
                 </p>
                 <br>
                 <span>
-                    Followers: <a href="{% url 'followers' usr.username %}" id="follower_count">{{ usr.profile.follower_count }}</a>
-
+                    Followers: <a href="{% url 'followers' usr.username %}" id="follower_count">
+                        {{ usr.profile.follower_count }}
+                    </a>
                     Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.following_count }}</a>
                 </span>
                 <br>
                 <br>
-                <div>
+                <div class="buttons">
                     {% if user == usr %}
-                    <div class="columns">
-                        <div class="column">
-                            <a href="{% url 'profile' %}" class="button is-success is-fullwidth">Edit Profile  📝</a>
-                        </div>
-                    </div>
+                            <a href="{% url 'profile' %}" class="button is-link is-outlined">Edit Profile  📝</a>
                     {% else %}
                     {% if user.is_authenticated %}
                     {% include 'accounts/extends/follow_button.html' with usr=usr %}
                     {% else %}
-                    <a href="{% url 'login' %}" class="button is-success">Follow ➕</a>
+                    <a href="{% url 'login' %}" class="button is-success"><span>Follow</span><span class="icon"><i class="bi bi-person-plus-fill"></i></span></a>
                     {% endif %}
                     {% endif %}
                     {% if not usr == user %}
-                      <a href="{% url 'message_user' usr.username %}" class="button is-warning">Message  📨</a>
+                      <a href="{% url 'message_user' usr.username %}" class="button is-warning is-outlined">Message  📨</a>
+                    {% endif %}
+                    
+                    {% if user.is_staff %}                   
+                      <a href="{% url 'admin:auth_user_change' usr.id %}" class="button is-info is-outlined"><span class="icon"><i class="bi bi-pencil-square"></i></span></a>
                     {% endif %}
                 </div>
+                <a href="{% url 'report' %}?url={{ usr.profile.get_absolute_url }}">Report User</a>
             </div>
         </div>
+        <br>
         <div id="data">
             {% for vit in vits %}
-            {% include 'vit/extends/vit_block.html' %}
+            {% include 'vit/islands/vit_block.html' %}
             {% endfor %}
         </div>
-        <div class="no-more"></div>
-        
-        <div class="pagination">
-            <span class="step-links">
-                {% if vits.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ vits.previous_page_number }}">previous</a>
-                {% endif %}
-                <span class="current">
-                    Page {{ vits.number }} of {{ vits.paginator.num_pages }}.
-                </span>
-                {% if vits.has_next %}
-                <a href="?page={{ vits.next_page_number }}" class="next">next</a>
-                <a href="?page={{ vits.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
+        {% include 'core/islands/pagination.html' with page=vits %}
     </div>
-    <div class="column is-5">
-        {% include 'core/extends/side_block.html' %}
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
     </div>
     {% endblock content %}
 
     {% block script %}
     <script src="{% static 'js/scroll.js' %}"></script>
     {% endblock script %}
-        
-        
