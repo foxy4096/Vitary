@@ -136,23 +136,27 @@ def find_embed_url(vit: Vit):
         vit.body,
     )
     for url in urls:
+        url: str = url
         client = requests.Session()
-        try:
-            res = client.get(url)
-            soup = BeautifulSoup(res.text, "html.parser")
-            if soup.find("meta", property="og:title"):
-                embed = Embed.objects.get_or_create(url=url, vit=vit)[0]
-                embed.title = soup.find("meta", property="og:title")["content"]
-                if soup.find("meta", property="og:description"):
-                    embed.description = soup.find(
-                        "meta", property="og:description"
-                    ).get("content", "")
-                if soup.find("meta", property="og:image"):
-                    embed.image_url = soup.find("meta", property="og:image")["content"]
-                embed.save()
-        except Exception as e:
-            print(e)
-            pass
+        if not any([url.startswith("https://vitary.pythonanywhere.com"),
+            url.startswith("vitary.pythonanywhere.com"),
+            url.startswith("http://vitary.pythonanywhere.com")]):
+            try:
+                res = client.get(url)
+                soup = BeautifulSoup(res.text, "html.parser")
+                if soup.find("meta", property="og:title"):
+                    embed = Embed.objects.get_or_create(url=url, vit=vit)[0]
+                    embed.title = soup.find("meta", property="og:title")["content"]
+                    if soup.find("meta", property="og:description"):
+                        embed.description = soup.find(
+                            "meta", property="og:description"
+                        ).get("content", "")
+                    if soup.find("meta", property="og:image"):
+                        embed.image_url = soup.find("meta", property="og:image")["content"]
+                    embed.save()
+            except Exception as e:
+                print(e)
+                pass
 
 
 def find_plustags(vit: Vit):
