@@ -6,7 +6,15 @@
 {% block title %}
 {{ post.title | truncatechars_html:50 }} | Blog
 {% endblock title %}
+
+
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading="Blog" %}
+{% endblock no_padding %}
+    
+
 {% block content %}
+
 <div class="columns">
     <div class="column is-7">
         <div class="card article">
@@ -39,8 +47,8 @@
             </div>
         </div>
     </div>
-    <div class="column is-5">
-        {% include 'core/extends/side_block.html' %}
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
     </div>
 </div>
 {% endblock content %}

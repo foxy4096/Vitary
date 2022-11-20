@@ -1,0 +1,105 @@
+{% extends 'core/base.html' %}
+{% load bulma_tags %}
+{% load mention %}
+{% load convert_markdown %}
+{% load humanize %}
+
+{% block title %}
+{{bot.name}} | Bot
+{% endblock title %}
+
+{% block content %}
+<div class="box">
+    <div class="media">
+        <div class="media-left">
+            <figure class="image is-64x64">
+                <img src="{{ bot.user.profile.image.url }}" alt="{{ bot.user.username }}" class="is-rounded">
+            </figure>
+        </div>
+        <div class="media-content">
+            <div class="content">
+                <h3 class="title is-3">{{ bot.name }}</h3>
+                <p class="subtitle">
+                    <a href="{% url 'profile_view' bot.user.username %}">@{{ bot.user.username }}</a>
+                    <small>Updated {{ bot.date | naturaltime }}</small>
+                </p>
+                <p>
+                    {{ bot.description | safe | mention | convert_markdown }}
+                </p>
+            </div>
+        </div>
+        <div class="media-right">
+            <a href="{% url 'developer_bot_delete' bot.id %}" class="button is-danger is-outlined">Delete</a>
+        </div>
+    </div>
+</div>
+<div class="column">
+    <div class="box">
+        <form action="." method="post" enctype="multipart/form-data">
+            {{ bform | bulma }}
+            <br>
+            {{uform | bulma}}
+            <br>
+            <br>
+            {% csrf_token %}
+            <div class="content">
+                <b>Private Key</b>
+                Use this key to authenticate your bot (It will be sent into the header).
+                <blockquote class="has-font-monospaced">
+                        X-API-Key: {{ bot.private_key }}
+                </blockquote>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary is-fullwidth">
+                        Save Bot
+                    </button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <div class="media">
+            <div class="media-left">
+                <h2 class="title is-2">WebHooks 🍀</h2>
+            </div>
+            <div class="media-right">
+                <a href="{% url 'webhook_create' bot.id %}" class="button is-primary is-outlined">Add WebHook</a>
+            </div>
+        </div>
+        <small class="small">
+            Webhooks allow external services to be notified when certain events happen. When the specified
+            events happen, we’ll send a request to each of the URLs you provide.
+        </small>
+        <table class="table has-background-dark is-fullwidth is-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Payload URL</th>
+                    <th>Event Type</th>
+                    <th>Method Type</th>
+                    <th>Created On</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hook in bot.webhook_set.all %}
+                <tr>
+                    <td>{{ hook.name }}</td>
+                    <td><code>{{ hook.payload_url }}</code></td>
+                    <td>
+                        <span class="tag is-info">{{ hook.get_event_type_display }}</span>
+                    </td>
+                    <td><code>{{ hook.method }}</code></td>
+                    <td>{{ hook.date | naturaltime }}</td>
+                    <td>
+                        <a href="{% url 'webhook_edit' bot.id hook.id %}" class="button is-info is-outlined">Edit</a>
+                        <a href="{% url 'webhook_delete' bot.id hook.id %}"
+                            class="button is-danger is-outlined">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+        </table>
+
+    </div>
+</div>
+{% endblock content %}

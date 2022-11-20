@@ -13,7 +13,7 @@ def notification_page(request):
     paginator = Paginator(notifications, 10)
     page = request.GET.get('page')
     notifications = paginator.get_page(page)
-    return render(request, 'notification/notification_page.html', {'notifications': notifications})
+    return render(request, 'notification/notification.html', {'notifications': notifications})
 
 
 @login_required

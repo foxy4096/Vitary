@@ -31,3 +31,18 @@ class Notification(models.Model):
 
     def __str__(self):
         return self.message
+
+    def return_title(self):
+        by_user_name = self.by_user.get_full_name() if self.by_user.get_full_name() else self.by_user.username
+        if self.notification_type == "mention":
+            return f"{by_user_name} mentioned you."
+        elif self.notification_type == "like":
+            return f"{by_user_name} liked your vit."
+        elif self.notification_type == "follow":
+            return f"{by_user_name} followed you."
+        elif self.notification_type == "message":
+            return f"{by_user_name} messaged you."
+        elif self.notification_type == "abuse":
+            return f"{by_user_name} reported against you."
+        else:
+            return f""

@@ -2,23 +2,26 @@
     <div class="modal-background"></div>
     <div class="modal-content">
         <div class="card">
+            {% include 'core/islands/header.html' with heading="Search" %}
             <div class="card-content has-text-centered">
-                <h1 class="title is-1 has-text-weight-bold">Search</h1>
                 <form action="{% url 'search' %}" method="get">
                     <div class="field">
-                    <div class="control">
-                        <input class="input" type="text" placeholder="Search..." id="search" name="q" value="{{query}}">
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Search..." id="search" name="q"
+                                value="{{query}}">
+                        </div>
+                        <p class="help">Tip: Pressing <code>CTRL + Q</code> Will Open the Search And Pressing
+                            <code>ESC</code> Will Close It.</p>
+
+                        <p class="help">Tip: Adding <code>@</code> at the start will search for users</p>
                     </div>
-                    <p class="help">Tip: Pressing <code>CTRL + Q</code> Will Open the Search And Pressing <code>ESC</code> Will Close It.</p>
-                
-                    <p class="help">Tip: Adding <code>@</code> at the start will search for users</p>
-                    </div>
                     <div class="control">
-                        <button type="submit" class="button is-info is-fullwidth">Search 🔍</button>
+                        <button type="submit" class="button is-primary is-outlined is-fullwidth"><span>Search</span><span
+                                class="icon"><i class="bi bi-search"></i></span></button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <button class="modal-close is-large" aria-label="close" onclick="closeSearch()"></button>
-</div>    
+</div>

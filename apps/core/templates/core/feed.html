@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block no_padding %}
+    {% include 'core/islands/header.html' with heading="Home" %}
+{% endblock no_padding %}
+{% block content %}
+<div class="columns" id="app">
+    <div class="column is-8">
+        <div class="card mb-2">
+            <div class="card-content">
+                {% include 'core/vit_form_inc.html' with title="Add Vit" %}
+            </div>
+        </div>
+        <div id="data">
+            {% for vit in vits %}
+            {% include 'vit/islands/vit_block.html' %}
+            {% empty %}
+            <p class="subtitle">
+                Wow Such Empty 😢, maybe try following some <a href="{% url 'peoples' %}">people</a>.
+            </p>
+            {% endfor %}
+        </div>
+        {% include 'core/islands/pagination.html' with page=vits %}
+    </div>
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
+    </div>
+</div>
+{% endblock content %}

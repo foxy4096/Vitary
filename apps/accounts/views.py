@@ -16,7 +16,7 @@ def signup(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, "Account created successfully")
             return redirect("profile")
         else:
@@ -78,7 +78,7 @@ def profile(request, username):
     vits = usr.vits.all()
     if request.user.is_authenticated and not request.user.profile.allow_nsfw:
         vits = vits.exclude(nsfw=True)
-    paginator = Paginator(vits, 2)
+    paginator = Paginator(vits, 10)
     page = request.GET.get("page")
     vits = paginator.get_page(page)
     return render(

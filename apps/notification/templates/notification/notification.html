@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load convert_markdown %}
+{% load mention %}
+
+{% block title %}
+Notification
+{% endblock title %}
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading="Notifications" %}
+{% endblock no_padding %}
+{% block content %}
+
+<div class="buttons">
+    <a href="{% url 'mark_as_read' %}" class="button">
+        <span>
+            Mark As Read
+        </span>
+        <span class="icon" style="color: rgb(46, 206, 107);">
+            <i class="bi bi-check-lg"></i>
+        </span>
+    </a>
+</div>
+{% for notification in notifications %}
+<div class="media">
+    <div class="media-left">
+        <a href="{% url 'profile_view' notification.by_user %}">
+            <article class="image is-48x48 is-square">
+                <img src="{{ notification.by_user.profile.image.url }}" alt="user" class="is-rounded">
+            </article>
+        </a>
+    </div>
+    <div class="media-content">
+        <div class="content">
+            {% if not notification.is_read %}
+            <small class="small has-text-danger">Unread</small>
+            {% else %}
+            <small class="small has-text-primary">Already Read</small>
+            {% endif %}
+            <p class="subtitle is-5">
+                {{ notification.return_title }}
+                <span>
+                    <small class="tag is-small" title="{{ notification.date }}">
+                        {{ notification.date | naturaltime }}
+                    </small>
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="media-right">
+        <a href="{% url 'notification_redirect' notification.pk %}" class="button is-link is-outlined is-small">
+            View
+        </a>
+    </div>
+</div>
+{% empty %}
+<p>
+    No notifications!
+</p>
+{% endfor %}
+{% include 'core/islands/pagination.html' with page=notifications %}
+{% endblock content %}

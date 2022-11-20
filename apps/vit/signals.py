@@ -1,13 +1,12 @@
-from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-
-from .models import Vit, Comment
+from apps.vit.models import Comment, Vit
 from apps.vit.utilities import (
-    find_vit_mention,
     find_comment_mention,
     find_embed_url,
     find_plustags,
+    find_vit_mention,
 )
 
 

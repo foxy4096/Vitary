@@ -14,7 +14,7 @@ def mention(value):
         if i[0] == '@':
             try:
                 stng = i[1:].replace(',', '').replace('.', '').replace('!', '').replace('?', '').replace(';', '').replace(':', '').replace('-', '').replace('_', '').replace('(', '').replace(')', '').replace('[', '').replace(']', '').replace('{', '').replace('}', '').replace(
-                    '/', '').replace('\\', '').replace('*', '').replace('+', '').replace('=', '').replace('%', '').replace('$', '').replace('#', '').replace('^', '').replace('&', '').replace('|', '').replace('~', '').replace('`', '').replace('<', '').replace('>', '').replace("'", "")
+                    '/', '').replace('\\', '').replace('*', '').replace('#', '').replace('=', '').replace('%', '').replace('$', '').replace('^', '').replace('&', '').replace('|', '').replace('~', '').replace('`', '').replace('<', '').replace('>', '').replace("'", "")
                 user = User.objects.get(username=stng)
                 if user:
                     profile_link = reverse_lazy('profile_view', kwargs={

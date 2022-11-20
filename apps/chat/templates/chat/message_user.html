@@ -34,8 +34,8 @@ Message: {{to_user.username.title}}
         {{ to_user.username | json_script:"user-name"}}
         {{ chat.id | json_script:"chat-id"}}
     </div>
-    <div class="column is-5">
-        {% include 'core/extends/side_block.html' %}
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
     </div>
 </div>
 {% endblock content %}

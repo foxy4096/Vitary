@@ -1,0 +1,18 @@
+{% if page.has_next or page.has_previous %}
+<nav class="pagination is-centered is-small mt-2" role="navigation" aria-label="pagination">
+    <ul class="pagination-list">
+        {% if page.has_previous %}
+        <a class="pagination-link" aria-label="Goto page 1" href="?q={{query}}&stype={{stype}}&page=1">First Page</a>
+        <a class="pagination-link" href="?q={{query}}&stype={{stype}}&page={{ page.previous_page_number }}">«
+            Previous</a>
+        {% endif %}
+        <a class="pagination-link is-current" aria-label="Goto page {{ page.number }}">{{ page.number }}</a>
+        {% if page.has_next %}
+        <a class="pagination-link" href="?q={{query}}&stype={{stype}}&page={{ page.next_page_number }}">Next page »</a>
+        <a class="pagination-link" aria-label="Goto page 4&amp;query="
+            href="?q={{query}}&stype={{stype}}&page={{ page.paginator.num_pages }}">Last
+            Page</a>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

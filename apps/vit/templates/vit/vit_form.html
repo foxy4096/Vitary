@@ -3,16 +3,20 @@
 {% block title %}
 {{title}}
 {% endblock title %}
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading=title %}
+{% endblock no_padding %}
 {% block content %}
 <div class="columns">
-    <div class="column">
-<div class="box">
-    <h1 class="title is-1 has-text-weight-bold has-text-centered">{{title}}</h1>
-    {% include 'core/vit_form_inc.html' with title=title %}
+    <div class="column is-8">
+        <div class="card mb-2">
+            <div class="card-content">
+                {% include 'core/vit_form_inc.html' with title=title %}
+            </div>
+        </div>
 </div>
-</div>
-    <div class="column is-5">
-        {% include 'core/extends/side_block.html' %}
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
     </div>
 </div>
 {% endblock content %}

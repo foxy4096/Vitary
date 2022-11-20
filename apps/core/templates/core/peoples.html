@@ -6,39 +6,26 @@ People
 {% endblock title %}
 
 
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading="People" %}
+{% endblock no_padding %}
+
 {% block content %}
-<h1 class="title is-1 has-text-weight-bold">People</h1>
 <div class="columns">
-    <div class="column is-7 mt-4">
-        {% if persons %}
-        <div id="data" class="box">
+    <div class="column is-8">
+        <div class="box">
             {% for person in persons %}
-            {% include 'core/extends/user_ext.html' with person=person %}
+            {% include 'core/islands/user_ext.html' with person=person %}
+            {% empty %}
+            <p>No one is at the party yet!</p>
             {% endfor %}
         </div>
         <br>
-        
-        <div class="pagination">
-            <span class="step-links">
-                {% if persons.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ persons.previous_page_number }}">previous</a>
-                {% endif %}
-                <span class="current">
-                    Page {{ persons.number }} of {{ persons.paginator.num_pages }}.
-                </span>
-                {% if persons.has_next %}
-                <a href="?page={{ persons.next_page_number }}" class="next">next</a>
-                <a href="?page={{ persons.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
-        {% else %}
-        <p>No one is at the party yet!</p>
-        {% endif %}
+        {% include 'core/islands/pagination.html' with page=persons %}
     </div>
-    <div class="column is-5">
-        {% include 'core/extends/side_block.html' %}
+
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
     </div>
 </div>
 {% endblock content %}

@@ -1,0 +1,68 @@
+{% if user.is_authenticated %}
+<div class="card" id="comments">
+    <div class="card-header">
+        <div class="card-header-title">
+            <h1 class="title has-text-white">Comments ({{ vit.comment_set.count }})</h1>
+        </div>
+    </div>
+    <div class="card-content">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="field">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-48x48">
+                            <a href="{% url 'profile_view' user.username %}">
+                                <img src="{{ user.profile.image.url }}" alt="{{user}}" class="is-rounded">
+                            </a>
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <div class="field">
+                            <p class="control">
+                                <textarea class="textarea" name="body"
+                                required
+                                    placeholder="Write Comment here, Use mentions and markdown"></textarea>
+                            <p class="help"><a href="https://www.markdownguide.org/" target="_blank">
+                                    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"
+                                        data-view-component="true">
+                                        <path fill-rule="evenodd" fill="white"
+                                            d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z">
+                                        </path>
+                                    </svg>
+                                    Styling with Markdown is supported
+                                </a>
+                            </p>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <button type="submit" class="button">
+                                    <span>Submit</span>
+                                    <span class="icon">✔️</span>
+                                    </span>
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<p class="subtitle">
+    Please <a href="{% url 'login' %}">Login</a> to comment.
+</p>
+{% endif %}
+
+<br>
+{% if vit.comment_set.count %}
+<div class="media-content" id="comments_list">
+    <div class="box">
+        {% for comment in vit.comment_set.all %}
+        {% include 'vit/islands/comment_block.html' with comment=comment %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

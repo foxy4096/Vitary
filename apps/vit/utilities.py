@@ -1,15 +1,20 @@
 import re
+import json
 import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.html import strip_tags
-from django.contrib.auth.models import User
-from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
+from apps.developer.models import Bot, WebHook
 
 from apps.notification.utilities import notify
-from apps.vit.models import Plustag, Vit, Comment, Embed
+from apps.vit.models import Comment, Embed, Plustag, Vit
+
+
+client = requests.Session()
 
 
 def find_vit_mention(vit: Vit):
@@ -32,6 +37,28 @@ def find_vit_mention(vit: Vit):
                 by_user=vit.user,
                 link=reverse_lazy("vit_detail", kwargs={"pk": vit.pk}),
             )
+            
+            if Bot.objects.filter(user=User.objects.get(username=result)).exists():
+                bot = Bot.objects.get(user=User.objects.get(username=result))
+                for webhook in bot.webhook_set.all():
+                    auth_key = (
+                        bot.private_key if webhook.required_authentication else ""
+                    )
+                    print(webhook.event_type)
+                    if webhook.event_type == "on_vit_mention":
+                        print(f"Sending Webhook to {webhook.payload_url}")
+                        try:
+                            client.request(
+                                method=webhook.method,
+                                url=webhook.payload_url,
+                                data=json.dumps(vit.to_json()),
+                                headers={
+                                    "Content-Type": "application/json",
+                                    "X-API-Key": auth_key,
+                                },
+                            )
+                        except:
+                            print(f"""Error while sending webhook {webhook.payload_url}""")
 
             if User.objects.get(username=result).profile.email_notif:
                 subject = f"{vit.user.username.title()} mentioned you in a Vit."
@@ -109,23 +136,27 @@ def find_embed_url(vit: Vit):
         vit.body,
     )
     for url in urls:
+        client = requests.Session()
         try:
-            res = requests.get(url)
+            res = client.get(url)
             soup = BeautifulSoup(res.text, "html.parser")
             if soup.find("meta", property="og:title"):
                 embed = Embed.objects.get_or_create(url=url, vit=vit)[0]
                 embed.title = soup.find("meta", property="og:title")["content"]
                 if soup.find("meta", property="og:description"):
-                    embed.description = soup.find("meta", property="og:description").get("content", '')
+                    embed.description = soup.find(
+                        "meta", property="og:description"
+                    ).get("content", "")
                 if soup.find("meta", property="og:image"):
                     embed.image_url = soup.find("meta", property="og:image")["content"]
                 embed.save()
-        except:
+        except Exception as e:
+            print(e)
             pass
 
 
 def find_plustags(vit: Vit):
     for word in vit.body.split():
         if word[0] == "+" and word[1] != " ":
-            plustag = Plustag.objects.get_or_create(name=word[1:])
+            plustag = Plustag.objects.get_or_create(name=word[1:].lower())
             vit.plustag.add(plustag[0])

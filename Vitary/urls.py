@@ -19,6 +19,7 @@ from apps.chat.api import get_message_api, send_message_api
 from apps.accounts.api import follow, user_search_api
 from apps.vit.api import like
 
+from apps.developer.api import api
 
 urlpatterns = [
     # Admin
@@ -30,7 +31,7 @@ urlpatterns = [
 
 
     # Accounts
-    path('accounts/', include('apps.accounts.urls')),
+    path('auth/', include('apps.accounts.urls')),
 
 
     # Vit
@@ -56,6 +57,10 @@ urlpatterns = [
     path('api/v1/chat/get_message/', get_message_api),
     path('api/v1/chat/send_message/', send_message_api),
 
+
+    # Developer
+    path('developer/', include('apps.developer.urls')),
+
     # Plustag
     path('plustag/<str:p>/', plustag_vits, name='plustag_vits'),
 
@@ -66,6 +71,9 @@ urlpatterns = [
 
     # Chat
     path('chat/', include('apps.chat.urls')),
+
+    # API
+    path('api/', api.urls),
 
     # Flatpages
     path('pages/', include('django.contrib.flatpages.urls')),
@@ -80,6 +88,6 @@ urlpatterns += [
             
 ]
 
-admin.site.site_header = 'Vitary Admin'
-admin.site.site_title = 'Vitary Admin'
-admin.site.index_title = 'Vitary Admin'
+admin.site.site_header = 'Vitary Administrative Dashboard'
+admin.site.site_title = 'Vitary Administrative Dashboard'
+admin.site.index_title = 'Vitary Administrative Dashboard'

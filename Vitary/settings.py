@@ -55,10 +55,18 @@ INSTALLED_APPS = [
     'apps.blog.apps.BlogConfig',
     'apps.notification.apps.NotificationConfig',
     'apps.chat.apps.ChatConfig',
+    'apps.developer.apps.DeveloperConfig',
+
+    # All Auth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
 
     # Third Party Apps
     'django_cleanup.apps.CleanupConfig',
     'bulma',
+    'ninja'
 ]
 
 MIDDLEWARE = [
@@ -85,6 +93,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'apps.core.context_processors.web_url',
+                'apps.core.context_processors.random_color',
+                'apps.core.context_processors.is_debug',
                 'apps.notification.context_processors.notification',
                 'apps.vit.context_processors.get_latest_vits',
                 'apps.vit.context_processors.vit_form',
@@ -92,6 +102,23 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'APP': {
+            'client_id': env("GITHUB_CLIENT_ID"),
+            'secret': env('GITHUB_SECRET_KEY')
+        }
+    }
+}
 
 WSGI_APPLICATION = 'Vitary.wsgi.application'
 
@@ -149,6 +176,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 
 

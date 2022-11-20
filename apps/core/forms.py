@@ -1,8 +1,13 @@
 from django import forms
 
-from .models import Abuse
+from .models import Report
 
-class ReportAbuseForm(forms.ModelForm):
+
+class ReportForm(forms.ModelForm):
     class Meta:
-        model = Abuse
-        fields = ['abuse_type', 'description']
+        model = Report
+        fields = [
+            "url",
+            "description",
+            "report_type",
+        ]
