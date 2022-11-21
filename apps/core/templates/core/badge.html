@@ -11,18 +11,22 @@
 {% block content %}
 <div class="columns">
     <div class="column is-8">
-        <div class="level">
-            <div class="level-left">
-                <span class="badge-{{badge.color}} tag is-large is-{{ badge.color }}">{{ badge.name }}</span>
+        <div class="box">
+
+            <div class="level">
+                <div class="level-left">
+                    <span class="badge-{{badge.color}} tag is-large is-{{ badge.color }}">{{ badge.name }}</span>
+                </div>
             </div>
+            <p class="content">
+                {{ badge.description | convert_markdown | mention | safe }}
+            </p>
+
+            <br>
         </div>
         <p class="content">
-            {{ badge.description | convert_markdown | mention | safe }}
-        </p>
-
-        <br>
-        <p class="content">
         <h3 class="title is-3">Users who have this badge</h3>
+        <hr>
         <div class="box">
             {% if usrs %}
             {% for user in usrs %}
