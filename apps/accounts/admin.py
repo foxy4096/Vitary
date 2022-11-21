@@ -18,7 +18,6 @@ class ProfileInline(admin.StackedInline):
         'email_notif',
         'verified',
         'bio',
-        'follows',
         'follower_count',
         'following_count',
         'header_image',
