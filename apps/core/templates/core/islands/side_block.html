@@ -45,7 +45,7 @@
 </div>
 <br>
 {% endif %}
-<div class="card">
+<div class="card is-hidden-mobile">
     <div class="card-content">
         <h1 class="title has-text-weight-bold">Latest 🔥</h1>
         {% for latest_vit in latest_vits %}
@@ -66,7 +66,7 @@
     </div>
 </div>
 <br>
-<div class="card">
+<div class="card is-hidden-mobile">
     <div class="card-content">
         {% if user.is_authenticated %}
 

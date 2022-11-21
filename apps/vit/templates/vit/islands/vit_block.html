@@ -13,8 +13,8 @@
                 </figure>
             </div>
             <div class="media-content">
-                <h5 class="title is-6">{{ vit.user.get_full_name }}{% if vit.user.profile.verified %}
-                    <span class="is-small" style="color: rgb(46, 206, 107);" title="Verified">
+                <h5 class="" style="word-break: all;">{{ vit.user.get_full_name }}{% if vit.user.profile.verified %}
+                    <span class="tag is-dark is-small" title="Verified">
                         ✔️
                     </span>
                     {% endif %}
@@ -22,10 +22,10 @@
                 <p class="subtitle is-6"><a href="{% url 'profile_view' vit.user.username %}"
                         title="{{ vit.user.get_full_name }}">@{{vit.user.username}}</a>
                     {% if vit.user.is_superuser %}
-                    <span class="badge-black tag mx-1" title="Co-Founder ✔">Co-Founder ✔️</span>
+                    <span class="tag px-1 mt-1" title="Co-Founder ✔">Co-Founder ✔️</span>
                     {% endif %}
                     {% if vit.user.is_staff %}
-                    <span class="badge-black tag mx-1" title="Staff ✔">Staff ✔️</span>
+                    <span class="tag px-1 mt-1" title="Staff ✔">Staff ✔️</span>
                     {% endif %}
                     <span class="is-hidden-mobile">
                         {% for badge in vit.user.profile.badges.all %}
@@ -95,12 +95,10 @@
                 </div>
             </div>
         </div>
+        <br>
         <div>
-            <div class="mx-2 my-2 content">
-                <p class="content px-4" style="overflow-y: scroll;">
-                    {{ vit.body | striptags | plustag | safe | mention | convert_markdown }}
-                </p>
-                <br>
+            <div class="content" style="word-break: break-all;">
+                {{ vit.body | striptags | plustag | safe | mention | convert_markdown }}
                 <div class="columns is-multiline">
                     {% if vit.embed_set.all|length > 1 %}
                     {% for embed in vit.embed_set.all %}

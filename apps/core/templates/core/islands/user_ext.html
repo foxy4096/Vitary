@@ -9,8 +9,7 @@
         </article>
     </div>
     <div class="media-content">
-        <h4 class="title is-4">
-            <strong>
+
                 <span>
 
                     <a href="{% url 'profile_view' person %}" class="has-text-white">
@@ -29,15 +28,16 @@
                 </span>
                 {% endif %}
 
-            </strong>
-        </h4>
+
         <p class="subtitle is-6"><a href="{% url 'profile_view' person %}">
                 <small class="small my-0">
                     @{{ person.username }}
                 </small>
             </a>
         </p>
-        {{ person.profile.bio | safe | mention | convert_markdown }}
+        <div class="content">
+            {{ person.profile.bio | safe | mention | convert_markdown }}
+        </div>
     </div>
     <div class="media-right">
 
