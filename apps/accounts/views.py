@@ -109,7 +109,7 @@ def followers(request):
     View for getting the followers
     """
     usr = request.user
-    followers = usr.profile.followed_by.all().order_by("-followed_by")
+    followers = usr.profile.followed_by.all().order_by("-id")
     paginator = Paginator(followers, 5)
     page = request.GET.get("page")
     followers = paginator.get_page(page)
