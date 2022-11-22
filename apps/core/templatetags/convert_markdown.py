@@ -11,6 +11,7 @@ extensions = [
     "pymdownx.emoji",
     "pymdownx.details",
     "pymdownx.superfences",
+    "markdown.extensions.toc",
 ]
 
 extension_configs = {
