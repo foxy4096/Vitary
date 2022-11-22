@@ -57,8 +57,9 @@
                     <div class="media-content has-text-left mx-2">
                         <p class="title article-title has-text-weight-light">{{ post.title }}</p>
                         <p class="subtitle is-6 article-subtitle">
-                            <a href="{% url 'profile_view' post.user.username %}">@{{post.user.username}}</a> {{
-                            post.date | naturaltime }}
+                            <a href="{% url 'profile_view' post.user.username %}">
+                                @{{post.user.username}}</a>
+                            {{ post.date | naturaltime }}
                         </p>
                     </div>
                 </div>
