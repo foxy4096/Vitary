@@ -9,7 +9,7 @@
 
 
 {% block meta %}
-{% if post.cover_image %}
+{% if post.cover_img %}
 <meta property="og:image" content="{{web_url}}{{ post.cover_image.url }}">
 <meta property="twitter:image" content="{{web_url}}{{ post.cover_image.url }}">
 {% endif %}
