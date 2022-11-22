@@ -15,6 +15,7 @@ class VitForm(forms.ModelForm):
                 attrs={
                     "class": "textarea is-medium",
                     "placeholder": "What's on your mind?",
+                    "style": """height: 75px;""",
                     "id": "body",
                 }
             ),

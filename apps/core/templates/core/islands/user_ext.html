@@ -23,7 +23,7 @@
                 {% endif %}
 
                 {% if person.bot %}
-                <span class="is-small" style="color: rgb(46, 206, 107);">
+                <span class="is-small tag is-link" style="color: rgb(46, 206, 107);">
                     🤖
                 </span>
                 {% endif %}
@@ -35,7 +35,7 @@
                 </small>
             </a>
         </p>
-        <div class="content">
+        <div class="content is-hidden-mobile">
             {{ person.profile.bio | safe | mention | convert_markdown }}
         </div>
     </div>
