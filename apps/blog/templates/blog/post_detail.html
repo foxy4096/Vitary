@@ -8,10 +8,30 @@
 {% endblock title %}
 
 
+{% block meta %}
+{% if post.cover_image %}
+<meta property="og:image" content="{{web_url}}{{ post.cover_image.url }}">
+<meta property="twitter:image" content="{{web_url}}{{ post.cover_image.url }}">
+{% endif %}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="{% url 'post_detail' post.id %}">
+<meta property="og:title" content="{{ post.title }}">
+<meta property="og:description" content="{{post.sdesc}}">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{% url 'post_detail' post.id %}">
+<meta property="twitter:title" content="{{ post.title }}">
+<meta property="twitter:description" content="{{post.sdesc}}">
+{% endblock meta %}
+
+
 {% block no_padding %}
 {% include 'core/islands/header.html' with heading="Blog" %}
 {% endblock no_padding %}
-    
+
 
 {% block content %}
 
@@ -20,24 +40,25 @@
         <div class="card article">
             <div class="card-image">
                 {% if post.cover_img %}
-                    <article class="image block"><img src="{{ post.cover_img.url }}" alt=""></article>
+                <article class="image block"><img src="{{ post.cover_img.url }}" alt=""></article>
                 {% endif %}
             </div>
             <div class="card-content">
-                
+
                 <div class="media">
                     <div class="media-center">
                         <article class="image is-48x48 mt-2">
                             <a href="{% url 'profile_view' post.user.username %}">
-                            <img src="{{ post.user.profile.image.url }}" class="author-image is-rounded"
-                                alt="Placeholder image">
+                                <img src="{{ post.user.profile.image.url }}" class="author-image is-rounded"
+                                    alt="Placeholder image">
                             </a>
                         </article>
                     </div>
                     <div class="media-content has-text-left mx-2">
                         <p class="title article-title has-text-weight-light">{{ post.title }}</p>
                         <p class="subtitle is-6 article-subtitle">
-                            <a href="{% url 'profile_view' post.user.username %}">@{{post.user.username}}</a> {{ post.date | naturaltime }}
+                            <a href="{% url 'profile_view' post.user.username %}">@{{post.user.username}}</a> {{
+                            post.date | naturaltime }}
                         </p>
                     </div>
                 </div>
@@ -54,7 +75,6 @@
 {% endblock content %}
 {% block script %}
 <script>
-  anchors.add();
+    anchors.add();
 </script>
 {% endblock script %}
-    
