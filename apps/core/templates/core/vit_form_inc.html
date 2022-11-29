@@ -3,6 +3,22 @@
     {% elif title == "Edit Vit" %}
     <form action="{% url 'edit_vit' vit.pk %}" method="post" enctype="multipart/form-data">
         {% endif %}
+        <div class="media pb-4">
+            <div class="media-left">
+                <figure class="image is-48x48">
+                    <img src="{{ user.profile.image.url }}" alt="" class="is-rounded">
+                </figure>
+            </div>
+            <div class="media-content">
+                <strong>{{ user.get_full_name|default:user.get_username }}</strong>
+                <br>
+                <a href="{% url 'profile_view' user.username %}">@{{ user.get_username }}</a>
+            </div>
+            <div class="media-right">
+                Not {{ user.get_short_name|default:user.username }}? <a href="{% url 'logout' %}"
+                    class="button is-small is-outlined is-danger">Logout</a>
+            </div>
+        </div>
         {% csrf_token %}
         <div class="field">
             <div class="control">
@@ -23,35 +39,35 @@
             </div>
         </div>
         <details>
-            <summary>More Options</summary>
+            <summary>More Options [Media, Age Restrictions]</summary>
             <div class="field">
                 <div class="control">
-                <div class="columns">
-                    <div class="column">
-                        <label for="image" class="label">Image</label>
-                        {{vit_form.image}}
-                        <p class="label">Currently: {{vit.image.name|default:"None"}}</p>
-                    </div>
-                    <div class="column">
-                        <label for="video" class="label">Video</label>
-                        {{vit_form.video}}
-                        <p class="label">Currently: {{vit.video.name|default:"None"}}</p>
+                    <div class="columns">
+                        <div class="column">
+                            <label for="image" class="label">Image</label>
+                            {{vit_form.image}}
+                            <p class="label">Currently: {{vit.image.name|default:"None"}}</p>
+                        </div>
+                        <div class="column">
+                            <label for="video" class="label">Video</label>
+                            {{vit_form.video}}
+                            <p class="label">Currently: {{vit.video.name|default:"None"}}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="field">
-            <div class="control">
-                <label for="nsfw" class="checkbox">{{ form.nsfw.label }}
-                    {{ form.nsfw }}
-                    <p class="help">
-                        {{ form.nsfw.help_text }}
-                    </p>
-                </label>
+            <div class="field">
+                <div class="control">
+                    <label for="nsfw" class="checkbox">{{ form.nsfw.label }}
+                        {{ form.nsfw }}
+                        <p class="help">
+                            {{ form.nsfw.help_text }}
+                        </p>
+                    </label>
+                </div>
             </div>
-        </div>
-    </details>
-    <br>
+        </details>
+        <br>
         <div class="field">
             <div class="control">
                 <button class="button is-fullwidth is-large">
