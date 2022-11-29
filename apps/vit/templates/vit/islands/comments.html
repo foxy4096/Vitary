@@ -20,8 +20,7 @@
                     <div class="media-content">
                         <div class="field">
                             <p class="control">
-                                <textarea class="textarea" name="body"
-                                required
+                                <textarea class="textarea" name="body" required
                                     placeholder="Write Comment here, Use mentions and markdown"></textarea>
                             <p class="help"><a href="https://www.markdownguide.org/" target="_blank">
                                     <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"
@@ -58,11 +57,9 @@
 
 <br>
 {% if vit.comment_set.count %}
-<div class="media-content" id="comments_list">
-    <div class="box">
-        {% for comment in vit.comment_set.all %}
-        {% include 'vit/islands/comment_block.html' with comment=comment %}
-        {% endfor %}
-    </div>
+<div class="box" id="comments_list">
+    {% for comment in vit.comment_set.all %}
+    {% include 'vit/islands/comment_block.html' with comment=comment %}
+    {% endfor %}
 </div>
 {% endif %}

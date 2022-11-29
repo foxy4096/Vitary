@@ -66,7 +66,8 @@ INSTALLED_APPS = [
     # Third Party Apps
     'django_cleanup.apps.CleanupConfig',
     'bulma',
-    'ninja'
+    'ninja',
+    'loginas',
 ]
 
 MIDDLEWARE = [

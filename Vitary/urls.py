@@ -23,7 +23,9 @@ from apps.developer.api import api
 
 urlpatterns = [
     # Admin
+    path('admin/', include('loginas.urls')),
     path('admin/', admin.site.urls),
+
 
 
     # Home

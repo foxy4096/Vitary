@@ -25,10 +25,10 @@
                     {{ comment.date | naturaltime }}
                 </small>
                 <br>
+                <p class="content" style="overflow-y: scroll;">
+                    {{ comment.body | safe | mention | convert_markdown }}
+                </p>
             </p>
         </div>
     </div>
 </div>
-<p class="content" style="overflow-y: scroll;">
-    {{ comment.body | safe | mention | convert_markdown }}
-</p>
