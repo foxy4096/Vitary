@@ -47,7 +47,7 @@ def feed(request):
     Returns a feed of the latest vits.
     """
     vits = Vit.objects.filter(
-        Q(user=request.user)
+        Q(user=request.auth)
         | Q(user__profile__in=request.auth.profile.follows.all())
         | Q(user__profile__in=request.auth.profile.followed_by.all())
     ).order_by("-date")
