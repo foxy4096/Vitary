@@ -18,7 +18,7 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item" href="{% url 'home' %}" hx-boost="true">
+            <a class="navbar-item" href="{% url 'home' %}">
                 Home 🏡
             </a>
             {% if user.is_staff %}
@@ -27,13 +27,13 @@
             </a>
             {% endif %}
 
-            <a class="navbar-item" href="{% url 'post_list' %}" hx-boost="true">
+            <a class="navbar-item" href="{% url 'post_list' %}">
                 Blog 📝
             </a>
-            <a class="navbar-item" href="{% url 'developer_home' %}" hx-boost="true">
+            <a class="navbar-item" href="{% url 'developer_home' %}">
                 <span>Developer</span><span class="icon">🐱‍💻</span>
             </a>
-            <div class="navbar-item has-dropdown is-hoverable" hx-boost="true">
+            <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
                     More 📦
                 </a>

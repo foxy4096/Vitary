@@ -88,46 +88,48 @@ def search(request):
     original_query = request.GET.get("q", "")
     query = original_query
     stype = request.GET.get("stype", "")
-    if query != "":
-        if query[0] == "@" and stype == "":
-            stype = "users"
-        if query[0] != "@" and stype == "":
-            stype = "vits"
-        if stype == "vits":
-            vits = Vit.objects.filter(
-                Q(user__username__icontains=query)
-                | Q(user__first_name__icontains=query)
-                | Q(user__last_name__icontains=query)
-                | Q(body__icontains=query)
-            ).order_by("-date")
-            paginator = Paginator(vits, 5)
-            page_no = request.GET.get("page")
-            page_obj = paginator.get_page(page_no)
-            context = {
-                "vits": page_obj,
-                "stype": "vits",
-                "query": query,
-            }
-            return render(request, "core/search.html", context)
-        elif stype == "users":
-            query = query.replace("@", "")
-            persons = User.objects.filter(
-                Q(username__icontains=query)
-                | Q(first_name__icontains=query)
-                | Q(last_name__icontains=query)
-            ).order_by("-date_joined")
-            paginator = Paginator(persons, 5)
-            page_no = request.GET.get("page")
-            page_obj = paginator.get_page(page_no)
-            return render(
-                request,
-                "core/search.html",
-                {"persons": page_obj, "stype": "users", "query": original_query},
-            )
-        else:
-            return redirect("home")
+    if query == "":
+        return redirect("home")
+    if query[0] == "@" and stype == "":
+        stype = "users"
+    if query[0] != "@" and stype == "":
+        stype = "vits"
+    if stype == "vits":
+        vits = Vit.objects.filter(
+            Q(user__username__icontains=query)
+            | Q(user__first_name__icontains=query)
+            | Q(user__last_name__icontains=query)
+            | Q(body__icontains=query)
+        ).order_by("-date")
+        page_obj = _extracted_from_search_17(vits, request)
+        context = {
+            "vits": page_obj,
+            "stype": "vits",
+            "query": query,
+        }
+        return render(request, "core/search.html", context)
+    elif stype == "users":
+        query = query.replace("@", "")
+        persons = User.objects.filter(
+            Q(username__icontains=query)
+            | Q(first_name__icontains=query)
+            | Q(last_name__icontains=query)
+        ).order_by("-date_joined")
+        page_obj = _extracted_from_search_17(persons, request)
+        return render(
+            request,
+            "core/search.html",
+            {"persons": page_obj, "stype": "users", "query": original_query},
+        )
     else:
         return redirect("home")
+
+
+# TODO Rename this here and in `search`
+def _extracted_from_search_17(arg0, request):
+    paginator = Paginator(arg0, 5)
+    page_no = request.GET.get("page")
+    return paginator.get_page(page_no)
 
 
 def badge(request, pk):

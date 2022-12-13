@@ -7,13 +7,9 @@
     <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
     <script src="{% static 'js/jquery.js' %}"></script>
     <meta name="google-site-verification" content="talpjIMGSLi3tqtLzbghCA_FL28jJPkrDM0K4wq_2Z0" />
-    <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/srcery.min.css">
-
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
-    
     <script>hljs.highlightAll();</script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <meta name="mobile-web-app-capable" content="yes">
@@ -96,10 +92,11 @@
     <script src="{% static 'js/surprise.js' %}"></script>
     <script src="{% static 'js/mention_suggests.js' %}"></script>
     <script src="{% static 'js/anchor.min.js' %}"></script>
+    
 
     <!-- Some Custom Script -->
     <script>
-        $(".message-header>.delete").click(function() {
+        $(".message-header>.delete").click(function () {
             $(this).parent().parent().remove();
         });
     </script>

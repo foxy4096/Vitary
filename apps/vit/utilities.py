@@ -14,7 +14,6 @@ from apps.notification.utilities import notify
 from apps.vit.models import Comment, Embed, Plustag, Vit
 
 
-client = requests.Session()
 
 
 def find_vit_mention(vit: Vit):
@@ -48,7 +47,7 @@ def find_vit_mention(vit: Vit):
                     if webhook.event_type == "on_vit_mention":
                         print(f"Sending Webhook to {webhook.payload_url}")
                         try:
-                            client.request(
+                            requests.request(
                                 method=webhook.method,
                                 url=webhook.payload_url,
                                 data=json.dumps(vit.to_json()),
@@ -57,7 +56,7 @@ def find_vit_mention(vit: Vit):
                                     "X-API-Key": auth_key,
                                 },
                             )
-                        except:
+                        except Exception:
                             print(f"""Error while sending webhook {webhook.payload_url}""")
 
             if User.objects.get(username=result).profile.email_notif:
@@ -137,12 +136,11 @@ def find_embed_url(vit: Vit):
     )
     for url in urls:
         url: str = url
-        client = requests.Session()
         if not any([url.startswith("https://vitary.pythonanywhere.com"),
             url.startswith("vitary.pythonanywhere.com"),
             url.startswith("http://vitary.pythonanywhere.com")]):
             try:
-                res = client.get(url)
+                res = requests.get(url)
                 soup = BeautifulSoup(res.text, "html.parser")
                 if soup.find("meta", property="og:title"):
                     embed = Embed.objects.get_or_create(url=url, vit=vit)[0]
@@ -156,7 +154,6 @@ def find_embed_url(vit: Vit):
                     embed.save()
             except Exception as e:
                 print(e)
-                pass
 
 
 def find_plustags(vit: Vit):

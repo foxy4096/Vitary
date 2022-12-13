@@ -9,24 +9,24 @@
         </article>
     </div>
     <div class="media-content">
+        <span>
+            <strong>
+                <a href="{% url 'profile_view' person %}" class="has-text-white">
+                    {{ person.get_full_name }}
+                </a>
+            </strong>
+        </span>
+        {% if person.profile.verified %}
+        <span class="tag is-dark is-small" title="Verified">
+            ✔️
+        </span>
+        {% endif %}
 
-                <span>
-
-                    <a href="{% url 'profile_view' person %}" class="has-text-white">
-                        {{ person.get_full_name }}
-                    </a>
-                </span>
-                {% if person.profile.verified %}
-                <span class="tag is-dark is-small" title="Verified">
-                    ✔️
-                </span>
-                {% endif %}
-
-                {% if person.bot %}
-                <span class="is-small tag is-link" style="color: rgb(46, 206, 107);">
-                    🤖
-                </span>
-                {% endif %}
+        {% if person.bot %}
+        <span class="is-small tag is-link" style="color: rgb(46, 206, 107);">
+            🤖
+        </span>
+        {% endif %}
 
 
         <p class="subtitle is-6"><a href="{% url 'profile_view' person %}">
@@ -45,7 +45,7 @@
         {% if user == person %}
         <a href="{% url 'profile_view' person.username %}"
             class="button is-small is-white is-outlined is-pulled-right"><span>View</span> <span
-            class="icon">👀</span></a>
+                class="icon">👀</span></a>
         {% else %}
         {% include 'accounts/extends/follow_button.html' with usr=person small=True %}
         {% endif %}
