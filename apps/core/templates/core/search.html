@@ -21,8 +21,8 @@ Search
 
         <p class="help">Tip: Adding <code>@</code> at the start will search for users</p>
     </div>
-    <div class="control has-text-centered">
-        <button type="submit" class="button is-link"><span>Search</span><span class="icon"><i
+    <div class="control">
+        <button type="submit" class="button is-link is-outlined is-large"><span>Search</span><span class="icon"><i
                     class="bi bi-search"></i></span></button>
     </div>
 </form>
@@ -46,13 +46,13 @@ Search
 
     <div class="column is-8">
         {% if stype == "vits" %}
-            {% for vit in vits %}
-            {% include 'vit/islands/vit_block.html' %}
-            {% empty %}
-            <p class="subtitle">
-                No results found.
-            </p>
-            {% endfor %}
+        {% for vit in vits %}
+        {% include 'vit/islands/vit_block.html' %}
+        {% empty %}
+        <p class="subtitle">
+            No results found.
+        </p>
+        {% endfor %}
         {% include 'core/islands/pagination.html' with page=vits %}
         {% endif %}
         {% if stype == "users" %}
