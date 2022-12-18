@@ -27,10 +27,10 @@ Your Profile
     <br>
     <br>
     <div class="buttons">
-        <button type="submit" class="button is-success">Save
+        <button type="submit" class="button is-success is-outlined">Save
             💾
         </button>
-        <a href='{% provider_login_url "github" process="connect" %}' class="button is-dark">
+        <a href='{% provider_login_url "github" process="connect" %}' class="button is-light is-outlined">
             <span>
                 Connect With GitHub
             </span>
@@ -40,7 +40,7 @@ Your Profile
         </a>
 
 
-        <a href="{% url 'advance_settings' %}" class="button is-link is-warning">Advance Settings 🔧</a>
+        <a href="{% url 'advance_settings' %}" class="button is-link is-warning is-outlined">Advance Settings 🔧</a>
     </div>
 </form>
 {% endblock content %}

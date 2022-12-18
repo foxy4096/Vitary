@@ -7934,27 +7934,29 @@ video {
   margin-top: -70%; }
 
 .profile-img {
-  padding: 5%; }
+  padding: 4%;
+  padding-bottom: 0%;
+  border-radius: 10%;
+  border-bottom: #ecdbba solid 3px; }
+
+.navbar-profile-img {
+  border-radius: 10%; }
 
 .colorful {
   animation: colorful 5s cubic-bezier(0.5, 0, 0.5, 1) infinite; }
 
 @keyframes colorful {
   0% {
-    box-shadow: 0px 0px 10px 0px #5c7cfa;
     background-color: #5c7cfa; }
   50% {
-    box-shadow: 0px 0px 10px 0px #5cfa9e;
     background-color: #52966e; }
   75% {
-    box-shadow: 0px 0px 10px 0px #fa8e5c;
     background-color: #fa8e5c; }
   100% {
-    box-shadow: 0px 0px 10px 0px #5c7cfa;
     background-color: #5c7cfa; } }
 
 .online {
-  background-color: #5cfa9e; }
+  background-color: #857ee0; }
 
 .away {
   background-color: #9c9c9c; }

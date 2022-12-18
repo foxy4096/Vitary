@@ -17,7 +17,7 @@
             <div class="media-left">
                 <a href="{% url 'profile_view' related_person.username %}">
                     <article class="image is-32x32 is-square">
-                        <img src="{{ related_person.profile.image.url }}" alt="" class="is-rounded">
+                        <img src="{{ related_person.profile.image.url }}" alt="" class="profile-img">
                     </article>
                 </a>
             </div>
@@ -79,7 +79,7 @@
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
-                    <img src="{{ following.image.url }}" alt="." class="is-rounded">
+                    <img src="{{ following.image.url }}" alt="." class="profile-img {{following.status}}">
                 </article>
             </div>
             <div class="media-content">
@@ -87,7 +87,7 @@
                     <strong>
                         {{ following.user.get_full_name }}
                         {% if following.verified %}
-                        <span class="is-small" style="color: rgb(46, 206, 107);">
+                        <span class="is-small tag is-dark" style="color: rgb(46, 206, 107);">
                             ✔️
                         </span>
                         {% endif %}
@@ -116,7 +116,7 @@
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
-                    <img src="{{ follower.image.url }}" alt="." class="is-rounded">
+                    <img src="{{ follower.image.url }}" alt="." class="profile-img {{follower.status}}">
                 </article>
             </div>
             <div class="media-content">
@@ -124,7 +124,7 @@
                     <strong>
                         {{ follower.user.get_full_name }}
                         {% if follower.verified %}
-                        <span class="is-small" style="color: rgb(46, 206, 107);">
+                        <span class="tag is-small is-dark" style="color: rgb(46, 206, 107);">
                             ✔️
                         </span>
                         {% endif %}

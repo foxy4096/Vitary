@@ -36,26 +36,76 @@
             </div>
             {% endif %}
             <div class="card-content">
-                <figure class="image is-128x128">
-                    <img src="{{ usr.profile.image.url }}" alt="{{ user }}"
-                        class="is-rounded profile-img {% if usr.profile.header_image %} profile-img-page {% endif %} {{ usr.profile.status }}">
-                </figure>
-                <br>
-                <div id="info">
-                    <h3 class="title is-3 has-text-weight-medium" id="name">
+                <div class="media is-hidden-mobile">
+                    <div class="media-left">
+                        <figure class="image is-128x128">
+                            <img src="{{ usr.profile.image.url }}" alt="{{ user }}"
+                                class="profile-img {{ usr.profile.status }}">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <h3 class="title is-3 has-text-weight-bold" id="name">
+                            <span>
+                                {{ usr.get_full_name | default:usr.username }}
+                            </span>
+                            {% if usr.profile.verified %}
+                            <span class="icon" title="Verified">
+                                <i class="bi bi-patch-check-fill"></i>
+                            </span>
+                            {% endif %}
+                        </h3>
+                        <p class="subtitle has-text-weight-light">
+                            @{{ usr.username }}
+                            {% if usr.is_superuser %}
+                            <span class="tag" title="Co-Founder ✔">
+                                Co-Founder ✔️
+                            </span>
+                            {% endif %}
+                            {% if usr.is_staff %}
+                            <span class="tag" title="Staff ✔">
+                                Staff ✔️
+                            </span>
+                            {% endif %}
+                            {% if usr.bot %}
+                            <span class="tag is-link" title="Bot 🤖">
+                                Bot 🤖
+                            </span>
+                            {% endif %}
+                            {% for badge in usr.profile.badges.all %}
+                            <a href="{% url 'badge' badge.id %}">
+                                <span class="tag is-{{badge.color}}" title="{{ badge.name }}">
+                                    {{ badge.name }}
+                                </span>
+                            </a>
+                            {% endfor %}
+                            {% for group in usr.groups.all %}
+                            <span class="tag is-link" title="{{ group.name }}">
+                                {{ group.name }}
+                            </span>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+                <div class="is-hidden-tablet">
+                    <figure class="image is-128x128">
+                        <img src="{{ usr.profile.image.url }}" alt="{{ user }}"
+                            class="profile-img {{ usr.profile.status }} {% if usr.profile.header_image %} profile-img-page {% endif %}">
+                    </figure>
+                    <br>
+                    <h3 class="title is-3" id="name">
                         <span>
                             {{ usr.get_full_name | default:usr.username }}
                         </span>
                         {% if usr.profile.verified %}
                         <span class="icon" title="Verified">
-                            <i class="bi bi-check-circle-fill"></i>
+                            <i class="bi bi-patch-check-fill"></i>
                         </span>
                         {% endif %}
                     </h3>
                     <p class="subtitle has-text-weight-light">
                         @{{ usr.username }}
                         {% if usr.is_superuser %}
-                        <span class="badge-white tag" title="Co-Founder ✔">
+                        <span class="tag" title="Co-Founder ✔">
                             Co-Founder ✔️
                         </span>
                         {% endif %}
@@ -76,7 +126,15 @@
                             </span>
                         </a>
                         {% endfor %}
+                        {% for group in usr.groups.all %}
+                        <span class="tag is-link" title="{{ group.name }}">
+                            {{ group.name }}
+                        </span>
+                        {% endfor %}
                     </p>
+                </div>
+                <br>
+                <div id="info">
                     {% if usr.devprofile %}
                     <p class="has-text-weight-light is-underlined">
                         Highlights
@@ -98,20 +156,23 @@
                 <br>
                 <div class="buttons">
                     {% if user == usr %}
-                            <a href="{% url 'profile' %}" class="button is-link is-outlined">Edit Profile  📝</a>
+                    <a href="{% url 'profile' %}" class="button is-link is-outlined">Edit Profile  📝</a>
                     {% else %}
                     {% if user.is_authenticated %}
                     {% include 'accounts/extends/follow_button.html' with usr=usr %}
                     {% else %}
-                    <a href="{% url 'login' %}" class="button is-success"><span>Follow</span><span class="icon"><i class="bi bi-person-plus-fill"></i></span></a>
+                    <a href="{% url 'login' %}" class="button is-success"><span>Follow</span><span class="icon"><i
+                                class="bi bi-person-plus-fill"></i></span></a>
                     {% endif %}
                     {% endif %}
                     {% if not usr == user %}
-                      <a href="{% url 'message_user' usr.username %}" class="button is-warning is-outlined">Message  📨</a>
+                      <a href="{% url 'message_user' usr.username %}"
+                        class="button is-warning is-outlined">Message  📨</a>
                     {% endif %}
-                    
-                    {% if user.is_staff %}                   
-                      <a href="{% url 'admin:auth_user_change' usr.id %}" class="button is-info is-outlined"><span class="icon"><i class="bi bi-pencil-square"></i></span></a>
+
+                    {% if user.is_staff %}
+                      <a href="{% url 'admin:auth_user_change' usr.id %}" class="button is-info is-outlined"><span
+                            class="icon"><i class="bi bi-pencil-square"></i></span></a>
                     {% endif %}
                 </div>
                 <a href="{% url 'report' %}?url={{ usr.profile.get_absolute_url }}">Report User</a>

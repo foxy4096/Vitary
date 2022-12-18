@@ -3,12 +3,12 @@
 {% load convert_markdown %}
 {% load plustag %}
 {% load humanize %}
-<div class="card item mb-4 id=" vit-{{ vit.pk }}">
+<div class="card item mb-4" id="vit-{{ vit.pk }}">
     <div class="card-content">
         <div class="media">
             <div class="media-left">
                 <figure class="image is-48x48 is-square">
-                    <img class="is-rounded profile-img" src="{{ vit.user.profile.image.url }}" alt="{{ user.username }}"
+                    <img class="profile-img {{ vit.user.profile.status }}" src="{{ vit.user.profile.image.url }}" alt="{{ user.username }}"
                         loading="lazy">
                 </figure>
             </div>
@@ -37,7 +37,7 @@
                         {% endfor %}
                     </span>
                     {% if vit.nsfw %}
-                    <span class="tag is-danger is-light badge-danger" title="NSFW">NSFW</span>
+                    <span class="tag is-danger badge-danger" title="NSFW">NSFW</span>
                     {% endif %}
 
                 </p>
@@ -121,7 +121,7 @@
                     <div class="card">
                         <div class="card-image">
                             <article class="image vit_image" style="overflow-y: scroll;">
-                                <img src="{{ vit.image.url }}" alt="vit_image" class="is-rounded" loading="lazy">
+                                <img src="{{ vit.image.url }}" alt="vit_image" class="" loading="lazy">
                             </article>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
     </div>
     <footer class="card-footer">
         {% if not showView %}
-        <a href="{% url 'vit_detail' vit.id %}" class="card-footer-item">
+        <a href="{% url 'vit_detail' vit.id %}" class="card-footer-item" hx-boost="true">
             <span class="icon"> <i class="bi bi-binoculars-fill"></i>
             </span><span>View</span>
         </a>

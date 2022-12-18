@@ -40,7 +40,7 @@
         <div class="card article">
             <div class="card-image">
                 {% if post.cover_img %}
-                <article class="image block"><img src="{{ post.cover_img.url }}" alt=""></article>
+                <article class="image block"><img src="{{ post.cover_img.url }}" alt="Header Image"></article>
                 {% endif %}
             </div>
             <div class="card-content">
@@ -49,7 +49,7 @@
                     <div class="media-center">
                         <article class="image is-48x48 mt-2">
                             <a href="{% url 'profile_view' post.user.username %}">
-                                <img src="{{ post.user.profile.image.url }}" class="author-image is-rounded"
+                                <img src="{{ post.user.profile.image.url }}" class="author-image  profile-img {{post.user.profile.status}}"
                                     alt="Placeholder image">
                             </a>
                         </article>

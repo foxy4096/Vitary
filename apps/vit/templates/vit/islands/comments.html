@@ -5,6 +5,7 @@
             <h1 class="title has-text-white">Comments ({{ vit.comment_set.count }})</h1>
         </div>
     </div>
+    <hr>
     <div class="card-content">
         <form method="POST">
             {% csrf_token %}
@@ -13,7 +14,7 @@
                     <div class="media-left">
                         <figure class="image is-48x48">
                             <a href="{% url 'profile_view' user.username %}">
-                                <img src="{{ user.profile.image.url }}" alt="{{user}}" class="is-rounded">
+                                <img src="{{ user.profile.image.url }}" alt="{{user}}" class="">
                             </a>
                         </figure>
                     </div>

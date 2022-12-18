@@ -2,9 +2,9 @@
 {% load convert_markdown %}
 <div class="media item">
     <div class="media-left">
-        <article class="image is-48x48 is-square">
+        <article class="image is-48x48">
             <a href="{% url 'profile_view' person %}">
-                <img src="{{ person.profile.image.url }}" alt="user-image" class="is-rounded profile-img">
+                <img src="{{ person.profile.image.url }}" alt="user-image" class="profile-img {{ person.profile.status }}">
             </a>
         </article>
     </div>

@@ -1,12 +1,12 @@
 {% if title == "Add Vit"%}
-<form action="{% url 'add_vit' %}" method="post" enctype="multipart/form-data" id="vit_form">
-    {% elif title == "Edit Vit" %}
-    <form action="{% url 'edit_vit' vit.pk %}" method="post" enctype="multipart/form-data">
-        {% endif %}
+    <form action="{% url 'add_vit' %}" method="post" enctype="multipart/form-data" id="vit_form">
+{% elif title == "Edit Vit" %}
+    <form action="{% url 'edit_vit' vit.pk %}" method="post" enctype="multipart/form-data" id="vit_form">
+{% endif %}
         <div class="media pb-4">
             <div class="media-left">
                 <figure class="image is-48x48">
-                    <img src="{{ user.profile.image.url }}" alt="" class="is-rounded">
+                    <img src="{{ user.profile.image.url }}" alt="" class="profile-img {{ user.profile.status }}">
                 </figure>
             </div>
             <div class="media-content">
@@ -14,7 +14,7 @@
                 <br>
                 <a href="{% url 'profile_view' user.username %}">@{{ user.get_username }}</a>
             </div>
-            <div class="media-right">
+            <div class="media-right is-hidden-mobile">
                 Not {{ user.get_short_name|default:user.username }}? <a href="{% url 'logout' %}"
                     class="button is-small is-outlined is-danger">Logout</a>
             </div>

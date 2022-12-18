@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
     <div class="column is-4">
         {% include 'core/islands/side_block.html' %}
     </div>
@@ -24,8 +24,8 @@
 {% endblock content %}
 
 {% block script %}
-    <script>
-        const fileInputImage = document.querySelector('#form_image input[type=file]');
+<script>
+    const fileInputImage = document.querySelector('#form_image input[type=file]');
     fileInputImage.onchange = () => {
         if (fileInputImage.files.length > 0) {
             const fileName = document.querySelector('#form_image .file-name');
@@ -40,5 +40,5 @@
         }
     }
 
-    </script>
+</script>
 {% endblock script %}

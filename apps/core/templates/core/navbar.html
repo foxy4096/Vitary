@@ -31,7 +31,7 @@
                 Blog 📝
             </a>
             <a class="navbar-item" href="{% url 'developer_home' %}">
-                <span>Developer</span><span class="icon">🐱‍💻</span>
+                <span>Developer</span><span class="icon">👨‍💻</span>
             </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
@@ -75,12 +75,12 @@
                     <button class="button is-success is-outlined" onclick="openSearch()" hx-boost="false"><span class="icon"><i
                                 class="bi bi-search"></i></span></button>
 
-                    <div hx-boost="true">
+                    <div hx-boost="false">
                         {% if user.is_authenticated %}
                         <a href="{% url 'profile_view' user.username %}" class="button is-ghost">
                             <article class="image is-24x24">
                                 <img src="{{ user.profile.image.url }}" alt="{{ user.username }}'s Avatar"
-                                    class="is-rounded {{ user.profile.status }}" width="100" height="100">
+                                    class="navbar-profile-img {{ user.profile.status }}" width="100" height="100">
                             </article>
                         </a>
 
