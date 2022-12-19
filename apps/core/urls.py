@@ -13,4 +13,5 @@ urlpatterns = [
     path("search/", views.search, name="search"),
     path("badge/<int:pk>/", views.badge, name="badge"),
     path("dashboard/", views.redirect_to_profile, name="dashboard"),
+    path('_convert/', views._convert_markdown, name='convert_markdown'),
 ]

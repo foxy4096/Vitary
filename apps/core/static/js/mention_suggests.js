@@ -50,6 +50,7 @@ function ins(username) {
   var text = $("#body").val();
   var word = text.split(" ").reverse()[0];
   // console.log(word)
+  processChange()
   $("#body").val(
     $("#body")
       .val()

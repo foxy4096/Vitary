@@ -52,15 +52,15 @@ class Vit(models.Model):
 
         return reverse("vit_detail", kwargs={"pk": self.pk})
 
-    def like_vit(self, user:User):
+    def like_vit(self, user: User):
         if user in self.likes.all():
             self.likes.remove(user)
             self.like_count -= 1
-            self.save()
         else:
             self.likes.add(user)
             self.like_count += 1
-            self.save()
+
+        self.save()
 
     def latest_vits():
         return Vit.objects.all().order_by("-like_count", "-date")[:5]
@@ -78,7 +78,6 @@ class Vit(models.Model):
             "mentions": [mention.username for mention in self.mentions.all()],
             "nsfw": self.nsfw,
         }
-
 
 
 class Plustag(models.Model):
@@ -105,10 +104,13 @@ class Comment(models.Model):
     body = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     vit = models.ForeignKey(Vit, on_delete=models.CASCADE)
+    reply_to = models.ForeignKey(
+        "self", on_delete=models.CASCADE, null=True, related_name="replies"
+    )
     date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Comment by {self.user.username.title()}"
+        return f"Comment {self.id} by {self.user.username.title()}"
 
     class Meta:
         ordering = ["-date"]
@@ -122,7 +124,7 @@ class Embed(models.Model):
     url = models.URLField()
     vit = models.ForeignKey(Vit, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    description = models.TextField(max_length=500, blank=True, null=True, default='')
+    description = models.TextField(max_length=500, blank=True, null=True, default="")
     image_url = models.URLField(blank=True, null=True)
     video_url = models.URLField(blank=True, null=True)
 

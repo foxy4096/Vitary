@@ -1,8 +1,8 @@
 {% if title == "Add Vit"%}
-    <form action="{% url 'add_vit' %}" method="post" enctype="multipart/form-data" id="vit_form">
-{% elif title == "Edit Vit" %}
+<form action="{% url 'add_vit' %}" method="post" enctype="multipart/form-data" id="vit_form">
+    {% elif title == "Edit Vit" %}
     <form action="{% url 'edit_vit' vit.pk %}" method="post" enctype="multipart/form-data" id="vit_form">
-{% endif %}
+        {% endif %}
         <div class="media pb-4">
             <div class="media-left">
                 <figure class="image is-48x48">
@@ -37,6 +37,8 @@
                     </a>
                 </p>
             </div>
+            <br>
+            <div id="markdown-content" class="is-hidden box content" style="border: white solid 2px"></div>
         </div>
         <details>
             <summary>More Options [Media, Age Restrictions]</summary>

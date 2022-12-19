@@ -1,34 +1,37 @@
 {% load humanize %}
-
 {% load mention %}
 {% load convert_markdown %}
-<div class="media">
+
+<div class="media item">
     <div class="media-left">
         <figure class="image is-48x48 is-square">
-            <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user}}" class="">
+            <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user}}"
+            class="profile-img {{ user.profile.status }}">
         </figure>
     </div>
+    
     <div class="media-content">
-        <div>
-            <p>
-                <span>
-                    <strong>
-                        {{ comment.user.get_full_name| default:comment.user.username }}
-                    </strong>
-                    aka
-                    <a href="{% url 'profile_view' comment.user.username %}">
-                        @{{ comment.user }}
-                    </a>
-                </span>
-                <br>
-                <small title="{{ comment.date }}" class="tag is-black">
-                    {{ comment.date | naturaltime }}
-                </small>
-                <br>
-                <p class="content" style="overflow-y: scroll;">
-                    {{ comment.body | safe | mention | convert_markdown }}
-                </p>
-            </p>
+        <span>
+            <strong>
+                {{ comment.user.get_full_name| default:comment.user.username }}
+            </strong>
+            aka
+            <a href="{% url 'profile_view' comment.user.username %}">
+                @{{ comment.user }}
+            </a>
+        </span>
+        <br>
+        <br>
+        <small title="{{ comment.date }}" class="tag is-black">
+            {{ comment.date | naturaltime }}
+        </small>
+        <div class="content pt-3" style="overflow-x: auto;">
+            {{ comment.body | striptags | safe | mention | convert_markdown }}
         </div>
+        <a href="#" hx-get="{% url '_comment_form' %}?comment_id={{ comment.id }}"
+        hx-swap="outerHTML"><span>Reply</span><span class="icon"><i class="bi bi-reply-fill"></i></span></a>
+        {% for reply in comment.replies.all %}
+        {% include 'vit/islands/comment_block.html' with comment=reply %}
+        {% endfor %}
     </div>
 </div>

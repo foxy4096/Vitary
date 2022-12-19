@@ -27,8 +27,8 @@ def add_vit(request):
 @login_required
 def edit_vit(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
-    DANGER = 40
     if request.user != vit.user:
+        DANGER = 40
         messages.add_message(
             request,
             DANGER,
@@ -53,8 +53,8 @@ def edit_vit(request, pk):
 @login_required
 def delete_vit(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
-    DANGER = 40
     if request.user != vit.user:
+        DANGER = 40
         messages.add_message(
             request,
             DANGER,
@@ -62,34 +62,26 @@ def delete_vit(request, pk):
         )
         return redirect("home")
     else:
-        if request.method == "POST":
-            if request.POST.get("delete") == "Delete":
-                vit.delete()
-                messages.success(request, "Vit deleted successfully")
-                return redirect("home")
+        if request.method == "POST" and request.POST.get("delete") == "Delete":
+            vit.delete()
+            messages.success(request, "Vit deleted successfully")
+            return redirect("home")
     return render(request, "vit/vit_delete.html", {"vit": vit})
 
 
 def vit_detail(request, pk):
     vit = get_object_or_404(Vit, pk=pk)
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                comment = form.save(commit=False)
-                comment.user = request.user
-                comment.vit = vit
-                comment.save()
-                messages.success(request, "Comment added successfully")
-                return redirect("vit_detail", pk=pk)
+    if request.user.is_authenticated and request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            return create_comment(form, request, vit, pk)
     form = CommentForm()
     comments = Comment.objects.filter(vit=vit)
     paginator = Paginator(comments, 3)
     page = request.GET.get("page")
     comments = paginator.get_page(page)
     related_persons = [vit.user]
-    for user in vit.mentions.all():
-        related_persons.append(user)
+    related_persons.extend(iter(vit.mentions.all()))
     related_persons = list(set(related_persons))
     return render(
         request,
@@ -102,6 +94,18 @@ def vit_detail(request, pk):
             "related_persons": related_persons,
         },
     )
+
+
+def create_comment(form, request, vit, pk):
+    comment = form.save(commit=False)
+    comment.user = request.user
+    comment.vit = vit
+    if request.POST.get("comment_id"):
+        reply_to = get_object_or_404(Comment, pk=request.POST.get("comment_id"))
+        comment.reply_to = reply_to
+    comment.save()
+    messages.success(request, "Comment added successfully")
+    return redirect("vit_detail", pk=pk)
 
 
 def plustag_vits(request, p):
@@ -127,3 +131,8 @@ def vit_liked_users(request, vit_pk):
     page = request.GET.get("page")
     liked_users = paginator.get_page(page)
     return render(request, "vit/vit_liked_users.html", {"liked_users": liked_users})
+
+@login_required
+def _comment_form(request):
+    comment_id = request.GET.get("comment_id")
+    return render(request, "vit/islands/comment_form.html", {"comment_id": comment_id})

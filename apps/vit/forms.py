@@ -17,6 +17,7 @@ class VitForm(forms.ModelForm):
                     "placeholder": "What's on your mind?",
                     "style": """height: 150px;""",
                     "id": "body",
+                    "onKeyup": "processChange()",
                 }
             ),
             "image": forms.ClearableFileInput(

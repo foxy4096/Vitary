@@ -1,9 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
+from .templatetags import convert_markdown
+from apps.vit.templatetags import mention
 
 from apps.vit.forms import VitForm
 from apps.vit.models import Vit
@@ -22,6 +25,7 @@ def frontpage(request):
     else:
         return render(request, "core/frontpage.html")
 
+
 @login_required
 def feed(request):
     vits = Vit.objects.filter(
@@ -31,13 +35,16 @@ def feed(request):
     ).order_by("-date")
     if not request.user.profile.allow_nsfw:
         vits = vits.exclude(nsfw=True)
-    paginator = (Paginator(vits, 10) if vits else Paginator(Vit.objects.all().order_by("-like_count", "-date"), 10))
+    paginator = (
+        Paginator(vits, 10)
+        if vits
+        else Paginator(Vit.objects.all().order_by("-like_count", "-date"), 10)
+    )
     page_no = request.GET.get("page")
     page_obj = paginator.get_page(page_no)
     form = VitForm()
-    return render(
-        request, "core/feed.html", {"vits": page_obj, "form": form}
-    )
+    return render(request, "core/feed.html", {"vits": page_obj, "form": form})
+
 
 def peoples(request):
     persons = User.objects.all().order_by("-profile__follower_count")
@@ -143,3 +150,7 @@ def badge(request, pk):
 
 def redirect_to_profile(request):
     return redirect("profile")
+
+
+def _convert_markdown(request):
+    return HttpResponse(convert_markdown.convert_markdown(mention.mention(request.POST.get("value", ""))))

@@ -10,7 +10,7 @@ class PlustagAdmin(admin.ModelAdmin):
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['body','user', 'vit', 'date']
-    fields = ['body','user', 'vit', 'date']
+    fields = ['body','user', 'vit', 'date', 'reply_to']
     readonly_fields = ['user', 'vit', 'date']
 
 class EmbedAdmin(admin.TabularInline):

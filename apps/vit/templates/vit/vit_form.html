@@ -22,23 +22,3 @@
     </div>
 </div>
 {% endblock content %}
-
-{% block script %}
-<script>
-    const fileInputImage = document.querySelector('#form_image input[type=file]');
-    fileInputImage.onchange = () => {
-        if (fileInputImage.files.length > 0) {
-            const fileName = document.querySelector('#form_image .file-name');
-            fileName.textContent = fileInputImage.files[0].name;
-        }
-    }
-    const fileInputVideo = document.querySelector('#form_video input[type=file]');
-    fileInputVideo.onchange = () => {
-        if (fileInputVideo.files.length > 0) {
-            const fileName = document.querySelector('#form_video .file-name');
-            fileName.textContent = fileInputVideo.files[0].name;
-        }
-    }
-
-</script>
-{% endblock script %}

@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="forest" id="">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -92,13 +92,43 @@
     <script src="{% static 'js/surprise.js' %}"></script>
     <script src="{% static 'js/mention_suggests.js' %}"></script>
     <script src="{% static 'js/anchor.min.js' %}"></script>
-    
+
 
     <!-- Some Custom Script -->
     <script>
         $(".message-header>.delete").click(function () {
             $(this).parent().parent().remove();
         });
+        function debounce(func, timeout = 300) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => { func.apply(this, args); }, timeout);
+            };
+        }
+        function saveInput() {
+            val = $("#body").val();
+            if (val.length != 0) {
+                $("#markdown-content").removeClass("is-hidden");
+                $.ajax({
+                    url: "{% url 'convert_markdown' %}",
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    },
+                    data: {
+                        value: val
+                    },
+                    success: function (data) {
+                        $("#markdown-content").html(data);
+                        hljs.highlightAll();
+                    }
+                })
+            } else {
+                $("#markdown-content").addClass("is-hidden");
+            }
+        }
+        const processChange = debounce(() => saveInput());
     </script>
     {% block script %}
 
