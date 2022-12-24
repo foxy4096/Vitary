@@ -1,6 +1,7 @@
 from ninja.security import APIKeyHeader
 
-from .models import Token, Bot
+from apps.developer.models import Bot, Token
+
 
 class UserApiKey(APIKeyHeader):
     param_name = "X-API-Key"
@@ -8,7 +9,7 @@ class UserApiKey(APIKeyHeader):
     def authenticate(self, request, key):
         try:
             return Token.objects.get(token=key).devprofile.user
-        except:
+        except Exception:
             None
 
 
@@ -18,5 +19,5 @@ class BotApiKey(APIKeyHeader):
     def authenticate(self, request, key):
         try:
             return Bot.objects.get(private_key=key).user
-        except:
+        except Exception:
             None

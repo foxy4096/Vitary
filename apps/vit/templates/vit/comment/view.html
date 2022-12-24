@@ -22,7 +22,7 @@
                 <p>
                     <span>
                         {{ comment.user.get_full_name| default:comment.user.username }}
-                        <a href="{% url 'profile_view' comment.user.username %}">
+                        <a href="{% url 'user_detail' comment.user.username %}">
                             <strong>
                                 @{{ comment.user }}
                             </strong>

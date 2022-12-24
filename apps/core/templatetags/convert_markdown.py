@@ -1,5 +1,5 @@
 import markdown
-
+import bleach
 from django import template
 from django.template.defaultfilters import stringfilter
 
@@ -26,5 +26,5 @@ extension_configs = {
 @stringfilter
 def convert_markdown(value):
     return markdown.markdown(
-        text=value, extensions=extensions, extension_configs=extension_configs
+        text=bleach.clean(value), extensions=extensions, extension_configs=extension_configs
     )

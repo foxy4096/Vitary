@@ -13,14 +13,14 @@
     <div class="media">
         <div class="media-left">
             <figure class="image is-64x64">
-                <img src="{{ bot.user.profile.image.url }}" alt="{{ bot.user.username }}" class="">
+                <img src="{{ bot.user.profile.image.url }}" alt="{{ bot.user.username }}" class="profile-img {{ bot.user.profile.status }}">
             </figure>
         </div>
         <div class="media-content">
             <div class="content">
                 <h3 class="title is-3">{{ bot.name }}</h3>
                 <p class="subtitle">
-                    <a href="{% url 'profile_view' bot.user.username %}">@{{ bot.user.username }}</a>
+                    <a href="{% url 'user_detail' bot.user.username %}">@{{ bot.user.username }}</a>
                     <small>Updated {{ bot.date | naturaltime }}</small>
                 </p>
                 <p>

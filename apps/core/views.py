@@ -1,25 +1,30 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from .templatetags import convert_markdown
-from apps.vit.templatetags import mention
-
-from apps.vit.forms import VitForm
-from apps.vit.models import Vit
 
 from apps.core.forms import ReportForm
 from apps.core.models import Badge
+from apps.core.templatetags import convert_markdown
+from apps.vit.forms import VitForm
+from apps.vit.models import Vit
+from apps.vit.templatetags import mention
 
 
 def index(request):
+    """
+    The Index Page
+    """
     return redirect("home")
 
 
 def frontpage(request):
+    """
+    The Frontpage
+    """
     if request.user.is_authenticated:
         return redirect("feed")
     else:
@@ -28,6 +33,9 @@ def frontpage(request):
 
 @login_required
 def feed(request):
+    """
+    Retun the user feed
+    """
     vits = Vit.objects.filter(
         Q(user=request.user)
         | Q(user__profile__in=request.user.profile.follows.all())
@@ -78,7 +86,7 @@ def report(request):
             messages.success(request, "Your report has been submitted successfully")
             return redirect("home")
     else:
-        url = request.GET.get("url", "")
+        url = request.GET.get("url")
         form = ReportForm(initial={"url": request.build_absolute_uri(url)})
     return render(
         request,
@@ -152,5 +160,9 @@ def redirect_to_profile(request):
     return redirect("profile")
 
 
-def _convert_markdown(request):
-    return HttpResponse(convert_markdown.convert_markdown(mention.mention(request.POST.get("value", ""))))
+def convert_markdown_to_html(request):
+    return HttpResponse(
+        convert_markdown.convert_markdown(
+            mention.mention(request.POST.get("value", ""))
+        )
+    )

@@ -7,7 +7,7 @@
         <div class="media">
             <div class="media-left">
                 <figure class="image is-48x48">
-                    <a href="{% url 'profile_view' user.username %}">
+                    <a href="{% url 'user_detail' user.username %}">
                         <img src="{{ user.profile.image.url }}" alt="{{user}}"
                             class="profile-img {{ user.profile.status }}">
                     </a>

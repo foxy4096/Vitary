@@ -1,7 +1,8 @@
 from django import forms
 
-from .models import DevProfile, Bot, WebHook
 from apps.accounts.models import Profile
+
+from apps.developer.models import Bot, DevProfile, WebHook
 
 
 class DevProfileCreateForm(forms.ModelForm):
@@ -29,8 +30,15 @@ class DevProfileForm(forms.ModelForm):
 
 
 class BotCreationForm(forms.ModelForm):
-    name = forms.CharField(max_length=100, help_text="Enter the name of your bot. This will be displayed on it's profile.")
-    username = forms.CharField(max_length=100, help_text="Enter the username of your bot. This will be used to identify your bot on the platform.")
+    name = forms.CharField(
+        max_length=100,
+        help_text="Enter the name of your bot. This will be displayed on it's profile.",
+    )
+    username = forms.CharField(
+        max_length=100,
+        help_text="Enter the username of your bot. This will be used to identify your bot on the platform.",
+    )
+
     class Meta:
         model = Bot
         fields = [

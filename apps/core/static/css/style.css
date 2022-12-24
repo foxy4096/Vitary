@@ -7888,9 +7888,7 @@ video {
 /* Crop the vit image */
 /* Add a scroll bar to it */
 .vit_image {
-  overflow: scroll;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: auto;
   max-height: 800px;
   border-radius: 5px; }
 
@@ -7934,10 +7932,8 @@ video {
   margin-top: -70%; }
 
 .profile-img {
-  padding: 4%;
-  padding-bottom: 0%;
-  border-radius: 10%;
-  border-bottom: #ecdbba solid 3px; }
+  padding: 2px;
+  border-radius: 10%; }
 
 .navbar-profile-img {
   border-radius: 10%; }
@@ -7947,18 +7943,24 @@ video {
 
 @keyframes colorful {
   0% {
+    box-shadow: 0px 0px 10px 0px #5c7cfa;
     background-color: #5c7cfa; }
   50% {
+    box-shadow: 0px 0px 10px 0px #5cfa9e;
     background-color: #52966e; }
   75% {
+    box-shadow: 0px 0px 10px 0px #fa8e5c;
     background-color: #fa8e5c; }
   100% {
+    box-shadow: 0px 0px 10px 0px #5c7cfa;
     background-color: #5c7cfa; } }
 
 .online {
+  box-shadow: 0px 0px 10px 0px #857ee0;
   background-color: #857ee0; }
 
 .away {
+  box-shadow: 0px 0px 10px 0px #9c9c9c;
   background-color: #9c9c9c; }
 
 .home-page-title {
@@ -7976,11 +7978,13 @@ video {
 
 .no-bottom-border {
   border-bottom: none !important;
-  filter: none !important; }
+  filter: none !important; }
 
 .hero,
 .message,
-.button, .input, .textarea {
+.button,
+.input,
+.textarea {
   border-bottom: currentColor solid 4px;
   filter: drop-shadow(0px 0px 0.5rem #252525); }
 
@@ -8028,7 +8032,7 @@ input[type="checkbox"] {
   height: 14px;
   color: #eee;
   background-color: #eee;
-  border-radius: .25rem; }
+  border-radius: 0.25rem; }
 
 .markdown-body .task-list-control input[type="checkbox"]:checked + .task-list-indicator::before {
   display: block;
@@ -8037,4 +8041,4 @@ input[type="checkbox"] {
   font-size: 16px;
   line-height: 1;
   content: "✔";
-  color: #1EBB52; }
+  color: #1ebb52; }

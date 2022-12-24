@@ -87,7 +87,6 @@
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/follow.js' %}"></script>
     <!-- <script src="{% static 'js/infinite-ajax-scroll.js' %}"></script> -->
-    <script src="{% static 'js/navbar.js' %}"></script>
     <script src="{% static 'js/copy.js' %}"></script>
     <script src="{% static 'js/surprise.js' %}"></script>
     <script src="{% static 'js/mention_suggests.js' %}"></script>
@@ -129,6 +128,24 @@
             }
         }
         const processChange = debounce(() => saveInput());
+
+        function toggleSearch() {
+            document.getElementById('searchModal').classList.toggle('is-active');
+        }
+
+        // run the openSearch if ctrl + q is pressed
+        document.addEventListener('keydown', function (e) {
+            if (e.ctrlKey && e.keyCode == 81) {
+                toggleSearch();
+            }
+        });
+
+        // run the closeSearch if ESC is pressed
+        document.addEventListener('keydown', function (e) {
+            if (e.keyCode == 27) {
+                toggleSearch();
+            }
+        });
     </script>
     {% block script %}
 

@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Report
+from apps.core.models import Report
 
 
 class ReportForm(forms.ModelForm):

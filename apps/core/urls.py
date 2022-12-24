@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from apps.core import views
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -13,5 +13,5 @@ urlpatterns = [
     path("search/", views.search, name="search"),
     path("badge/<int:pk>/", views.badge, name="badge"),
     path("dashboard/", views.redirect_to_profile, name="dashboard"),
-    path('_convert/', views._convert_markdown, name='convert_markdown'),
+    path('convert/', views.convert_markdown_to_html, name='convert_markdown'),
 ]

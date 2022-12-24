@@ -17,7 +17,7 @@ Notification
         <span>
             Mark As Read
         </span>
-        <span class="icon" style="color: rgb(46, 206, 107);">
+        <span class="icon">
             <i class="bi bi-check-lg"></i>
         </span>
     </a>
@@ -25,9 +25,9 @@ Notification
 {% for notification in notifications %}
 <div class="media">
     <div class="media-left">
-        <a href="{% url 'profile_view' notification.by_user %}">
+        <a href="{% url 'user_detail' notification.by_user %}">
             <article class="image is-48x48 is-square">
-                <img src="{{ notification.by_user.profile.image.url }}" alt="user" class="">
+                <img src="{{ notification.by_user.profile.image.url }}" alt="user" class="profile-img">
             </article>
         </a>
     </div>

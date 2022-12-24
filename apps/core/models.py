@@ -1,18 +1,19 @@
-from django.db import models
 from django.contrib.auth.models import User
-from apps.vit.models import Vit
+from django.db import models
+
 
 class Report(models.Model):
     """
     Report model
     """
+
     REPORT_TYPE = (
-        ('ABUSE', 'Abuse'),
-        ('INAPPROPRIATE', 'Inappropriate'),
-        ('SPAM', 'Spam'),
-        ('BULLYING', 'Bullying'),
-        ('SEXUAL_CONTENT', 'Sexual Content'),
-        ('OTHER', 'Other'),
+        ("ABUSE", "Abuse"),
+        ("INAPPROPRIATE", "Inappropriate"),
+        ("SPAM", "Spam"),
+        ("BULLYING", "Bullying"),
+        ("SEXUAL_CONTENT", "Sexual Content"),
+        ("OTHER", "Other"),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Created By")
     report_type = models.CharField(max_length=50, choices=REPORT_TYPE)
@@ -24,9 +25,9 @@ class Report(models.Model):
         return self.description
 
     class Meta:
-        verbose_name_plural = 'Reports'
-        ordering = ['-date']
-        
+        verbose_name_plural = "Reports"
+        ordering = ["-date"]
+
 
 class Badge(models.Model):
     """
@@ -34,14 +35,14 @@ class Badge(models.Model):
     """
 
     COLOR_CHOICE = (
-        ('success', 'Green'),
-        ('info', 'Blue'),
-        ('link', 'Purple'),
-        ('primary', 'Turquoise'),
-        ('warning', 'Yellow'),
-        ('danger', 'Red'),
-        ('dark', 'Black'),
-        ('white', 'White'),
+        ("success", "Green"),
+        ("info", "Blue"),
+        ("link", "Purple"),
+        ("primary", "Turquoise"),
+        ("warning", "Yellow"),
+        ("danger", "Red"),
+        ("dark", "Black"),
+        ("white", "White"),
     )
 
     name = models.CharField(max_length=50)

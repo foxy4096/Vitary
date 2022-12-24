@@ -22,7 +22,7 @@ $("#body").keydown(function () {
                                 <div class="media item">
                                     <div class="media-left">
                                         <article class='image is-32x32'>
-                                            <img src='${user.image}' class='is-rounded'>
+                                            <img src='${user.image}' class='profile-img'>
                                         </article>
                                     </div>
                                     <div class="media-content">
@@ -31,10 +31,10 @@ $("#body").keydown(function () {
                                         ${user.first_name} ${user.last_name}
                                         </strong>
                                         </h4>
-                                        <p class="subtitle is-6 mb-0"><a href='javascript:void(0);' onclick='ins("${user.username}")'>@${user.username}</a></p>
+                                        <p class="subtitle is-6 mb-0"><a role='button' onclick='ins("${user.username}")'>@${user.username}</a></p>
                                     </div>
                                     <div class='media-right'>
-                                        <a  href='javascript:void(0);' onclick='ins("${user.username}")' class='button is-primary'>Add</a>
+                                        <a role='button' onclick='ins("${user.username}")' class='button is-primary'>Add</a>
                                     </div>
                                 </div>
                                 `
@@ -50,7 +50,7 @@ function ins(username) {
   var text = $("#body").val();
   var word = text.split(" ").reverse()[0];
   // console.log(word)
-  processChange()
+  processChange();
   $("#body").val(
     $("#body")
       .val()

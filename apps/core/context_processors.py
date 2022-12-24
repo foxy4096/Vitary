@@ -1,7 +1,9 @@
-from django.conf import settings
 from random import choice
-from apps.vit.models import Vit, User
+
+from django.conf import settings
+
 from apps.developer.models import DevProfile
+from apps.vit.models import User, Vit
 
 
 def web_url(request):

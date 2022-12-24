@@ -27,7 +27,7 @@ Join Us - Develop
                         </div>
                         <div class="media-right mx-0">
                             <h6 class="title is-5">{{ user.get_full_name }}</h6>
-                            <p class="subtitle is-6"><a href="{% url 'profile_view' user.username %}">@{{ user.username }}</a></>
+                            <p class="subtitle is-6"><a href="{% url 'user_detail' user.username %}">@{{ user.username }}</a></>
                         </div>
                     </div>
                 </div>

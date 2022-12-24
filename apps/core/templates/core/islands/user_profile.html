@@ -24,7 +24,7 @@
             </span>
             {% endif %}
         </h4>
-        <p class="subtitle is-6"><a href="{% url 'profile_view' usr.username %}">@{{usr.username}}</a>
+        <p class="subtitle is-6"><a href="{% url 'user_detail' usr.username %}">@{{usr.username}}</a>
             <br>
             <br>
             {% if usr.is_superuser %}

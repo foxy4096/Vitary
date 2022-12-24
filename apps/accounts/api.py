@@ -44,7 +44,7 @@ def follow(request):
             to_user=to_follow,
             notification_type="follow",
             link=reverse_lazy(
-                "profile_view", kwargs={"username": request.user.username}
+                "user_detail", kwargs={"username": request.user.username}
             ),
         )
         return JsonResponse({"success": "Followed Successfully", "follow": True})

@@ -1,5 +1,6 @@
-import re
 import json
+import re
+
 import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
@@ -8,12 +9,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.html import strip_tags
-from apps.developer.models import Bot, WebHook
 
+from apps.developer.models import Bot, WebHook
 from apps.notification.utilities import notify
 from apps.vit.models import Comment, Embed, Plustag, Vit
-
-
 
 
 def find_vit_mention(vit: Vit):
@@ -36,7 +35,7 @@ def find_vit_mention(vit: Vit):
                 by_user=vit.user,
                 link=reverse_lazy("vit_detail", kwargs={"pk": vit.pk}),
             )
-            
+
             if Bot.objects.filter(user=User.objects.get(username=result)).exists():
                 bot = Bot.objects.get(user=User.objects.get(username=result))
                 for webhook in bot.webhook_set.all():
@@ -57,7 +56,9 @@ def find_vit_mention(vit: Vit):
                                 },
                             )
                         except Exception:
-                            print(f"""Error while sending webhook {webhook.payload_url}""")
+                            print(
+                                f"""Error while sending webhook {webhook.payload_url}"""
+                            )
 
             if User.objects.get(username=result).profile.email_notif:
                 subject = f"{vit.user.username.title()} mentioned you in a Vit."
@@ -136,9 +137,13 @@ def find_embed_url(vit: Vit):
     )
     for url in urls:
         url: str = url
-        if not any([url.startswith("https://vitary.pythonanywhere.com"),
-            url.startswith("vitary.pythonanywhere.com"),
-            url.startswith("http://vitary.pythonanywhere.com")]):
+        if not any(
+            [
+                url.startswith("https://vitary.pythonanywhere.com"),
+                url.startswith("vitary.pythonanywhere.com"),
+                url.startswith("http://vitary.pythonanywhere.com"),
+            ]
+        ):
             try:
                 res = requests.get(url)
                 soup = BeautifulSoup(res.text, "html.parser")
@@ -150,7 +155,9 @@ def find_embed_url(vit: Vit):
                             "meta", property="og:description"
                         ).get("content", "")
                     if soup.find("meta", property="og:image"):
-                        embed.image_url = soup.find("meta", property="og:image")["content"]
+                        embed.image_url = soup.find("meta", property="og:image")[
+                            "content"
+                        ]
                     embed.save()
             except Exception as e:
                 print(e)

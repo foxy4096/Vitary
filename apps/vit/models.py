@@ -31,6 +31,7 @@ class Vit(models.Model):
         "Is the Content NSFW?",
         default=False,
         help_text="Mark as NSFW if the content is not safe for work",
+        editable=True,
     )
 
     def save(self, *args, **kwargs):

@@ -17,7 +17,7 @@ def mention(value):
                 stng = i[1:].replace(',', '').replace('.', '').replace('!', '').replace('?', '').replace(';', '').replace(':', '').replace('-', '').replace('_', '').replace('(', '').replace(')', '').replace('[', '').replace(']', '').replace('{', '').replace('}', '').replace(
                     '/', '').replace('\\', '').replace('*', '').replace('#', '').replace('=', '').replace('%', '').replace('$', '').replace('^', '').replace('&', '').replace('|', '').replace('~', '').replace('`', '').replace('<', '').replace('>', '').replace("'", "")
                 if user := User.objects.get(username=stng):
-                    profile_link = reverse_lazy('profile_view', kwargs={
+                    profile_link = reverse_lazy('user_detail', kwargs={
                                                 'username': user.username})
                     j = f"<a href='{profile_link}' data-toggle='tooltip' title='{user.get_full_name()}'><b>{i}</b></a>"
                     value = value.replace(i, j)

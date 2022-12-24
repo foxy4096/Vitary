@@ -1,18 +1,28 @@
-from ninja import ModelSchema, Schema
+from typing import List
+
 from django.contrib.auth.models import User
+from ninja import ModelSchema, Schema
+
 from apps.accounts.models import Profile
 from apps.core.models import Badge
-from typing import List
-from apps.vit.models import Vit, Comment
+from apps.vit.models import Comment, Vit
 
 
 class BadgeSchema(ModelSchema):
+    """
+    Schema for Badge model.
+    """
+
     class Config:
         model = Badge
-        model_fields = ['id', 'name', 'description']
+        model_fields = ["id", "name", "description"]
 
 
 class ProfileSchema(ModelSchema):
+    """
+    Schema for Profile model.
+    """
+
     badges: List[BadgeSchema] = []
 
     class Config:
@@ -29,6 +39,10 @@ class ProfileSchema(ModelSchema):
 
 
 class UserSchema(ModelSchema):
+    """
+    Schema for User model.
+    """
+
     profile: ProfileSchema
 
     class Config:
@@ -40,29 +54,42 @@ class UserSchema(ModelSchema):
             "last_name",
         ]
 
+
 class VitSchema(ModelSchema):
+    """
+    Schema for Vit model.
+    """
+
     user: UserSchema
+
     class Config:
         model = Vit
         model_fields = [
-            'id',
-            'body',
-            'date',
-            'like_count',
-            'image',
-            'video',
-            'nsfw',
+            "id",
+            "body",
+            "date",
+            "like_count",
+            "image",
+            "video",
+            "nsfw",
         ]
-    
-class CommentCreateSchema(Schema):
-    body: str
-    vit_body: int
-
 
 
 class CommentSchema(ModelSchema):
+    """
+    Schema for Comment model.
+    """
+
     user: UserSchema
     vit: VitSchema
+
     class Config:
         model = Comment
-        model_fields = ['id', 'body', 'vit', 'user', 'date']
+        model_fields = [
+            "id",
+            "body",
+            "vit",
+            "user",
+            "date",
+            "reply_to",
+        ]

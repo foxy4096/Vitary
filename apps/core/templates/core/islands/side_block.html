@@ -15,7 +15,7 @@
         {% for related_person in related_persons %}
         <div class="media">
             <div class="media-left">
-                <a href="{% url 'profile_view' related_person.username %}">
+                <a href="{% url 'user_detail' related_person.username %}">
                     <article class="image is-32x32 is-square">
                         <img src="{{ related_person.profile.image.url }}" alt="" class="profile-img">
                     </article>
@@ -26,7 +26,7 @@
                     {{ related_person.get_full_name }}
                 </h4>
                 <p class="is-6 subtitle">
-                    <a href="{% url 'profile_view' related_person.username %}">
+                    <a href="{% url 'user_detail' related_person.username %}">
                         @{{ related_person.username }}
                     </a>
                 </p>
@@ -51,7 +51,7 @@
         {% for latest_vit in latest_vits %}
         <small>
 
-            <a href="{% url 'profile_view' latest_vit.user.username %}">
+            <a href="{% url 'user_detail' latest_vit.user.username %}">
                 {{ latest_vit.user }}
             </a>: <a href="{{ latest_vit.get_absolute_url }}">
 
@@ -94,7 +94,7 @@
                     </strong>
                 </h4>
                 <p class="subtitle is-6">
-                    <a href="{% url 'profile_view' following %}">
+                    <a href="{% url 'user_detail' following %}">
                         @{{ following.user.username }}
                     </a>
                 </p>
@@ -130,7 +130,7 @@
                         {% endif %}
                     </strong>
                 </h4>
-                <p class="subtitle is-6"><a href="{% url 'profile_view' follower %}">@{{ follower.user.username }}</a>
+                <p class="subtitle is-6"><a href="{% url 'user_detail' follower %}">@{{ follower.user.username }}</a>
                 </p>
             </div>
             <br>

@@ -80,7 +80,7 @@ def UnfollowTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class Profile_view_test(TestCase):
+class user_detail_test(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
             username='testuser',

@@ -1,12 +1,10 @@
-from django.shortcuts import render, redirect, get_object_or_404
-
 from django.contrib import messages
-
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import VitForm, CommentForm
-from .models import Comment, Vit, Plustag
+from apps.vit.forms import CommentForm, VitForm
+from apps.vit.models import Comment, Plustag, Vit
 
 
 @login_required
@@ -19,7 +17,7 @@ def add_vit(request):
             vit.save()
             messages.success(request, "Vit added successfully")
             return redirect("home")
-    form = VitForm(initial={'body': request.GET.get("vit_body", "")})
+    form = VitForm(initial={"body": request.GET.get("vit_body", "")})
     print(request.GET.get("vit_body", ""))
     return render(request, "vit/vit_form.html", {"form": form, "title": "Add Vit"})
 
@@ -126,11 +124,12 @@ def view_comment(request, pk, vit_pk):
 
 def vit_liked_users(request, vit_pk):
     vit = get_object_or_404(Vit, pk=vit_pk)
-    liked_users = vit.likes.all().order_by('-date_joined')
+    liked_users = vit.likes.all().order_by("-date_joined")
     paginator = Paginator(liked_users, 10)
     page = request.GET.get("page")
     liked_users = paginator.get_page(page)
     return render(request, "vit/vit_liked_users.html", {"liked_users": liked_users})
+
 
 @login_required
 def _comment_form(request):

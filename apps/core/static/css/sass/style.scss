@@ -1,8 +1,8 @@
 @charset "utf-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
-@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Abel&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Karla&display=swap");
 
 $black: #191919;
 $BlackSecondary: #222121;
@@ -23,7 +23,7 @@ $button-active-color: $primary;
 $button-active-border-color: $primary;
 $button-background-color: $dark;
 $message-header-radius: 0rem;
-$family-sans-serif: 'Karla', sans-serif;
+$family-sans-serif: "Karla", sans-serif;
 $tabs-boxed-link-hover-background-color: $Grey;
 $tabs-boxed-link-active-border-color: $black;
 $tabs-link-color: $white;
@@ -89,7 +89,7 @@ $content-blockquote-border-color: $white;
 @import "../node_modules/bulma/bulma.sass";
 
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@900&display=swap");
- 
+
 .badge-success {
   box-shadow: 0px 0px 10px 0px rgb(6, 214, 44);
 }
@@ -131,9 +131,7 @@ video {
 /* Crop the vit image */
 /* Add a scroll bar to it */
 .vit_image {
-  overflow: scroll;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: auto;
   max-height: 800px;
   border-radius: 5px;
 }
@@ -183,13 +181,10 @@ video {
 }
 
 .profile-img {
-  padding: 4%;
-  padding-bottom: 0%;
+  padding: 2px;
   border-radius: 10%;
-  border-bottom: $white solid 3px;
-  
 }
-.navbar-profile-img{
+.navbar-profile-img {
   border-radius: 10%;
 }
 .colorful {
@@ -198,28 +193,29 @@ video {
 
 @keyframes colorful {
   0% {
-    // box-shadow: 0px 0px 10px 0px #5c7cfa;
+    box-shadow: 0px 0px 10px 0px #5c7cfa;
     background-color: #5c7cfa;
   }
   50% {
-    // box-shadow: 0px 0px 10px 0px #5cfa9e;
+    box-shadow: 0px 0px 10px 0px #5cfa9e;
     background-color: #52966e;
   }
   75% {
-    // box-shadow: 0px 0px 10px 0px #fa8e5c;
+    box-shadow: 0px 0px 10px 0px #fa8e5c;
     background-color: #fa8e5c;
   }
   100% {
-    // box-shadow: 0px 0px 10px 0px #5c7cfa;
+    box-shadow: 0px 0px 10px 0px #5c7cfa;
     background-color: #5c7cfa;
   }
 }
 
 .online {
-  // box-shadow: 0px 0px 10px 0px #857ee0;
+  box-shadow: 0px 0px 10px 0px #857ee0;
   background-color: #857ee0;
 }
 .away {
+  box-shadow: 0px 0px 10px 0px #9c9c9c;
   background-color: #9c9c9c;
 }
 
@@ -236,20 +232,22 @@ video {
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}.no-bottom-border{
+}
+.no-bottom-border {
   border-bottom: none !important;
-  filter: none
-  !important;
+  filter: none !important;
 }
 
 .hero,
 .message,
-.button, .input, .textarea{
+.button,
+.input,
+.textarea {
   // border-radius: 0%;
   border-bottom: currentColor solid 4px;
   filter: drop-shadow(0px 0px 0.5rem rgb(37, 37, 37));
 }
-.button:hover{
+.button:hover {
   filter: drop-shadow(0px 0px 0.5rem rgb(100, 100, 100));
 }
 /* 
@@ -262,7 +260,6 @@ video {
 input[type="checkbox"] {
   accent-color: $success;
 }
-
 
 .markdown-body .task-list-item {
   list-style-type: none !important;
@@ -295,20 +292,22 @@ input[type="checkbox"] {
   top: -8px;
   left: -18px;
   display: block;
-  width:  14px;
+  width: 14px;
   height: 14px;
   color: #eee;
   background-color: #eee;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
 }
 
-.markdown-body .task-list-control input[type="checkbox"]:checked + .task-list-indicator::before {
+.markdown-body
+  .task-list-control
+  input[type="checkbox"]:checked
+  + .task-list-indicator::before {
   display: block;
   margin-top: -4px;
   margin-left: 2px;
   font-size: 16px;
   line-height: 1;
   content: "✔";
-  color: #1EBB52;
+  color: #1ebb52;
 }
-

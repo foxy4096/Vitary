@@ -3,7 +3,7 @@
 <div class="media item">
     <div class="media-left">
         <article class="image is-48x48">
-            <a href="{% url 'profile_view' person %}">
+            <a href="{% url 'user_detail' person %}">
                 <img src="{{ person.profile.image.url }}" alt="user-image" class="profile-img {{ person.profile.status }}">
             </a>
         </article>
@@ -11,7 +11,7 @@
     <div class="media-content">
         <span>
             <strong>
-                <a href="{% url 'profile_view' person %}" class="has-text-white">
+                <a href="{% url 'user_detail' person %}" class="has-text-white">
                     {{ person.get_full_name }}
                 </a>
             </strong>
@@ -29,7 +29,7 @@
         {% endif %}
 
 
-        <p class="subtitle is-6"><a href="{% url 'profile_view' person %}">
+        <p class="subtitle is-6"><a href="{% url 'user_detail' person %}">
                 <small class="small my-0">
                     @{{ person.username }}
                 </small>
@@ -43,14 +43,14 @@
 
         {% if user.is_authenticated %}
         {% if user == person %}
-        <a href="{% url 'profile_view' person.username %}"
+        <a href="{% url 'user_detail' person.username %}"
             class="button is-small is-white is-outlined is-pulled-right"><span>View</span> <span
                 class="icon">👀</span></a>
         {% else %}
         {% include 'accounts/extends/follow_button.html' with usr=person small=True %}
         {% endif %}
         {% else %}
-        <a href="{% url 'profile_view' person.username %}"
+        <a href="{% url 'user_detail' person.username %}"
             class="button is-small is-white is-outlined is-pulled-right"><span>View</span> <span
                 class="icon">👀</span></a>
         {% endif %}

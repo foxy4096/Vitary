@@ -9,10 +9,10 @@ Dashboard - Develop
 {% block content %}
 
 <div class="columns">
-    <div class="column is-4">
+    <div class="column is-4 is-6-tablet-only">
         <div class="box badge-primary">
             <figure class="image is-128x128">
-                <img src="{{ user.profile.image.url }}" alt="{{ user }}">
+                <img src="{{ user.profile.image.url }}" alt="{{ user }}" class="profile-img {{ user.profile.status }}">
             </figure>
             <br>
             <div id="devinfo">
@@ -20,7 +20,7 @@ Dashboard - Develop
                     {{ user.devprofile.get_full_name }}
                 </h3>
                 <p class="subtitle has-text-weight-light">
-                    <a href="{% url 'profile_view' user.username %}">
+                    <a href="{% url 'user_detail' user.username %}">
                         @{{ user.username }}
                     </a>
                 </p>
@@ -93,40 +93,39 @@ Dashboard - Develop
             </div>
         </div>
         <div class="box">
-            <div class="media">
-                <div class="media-left">
-                    <h4 class="title is-4">
+            <div class="level">
+                <div class="level-left">
+                    <h4 class="title is-6">
                         My Bots 🤖
                     </h4>
                 </div>
-                <div class="media-right">
-                    <button class="button" onclick="$('#bot_form').toggleClass('is-active')">
-                        Create a New Bot
+                <div class="level-right">
+                    <button class="button is-small" onclick="$('#bot_form').toggleClass('is-active')">
+                        Create New Bot
                     </button>
                 </div>
             </div>
             <hr>
             {% for bot in user.owner.all %}
             <div class="media">
-
                 <div class="media-left">
                     <figure class="image is-32x32">
-                            <img src="{{ bot.user.profile.image.url }}" alt="{{ bot }}" class="">
-                        </figure>
-                    </div>
-                    <div class="media-content">
-                        <p class="title is-5">
-                                {{ bot.name }}
-                        </p>
-                    </div>
-                    <div class="media-right">
-                        <a href="{% url 'developer_bot_detail' bot.id %}" class="button is-primary">
-                            View
-                        </a>
-                    </div>
+                        <img src="{{ bot.user.profile.image.url }}" alt="{{ bot }}" class="profile-img {{ bot.user.profile.status }}">
+                    </figure>
                 </div>
+                <div class="media-content">
+                    <p class="title is-5">
+                        {{ bot.name }}
+                    </p>
+                </div>
+                <div class="media-right">
+                    <a href="{% url 'developer_bot_detail' bot.id %}" class="button is-primary is-outlined">
+                        View
+                    </a>
+                </div>
+            </div>
             {% endfor %}
-                
+
         </div>
     </div>
     <div class="modal" id="bot_form">

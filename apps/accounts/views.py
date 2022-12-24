@@ -83,7 +83,7 @@ def profile(request, username):
     vits = paginator.get_page(page)
     return render(
         request,
-        "accounts/profile_view.html",
+        "accounts/user_detail.html",
         {"usr": usr, "vits": vits, "onProfile": True},
     )
 

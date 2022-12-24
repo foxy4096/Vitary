@@ -49,7 +49,7 @@ class Profile(models.Model):
         """
         from django.urls import reverse
 
-        return reverse("profile_view", kwargs={"username": self.user.username})
+        return reverse("user_detail", kwargs={"username": self.user.username})
 
     def get_4_followers(self):
         """
@@ -68,7 +68,7 @@ class Profile(models.Model):
         Returns the profile image
         """
         return mark_safe(
-            f'<img src="{self.image.url}" height=100px / style="border-radius: 50%">'
+            f'<img src="{self.image.url}" height=100px / style="border-radius: 10%">'
         )
 
     def to_json(self):

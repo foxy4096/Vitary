@@ -12,7 +12,7 @@
             <div class="media-content">
                 <strong>{{ user.get_full_name|default:user.get_username }}</strong>
                 <br>
-                <a href="{% url 'profile_view' user.username %}">@{{ user.get_username }}</a>
+                <a href="{% url 'user_detail' user.username %}">@{{ user.get_username }}</a>
             </div>
             <div class="media-right is-hidden-mobile">
                 Not {{ user.get_short_name|default:user.username }}? <a href="{% url 'logout' %}"

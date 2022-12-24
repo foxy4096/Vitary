@@ -17,7 +17,7 @@ Message: {{to_user.username.title}}
             </div>
             <div class="media-content">
                 <h5 class="title is-5">{{ to_user.get_full_name }}</h5>
-                <p class="subtitle"><a href="{% url 'profile_view' to_user.username %}">@{{to_user.username }}</a></p>
+                <p class="subtitle"><a href="{% url 'user_detail' to_user.username %}">@{{to_user.username }}</a></p>
             </div>
         </div>
         <div id="message-log" class="box" style="overflow: scroll; height:30%;">

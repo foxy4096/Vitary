@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Badge, Report
+
+from apps.core.models import Badge, Report
 
 
 class ReportAdmin(admin.ModelAdmin):
@@ -33,6 +34,6 @@ class BadgeAdmin(admin.ModelAdmin):
 admin.site.register(Badge, BadgeAdmin)
 admin.site.register(Report, ReportAdmin)
 
-admin.site.site_header = "Vitary Admin"
-admin.site.site_title = "Vitary Admin"
-admin.site.index_title = "Vitary Admin"
+admin.site.site_header = "Vitary Administrative Dashboard"
+admin.site.site_title = "Vitary Administrative Dashboard"
+admin.site.index_title = "Vitary Administrative Dashboard"

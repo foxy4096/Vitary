@@ -16,7 +16,7 @@
                 {{ comment.user.get_full_name| default:comment.user.username }}
             </strong>
             aka
-            <a href="{% url 'profile_view' comment.user.username %}">
+            <a href="{% url 'user_detail' comment.user.username %}">
                 @{{ comment.user }}
             </a>
         </span>

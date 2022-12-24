@@ -1,8 +1,7 @@
-from django.db import models
+import secrets
 
 from django.contrib.auth.models import User
-import uuid
-import secrets
+from django.db import models
 
 
 class DevProfile(models.Model):
@@ -31,7 +30,7 @@ class DevProfile(models.Model):
         """
         from django.urls import reverse
 
-        return reverse("profile_view", kwargs={"username": self.user.username})
+        return reverse("user_detail", kwargs={"username": self.user.username})
 
     def get_full_name(self):
         """
@@ -46,9 +45,7 @@ class Token(models.Model):
     """
 
     devprofile = models.OneToOneField(DevProfile, on_delete=models.CASCADE)
-    token = models.CharField(
-        max_length=255, unique=True, blank=True
-    )
+    token = models.CharField(max_length=255, unique=True, blank=True)
 
     def save(self, *args, **kwargs):
         """
@@ -57,7 +54,7 @@ class Token(models.Model):
         if not self.token:
             self.token = secrets.token_hex(16)
             super().save(*args, **kwargs)
-        
+
     def refresh_token(self, *args, **kwargs):
         self.token = secrets.token_hex(16)
         super().save(*args, **kwargs)
@@ -66,16 +63,18 @@ class Token(models.Model):
         return f"{self.devprofile.user.username}'s Token"
 
 
-
 class Bot(models.Model):
     """
     Bot model
     """
+
     name = models.CharField(max_length=50, unique=True)
     username = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner", blank=True, null=True)
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="owner", blank=True, null=True
+    )
     date = models.DateTimeField(auto_now=True)
     private_key = models.CharField(max_length=50, blank=True, null=True)
 
@@ -87,41 +86,46 @@ class Bot(models.Model):
 
     def to_json(self):
         return {
-            'id': self.id,
-            'name': self.name,
-            'description': self.description,
-            'date': self.date.strftime("%b %d, %Y %H:%M:%S"),
-            'endpoint': self.endpoint,
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "date": self.date.strftime("%b %d, %Y %H:%M:%S"),
+            "endpoint": self.endpoint,
         }
+
 
 class WebHook(models.Model):
     """
     WebHook model
     """
+
     REQUEST_TYPE_CHOICES = (
-        ('GET', 'GET'),
-        ('POST', 'POST'),
+        ("GET", "GET"),
+        ("POST", "POST"),
     )
     EVENT_TYPE = (
-        ('on_vit_mention', 'On Vit Mention'),
-        ('on_comment_mention', 'On Comment Mention'),
-        ('on_follow', 'On Follow'),
-        ('on_message', 'On Message'),
+        ("on_vit_mention", "On Vit Mention"),
+        ("on_comment_mention", "On Comment Mention"),
+        ("on_follow", "On Follow"),
+        ("on_message", "On Message"),
     )
     CONTENT_TYPE = (
-        ('application/json', 'application/json'),
-        ('application/x-www-form-urlencoded', 'application/x-www-form-urlencoded'),
+        ("application/json", "application/json"),
+        ("application/x-www-form-urlencoded", "application/x-www-form-urlencoded"),
     )
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True, null=True)
     bot = models.ForeignKey(Bot, on_delete=models.CASCADE, blank=True, null=True)
     payload_url = models.CharField(max_length=50)
-    event_type = models.CharField(max_length=50, choices=EVENT_TYPE, blank=True, null=True)
-    method = models.CharField(max_length=5, choices=REQUEST_TYPE_CHOICES, default='GET')
-    content_type = models.CharField(max_length=50, choices=CONTENT_TYPE, default='application/json')
+    event_type = models.CharField(
+        max_length=50, choices=EVENT_TYPE, blank=True, null=True
+    )
+    method = models.CharField(max_length=5, choices=REQUEST_TYPE_CHOICES, default="GET")
+    content_type = models.CharField(
+        max_length=50, choices=CONTENT_TYPE, default="application/json"
+    )
     date = models.DateTimeField(auto_now=True)
     required_authentication = models.BooleanField(default=False)
-
 
     def __str__(self):
         return self.name
@@ -131,13 +135,13 @@ class WebHook(models.Model):
 
     def to_json(self):
         return {
-            'id': self.id,
-            'name': self.name,
-            'username': self.username,
-            'description': self.description,
-            'date': self.date.strftime("%b %d, %Y %H:%M:%S"),
-            'url': self.url,
-            'event_type': self.event_type,
-            'method': self.method,
-            'required_authentication': self.required_authentication,
+            "id": self.id,
+            "name": self.name,
+            "username": self.username,
+            "description": self.description,
+            "date": self.date.strftime("%b %d, %Y %H:%M:%S"),
+            "url": self.url,
+            "event_type": self.event_type,
+            "method": self.method,
+            "required_authentication": self.required_authentication,
         }
