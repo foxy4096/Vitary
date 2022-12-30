@@ -38,6 +38,7 @@ def zen(request):
 
 
 @api.post("/login/", auth=None)
+@csrf_exempt
 def login(request, username: str = Form(...), password: str = Form(...)):
     """
     Login to the API.
