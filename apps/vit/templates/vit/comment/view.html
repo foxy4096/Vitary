@@ -33,7 +33,7 @@
                         {{ comment.date | naturaltime }}
                     </small>
                     <br>
-                    {{ comment.body | safe | mention | convert_markdown:user }}
+                    {{ comment.body | safe | mention | convert_markdown:comment.user }}
                 </p>
             </div>
         </div>

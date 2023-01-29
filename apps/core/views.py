@@ -160,6 +160,7 @@ def redirect_to_profile(request):
     return redirect("profile")
 
 
+@login_required
 def convert_markdown_to_html(request):
     return HttpResponse(
         convert_markdown.convert_markdown(
