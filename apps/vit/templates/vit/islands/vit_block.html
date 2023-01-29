@@ -99,7 +99,7 @@
         <br>
         <div>
             <div class="content" style="word-break: break-all;">
-                {{ vit.body| remove_image_link | plustag | safe | mention | convert_markdown }}
+                {{ vit.body| remove_image_link | plustag | safe | mention | convert_markdown:user }}
                 <div class="columns is-multiline">
                     {% if vit.embed_set.all|length > 1 %}
                     {% for embed in vit.embed_set.all %}

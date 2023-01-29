@@ -10,5 +10,5 @@
 {% endblock title %}
 {% block content %} 
 <h1 class="title is-1">{{ flatpage.title }}</h1>
-<div class="content">{{ flatpage.content | plustag | safe | mention | convert_markdown }}</div>
+<div class="content">{{ flatpage.content | plustag | safe | mention | convert_markdown:user }}</div>
 {% endblock content %}

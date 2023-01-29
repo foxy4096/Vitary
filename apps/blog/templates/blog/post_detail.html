@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="content article-body">
-                    <p class="has-text-centered">{{ post.body | safe | mention | convert_markdown }}</p>
+                    <p class="has-text-centered">{{ post.body | safe | mention | convert_markdown:user }}</p>
                 </div>
             </div>
         </div>

@@ -163,6 +163,6 @@ def redirect_to_profile(request):
 def convert_markdown_to_html(request):
     return HttpResponse(
         convert_markdown.convert_markdown(
-            mention.mention(request.POST.get("value", ""))
+            mention.mention(request.POST.get("value", "")), user=request.user
         )
     )

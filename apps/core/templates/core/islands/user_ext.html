@@ -36,7 +36,7 @@
             </a>
         </p>
         <div class="content is-hidden-mobile">
-            {{ person.profile.bio | safe | mention | convert_markdown }}
+            {{ person.profile.bio | safe | mention | convert_markdown:user }}
         </div>
     </div>
     <div class="media-right">

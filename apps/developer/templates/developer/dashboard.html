@@ -26,7 +26,7 @@ Dashboard - Develop
                 </p>
                 <p id="bio">
                 <div id="bio_data">
-                    {{ user.devprofile.bio | safe | mention | convert_markdown }}
+                    {{ user.devprofile.bio | safe | mention | convert_markdown:user }}
                 </div>
                 </p>
 

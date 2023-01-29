@@ -24,7 +24,13 @@ extension_configs = {
 
 @register.filter(name="convert_markdown", is_safe=True)
 @stringfilter
-def convert_markdown(value):
+def convert_markdown(value, user: None):
+    if user and user.profile.verified:
+        return markdown.markdown(
+            text=value, extensions=extensions, extension_configs=extension_configs
+        )
     return markdown.markdown(
-        text=bleach.clean(value), extensions=extensions, extension_configs=extension_configs
+        text=bleach.clean(value),
+        extensions=extensions,
+        extension_configs=extension_configs,
     )

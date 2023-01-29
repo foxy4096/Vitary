@@ -53,7 +53,7 @@
         </p>
 
         <p class="content">
-            {{ usr.profile.bio | mention | safe | convert_markdown}}
+            {{ usr.profile.bio | mention | safe | convert_markdown:user}}
         </p>
     </div>
 </div>

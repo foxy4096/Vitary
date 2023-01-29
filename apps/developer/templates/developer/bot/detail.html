@@ -24,7 +24,7 @@
                     <small>Updated {{ bot.date | naturaltime }}</small>
                 </p>
                 <p>
-                    {{ bot.description | safe | mention | convert_markdown }}
+                    {{ bot.description | safe | mention | convert_markdown:user }}
                 </p>
             </div>
         </div>
