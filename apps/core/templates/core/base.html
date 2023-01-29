@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
     <meta charset="UTF-8">
     <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
     <script src="{% static 'js/jquery.js' %}"></script>
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/srcery.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
+    <script src="{% static 'js/confetti.min.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <meta name="mobile-web-app-capable" content="yes">
@@ -30,7 +32,7 @@
         {% block title %}{% endblock title %} | Vitary
     </title>
     {% block meta %}
-
+    
     {% endblock meta %}
     <meta name="title" content="Vitary">
     <meta name="description" content="Vitary | Make New Friends Today!">
@@ -57,7 +59,7 @@
     <meta name="description" content="Vitary | Make New Friends Today!">
 </head>
 
-<body>
+<body class="body">
     {% include 'core/navbar.html' %}
     <div hx-boost="false">
         {% include 'core/search_modal.html' %}

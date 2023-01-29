@@ -17,6 +17,10 @@ class VitForm(forms.ModelForm):
                     "placeholder": "What's on your mind?",
                     "style": """height: 150px;""",
                     "id": "body",
+                    # "hx-post": "/convert/",
+                    # "hx-trigger": "keyup delay:500ms changed",
+                    # "hx-target": "#markdown-content",
+                    # "hx-swap-oob": "true"
                     "onKeyup": "processChange()",
                 }
             ),

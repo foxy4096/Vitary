@@ -83,6 +83,16 @@
                                 {{ group.name }}
                             </span>
                             {% endfor %}
+                            {% if usr.profile.date_of_birth %}
+                            <span class="tag is-dark" role="button" id="birthday" onclick="pop_conf()">
+                                <span class="icon">
+                                    🎂
+                                </span>
+                                <span>
+                                    {{ usr.profile.date_of_birth|date:"jS F" }}
+                                </span>
+                            </span>
+                            {% endif %}
                         </p>
                     </div>
                 </div>
@@ -93,6 +103,7 @@
                     </figure>
                     <br>
                     <h3 class="title is-3" id="name">
+
                         <span>
                             {{ usr.get_full_name | default:usr.username }}
                         </span>
@@ -131,6 +142,17 @@
                             {{ group.name }}
                         </span>
                         {% endfor %}
+
+                        {% if usr.profile.date_of_birth %}
+                        <span class="tag is-dark" onclick="pop_conf()">
+                            <span class="icon" id="birthday">
+                                🎂
+                            </span>
+                            <span>
+                                {{ usr.profile.date_of_birth }}
+                            </span>
+                        </span>
+                        {% endif %}
                     </p>
                 </div>
                 <br>
@@ -193,4 +215,13 @@
 
     {% block script %}
     <script src="{% static 'js/scroll.js' %}"></script>
+    {% if now|date:"jS F" != usr.profile.date_of_birth|date:"jS F" %}
+    <!-- Code to be executed -->
+    <script>
+
+        const jsConfetti = new JSConfetti()
+
+        jsConfetti.addConfetti()
+    </script>
+    {% endif %}
     {% endblock script %}

@@ -34,6 +34,8 @@ class Profile(models.Model):
     header_image = models.ImageField(upload_to="uploads/", blank=True, null=True)
     badges = models.ManyToManyField(Badge, blank=True)
     status = models.CharField(max_length=50, choices=STATUS, default="online")
+    date_of_birth = models.DateField(blank=True, null=True)
+
     allow_nsfw = models.BooleanField("Allow NSFW Content", default=False)
     auth_token = models.CharField(max_length=100, blank=True, null=True)
 

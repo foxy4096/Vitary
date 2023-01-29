@@ -87,3 +87,13 @@ class UsernameForm(forms.Form):
     class Meta:
         model = User
         fields = ["username"]
+
+class DateOfBirthForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["date_of_birth"]
+        widgets = {
+            "date_of_birth": forms.DateInput(
+                attrs={"type": "date", "id": "date_of_birth"}
+            ),
+        }

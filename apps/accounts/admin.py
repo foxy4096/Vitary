@@ -10,20 +10,27 @@ class ProfileInline(admin.StackedInline):
     """
     Including the profile model in the user model by inline admin
     """
+
     model = Profile
-    readonly_fields = ['profile_image', 'follower_count', 'following_count', 'auth_token']
+    readonly_fields = [
+        "profile_image",
+        "follower_count",
+        "following_count",
+        "auth_token",
+    ]
     fields = [
-        'profile_image',
-        'image',
-        'email_notif',
-        'verified',
-        'bio',
-        'follower_count',
-        'following_count',
-        'header_image',
-        'badges',
-        'status',
-        'auth_token'
+        "profile_image",
+        "image",
+        "email_notif",
+        "verified",
+        "bio",
+        "follower_count",
+        "following_count",
+        "header_image",
+        "badges",
+        "status",
+        "auth_token",
+        "date_of_birth",
     ]
     can_delete = False
 
@@ -42,7 +49,7 @@ make_verified.short_description = "Make Selected Users Verified"
 
 
 def make_unverified(self, request, queryset):
-    """  
+    """
     Make Selected users profile unverified
     """
     for user in queryset:
@@ -58,7 +65,10 @@ class UserAdmin(BaseUserAdmin):
     """
     Adding the profile inline in user model admin
     """
-    inlines = [ProfileInline,]
+
+    inlines = [
+        ProfileInline,
+    ]
     actions = [make_verified, make_unverified]
 
 

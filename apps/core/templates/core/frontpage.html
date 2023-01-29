@@ -8,49 +8,57 @@ Home
 
 {% block no_padding %}
 <div class="no-bottom-border hero is-black is-medium">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-                <img 
-                src="{% static 'img/Vitary_logo_small.png' %}" 
-                alt="Logo"
-                >
-            <h1 class="title is-1 has-text-weight-bold">
-                Welcome to Vitary!
-            </h1>
-            <h2 class="subtitle">
-                A New Way To Make Friends.
-            </h2>
-            <div hx-boost="false">
-                <a href="{% url 'signup' %}" class="button is-large mb-3">Join Now 🚀</a>
-                <a href="{% url 'login' %}" class="button is-success is-outlined is-large">Login 🔐</a>
-            </div>
-        </div>
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <img src="{% static 'img/Vitary_logo_small.png' %}" alt="Logo">
+      <h1 class="title is-1 has-text-weight-bold">
+        Welcome to Vitary!
+      </h1>
+      <h2 class="subtitle">
+        A New Way To Make Friends.
+      </h2>
+      <div hx-boost="false">
+        <a href="{% url 'signup' %}" class="button is-large mb-3">Join Now 🚀</a>
+        <a href="{% url 'login' %}" class="button is-success is-outlined is-large">Login 🔐</a>
+      </div>
     </div>
+  </div>
 </div>
 <hr>
 {% endblock no_padding %}
 
 
 {% block content %}
-<nav class="level">
-    <div class="level-item has-text-centered">
-      <div>
-        <p class="heading"><a href="{% url 'explore' %}">Vits</a></p>
-        <p class="title">{{vit_count}}</p>
-      </div>
-    </div>
-    <div class="level-item has-text-centered">
-      <div>
-        <p class="heading"><a href="{% url 'peoples' %}">Users</a></p>
-        <p class="title">{{users_count}}</p>
-    </div>
+<div class="columns">
+  <div class="column"></div>
+  <div class="column is-8">
+
+    {% include 'vit/islands/vit_block.html' with vit=random_vit %}
+
+  </div>
+  <div class="column"></div>
 </div>
-<div class="level-item has-text-centered">
+<hr>
+<nav class="level">
+  <div class="level-item has-text-centered">
     <div>
-          <p class="heading"><a href="{% url 'developer_home' %}">Developers</a></p>
-        <p class="title">{{dev_count}}</p>
-      </div>
+      <p class="heading"><a href="{% url 'explore' %}">Vits</a></p>
+      <p class="title">{{vit_count}}</p>
     </div>
-  </nav>
+  </div>
+  <div class="level-item has-text-centered">
+    <div>
+      <p class="heading"><a href="{% url 'peoples' %}">Users</a></p>
+      <p class="title">{{users_count}}</p>
+    </div>
+  </div>
+  <div class="level-item has-text-centered">
+    <div>
+      <p class="heading"><a href="{% url 'developer_home' %}">Developers</a></p>
+      <p class="title">{{dev_count}}</p>
+    </div>
+  </div>
+</nav>
+
+
 {% endblock content %}
-    

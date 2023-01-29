@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
 
-from .forms import UserForm, ProfileForm, UserRegisterForm, UsernameForm
+from .forms import UserForm, ProfileForm, UserRegisterForm, UsernameForm, DateOfBirthForm
 
 
 def signup(request):
@@ -27,7 +27,6 @@ def signup(request):
                     "Username already exists! \n Woops look like someone have already taken your identity",
                     extra_tags="danger",
                 )
-                return redirect("signup")
             elif request.POST["password1"] != request.POST["password2"]:
                 messages.add_message(
                     request,
@@ -35,7 +34,6 @@ def signup(request):
                     "Passwords do not match \n Please don't rush.",
                     extra_tags="danger",
                 )
-                return redirect("signup")
             else:
                 messages.add_message(
                     request,
@@ -43,7 +41,7 @@ def signup(request):
                     "Unknown Error Occured! \n It means that we are fu**** up",
                     extra_tags="danger",
                 )
-                return redirect("signup")
+            return redirect("signup")
     else:
         form = UserRegisterForm()
         return render(request, "accounts/signup.html", {"form": form})
@@ -57,16 +55,19 @@ def profile_edit(request):
     if request.method == "POST":
         uform = UserForm(request.POST, instance=request.user)
         pform = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        if uform.is_valid() and pform.is_valid():
+        dform = DateOfBirthForm(request.POST, instance=request.user.profile)
+        if uform.is_valid() and pform.is_valid() and dform.is_valid():
             uform.save()
             pform.save()
+            dform.save()
             messages.success(request, "Profile Edited Successfully! \n You look nice!")
             return redirect("profile")
     else:
         uform = UserForm(instance=request.user)
         pform = ProfileForm(instance=request.user.profile)
+        dform = DateOfBirthForm(instance=request.user.profile)
         return render(
-            request, "accounts/profile.html", {"uform": uform, "pform": pform}
+            request, "accounts/profile.html", {"uform": uform, "pform": pform, "dform": dform}
         )
 
 
@@ -164,14 +165,13 @@ def delete_account(request):
     """
     View for deleting account
     """
-    if request.method == "POST":
-        user = request.user
-        logout(request)
-        user.is_active = False
-        messages.success(request, "Account Deleted Successfully!")
-        return redirect("home")
-    else:
+    if request.method != "POST":
         return render(request, "accounts/delete_account.html")
+    user = request.user
+    logout(request)
+    user.is_active = False
+    messages.success(request, "Account Deleted Successfully!")
+    return redirect("home")
 
 
 @login_required

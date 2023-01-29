@@ -3,7 +3,8 @@ from .forms import VitForm
 
 def get_latest_vits(request):
     vits = Vit.latest_vits()
-    return {'latest_vits': vits}
+    random_vit = Vit.objects.order_by("?").first()
+    return {'latest_vits': vits, 'random_vit': random_vit}
 
 def vit_form(request):
     vit_form = VitForm()
