@@ -215,13 +215,15 @@
 
     {% block script %}
     <script src="{% static 'js/scroll.js' %}"></script>
-    {% if now|date:"jS F" != usr.profile.date_of_birth|date:"jS F" %}
-    <!-- Code to be executed -->
     <script>
+        var current_day = new Date().getDate()
+        var current_month = new Date().getMonth() + 1
 
-        const jsConfetti = new JSConfetti()
+        if (current_day == "{{usr.profile.date_of_birth|date:'j'}}" && current_month == "{{ usr.profile.date_of_birth|date:'n' }}") {
+            console.log("Happy Birthday 🎂 🎈");
+            const jsConfetti = new JSConfetti()
 
-        jsConfetti.addConfetti()
+            jsConfetti.addConfetti()
+        }
     </script>
-    {% endif %}
     {% endblock script %}
