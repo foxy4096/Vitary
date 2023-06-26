@@ -2,6 +2,7 @@
 {% load humanize %}
 {% load mention %}
 {% load convert_markdown %}
+{% load fetch_gravatar %}
 {% load static %}
 
 {% block title %}
@@ -25,205 +26,142 @@
 
 
 {% block content %}
-<div class="columns">
-    <div class="column is-8">
-        <div class="card">
-            {% if usr.profile.header_image %}
-            <div class="card-image">
-                <figure class="image 16by9">
-                    <img src="{{usr.profile.header_image.url}}" alt="Placeholder image">
-                </figure>
-            </div>
-            {% endif %}
-            <div class="card-content">
-                <div class="media is-hidden-mobile">
-                    <div class="media-left">
-                        <figure class="image is-128x128">
-                            <img src="{{ usr.profile.image.url }}" alt="{{ user }}"
-                                class="profile-img {{ usr.profile.status }}">
-                        </figure>
-                    </div>
-                    <div class="media-content">
-                        <h3 class="title is-3 has-text-weight-bold" id="name">
-                            <span>
-                                {{ usr.get_full_name | default:usr.username }}
-                            </span>
-                            {% if usr.profile.verified %}
-                            <span class="icon" title="Verified">
-                                <i class="bi bi-patch-check-fill"></i>
-                            </span>
-                            {% endif %}
-                        </h3>
-                        <p class="subtitle has-text-weight-light">
-                            @{{ usr.username }}
-                            {% if usr.is_superuser %}
-                            <span class="tag" title="Co-Founder ✔">
-                                Co-Founder ✔️
-                            </span>
-                            {% endif %}
-                            {% if usr.is_staff %}
-                            <span class="tag" title="Staff ✔">
-                                Staff ✔️
-                            </span>
-                            {% endif %}
-                            {% if usr.bot %}
-                            <span class="tag is-link" title="Bot 🤖">
-                                Bot 🤖
-                            </span>
-                            {% endif %}
-                            {% for badge in usr.profile.badges.all %}
-                            <a href="{% url 'badge' badge.id %}">
-                                <span class="tag is-{{badge.color}}" title="{{ badge.name }}">
-                                    {{ badge.name }}
-                                </span>
-                            </a>
-                            {% endfor %}
-                            {% for group in usr.groups.all %}
-                            <span class="tag is-link" title="{{ group.name }}">
-                                {{ group.name }}
-                            </span>
-                            {% endfor %}
-                            {% if usr.profile.date_of_birth %}
-                            <span class="tag is-dark" role="button" id="birthday" onclick="pop_conf()">
-                                <span class="icon">
-                                    🎂
-                                </span>
-                                <span>
-                                    {{ usr.profile.date_of_birth|date:"jS F" }}
-                                </span>
-                            </span>
-                            {% endif %}
-                        </p>
-                    </div>
-                </div>
-                <div class="is-hidden-tablet">
-                    <figure class="image is-128x128">
-                        <img src="{{ usr.profile.image.url }}" alt="{{ user }}"
-                            class="profile-img {{ usr.profile.status }} {% if usr.profile.header_image %} profile-img-page {% endif %}">
-                    </figure>
-                    <br>
-                    <h3 class="title is-3" id="name">
-
-                        <span>
-                            {{ usr.get_full_name | default:usr.username }}
-                        </span>
-                        {% if usr.profile.verified %}
-                        <span class="icon" title="Verified">
-                            <i class="bi bi-patch-check-fill"></i>
-                        </span>
-                        {% endif %}
-                    </h3>
-                    <p class="subtitle has-text-weight-light">
-                        @{{ usr.username }}
-                        {% if usr.is_superuser %}
-                        <span class="tag" title="Co-Founder ✔">
-                            Co-Founder ✔️
-                        </span>
-                        {% endif %}
-                        {% if usr.is_staff %}
-                        <span class="tag" title="Staff ✔">
-                            Staff ✔️
-                        </span>
-                        {% endif %}
-                        {% if usr.bot %}
-                        <span class="tag is-link" title="Bot 🤖">
-                            Bot 🤖
-                        </span>
-                        {% endif %}
-                        {% for badge in usr.profile.badges.all %}
-                        <a href="{% url 'badge' badge.id %}">
-                            <span class="badge-{{badge.color}} tag is-{{badge.color}}" title="{{ badge.name }}">
-                                {{ badge.name }}
-                            </span>
-                        </a>
-                        {% endfor %}
-                        {% for group in usr.groups.all %}
-                        <span class="tag is-link" title="{{ group.name }}">
-                            {{ group.name }}
-                        </span>
-                        {% endfor %}
-
-                        {% if usr.profile.date_of_birth %}
-                        <span class="tag is-dark" onclick="pop_conf()">
-                            <span class="icon" id="birthday">
-                                🎂
-                            </span>
-                            <span>
-                                {{ usr.profile.date_of_birth }}
-                            </span>
-                        </span>
-                        {% endif %}
-                    </p>
-                </div>
-                <br>
-                <div id="info">
-                    {% if usr.devprofile %}
-                    <p class="has-text-weight-light is-underlined">
-                        Highlights
-                    </p>
-                    <a href="{% url 'developer_home' %}">Developer 💻</a>
-                    {% endif %}
-                </div>
-                <p class="content">
-                    {{ usr.profile.bio | mention | safe | convert_markdown:usr}}
-                </p>
-                <br>
-                <span>
-                    Followers: <a href="{% url 'followers' usr.username %}" id="follower_count">
-                        {{ usr.profile.follower_count }}
-                    </a>
-                    Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.following_count }}</a>
-                </span>
-                <br>
-                <br>
-                <div class="buttons">
-                    {% if user == usr %}
-                    <a href="{% url 'profile' %}" class="button is-link is-outlined">Edit Profile  📝</a>
-                    {% else %}
-                    {% if user.is_authenticated %}
-                    {% include 'accounts/extends/follow_button.html' with usr=usr %}
-                    {% else %}
-                    <a href="{% url 'login' %}" class="button is-success"><span>Follow</span><span class="icon"><i
-                                class="bi bi-person-plus-fill"></i></span></a>
-                    {% endif %}
-                    {% endif %}
-                    {% if not usr == user %}
-                      <a href="{% url 'message_user' usr.username %}"
-                        class="button is-warning is-outlined">Message  📨</a>
-                    {% endif %}
-
-                    {% if user.is_staff %}
-                      <a href="{% url 'admin:auth_user_change' usr.id %}" class="button is-info is-outlined"><span
-                            class="icon"><i class="bi bi-pencil-square"></i></span></a>
-                    {% endif %}
-                </div>
-                <a href="{% url 'report' %}?url={{ usr.profile.get_absolute_url }}">Report User</a>
-            </div>
-        </div>
+<div class="card">
+    {% if usr.profile.header_image %}
+    <div class="card-image">
+        <figure class="image 16by9">
+            <img src="{{usr.profile.header_image.url}}" alt="Placeholder image">
+        </figure>
+    </div>
+    {% endif %}
+    <div class="card-content">
+        <figure class="image is-128x128">
+            <img src="{{ usr.profile.image.url }}" alt="{{ usr }}"
+                class="is-rounded {{ usr.profile.status }} {% if usr.profile.header_image %} is-rounded-page {% endif %}">
+        </figure>
         <br>
-        <div id="data">
-            {% for vit in vits %}
-            {% include 'vit/islands/vit_block.html' %}
+        <h3 class="title is-3" id="name">
+            <span>
+                {{ usr.get_full_name | default:usr.username }}
+            </span>
+            {% if usr.profile.verified %}
+            <span class="icon" title="Verified">
+                <i class="bi bi-patch-check-fill"></i>
+            </span>
+            {% endif %}
+        </h3>
+        <p class="subtitle has-text-weight-light">
+            @{{ usr.username }}
+            {% if usr.is_superuser %}
+            <span class="tag" title="Co-Founder ✔">
+                Co-Founder ✔️
+            </span>
+            {% endif %}
+            {% if usr.is_staff %}
+            <span class="tag" title="Staff ✔">
+                Staff ✔️
+            </span>
+            {% endif %}
+            {% if usr.bot %}
+            <span class="tag is-link" title="Bot 🤖">
+                Bot 🤖
+            </span>
+            {% endif %}
+            {% for badge in usr.profile.badges.all %}
+            <a href="{% url 'badge' badge.id %}">
+                <span class="badge-{{badge.color}} tag is-{{badge.color}}" title="{{ badge.name }}">
+                    {{ badge.name }}
+                </span>
+            </a>
             {% endfor %}
+            {% for group in usr.groups.all %}
+            <span class="tag is-link" title="{{ group.name }}">
+                {{ group.name }}
+            </span>
+            {% endfor %}
+
+            {% if usr.profile.date_of_birth %}
+            <span class="tag is-dark" onclick="pop_conf()" title="Click me!">
+                <span class="icon" id="birthday">
+                    🎂
+                </span>
+                <span>
+                    {{ usr.profile.date_of_birth }}
+                </span>
+            </span>
+            {% endif %}
+        </p>
+        <br>
+        <div id="info">
+            {% if usr.devprofile %}
+            <p class="has-text-weight-light is-underlined">
+                Highlights
+            </p>
+            <a href="{% url 'developer_home' %}">Developer 💻</a>
+            {% endif %}
         </div>
-        {% include 'core/islands/pagination.html' with page=vits %}
+        <p class="content">
+            {{ usr.profile.bio | mention | safe | convert_markdown:usr}}
+        </p>
+        <br>
+        <span>
+            Followers: <a href="{% url 'followers' usr.username %}" id="follower_count">
+                {{ usr.profile.follower_count }}
+            </a>
+            Following: <a href="{% url 'following' usr.username %}">{{ usr.profile.following_count }}</a>
+        </span>
+        <br>
+        <br>
+        <div class="buttons">
+            {% if user == usr %}
+            <a href="{% url 'edit_profile' %}" class="button is-link ">Edit Profile  📝</a>
+            {% else %}
+            {% if user.is_authenticated %}
+            {% include 'accounts/islands/follow_button.html' with usr=usr %}
+            {% else %}
+            <a href="{% url 'intent' 'follow' usr.username %}" class="button is-success"><span>Follow</span><span
+                    class="icon"><i class="bi bi-person-plus-fill"></i></span></a>
+            {% endif %}
+            {% endif %}
+            {% if not usr == user %}
+              <a href="{% url 'message_user' usr.username %}" class="button is-warning ">Message  📨</a>
+            {% endif %}
+
+            {% if user.is_staff %}
+              <a href="{% url 'admin:auth_user_change' usr.id %}" class="button is-info "><span class="icon"><i
+                        class="bi bi-pencil-square"></i></span></a>
+            {% endif %}
+        </div>
+        <a href="{% url 'report' %}?url={{ usr.profile.get_absolute_url }}">Report User</a>
     </div>
-    <div class="column is-4">
-        {% include 'core/islands/side_block.html' %}
-    </div>
-    {% endblock content %}
+</div>
+<br>
+<div id="data">
+    {% for vit in vits %}
+    {% include 'vit/islands/vit_block.html' %}
+    {% endfor %}
+</div>
+{% include 'core/islands/pagination.html' with page=vits %}
+{% if request.GET.follow and usr != user %}
+{% include 'accounts/islands/follow_modal.html' with usr=usr %}
+{% endif %}
+{% endblock content %}
 
-    {% block script %}
-    <script src="{% static 'js/scroll.js' %}"></script>
-    <script>
-        var current_day = new Date().getDate()
-        var current_month = new Date().getMonth() + 1
+{% block script %}
+<script src="{% static 'js/scroll.js' %}"></script>
+<script src="{% static 'js/confetti.min.js' %}"></script>
 
-        if (current_day == "{{usr.profile.date_of_birth|date:'j'}}" && current_month == "{{ usr.profile.date_of_birth|date:'n' }}") {
-            console.log("Happy Birthday 🎂 🎈");
-            const jsConfetti = new JSConfetti()
+<script>
+    var current_day = new Date().getDate()
+    const confetti = new JSConfetti();
+    var current_month = new Date().getMonth() + 1
+    function pop_conf() {
+        confetti.addConfetti()
+    }
 
-            jsConfetti.addConfetti()
-        }
-    </script>
-    {% endblock script %}
+    if (current_day == "{{usr.profile.date_of_birth|date:'j'}}" && current_month == "{{ usr.profile.date_of_birth|date:'n' }}") {
+        console.log("Happy Birthday 🎂 🎈");
+        pop_conf();
+    }
+</script>
+{% endblock script %}

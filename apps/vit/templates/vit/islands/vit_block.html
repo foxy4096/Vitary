@@ -1,22 +1,25 @@
 {% load static %}
 {% load mention %}
 {% load convert_markdown %}
-{% load image_tag %}
+{% load media_tag %}
 {% load plustag %}
+
 {% load humanize %}
-<div class="card item mb-4" id="vit-{{ vit.pk }}">
+<div class="card item mb-4" id="vit-{{ vit.pk }}" hx-boost="true">
     <div class="card-content">
         <div class="media">
             <div class="media-left">
                 <figure class="image is-48x48 is-square">
-                    <img class="profile-img {{ vit.user.profile.status }}" src="{{ vit.user.profile.image.url }}"
+                    <img class="is-rounded {{ vit.user.profile.status }}" src="{{ vit.user.profile.image.url }}"
                         alt="{{ user.username }}" loading="lazy">
                 </figure>
             </div>
             <div class="media-content">
-                <h5 class="" style="word-break: all;">{{ vit.user.get_full_name }}{% if vit.user.profile.verified %}
+                <h5 style="word-break: all;"><b>{{ vit.user.get_full_name }}</b>{% if vit.user.profile.verified %}
                     <span class="tag is-dark is-small" title="Verified">
-                        ✔️
+                        <span class="icon">
+                            ✔️
+                        </span>
                     </span>
                     {% endif %}
                 </h5>
@@ -59,19 +62,21 @@
                             </a>
                             {% endif %}
                             {% if vit.user == request.user %}
-                            <a href="{% url 'edit_vit' vit.id %}" class="dropdown-item">
+                            <a href="{% url 'edit_vit' vit.id %}"
+                                hx-include='{"csrfmiddlewaretoken": "{{ csrf_token }}"}' class="dropdown-item">
                                 <span class="icon"><i class="bi bi-pencil-fill"></i></span>
                                 <span>Edit</span>
                             </a>
-                            <a href="{% url 'delete_vit' vit.id %}" class="dropdown-item">
+                            <a href="{% url 'delete_vit' vit.id %}" hx-post="{% url 'delete_vit' vit.id %}"
+                                hx-confirm="Are you sure?" hx-target="#vit-{{ vit.pk }}" hx-swap="delete"
+                                class="dropdown-item">
                                 <span class="icon">
                                     <i class="bi bi-trash-fill"></i>
                                 </span>
                                 <span>Delete</span>
                             </a>
                             {% endif %}
-                            <a href="javascript:void(0);" id="copyButton" onclick="copyLink('{{ vit.id }}')"
-                                class="dropdown-item">
+                            <a id="copyButton" role="button" onclick="copyLink('{{ vit.id }}')" class="dropdown-item">
                                 <span class="icon"><i class="bi bi-clipboard-fill"></i></span>
                                 <span id="copyLink_{{ vit.id }}">Copy</span> 
                             </a>
@@ -96,10 +101,10 @@
                 </div>
             </div>
         </div>
-        <br>
         <div>
             <div class="content" style="word-break: break-all;">
-                {{ vit.body| remove_image_link | plustag | safe | mention | convert_markdown:vit.user }}
+
+                {{ vit.body| remove_image_link | remove_video_link | plustag | safe | mention | convert_markdown:vit.user }}
                 <div class="columns is-multiline">
                     {% if vit.embed_set.all|length > 1 %}
                     {% for embed in vit.embed_set.all %}
@@ -117,10 +122,15 @@
                 </div>
 
 
-                <div class="columns is-multiline has-text-centered">
+                <div class="columns is-multiline">
                     {% for image in vit.body|image_tag %}
-                    <div class="column">
+                    <div class="column is-half mimg">
                         {{image|safe}}
+                    </div>
+                    {% endfor %}
+                    {% for video in vit.body|video_tag %}
+                    <div class="column is-half mimg">
+                        {{video|safe}}
                     </div>
                     {% endfor %}
                 </div>
@@ -131,8 +141,8 @@
                 <div class="column">
                     <div class="card">
                         <div class="card-image">
-                            <article class="image vit_image" style="overflow-y: auto;">
-                                <img src="{{ vit.image.url }}" alt="vit_image" class="" loading="lazy">
+                            <article class="image vit_image is-rounded" style="overflow-y: auto;">
+                                <img src="{{ vit.image.url }}" alt="{{ vit.image.name }}" class="" loading="lazy">
                             </article>
                         </div>
                     </div>
@@ -163,17 +173,17 @@
         </a>
         {% endif %}
         {% if user.is_authenticated %}
-        <a hx-get="{% url 'api:like' vit.id %}" hx-target="#like_count_{{ vit.pk }}" hx-swap="innerHTML" class="vit_like card-footer-item"
-            id="{{ vit.pk }}">
+        <a hx-get="{% url 'api:like' vit.id %}" hx-target="#like_count_{{ vit.pk }}" hx-swap="innerHTML"
+            class="vit_like card-footer-item" id="{{ vit.pk }}">
             <span class="icon">
                 <i class="bi bi-hand-thumbs-up-fill"></i>
             </span>
             <span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span>
         </a>
         {% else %}
-        <a href="{% url 'login' %}" class="card-footer-item">
+        <a href="{% url 'intent' 'like' vit.id %}" class="card-footer-item">
             <span class="icon">
-                <i class="bi bi-star" id="vit_like_icon_{{vit.id}}"></i>
+                <i class="bi bi-hand-thumbs-up-fill"></i>
             </span>
             <span id="like_count_{{vit.pk}}">{{ vit.likes.all.count }}</span>
             {% endif %}
@@ -182,8 +192,9 @@
                     <i class="bi bi-chat-left-text-fill"></i>
                 </span>
                 <span>
-                    {{ vit.comment_set.all.count }}
+                    {{ vit.comment_set.count }}
                 </span>
             </a>
     </footer>
 </div>
+<div id="reply_form_{{vit.id}}"></div>

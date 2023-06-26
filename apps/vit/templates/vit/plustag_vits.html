@@ -15,7 +15,7 @@
                 <div class="columns is-vcentered">
                     <div class="column">
                         <h1 class="title is-3">
-                            <span class="icon box has-background-dark">
+                            <span class="icon box">
                                 <i class="bi bi-plus"></i>
                             </span>
                             <span>{{ plustag.name.title }}</span>
@@ -23,7 +23,7 @@
                     </div>
                     <div class="column is-3">
                         {% if user.is_staff %}
-                        <a href="{% url 'admin:vit_plustag_change' plustag.id %}" class="button is-info is-outlined"
+                        <a href="{% url 'admin:vit_plustag_change' plustag.id %}" class="button is-info "
                             target="_blank"><span class="icon"><i class="bi bi-pencil-square"></i></span></a>
                         {% endif %}
                     </div>

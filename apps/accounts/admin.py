@@ -13,23 +13,19 @@ class ProfileInline(admin.StackedInline):
 
     model = Profile
     readonly_fields = [
-        "profile_image",
         "follower_count",
         "following_count",
-        "auth_token",
     ]
     fields = [
-        "profile_image",
-        "image",
         "email_notif",
         "verified",
         "bio",
         "follower_count",
         "following_count",
+        "image",
         "header_image",
         "badges",
         "status",
-        "auth_token",
         "date_of_birth",
     ]
     can_delete = False

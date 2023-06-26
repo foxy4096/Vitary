@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.conf import settings
+
+from django.contrib import admin
 
 
 class Report(models.Model):
@@ -55,3 +58,21 @@ class Badge(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+
+class Document(models.Model):
+    FILE_TYPE = (
+        ("IMAGE", "image"),
+        ("VIDEO", "video"),
+        ("AUDIO", "audio"),
+        ("OTHER", "other"),
+    )
+    file_type = models.CharField(max_length=10, choices=FILE_TYPE, default="IMAGE")
+    file = models.FileField(upload_to="files/")
+
+    @admin.display
+    def file_url(self):
+        return settings.WEB_HOST + self.file.url
+    
+    def __str__(self):
+        return self.file.name

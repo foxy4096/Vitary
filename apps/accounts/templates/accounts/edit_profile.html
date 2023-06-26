@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load bulma_tags %}
+{% load socialaccount %}
+{% load static %}
+{% block title %}
+Your Profile
+{% endblock title %}
+
+{% block no_padding %}
+{% include 'core/islands/header.html' with heading="Edit Profile" %}
+{% endblock no_padding %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data" hx-boost="false" class="box">
+    {{ uform | bulma }}
+    {{ dform | bulma }}
+    <br>
+
+    <figure class="image is-128x128">
+        <img class="is-rounded" src="{{ user.profile.image.url }}">
+    </figure>
+    {{ pform | bulma }}
+    {% csrf_token %}
+    <div class="field">
+        <div class="control">
+
+            <div class="buttons">
+                <button type="submit" class="button is-success ">Save
+                    💾
+                </button>
+                <a href='{% provider_login_url "github" process="connect" %}' class="button">
+                    <span>
+                        Connect With GitHub
+                    </span>
+                    <span class="icon">
+                        <i class="bi bi-github"></i>
+                    </span>
+                </a>
+                <a href="{% url 'advance_settings' %}" class="button is-link is-warning">Advance Settings 🔧</a>
+            </div>
+            <a href="{% url 'socialaccount_connections' %}" >
+                    Your Social Account Connections
+            </a>
+        </div>
+    </div>
+</form>
+
+
+{% endblock content %}

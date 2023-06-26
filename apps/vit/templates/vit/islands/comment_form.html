@@ -1,4 +1,4 @@
-<form method="POST">
+<form method="POST" hx-boost="false">
     {% csrf_token %}
     {% if comment_id %}
     <input type="hidden" name="comment_id" value="{{comment_id}}">
@@ -9,7 +9,7 @@
                 <figure class="image is-48x48">
                     <a href="{% url 'user_detail' user.username %}">
                         <img src="{{ user.profile.image.url }}" alt="{{user}}"
-                            class="profile-img {{ user.profile.status }}">
+                            class="is-rounded {{ user.profile.status }}">
                     </a>
                 </figure>
             </div>
@@ -19,12 +19,6 @@
                         <textarea class="textarea" name="body" required
                             placeholder="Write Comment here, Use mentions and markdown"></textarea>
                     <p class="help"><a href="https://www.markdownguide.org/" target="_blank">
-                            <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"
-                                data-view-component="true">
-                                <path fill-rule="evenodd" fill="white"
-                                    d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z">
-                                </path>
-                            </svg>
                             Styling with Markdown is supported
                         </a>
                     </p>
@@ -32,7 +26,7 @@
                 </div>
                 <div class="field">
                     <p class="control">
-                        <button type="submit" class="button">
+                        <button type="submit" class="button is-primary">
                             <span>Submit</span>
                             <span class="icon">✔️</span>
                             </span>

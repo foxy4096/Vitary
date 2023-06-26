@@ -163,7 +163,7 @@ def webhook_delete(request, id, webhook_id):
 
 @login_required
 def webhook_edit(request, id, webhook_id):
-    webhook = get_object_or_404(WebHook, id=webhook_id, bot_owner=request.user)
+    webhook = get_object_or_404(WebHook, id=webhook_id, bot__owner=request.user)
     if request.method == "POST":
         form = WebHookForm(request.POST, instance=webhook)
         if form.is_valid():

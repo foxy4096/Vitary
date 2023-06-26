@@ -1,0 +1,1 @@
+is_htmx_request = lambda request: request.headers.get('HX-Request') == 'true'

@@ -15,59 +15,22 @@ Search
         <div class="control">
             <input class="input" type="text" placeholder="Search..." id="search" name="q" value="{{query}}">
         </div>
-        <p class="help">Tip: Pressing <code>CTRL + Q</code> Will Open the Search And Pressing <code>ESC</code>
-            Will
-            Close It.</p>
-
-        <p class="help">Tip: Adding <code>@</code> at the start will search for users</p>
     </div>
     <div class="control">
-        <button type="submit" class="button is-link is-outlined is-large"><span>Search</span><span class="icon"><i
-                    class="bi bi-search"></i></span></button>
+        <button type="submit" class="button is-link is-fullwidth">
+            <span>Search</span>
+            <span class="icon">
+                <i class="bi bi-search"></i></span>
+        </button>
     </div>
 </form>
 <br>
-
-<div class="tabs is-centered is-boxed">
-    <ul>
-        {% if stype == "vits" %}
-        <li class="is-active"><a>Vits 📰</a></li>
-        <li><a href="{% url 'search' %}?q={{query}}&stype=users">Users 👤</a></li>
-        {% else %}
-        <li><a href="{% url 'search' %}?q={{query}}&stype=vits">Vits 📰</a></li>
-        <li class="is-active"><a>Users 👤</a></li>
-        {% endif %}
-    </ul>
-</div>
-
-
-<div class="columns">
-    <div class="column is-2"></div>
-
-    <div class="column is-8">
-        {% if stype == "vits" %}
         {% for vit in vits %}
         {% include 'vit/islands/vit_block.html' %}
         {% empty %}
-        <p class="subtitle">
+        <p class="subtitle has-text-centered">
             No results found.
         </p>
         {% endfor %}
         {% include 'core/islands/pagination.html' with page=vits %}
-        {% endif %}
-        {% if stype == "users" %}
-        <div class="box">
-            {% for person in persons %}
-            {% include 'core/islands/user_ext.html' with person=person %}
-            {% empty %}
-            <p class="subtitle">
-                No results found.
-            </p>
-            {% endfor %}
-        </div>
-        {% include 'core/islands/pagination.html' with page=persons %}
-        {% endif %}
-    </div>
-    <div class="column is-2"></div>
-</div>
 {% endblock content %}

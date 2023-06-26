@@ -2,17 +2,15 @@
 {% load static %}
 
 {% block title %}
-People
+Users
 {% endblock title %}
 
 
 {% block no_padding %}
-{% include 'core/islands/header.html' with heading="People" %}
+{% include 'core/islands/header.html' with heading="Users" %}
 {% endblock no_padding %}
 
 {% block content %}
-<div class="columns">
-    <div class="column is-8">
         <div class="box">
             {% for person in persons %}
             {% include 'core/islands/user_ext.html' with person=person %}
@@ -22,10 +20,5 @@ People
         </div>
         <br>
         {% include 'core/islands/pagination.html' with page=persons %}
-    </div>
-
-    <div class="column is-4">
-        {% include 'core/islands/side_block.html' %}
-    </div>
-</div>
+    
 {% endblock content %}

@@ -135,6 +135,6 @@ python3 manage.py runserver
 
 ![login](./screenshot/log_in.jpeg)
 
-![feed_home](./screenshot/home_logged_in.jpeg)
+![vit_home](./screenshot/home_logged_in.jpeg)
 
 ![profile](./screenshot/profile.jpeg)

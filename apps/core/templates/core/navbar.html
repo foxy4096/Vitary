@@ -1,11 +1,12 @@
 {% load static %}
+{% load fetch_gravatar %}
+
 {% load flatpages %}
-<nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #191919;">
+<nav class="navbar is-dark" role="navigation"  hx-boost="true">
     <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'home' %}">
-            <img src="{% static 'img/Vitary_logo_small.png' %}" height="100px" alt="logo">
-             
-            <h1 class="title">Vitary</h1>
+            <img src="{% static 'img/android-chrome-256x256.png' %}">
+            <h1 class="title has-text-white has-text-weight-bold">Vitary</h1>
         </a>
 
         <button class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample"
@@ -19,51 +20,52 @@
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
             <a class="navbar-item" href="{% url 'home' %}">
-                Home 🏡
+                <span>Home</span><span class="icon">🏡</span>
             </a>
             {% if user.is_staff %}
             <a class="navbar-item" href="/admin/" hx-boost="false">
-                Admin 🔐
+                <span>Admin</span><span class="icon">🔐</span>
             </a>
             {% endif %}
 
             <a class="navbar-item" href="{% url 'post_list' %}">
-                Blog 📝
+                <span>Blog</span><span class="icon">📝</span>
             </a>
             <a class="navbar-item" href="{% url 'developer_home' %}">
                 <span>Developer</span><span class="icon">👨‍💻</span>
             </a>
-            <a class="navbar-item" href="{% url 'api:openapi-view' %}">
+            <a class="navbar-item" href="{% url 'api:openapi-view' %}" hx-boost="false">
                 <span>API Docs</span><span class="icon">📚</span>
             </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
-                    More 📦
+                    <span>More</span><span>📦</span>
                 </a>
 
                 <div class="navbar-dropdown">
-                    <a class="navbar-item" href="{% url 'peoples' %}">
-                        Find People 👨‍👩‍👦‍👦
+                    <a class="navbar-item" href="{% url 'users' %}">
+                        <span>Users</span>
+                        <span class="icon"><i class="bi bi-people-fill"></i></span>
                     </a>
 
                     <a class="navbar-item" href="{% url 'explore' %}">
-                        Explore 🌎
+                        <span>Explore</span><span class="icon">🌎</span>
                     </a>
                     {% get_flatpages as flatpages %}
                     {% for page in flatpages %}
                     <a href="/pages{{ page.url }}" class="navbar-item">{{ page.title }}</a>
                     {% endfor %}
                     <a class="navbar-item" href="mailto:adityapriyadarshi669@gmail.com">
-                        Contact Us 📧
+                        <span>Contact Us</span><span class="icon">📧</span>
                     </a>
                     <hr class="navbar-divider">
                     <a class="navbar-item"
                         href="https://github.com/Visualway/Vitary/issues/new?assignees=&labels=&template=bug_report.md&title=">
-                        Report an issue 🐛
+                        <span>Report an issue</span><span class="icon">🐛</span>
                     </a>
                     <a href="https://github.com/Visualway/Vitary/issues/new?assignees=&labels=&template=feature_request.md&title="
                         class="navbar-item">
-                        Request a feature 📦
+                        <span>Request a feature</span><span class="icon">📦</span>
                     </a>
                 </div>
             </div>
@@ -75,40 +77,35 @@
 
                 <div class="buttons">
 
-                    <button class="button is-success is-outlined" onclick="toggleSearch()" hx-boost="false"><span class="icon"><i
-                                class="bi bi-search"></i></span></button>
+                    <a class="button" href="{% url 'search' %}"><span class="icon">
+                        🔍</span></a>
 
-                    <div hx-boost="false">
+                    <div>
                         {% if user.is_authenticated %}
                         <a href="{% url 'user_detail' user.username %}" class="button is-ghost">
                             <article class="image is-24x24">
                                 <img src="{{ user.profile.image.url }}" alt="{{ user.username }}'s Avatar"
-                                    class="navbar-profile-img {{ user.profile.status }}" width="100" height="100">
+                                    class="is-rounded {{ user.profile.status }}" width="100" height="100">
                             </article>
                         </a>
 
-                        {% if unread_notifications %}
-
-                        <a class="button is-warning is-outlined" href="{% url 'notification_page' %}">
-                            <span class="icon"><i class="bi bi-bell-fill"></i></span>
+                        <a class="button is-warning" href="{% url 'notification_page' %}">
+                            <span class="icon">🔔</span>
+                            {% if unread_notifications %}
                             <span>
                                 ({{unread_notifications.count }})
                             </span>
+                            {% endif %}
                         </a>
-                        {% else %}
-                        <a class="button is-warning is-outlined" href="{% url 'notification_page' %}">
-                            <span class="icon"><i class="bi bi-bell-fill"></i></span>
-                        </a>
-                        {% endif %}
-                        <a class="button is-danger is-outlined" href="{% url 'logout' %}">
+                        <a class="button is-danger" href="{% url 'logout' %}">
                             Logout 🚪
                         </a>
                         </a>
                         {% else %}
-                        <a class="button is-info is-outlined" href="{% url 'signup' %}">
+                        <a class="button is-primary" href="{% url 'signup' %}">
                             <strong>Sign up</strong> 🚀
                         </a>
-                        <a class="button is-white is-outlined" href="{% url 'login' %}">
+                        <a class="button is-white" href="{% url 'login' %}">
                             Log in 🔐
                         </a>
                         {% endif %}

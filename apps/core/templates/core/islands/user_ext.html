@@ -1,17 +1,19 @@
 {% load mention %}
+{% load fetch_gravatar %}
+
 {% load convert_markdown %}
 <div class="media item">
     <div class="media-left">
         <article class="image is-48x48">
             <a href="{% url 'user_detail' person %}">
-                <img src="{{ person.profile.image.url }}" alt="user-image" class="profile-img {{ person.profile.status }}">
+                <img src="{{ person.profile.image.url }}" alt="{{person.username}}'s profile picture" class="is-rounded {{ person.profile.status }}">
             </a>
         </article>
     </div>
     <div class="media-content">
         <span>
             <strong>
-                <a href="{% url 'user_detail' person %}" class="has-text-white">
+                <a href="{% url 'user_detail' person %}">
                     {{ person.get_full_name }}
                 </a>
             </strong>
@@ -44,14 +46,14 @@
         {% if user.is_authenticated %}
         {% if user == person %}
         <a href="{% url 'user_detail' person.username %}"
-            class="button is-small is-white is-outlined is-pulled-right"><span>View</span> <span
+            class="button is-small is-pulled-right"><span>View</span> <span
                 class="icon">👀</span></a>
         {% else %}
-        {% include 'accounts/extends/follow_button.html' with usr=person small=True %}
+        {% include 'accounts/islands/follow_button.html' with usr=person small=True %}
         {% endif %}
         {% else %}
         <a href="{% url 'user_detail' person.username %}"
-            class="button is-small is-white is-outlined is-pulled-right"><span>View</span> <span
+            class="button is-small is-pulled-right"><span>View</span> <span
                 class="icon">👀</span></a>
         {% endif %}
     </div>

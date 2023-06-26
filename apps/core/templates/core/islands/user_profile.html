@@ -1,6 +1,7 @@
 {% load humanize %}
 {% load mention %}
 {% load convert_markdown %}
+
 <div class="card">
     {% if usr.profile.header_image %}
     <div class="card-image">
@@ -13,7 +14,7 @@
         <div class="media">
             <div class="media-left">
                 <figure class="image is-96x96">
-                    <img class=" profile-img {% if usr.profile.header_image %} profile-img-page {% endif %}  {{ usr.profile.status }}" src="{{ usr.profile.image.url }}" title="{{ usr.profile.status.title }}">
+                    <img class="is-rounded {% if usr.profile.header_image %} is-rounded-page {% endif %}  {{ usr.profile.status }}" src="{{ usr.profile.image.url }}" title="{{ usr.profile.status.title }}">
                 </figure>
             </div>
         </div>

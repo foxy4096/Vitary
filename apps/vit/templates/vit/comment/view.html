@@ -8,35 +8,9 @@
 
 {% block content %}
 <div class="buttons">
-    <a href="{% url 'vit_detail' comment.vit.pk %}" class="button is-medium is-outlined is-info">View Vit</a>
+    <a href="{% url 'vit_detail' comment.vit.pk %}" class="button is-info">View Vit</a>
 </div>
 <div class="box">
-    <div class="media comment">
-        <div class="media-left">
-            <figure class="image is-48x48 is-square">
-                <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user}}" class="">
-            </figure>
-        </div>
-        <div class="media-content">
-            <div class="content">
-                <p>
-                    <span>
-                        {{ comment.user.get_full_name| default:comment.user.username }}
-                        <a href="{% url 'user_detail' comment.user.username %}">
-                            <strong>
-                                @{{ comment.user }}
-                            </strong>
-                        </a>
-                    </span>
-                    <br>
-                    <small>
-                        {{ comment.date | naturaltime }}
-                    </small>
-                    <br>
-                    {{ comment.body | safe | mention | convert_markdown:comment.user }}
-                </p>
-            </div>
-        </div>
-    </div>
+    {% include 'vit/islands/comment_block.html' with vit=comment.vit recursion=1 %}
 </div>
 {% endblock content %}

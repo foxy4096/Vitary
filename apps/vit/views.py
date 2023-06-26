@@ -3,7 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 
+from django.http import HttpResponse
 from apps.vit.forms import CommentForm, VitForm
+from .utilities import paginator_limit
+from apps.core.utilities import is_htmx_request
 from apps.vit.models import Comment, Plustag, Vit
 
 
@@ -14,32 +17,24 @@ def add_vit(request):
         if form.is_valid():
             vit = form.save(commit=False)
             vit.user = request.user
+            if request.POST.get("reply_id", None):
+                vit.reply_to = Vit.objects.get(pk=request.POST.get("reply_id"))
             vit.save()
             messages.success(request, "Vit added successfully")
             return redirect("home")
     form = VitForm(initial={"body": request.GET.get("vit_body", "")})
-    print(request.GET.get("vit_body", ""))
     return render(request, "vit/vit_form.html", {"form": form, "title": "Add Vit"})
 
 
 @login_required
 def edit_vit(request, pk):
-    vit = get_object_or_404(Vit, pk=pk)
-    if request.user != vit.user:
-        DANGER = 40
-        messages.add_message(
-            request,
-            DANGER,
-            "You are not allowed to edit this vit, You can only edit your own vit",
-        )
-        return redirect("home")
-    else:
-        if request.method == "POST":
-            form = VitForm(request.POST, request.FILES, instance=vit)
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Vit updated successfully")
-                return redirect("home")
+    vit = get_object_or_404(Vit, pk=pk, user=request.user)
+    if request.method == "POST":
+        form = VitForm(request.POST, request.FILES, instance=vit)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Vit updated successfully")
+            return redirect("home")
     form = VitForm(instance=vit)
     return render(
         request,
@@ -50,20 +45,13 @@ def edit_vit(request, pk):
 
 @login_required
 def delete_vit(request, pk):
-    vit = get_object_or_404(Vit, pk=pk)
-    if request.user != vit.user:
-        DANGER = 40
-        messages.add_message(
-            request,
-            DANGER,
-            "You are not allowed to delete this vit, Just go away from here you filthy animal",
-        )
+    vit = get_object_or_404(Vit, pk=pk, user=request.user)
+    if request.method == "POST":
+        vit.delete()
+        if is_htmx_request(request):
+            return HttpResponse("Deleted Successfully")
+        messages.success(request, "Vit deleted successfully")
         return redirect("home")
-    else:
-        if request.method == "POST" and request.POST.get("delete") == "Delete":
-            vit.delete()
-            messages.success(request, "Vit deleted successfully")
-            return redirect("home")
     return render(request, "vit/vit_delete.html", {"vit": vit})
 
 
@@ -74,8 +62,8 @@ def vit_detail(request, pk):
         if form.is_valid():
             return create_comment(form, request, vit, pk)
     form = CommentForm()
-    comments = Comment.objects.filter(vit=vit)
-    paginator = Paginator(comments, 3)
+    comments = Comment.objects.filter(vit=vit, reply_to__isnull=True)
+    paginator = Paginator(comments, paginator_limit(request))
     page = request.GET.get("page")
     comments = paginator.get_page(page)
     related_persons = [vit.user]
@@ -111,7 +99,7 @@ def plustag_vits(request, p):
     vits = plustag.vit_set.all()
     if request.user.is_authenticated and not request.user.profile.allow_nsfw:
         vits = vits.exclude(nsfw=True)
-    paginator = Paginator(vits, 10)
+    paginator = Paginator(vits, paginator_limit(request))
     page = request.GET.get("page")
     vits = paginator.get_page(page)
     return render(request, "vit/plustag_vits.html", {"plustag": plustag, "vits": vits})
@@ -125,7 +113,7 @@ def view_comment(request, pk, vit_pk):
 def vit_liked_users(request, vit_pk):
     vit = get_object_or_404(Vit, pk=vit_pk)
     liked_users = vit.likes.all().order_by("-date_joined")
-    paginator = Paginator(liked_users, 10)
+    paginator = Paginator(liked_users, paginator_limit(request))
     page = request.GET.get("page")
     liked_users = paginator.get_page(page)
     return render(request, "vit/vit_liked_users.html", {"liked_users": liked_users})

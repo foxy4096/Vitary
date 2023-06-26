@@ -2,8 +2,8 @@
     <div class="modal-background"></div>
     <div class="modal-content">
         <div class="card">
-            {% include 'core/islands/header.html' with heading="Search" %}
             <div class="card-content has-text-centered">
+                <h1 class="title is-1">Search</h1>
                 <form action="{% url 'search' %}" method="get">
                     <div class="field">
                         <div class="control">
@@ -16,7 +16,7 @@
                         <p class="help">Tip: Adding <code>@</code> at the start will search for users</p>
                     </div>
                     <div class="control">
-                        <button type="submit" class="button is-primary is-outlined is-fullwidth"><span>Search</span><span
+                        <button type="submit" class="button is-link is-outlined is-fullwidth"><span>Search</span><span
                                 class="icon"><i class="bi bi-search"></i></span></button>
                     </div>
                 </form>

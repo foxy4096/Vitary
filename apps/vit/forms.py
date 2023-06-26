@@ -13,30 +13,10 @@ class VitForm(forms.ModelForm):
         widgets = {
             "body": forms.Textarea(
                 attrs={
-                    "class": "textarea is-medium",
                     "placeholder": "What's on your mind?",
                     "style": """height: 150px;""",
                     "id": "body",
-                    # "hx-post": "/convert/",
-                    # "hx-trigger": "keyup delay:500ms changed",
-                    # "hx-target": "#markdown-content",
-                    # "hx-swap-oob": "true"
                     "onKeyup": "processChange()",
-                }
-            ),
-            "image": forms.ClearableFileInput(
-                attrs={
-                    "class": "input",
-                    "style": """width: 100%;""",
-                    "id": "image",
-                }
-            ),
-            "video": forms.ClearableFileInput(
-                attrs={
-                    "class": "input",
-                    "style": """width: 100%;""",
-                    "id": "video",
-                    "accept": "video/*",
                 }
             ),
             "nsfw": forms.CheckboxInput(attrs={"id": "nsfw"}),

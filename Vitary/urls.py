@@ -12,6 +12,7 @@ from django.views.static import serve
 
 urlpatterns = [
     path("admin/", include("loginas.urls")),
+    path('admin/webshell/', include('webshell.urls')),
     path("admin/", admin.site.urls),
     path("", include("apps.core.urls")),
     path("auth/", include("apps.accounts.urls")),
@@ -23,10 +24,10 @@ urlpatterns = [
                 path("", profile, name="user_detail"),
                 path("following/", user_following, name="following"),
                 path("followers/", user_followers, name="followers"),
-                path("image/", user_image, name="image"),
             ]
         ),
     ),
+    path("u/<str:username>.png", user_image, name="image"),
     path("notification/", include("apps.notification.urls")),
     path("api/v1/vit/like/", like),
     path("api/v1/follow/", follow),
