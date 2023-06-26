@@ -5,7 +5,7 @@
 {% load plustag %}
 
 {% load humanize %}
-<div class="card item mb-4" id="vit-{{ vit.pk }}" hx-boost="true">
+<div class="card item mb-4" id="vit-{{ vit.pk }}" >
     <div class="card-content">
         <div class="media">
             <div class="media-left">
@@ -167,7 +167,7 @@
     </div>
     <footer class="card-footer">
         {% if not showView %}
-        <a href="{% url 'vit_detail' vit.id %}" class="card-footer-item" hx-boost="true">
+        <a href="{% url 'vit_detail' vit.id %}" class="card-footer-item" >
             <span class="icon"> <i class="bi bi-binoculars-fill"></i>
             </span><span>View</span>
         </a>

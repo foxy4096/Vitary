@@ -2,7 +2,7 @@
 {% load fetch_gravatar %}
 
 {% load flatpages %}
-<nav class="navbar is-dark" role="navigation"  hx-boost="true">
+<nav class="navbar is-dark" role="navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'home' %}">
             <img src="{% static 'img/android-chrome-256x256.png' %}">
@@ -23,7 +23,7 @@
                 <span>Home</span><span class="icon">🏡</span>
             </a>
             {% if user.is_staff %}
-            <a class="navbar-item" href="/admin/" hx-boost="false">
+            <a class="navbar-item" href="/admin/" >
                 <span>Admin</span><span class="icon">🔐</span>
             </a>
             {% endif %}
@@ -34,7 +34,7 @@
             <a class="navbar-item" href="{% url 'developer_home' %}">
                 <span>Developer</span><span class="icon">👨‍💻</span>
             </a>
-            <a class="navbar-item" href="{% url 'api:openapi-view' %}" hx-boost="false">
+            <a class="navbar-item" href="{% url 'api:openapi-view' %}" >
                 <span>API Docs</span><span class="icon">📚</span>
             </a>
             <div class="navbar-item has-dropdown is-hoverable">

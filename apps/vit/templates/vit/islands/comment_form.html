@@ -1,4 +1,4 @@
-<form method="POST" hx-boost="false">
+<form method="POST" >
     {% csrf_token %}
     {% if comment_id %}
     <input type="hidden" name="comment_id" value="{{comment_id}}">
