@@ -6,13 +6,15 @@
 {% block title %}
 Delete Account
 {% endblock title %}
+{% block no_padding %}
+    {% include 'core/islands/header.html' with heading="Change Username" %}
+    {% endblock no_padding %}
 
 {% block content %}
-<h1 class="title is-1 has-text-weight-bold">Change Username?</h1>
 <div class="card">
     <div class="card-content">
         <form action="." method="post">
-            <h3 class="title is-3">Are you sure that you want to change your username?</h3>
+            <p class="subtitle">Are you sure that you want to change your username?</p>
             {{form|bulma}}
             {% csrf_token %}
             <br>

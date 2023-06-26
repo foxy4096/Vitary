@@ -15,14 +15,14 @@ $("#body").keydown(function () {
       },
       success: function (data) {
         $("#users_drop").toggleClass("is-hidden");
-        var html_content = `
+        let html_content = `
                             ${data.users.map(
                               (user) =>
                                 `
                                 <div class="media item">
                                     <div class="media-left">
                                         <article class='image is-32x32'>
-                                            <img src='${user.image}' class='profile-img'>
+                                            <img src='${user.image}' class='is-rounded'>
                                         </article>
                                     </div>
                                     <div class="media-content">

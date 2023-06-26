@@ -13,13 +13,13 @@ Report Abuse
 {% block content %}
 
 <div class="columns">
-    <div class="column is-7">
+    <div class="column is-8">
         <div class="box">
             <form action="." method="post">
                 {% csrf_token %}
                 {{form|bulma}}
                 <br>
-                <button class="button is-primary is-large is-outlined" type="submit">Submit ✔️</button>
+                <button class="button is-primary is-large " type="submit">Submit ✔️</button>
             </form>
         </div>
     </div>

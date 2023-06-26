@@ -1,3 +1,4 @@
+from typing import Any, Dict, Tuple
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -11,28 +12,31 @@ class Vit(models.Model):
     body = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="vits")
     date = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name="liked_vits")
+    like_count = models.IntegerField(default=0)
+    plustag = models.ManyToManyField("Plustag", blank=True)
+    mentions = models.ManyToManyField(User, related_name="mentioned_vits")
     image = models.ImageField(
         upload_to="uploads/images/",
         blank=True,
         null=True,
-        help_text="You can upload upto one image per Vit",
+        help_text="You can upload upto one image per vit",
     )
     video = models.FileField(
         upload_to="uploads/videos/",
         blank=True,
         null=True,
-        help_text="You can upload upto one video per Vit",
+        help_text="You can upload upto one video per vit",
     )
-    likes = models.ManyToManyField(User, related_name="liked_vits")
-    like_count = models.IntegerField(default=0)
-    plustag = models.ManyToManyField("Plustag", blank=True)
-    mentions = models.ManyToManyField(User, related_name="mentioned_vits")
     nsfw = models.BooleanField(
         "Is the Content NSFW?",
         default=False,
         help_text="Mark as NSFW if the content is not safe for work",
         editable=True,
     )
+
+    contain_embed = models.BooleanField(default=False)
+    saved_embed = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         self.body = self.body.strip()
@@ -41,9 +45,6 @@ class Vit(models.Model):
             plus.rating = plus.vit_set.count()
             plus.save()
         super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"Vit No.{self.pk}"
 
     class Meta:
         ordering = ["-date"]
@@ -63,6 +64,11 @@ class Vit(models.Model):
 
         self.save()
 
+    def delete(self, *args, **kwargs):
+        self.image.delete()
+        self.video.delete()
+        super().delete(*args, **kwargs)
+
     def latest_vits():
         return Vit.objects.all().order_by("-like_count", "-date")[:5]
 
@@ -72,11 +78,9 @@ class Vit(models.Model):
             "body": self.body,
             "user": self.user.username,
             "date": self.date.strftime("%b %d, %Y %H:%M:%S"),
-            "image": self.image.url if self.image else None,
-            "video": self.video.url if self.video else None,
             "likes": self.likes.count(),
-            "plustag": [plus.name for plus in self.plustag.all()],
-            "mentions": [mention.username for mention in self.mentions.all()],
+            # "plustag": [plus.name for plus in self.plustag.all()],
+            # "mentions": [mention.username for mention in self.mentions.all()],
             "nsfw": self.nsfw,
         }
 

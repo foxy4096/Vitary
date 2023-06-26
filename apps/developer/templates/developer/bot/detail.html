@@ -13,7 +13,7 @@
     <div class="media">
         <div class="media-left">
             <figure class="image is-64x64">
-                <img src="{{ bot.user.profile.image.url }}" alt="{{ bot.user.username }}" class="profile-img {{ bot.user.profile.status }}">
+                <img src="{{ bot.user.profile.image.url }}" alt="{{ bot.user.username }}" class="is-rounded {{ bot.user.profile.status }}">
             </figure>
         </div>
         <div class="media-content">
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="media-right">
-            <a href="{% url 'developer_bot_delete' bot.id %}" class="button is-danger is-outlined">Delete</a>
+            <a href="{% url 'developer_bot_delete' bot.id %}" class="button is-danger ">Delete</a>
         </div>
     </div>
 </div>
@@ -63,14 +63,14 @@
                 <h2 class="title is-2">WebHooks 🍀</h2>
             </div>
             <div class="media-right">
-                <a href="{% url 'webhook_create' bot.id %}" class="button is-primary is-outlined">Add WebHook</a>
+                <a href="{% url 'webhook_create' bot.id %}" class="button is-primary">Add WebHook</a>
             </div>
         </div>
         <small class="small">
             Webhooks allow external services to be notified when certain events happen. When the specified
             events happen, we’ll send a request to each of the URLs you provide.
         </small>
-        <table class="table has-background-dark is-fullwidth is-bordered">
+        <table class="table is-fullwidth is-bordered">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -92,9 +92,9 @@
                     <td><code>{{ hook.method }}</code></td>
                     <td>{{ hook.date | naturaltime }}</td>
                     <td>
-                        <a href="{% url 'webhook_edit' bot.id hook.id %}" class="button is-info is-outlined">Edit</a>
+                        <a href="{% url 'webhook_edit' bot.id hook.id %}" class="button is-info ">Edit</a>
                         <a href="{% url 'webhook_delete' bot.id hook.id %}"
-                            class="button is-danger is-outlined">Delete</a>
+                            class="button is-danger ">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}

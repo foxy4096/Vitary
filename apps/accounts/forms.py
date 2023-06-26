@@ -28,9 +28,9 @@ class UserRegisterForm(UserCreationForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.first_name = self.cleaned_data["first_name"]
-        user.last_name = self.cleaned_data["last_name"]
-        user.email = self.cleaned_data["email"]
+        user.first_name = self.cleaned_data.get("first_name")
+        user.last_name = self.cleaned_data.get("last_name")
+        user.email = self.cleaned_data.get("email")
 
         if commit:
             user.save()
@@ -48,9 +48,9 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = [
-            "bio",
             "image",
             "header_image",
+            "bio",
             "email_notif",
             "allow_nsfw",
             "status",
@@ -71,10 +71,18 @@ class ProfileForm(forms.ModelForm):
                 }
             ),
             "image": forms.FileInput(
-                attrs={"class": "input", "style": """width: 100%;""", "id": "image"}
+                attrs={
+                    "class": "input",
+                    "style": """width: 100%;""",
+                    "id": "image",
+                }
             ),
             "status": forms.Select(
-                attrs={"class": "select is-fullwidth", "style": """width: 100%;""", "id": "status"}
+                attrs={
+                    "class": "select input is-fullwidth",
+                    "style": """width: 100%;""",
+                    "id": "status",
+                }
             ),
         }
 
@@ -88,12 +96,13 @@ class UsernameForm(forms.Form):
         model = User
         fields = ["username"]
 
+
 class DateOfBirthForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["date_of_birth"]
         widgets = {
             "date_of_birth": forms.DateInput(
-                attrs={"type": "date", "id": "date_of_birth"}
+                attrs={"type": "date", "id": "date_of_birth", "class": "input"}
             ),
         }

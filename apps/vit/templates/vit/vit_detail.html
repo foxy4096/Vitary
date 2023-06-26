@@ -43,16 +43,9 @@
 
 
 {% block content %}
-<div class="columns">
-  <div class="column is-7">
-    {% include 'vit/islands/vit_block.html'%}
-    {% include 'vit/islands/comments.html' %}
-    
-    {% include 'core/islands/pagination.html' with page=comments %}
-
-  </div>
-  <div class="column is-5">
-    {% include 'core/islands/side_block.html' %}
-  </div>
-</div>
+{% include 'vit/islands/vit_block.html'%}
+{% include 'vit/islands/comments.html' %}
+{% if request.GET.like %}
+{% include 'vit/islands/like_modal.html' with vit=vit %}
+{% endif %}
 {% endblock content %}

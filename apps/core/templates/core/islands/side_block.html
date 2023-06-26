@@ -1,12 +1,10 @@
 {% load humanize %}
 
-{% if request.path != '/feed/' and user.is_authenticated %}
-<div class="card">
-    <div class="card-content">
-        <a href="{% url 'add_vit' %}" class="button is-fullwidth is-large">Add Vit ➕</a>
-    </div>
+
+{% if request.path != "/feed/" %}
+<div class="box">
+    <a href="{% url 'add_vit' %}" class="button is-primary is-fullwidth is-large">Add Vit ➕</a>
 </div>
-<br>
 {% endif %}
 {% if related_persons %}
 <div class="card is-hidden-mobile">
@@ -17,7 +15,7 @@
             <div class="media-left">
                 <a href="{% url 'user_detail' related_person.username %}">
                     <article class="image is-32x32 is-square">
-                        <img src="{{ related_person.profile.image.url }}" alt="" class="profile-img">
+                        <img src="{{ related_person.profile.image.url }}" alt="" class="is-rounded">
                     </article>
                 </a>
             </div>
@@ -34,9 +32,9 @@
             <div class="media-right">
                 {% if user == related_person %}
 
-                <a href="{% url 'profile' %}" class="button is-link is-small">Edit Profile  📝</a>
+                <a href="{% url 'edit_profile' %}" class="button is-link is-small">Edit Profile  📝</a>
                 {% else %}
-                {% include 'accounts/extends/follow_button.html' with usr=related_person small=True %}
+                {% include 'accounts/islands/follow_button.html' with usr=related_person small=True %}
                 {% endif %}
             </div>
         </div>
@@ -47,30 +45,8 @@
 {% endif %}
 <div class="card is-hidden-mobile">
     <div class="card-content">
-        <h1 class="title has-text-weight-bold">Latest 🔥</h1>
-        {% for latest_vit in latest_vits %}
-        <small>
-
-            <a href="{% url 'user_detail' latest_vit.user.username %}">
-                {{ latest_vit.user }}
-            </a>: <a href="{{ latest_vit.get_absolute_url }}">
-
-                {{latest_vit.body | truncatechars:40}}
-            </a>
-            <span class="date">
-                {{latest_vit.date | naturaltime }}
-            </span>
-        </small>
-        <br>
-        {% endfor %}
-    </div>
-</div>
-<br>
-<div class="card is-hidden-mobile">
-    <div class="card-content">
         {% if user.is_authenticated %}
-
-        <h1 class="title has-text-weight-bold">
+        <h1 class="title">
             Follower ({{ user.profile.followed_by.all | length }})
         </h1>
         <br>
@@ -79,7 +55,7 @@
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
-                    <img src="{{ following.image.url }}" alt="." class="profile-img {{following.status}}">
+                    <img src="{{ following.image.url }}" alt="." class="is-rounded {{following.status}}">
                 </article>
             </div>
             <div class="media-content">
@@ -102,12 +78,12 @@
             <br>
         </div>
         {% endfor %}
-        <p><a href="{% url 'followers' %}">See All</a></p>
+        <p><a href="{% url 'followers' %}" class="tag is-link">See All</a></p>
         {% else %}
-        No one is following you yet 🎈.
+        No one is following you yet.
         {% endif %}
         <hr>
-        <h1 class="title has-text-weight-bold">
+        <h1 class="title">
             Following ({{ user.profile.follows.all | length }})
         </h1>
         <br>
@@ -116,7 +92,7 @@
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
-                    <img src="{{ follower.image.url }}" alt="." class="profile-img {{follower.status}}">
+                    <img src="{{ follower.image.url }}" alt="." class="is-rounded {{follower.status}}">
                 </article>
             </div>
             <div class="media-content">
@@ -130,15 +106,18 @@
                         {% endif %}
                     </strong>
                 </h4>
-                <p class="subtitle is-6"><a href="{% url 'user_detail' follower %}">@{{ follower.user.username }}</a>
+                <p class="subtitle is-6">
+                    <a href="{% url 'user_detail' follower %}">
+                        @{{ follower.user.username}}
+                    </a>
                 </p>
             </div>
             <br>
         </div>
         {% endfor %}
-        <p><a href="{% url 'following' %}">See All</a></p>
+        <p><a href="{% url 'following' %}" class="tag is-link">See All</a></p>
         {% else %}
-        You are not following anyone yet 🎆.
+        You are not following anyone yet.
         {% endif %}
 
         {% else %}
@@ -153,7 +132,7 @@
         <hr>
         <div class="buttons">
             <a href="{% url 'signup' %}" class="button is-fullwidth">Sign Up 🚀</a>
-            <a href="{% url 'login' %}" class="button is-info is-fullwidth is-outlined">Login 🔐</a>
+            <a href="{% url 'login' %}" class="button is-info is-fullwidth ">Login 🔐</a>
         </div>
         {% endif %}
     </div>

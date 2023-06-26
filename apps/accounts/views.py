@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
+from apps.vit.utilities import paginator_limit
 
 from .forms import UserForm, ProfileForm, UserRegisterForm, UsernameForm, DateOfBirthForm
 
@@ -48,7 +49,7 @@ def signup(request):
 
 
 @login_required
-def profile_edit(request):
+def edit_profile(request):
     """
     View for editing profile
     """
@@ -61,13 +62,13 @@ def profile_edit(request):
             pform.save()
             dform.save()
             messages.success(request, "Profile Edited Successfully! \n You look nice!")
-            return redirect("profile")
+            return redirect("edit_profile")
     else:
         uform = UserForm(instance=request.user)
         pform = ProfileForm(instance=request.user.profile)
         dform = DateOfBirthForm(instance=request.user.profile)
         return render(
-            request, "accounts/profile.html", {"uform": uform, "pform": pform, "dform": dform}
+            request, "accounts/edit_profile.html", {"uform": uform, "pform": pform, "dform": dform}
         )
 
 
@@ -79,7 +80,7 @@ def profile(request, username):
     vits = usr.vits.all()
     if request.user.is_authenticated and not request.user.profile.allow_nsfw:
         vits = vits.exclude(nsfw=True)
-    paginator = Paginator(vits, 10)
+    paginator = Paginator(vits, paginator_limit(request))
     page = request.GET.get("page")
     vits = paginator.get_page(page)
     return render(
@@ -96,7 +97,7 @@ def following(request):
     """
     usr = request.user
     followings = usr.profile.follows.all().order_by("-id")
-    paginator = Paginator(followings, 5)
+    paginator = Paginator(followings, paginator_limit(request))
     page = request.GET.get("page")
     followings = paginator.get_page(page)
     return render(
@@ -111,7 +112,7 @@ def followers(request):
     """
     usr = request.user
     followers = usr.profile.followed_by.all().order_by("-id")
-    paginator = Paginator(followers, 5)
+    paginator = Paginator(followers, paginator_limit(request))
     page = request.GET.get("page")
     followers = paginator.get_page(page)
     return render(
@@ -125,7 +126,7 @@ def user_following(request, username):
     """
     usr = get_object_or_404(User, username=username)
     followings = usr.profile.follows.all().order_by("-id")
-    paginator = Paginator(followings, 5)
+    paginator = Paginator(followings, paginator_limit(request))
     page = request.GET.get("page")
     followings = paginator.get_page(page)
     if usr == request.user:
@@ -142,7 +143,7 @@ def user_followers(request, username):
     """
     usr = get_object_or_404(User, username=username)
     followers = usr.profile.followed_by.all().order_by("-id")
-    paginator = Paginator(followers, 5)
+    paginator = Paginator(followers, paginator_limit(request))
     page = request.GET.get("page")
     followers = paginator.get_page(page)
     if usr == request.user:

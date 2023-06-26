@@ -5,6 +5,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+
 
 from apps.core.forms import ReportForm
 from apps.core.models import Badge
@@ -12,6 +14,10 @@ from apps.core.templatetags import convert_markdown
 from apps.vit.forms import VitForm
 from apps.vit.models import Vit
 from apps.vit.templatetags import mention
+from  apps.vit.utilities import paginator_limit
+
+
+
 
 
 def index(request):
@@ -44,7 +50,7 @@ def feed(request):
     if not request.user.profile.allow_nsfw:
         vits = vits.exclude(nsfw=True)
     paginator = (
-        Paginator(vits, 10)
+        Paginator(vits, paginator_limit(request))
         if vits
         else Paginator(Vit.objects.all().order_by("-like_count", "-date"), 10)
     )
@@ -54,9 +60,9 @@ def feed(request):
     return render(request, "core/feed.html", {"vits": page_obj, "form": form})
 
 
-def peoples(request):
+def list_users(request):
     persons = User.objects.all().order_by("-profile__follower_count")
-    paginator = Paginator(persons, 10)
+    paginator = Paginator(persons, paginator_limit(request))
     page_no = request.GET.get("page")
     page_obj = paginator.get_page(page_no)
     return render(request, "core/peoples.html", {"persons": page_obj})
@@ -66,7 +72,7 @@ def explore(request):
     vits = Vit.objects.all().order_by("-like_count", "-date")
     if request.user.is_authenticated and not request.user.profile.allow_nsfw:
         vits = vits.exclude(nsfw=True)
-    paginator = Paginator(vits, 5)
+    paginator = Paginator(vits, paginator_limit(request))
     page_no = request.GET.get("page")
     page_obj = paginator.get_page(page_no)
     context = {
@@ -100,57 +106,25 @@ def page_404(request):
 
 
 def search(request):
-    original_query = request.GET.get("q", "")
-    query = original_query
-    stype = request.GET.get("stype", "")
-    if query == "":
-        return redirect("home")
-    if query[0] == "@" and stype == "":
-        stype = "users"
-    if query[0] != "@" and stype == "":
-        stype = "vits"
-    if stype == "vits":
+    context = {}
+    if query := request.GET.get("q", ""):
         vits = Vit.objects.filter(
             Q(user__username__icontains=query)
             | Q(user__first_name__icontains=query)
             | Q(user__last_name__icontains=query)
             | Q(body__icontains=query)
         ).order_by("-date")
-        page_obj = _extracted_from_search_17(vits, request)
-        context = {
-            "vits": page_obj,
-            "stype": "vits",
-            "query": query,
-        }
-        return render(request, "core/search.html", context)
-    elif stype == "users":
-        query = query.replace("@", "")
-        persons = User.objects.filter(
-            Q(username__icontains=query)
-            | Q(first_name__icontains=query)
-            | Q(last_name__icontains=query)
-        ).order_by("-date_joined")
-        page_obj = _extracted_from_search_17(persons, request)
-        return render(
-            request,
-            "core/search.html",
-            {"persons": page_obj, "stype": "users", "query": original_query},
-        )
-    else:
-        return redirect("home")
-
-
-# TODO Rename this here and in `search`
-def _extracted_from_search_17(arg0, request):
-    paginator = Paginator(arg0, 5)
-    page_no = request.GET.get("page")
-    return paginator.get_page(page_no)
-
+        paginator = Paginator(vits, paginator_limit(request))
+        page_no = request.GET.get("page")
+        vits = paginator.get_page(page_no)
+        context["vits"] = vits
+        context["query"] = query
+    return render(request, "core/search.html", context)
 
 def badge(request, pk):
     badge = get_object_or_404(Badge, id=pk)
     usr = badge.profile_set.all().order_by("-id")
-    paginator = Paginator(usr, 5)
+    paginator = Paginator(usr, paginator_limit(request))
     page_no = request.GET.get("page")
     page_obj = paginator.get_page(page_no)
     return render(request, "core/badge.html", {"badge": badge, "usrs": page_obj})
@@ -167,3 +141,17 @@ def convert_markdown_to_html(request):
             mention.mention(request.POST.get("value", "")), user=request.user
         )
     )
+
+
+@login_required
+def intent(request, intent_type, id):
+    redirect_url = None
+
+    if intent_type == "like":
+        redirect_url = reverse("vit_detail", args=(id,)) + "?like=true"
+    elif intent_type == "follow":
+        redirect_url = reverse("user_detail", args=(id,)) + "?follow=true"
+    else:
+        redirect_url = reverse("home")
+
+    return redirect(redirect_url)

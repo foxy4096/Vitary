@@ -27,7 +27,7 @@ Notification
     <div class="media-left">
         <a href="{% url 'user_detail' notification.by_user %}">
             <article class="image is-48x48 is-square">
-                <img src="{{ notification.by_user.profile.image.url }}" alt="user" class="profile-img">
+                <img src="{{ notification.by_user.profile.image.url }}" alt="user" class="is-rounded">
             </article>
         </a>
     </div>
@@ -49,7 +49,7 @@ Notification
         </div>
     </div>
     <div class="media-right">
-        <a href="{% url 'notification_redirect' notification.pk %}" class="button is-link is-outlined is-small">
+        <a href="{% url 'notification_redirect' notification.pk %}" class="button is-link  is-small">
             View
         </a>
     </div>

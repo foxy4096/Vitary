@@ -2,17 +2,17 @@
 
 {% load static %}
 {% block extrahead %}
-<link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
-<link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
-<link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
-<link rel="mask-icon" href="{% static 'img/safari-pinned-tab.svg' %}" color="#5bbad5">
+<!-- <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}"> -->
+<link rel="icon" type="image/png" href="{% static 'img/android-chrome-256x256.png' %}">
+<!-- <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}"> -->
+<!-- <link rel="mask-icon" href="{% static 'img/safari-pinned-tab.svg' %}" color="#5bbad5"> -->
 {% endblock %}
 {% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
 {% block branding %}
 <h1 id="site-name">
     <a href="{% url 'admin:index' %}">
-        <img src="{% static 'img/Vitary_logo_small.png' %}" height="40px" alt="logo" />
+        <img src="{% static 'img/android-chrome-256x256.png' %}" height="30px" alt="logo" />
         {{ site_header|default:_('Django site admin') }}
     </a>
 </h1>

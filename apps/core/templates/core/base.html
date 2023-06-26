@@ -3,26 +3,22 @@
 <html lang="en">
 
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
     <meta charset="UTF-8">
     <script src="https://kit.fontawesome.com/bc926fbd0c.js" crossorigin="anonymous"></script>
     <script src="{% static 'js/jquery.js' %}"></script>
     <meta name="google-site-verification" content="talpjIMGSLi3tqtLzbghCA_FL28jJPkrDM0K4wq_2Z0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/srcery.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/srcery.min.css' %}">
+    <script src="{% static 'js/highlight.min.js' %}"></script>
     <script>hljs.highlightAll();</script>
     <script src="{% static 'js/confetti.min.js' %}"></script>
+    <script src="{% static 'js/masonry.js' %}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <meta name="mobile-web-app-capable" content="yes">
-    {% if unread_notifications %}
-    <link rel="shortcut icon" href="{% static 'img/favicon_notif.ico' %}" type="image/x-icon">
-    {% else %}
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
-    <link rel="mask-icon" href="{% static 'img/safari-pinned-tab.svg' %}" color="#5bbad5">
-    {% endif %}
+    <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/android-chrome-256x256.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-prefers-dark.css' %}" />
     <title>
         {% if user.is_authenticated %}
         {% if unread_notifications %}
@@ -32,45 +28,33 @@
         {% block title %}{% endblock title %} | Vitary
     </title>
     {% block meta %}
-    
+
     {% endblock meta %}
     <meta name="title" content="Vitary">
     <meta name="description" content="Vitary | Make New Friends Today!">
 
-    <!-- Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://vitary.pythonanywhere.com/home/">
-    <meta property="og:title" content="Vitary">
-    <meta property="og:description" content="Vitary | Make New Friends Today!">
-    <meta property="og:image" content="{% static 'img/logo_header.png' %}">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://vitary.pythonanywhere.com/home/">
-    <meta property="twitter:title" content="Vitary">
-    <meta property="twitter:description" content="Vitary | Make New Friends Today!">
-    <meta property="twitter:image" content="{% static 'img/logo_header.png' %}">
-
-    <!-- For PWA -->
-    <meta name="apple-mobile-web-app-title" content="Vitary">
-    <meta name="application-name" content="Vitary">
-    <meta name="msapplication-TileColor" content="#603cba">
-    <meta name="theme-color" content="#ffffff">
-    <meta name="description" content="Vitary | Make New Friends Today!">
 </head>
 
-<body class="body">
+<body class="body" hx-boost="false">
+
     {% include 'core/navbar.html' %}
-    <div hx-boost="false">
-        {% include 'core/search_modal.html' %}
-
-        {% block no_padding %}
-
-        {% endblock no_padding %}
-        {% include 'core/islands/messages.html' %}
-
-        <section class="section">
-            <div class="container-fluid">
+    {% include 'core/search_modal.html' %}
+    
+    {% block no_padding %}
+    
+    {% endblock no_padding %}
+    
+    <section class="section">
+        <div class="container">
+                <noscript>
+                    <article class="notification is-danger mb-0 has-text-centered ">
+                        <h3 class="title is-3 has-text-weight-bold">
+                            Please enable javascript to use this site properly.
+                        </h3>
+                    </article>
+                    <br>
+                </noscript>
+                {% include 'core/islands/messages.html' %}
                 {% block content %}
 
                 {% endblock content %}
@@ -79,34 +63,23 @@
 
 
         {% include 'core/footer.html' %}
-    </div>
+    
 
 
     {% if not DEBUG %}
     <script src="https://3gc941nr9yx8.statuspage.io/embed/script.js"></script>
     {% endif %}
+    <script src="{% static 'js/script.js' %}"></script>
     <script src="{% static 'js/htmx.js' %}"></script>
     <script src="{% static 'js/like.js' %}"></script>
     <script src="{% static 'js/follow.js' %}"></script>
-    <!-- <script src="{% static 'js/infinite-ajax-scroll.js' %}"></script> -->
     <script src="{% static 'js/copy.js' %}"></script>
     <script src="{% static 'js/surprise.js' %}"></script>
     <script src="{% static 'js/mention_suggests.js' %}"></script>
     <script src="{% static 'js/anchor.min.js' %}"></script>
 
 
-    <!-- Some Custom Script -->
     <script>
-        $(".message-header>.delete").click(function () {
-            $(this).parent().parent().remove();
-        });
-        function debounce(func, timeout = 300) {
-            let timer;
-            return (...args) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => { func.apply(this, args); }, timeout);
-            };
-        }
         function saveInput() {
             val = $("#body").val();
             if (val.length != 0) {
@@ -131,27 +104,16 @@
         }
         const processChange = debounce(() => saveInput());
 
-        function toggleSearch() {
-            document.getElementById('searchModal').classList.toggle('is-active');
-        }
 
-        // run the openSearch if ctrl + q is pressed
-        document.addEventListener('keydown', function (e) {
-            if (e.ctrlKey && e.keyCode == 81) {
-                toggleSearch();
-            }
-        });
 
-        // run the closeSearch if ESC is pressed
-        document.addEventListener('keydown', function (e) {
-            if (e.keyCode == 27) {
-                toggleSearch();
-            }
+        document.body.addEventListener('htmx:configRequest', function (evt) {
+            evt.detail.headers['X-CSRFToken'] = "{{ csrf_token }}"; // add a new header into the request
         });
     </script>
     {% block script %}
 
     {% endblock script %}
+
 </body>
 
 </html>

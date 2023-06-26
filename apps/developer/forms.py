@@ -65,9 +65,6 @@ class BotUserForm(forms.ModelForm):
                     "id": "header_image",
                 }
             ),
-            "image": forms.FileInput(
-                attrs={"class": "input", "style": """width: 100%;""", "id": "image"}
-            ),
         }
 
 

@@ -9,8 +9,6 @@ Following
 {% endblock no_padding %}
 
 {% block content %}
-<div class="columns">
-    <div class="column is-8">
         <div class="box">
             {% for person in followings %}
             {% include 'core/islands/user_ext.html' with person=person.user %}
@@ -19,9 +17,4 @@ Following
             {% endfor %}
         </div>
         {% include 'core/islands/pagination.html' with page=followings %}
-    </div>
-    <div class="column is-4">
-        {% include 'core/islands/side_block.html' %}
-    </div>
-</div>
 {% endblock content %}

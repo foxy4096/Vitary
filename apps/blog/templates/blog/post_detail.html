@@ -34,45 +34,44 @@
 
 
 {% block content %}
+<a href="{% url 'post_list' %}" class="button is-small"><span class="icon"><i
+            class="bi bi-backspace"></i></span><span>Back</span></a>
+<br>
+<br>
+<div class="card article">
+    <div class="card-image">
+        {% if post.cover_img %}
+        <article class="image block"><img src="{{ post.cover_img.url }}" alt="Header Image"></article>
+        {% endif %}
+    </div>
+    <div class="card-content">
 
-<div class="columns">
-    <div class="column is-8">
-        <div class="card article">
-            <div class="card-image">
-                {% if post.cover_img %}
-                <article class="image block"><img src="{{ post.cover_img.url }}" alt="Header Image"></article>
-                {% endif %}
+        <div class="media">
+            <div class="media-center">
+                <article class="image is-48x48 mt-2">
+                    <a href="{% url 'user_detail' post.user.username %}">
+                        <img src="{{ post.user.profile.image.url }}"
+                            class="author-image  is-rounded {{post.user.profile.status}}" alt="Placeholder image">
+                    </a>
+                </article>
             </div>
-            <div class="card-content">
-
-                <div class="media">
-                    <div class="media-center">
-                        <article class="image is-48x48 mt-2">
-                            <a href="{% url 'user_detail' post.user.username %}">
-                                <img src="{{ post.user.profile.image.url }}" class="author-image  profile-img {{post.user.profile.status}}"
-                                    alt="Placeholder image">
-                            </a>
-                        </article>
-                    </div>
-                    <div class="media-content has-text-left mx-2">
-                        <p class="title article-title has-text-weight-light">{{ post.title }}</p>
-                        <p class="subtitle is-6 article-subtitle">
-                            <a href="{% url 'user_detail' post.user.username %}">
-                                @{{post.user.username}}</a>
-                            {{ post.date | naturaltime }}
-                        </p>
-                    </div>
-                </div>
-                <div class="content article-body">
-                    <p class="has-text-centered">{{ post.body | safe | mention | convert_markdown:post.user }}</p>
-                </div>
+            <div class="media-content has-text-left mx-2">
+                <p class="title article-title has-text-weight-light">{{ post.title }}</p>
+                <p class="subtitle is-6 article-subtitle">
+                    {{ post.user.get_full_name }}
+                    <a href="{% url 'user_detail' post.user.username %}">
+                        @{{post.user.username}}
+                    </a>
+                    {{ post.date | naturaltime }}
+                </p>
             </div>
         </div>
-    </div>
-    <div class="column is-4">
-        {% include 'core/islands/side_block.html' %}
+        <div class="content article-body">
+            <p class="has-text-centered">{{ post.body | safe | mention | convert_markdown:post.user }}</p>
+        </div>
     </div>
 </div>
+
 {% endblock content %}
 {% block script %}
 <script>

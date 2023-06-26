@@ -2,14 +2,14 @@
 {% load mention %}
 {% load convert_markdown %}
 
-<div class="media item">
+<div class="media item" style="overflow-y: hidden;">
     <div class="media-left">
         <figure class="image is-48x48 is-square">
             <img src="{{ comment.user.profile.image.url }}" alt="{{comment.user}}"
-            class="profile-img {{ user.profile.status }}">
+                class="is-rounded {{ user.profile.status }}">
         </figure>
     </div>
-    
+
     <div class="media-content">
         <span>
             <strong>
@@ -25,13 +25,25 @@
         <small title="{{ comment.date }}" class="tag is-black">
             {{ comment.date | naturaltime }}
         </small>
-        <div class="content pt-3" style="overflow-x: auto;">
+        <div class="content pt-3" style="overflow-x: auto; overflow-y: hidden;">
             {{ comment.body | striptags | safe | mention | convert_markdown:comment.user }}
         </div>
+        <br>
+        <br>
+        {% if user.is_authenticated %}
         <a href="#" hx-get="{% url '_comment_form' %}?comment_id={{ comment.id }}"
-        hx-swap="outerHTML"><span>Reply</span><span class="icon"><i class="bi bi-reply-fill"></i></span></a>
+            hx-swap="outerHTML"><span>Reply</span><span class="icon"><i class="bi bi-reply-fill"></i></span></a>
+        {% else %}
+        <p>
+            Please <a href="{% url 'login' %}?next={% url 'vit_detail' vit.id %}">Login</a> to comment.
+        </p>
+        {% endif %}
         {% for reply in comment.replies.all %}
-        {% include 'vit/islands/comment_block.html' with comment=reply %}
-        {% endfor %}
+
+        {% if recursion < 3 %} 
+        {% include 'vit/islands/comment_block.html' with comment=reply is_reply=True recursion=recursion|add:1 %} 
+        {% else %} <a href="{% url 'view_comment' vit.id comment.id %}">View More</a>
+            {% endif %}
+            {% endfor %}
     </div>
 </div>

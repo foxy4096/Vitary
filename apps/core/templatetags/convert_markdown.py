@@ -8,6 +8,7 @@ extensions = [
     "markdown.extensions.admonition",
     "pymdownx.extra",
     "pymdownx.tasklist",
+    "pymdownx.magiclink",
     "pymdownx.emoji",
     "pymdownx.details",
     "pymdownx.superfences",
@@ -17,14 +18,13 @@ extensions = [
 extension_configs = {
     "pymdownx.tasklist": {
         "custom_checkbox": True,
-        "clickable_checkbox": True,
-    }
+    },
 }
 
 
 @register.filter(name="convert_markdown", is_safe=True)
 @stringfilter
-def convert_markdown(value, user: None):
+def convert_markdown(value, user=None):
     if user and user.profile.verified:
         return markdown.markdown(
             text=value, extensions=extensions, extension_configs=extension_configs

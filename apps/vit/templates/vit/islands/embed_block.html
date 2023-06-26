@@ -8,9 +8,9 @@
     {% elif embed.video_url and embed.image_url %}
     <iframe src="{{embed.video_url}}" frameborder="0"></iframe>
     {% endif %}
-    <div class="card-content has-background-black">
-        <h5 class="title is-5 has-text-weight-light pt-0 mt-0"><a href="{{ embed.url }}" target="_blank">
-            {{ embed.title|truncatechars:50 }}</a></h5>
+    <div class="card-content">
+        <h5 class="title is-5 pt-0 mt-0"><a href="{{ embed.url }}" target="_blank">
+            {{ embed.title|truncatechars:100 }}</a></h5>
         <div class="content">
             <small class="small">
                 {{embed.description| truncatechars:200 | default:"No description provided"}}

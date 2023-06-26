@@ -16,7 +16,7 @@ class DevProfile(models.Model):
     github_username = models.CharField(max_length=50, blank=True, null=True)
     twitter_username = models.CharField(max_length=50, blank=True, null=True)
     website = models.CharField(max_length=50, blank=True, null=True)
-    bio = models.TextField(blank=True, null=True, default="")
+    bio = models.TextField(blank=True, null=True, default="", help_text="Tell us about yourself")
 
     def __str__(self):
         """
@@ -113,19 +113,35 @@ class WebHook(models.Model):
         ("application/json", "application/json"),
         ("application/x-www-form-urlencoded", "application/x-www-form-urlencoded"),
     )
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(
+        max_length=50, unique=True, help_text="Unique name for the webhook"
+    )
     description = models.TextField(blank=True, null=True)
     bot = models.ForeignKey(Bot, on_delete=models.CASCADE, blank=True, null=True)
-    payload_url = models.CharField(max_length=50)
-    event_type = models.CharField(
-        max_length=50, choices=EVENT_TYPE, blank=True, null=True
+    payload_url = models.CharField(
+        max_length=50, help_text="The URL to send the payload to"
     )
-    method = models.CharField(max_length=5, choices=REQUEST_TYPE_CHOICES, default="GET")
+    event_type = models.CharField(
+        max_length=50,
+        choices=EVENT_TYPE,
+        blank=True,
+        null=True,
+        help_text="The event type to listen for",
+    )
+    method = models.CharField(
+        max_length=5,
+        choices=REQUEST_TYPE_CHOICES,
+        default="GET",
+        help_text="The HTTP method to use when sending the payload",
+    )
     content_type = models.CharField(
-        max_length=50, choices=CONTENT_TYPE, default="application/json"
+        max_length=50, choices=CONTENT_TYPE, default="application/json",
+        help_text="The content type to use when sending the payload",
     )
     date = models.DateTimeField(auto_now=True)
-    required_authentication = models.BooleanField(default=False)
+    required_authentication = models.BooleanField(
+        default=False, help_text="Check this if you want to authenticate the webhook"
+    )
 
     def __str__(self):
         return self.name
