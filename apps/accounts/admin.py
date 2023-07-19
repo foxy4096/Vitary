@@ -28,6 +28,7 @@ class ProfileInline(admin.StackedInline):
         "status",
         "date_of_birth",
     ]
+    autocomplete_fields = ["badges"]
     can_delete = False
 
 

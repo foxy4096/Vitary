@@ -1,17 +1,16 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load bulma_tags %}
-{% load socialaccount %}
 
 
 {% block title %}
 Sign Up
 {% endblock title %}
 {% block no_padding %}
-    {% include 'core/islands/header.html' with heading="Authentication" %}
+{% include 'core/islands/header.html' with heading="Authentication" %}
 {% endblock no_padding %}
 {% block content %}
-<div class="columns is-vcentered" >
+<div class="columns is-vcentered">
     <div class="column">
         <h1 class="title is-1 has-text-weight-bold">Sign Up</h1>
         <p class="subtitle">Just Fill the Information Below to Get Started</p>
@@ -25,20 +24,12 @@ Sign Up
             </p>
             <p>Already have an account? <a href="{% url 'login' %}">Login 🔐</a></p>
             <br />
-            <div class="buttons">
 
-                <button type="submit" class="button is-large">
-                    Sign Up 🚀
-                </button>
-                <a href='{% provider_login_url "github" %}' class="button is-light  is-large">
-                    <span>
-                        Signup With GitHub
-                    </span>
-                    <span class="icon">
-                        <i class="bi bi-github"></i>
-                    </span>
-                </a>
-            </div>
+
+            <button type="submit" class="button is-large">
+                Sign Up 🚀
+            </button>
+
         </form>
     </div>
     <div class="column">

@@ -6,7 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
 from apps.vit.utilities import paginator_limit
 
-from .forms import UserForm, ProfileForm, UserRegisterForm, UsernameForm, DateOfBirthForm
+from .forms import (
+    UserForm,
+    ProfileForm,
+    UserRegisterForm,
+    UsernameForm,
+    DateOfBirthForm,
+)
 
 
 def signup(request):
@@ -17,9 +23,9 @@ def signup(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            login(request, user)
             messages.success(request, "Account created successfully")
-            return redirect("profile")
+            return redirect("edit_profile")
         else:
             if User.objects.filter(username=request.POST["username"]).exists():
                 messages.add_message(
@@ -68,7 +74,9 @@ def edit_profile(request):
         pform = ProfileForm(instance=request.user.profile)
         dform = DateOfBirthForm(instance=request.user.profile)
         return render(
-            request, "accounts/edit_profile.html", {"uform": uform, "pform": pform, "dform": dform}
+            request,
+            "accounts/edit_profile.html",
+            {"uform": uform, "pform": pform, "dform": dform},
         )
 
 
@@ -76,7 +84,7 @@ def profile(request, username):
     """
     View for profile
     """
-    usr = get_object_or_404(User, username=username)
+    usr = get_object_or_404(User, username__iexact=username)
     vits = usr.vits.all()
     if request.user.is_authenticated and not request.user.profile.allow_nsfw:
         vits = vits.exclude(nsfw=True)

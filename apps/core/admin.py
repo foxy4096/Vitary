@@ -29,6 +29,11 @@ class BadgeAdmin(admin.ModelAdmin):
         "color",
         "special",
     ]
+    search_fields = [
+        "name",
+        "description",
+        "color",
+    ]
 
 
 class DocumentAdmin(admin.ModelAdmin):

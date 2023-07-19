@@ -15,34 +15,24 @@ class CommentAdmin(admin.ModelAdmin):
     fields = ["body", "user", "vit", "date", "reply_to"]
     readonly_fields = ["user", "vit", "date"]
 
-
-class EmbedAdmin(admin.TabularInline):
+@admin.register(Embed)
+class EmbedAdmin(admin.ModelAdmin):
     fields = ["url", "vit", "title", "description", "image_url", "video_url"]
     readonly_fields = ["vit"]
-    extra = 0
-    model = Embed
 
 
+@admin.register(Vit)
 class VitAdmin(admin.ModelAdmin):
     list_display = ["body", "user", "like_count", "date"]
-    inlines = [EmbedAdmin]
     list_filter = ["user", "date"]
     search_fields = ["body"]
+    autocomplete_fields = ["user", "plustag", "mentions", "likes"]
     list_per_page = 10
     readonly_fields = [
-        "user",
-        "likes",
         "like_count",
-        "mentions",
-        "plustag",
-        "contain_embed",
-        "saved_embed",
-        "plustag",
         "date",
     ]
 
 
-admin.site.register(Vit, VitAdmin)
-admin.site.register(Embed)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Plustag, PlustagAdmin)

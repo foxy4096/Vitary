@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django_resized import ResizedImageField
 from django.utils.safestring import mark_safe
-from apps.core.templatetags.fetch_gravatar import gravatar_url
+import secrets
+
 from apps.core.models import Badge
 
 
@@ -47,6 +48,8 @@ class Profile(models.Model):
 
     allow_nsfw = models.BooleanField("Allow NSFW Content", default=False)
 
+    auth_token = models.CharField(max_length=255, blank=True, null=True)
+
     def __str__(self):
         """
         String representation of the model
@@ -74,7 +77,19 @@ class Profile(models.Model):
         return self.followed_by.all()[:4]
 
     def get_image_url(self):
-        return self.image_url or gravatar_url(self.user)
+        return self.image.url
+
+    def save(self, *args, **kwargs):
+        """
+        Overrides the save method to generate a token if one doesn't exist already.
+        """
+        if not self.auth_token:
+            self.auth_token = secrets.token_hex(16)
+        super().save(*args, **kwargs)
+
+    def refresh_token(self, *args, **kwargs):
+        self.auth_token = secrets.token_hex(16)
+        super().save(*args, **kwargs)
 
     def to_json(self):
         """

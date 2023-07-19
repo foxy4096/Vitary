@@ -12,6 +12,7 @@ class TokenInline(admin.TabularInline):
 
 class DevProfileAdmin(admin.ModelAdmin):
     inlines = [TokenInline]
+    autocomplete_fields = ["user"]
 
 
 admin.site.register(Bot)

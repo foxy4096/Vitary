@@ -12,7 +12,6 @@ from django.views.static import serve
 
 urlpatterns = [
     path("admin/", include("loginas.urls")),
-    path('admin/webshell/', include('webshell.urls')),
     path("admin/", admin.site.urls),
     path("", include("apps.core.urls")),
     path("auth/", include("apps.accounts.urls")),

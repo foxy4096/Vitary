@@ -1,7 +1,6 @@
 {% extends 'core/base.html' %}
 {% load bulma_tags %}
 {% load static %}
-{% load socialaccount %}
 
 
 {% block title %}
@@ -27,14 +26,6 @@ Login
             <br>
             <div class="buttons">
                 <button type="submit" class="button is-large">Login 🔐</button>
-                <a href='{% provider_login_url "github" %}' class="button is-white  is-large">
-                    <span>
-                        Login With GitHub
-                    </span>
-                    <span class="icon">
-                        <i class="bi bi-github"></i>
-                    </span>
-                </a>
             </div>
         </form>
     </div>

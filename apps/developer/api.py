@@ -43,7 +43,21 @@ def login(request, username: str = Form(...), password: str = Form(...)):
     """
     Login to the API.
     """
+    print(request)
     user = authenticate(request, username=username, password=password)
+    if user is None:
+        raise HttpError(401, "Invalid username or password.")
+    return {"token": user.devprofile.token.token}
+
+
+@api.post("/next-login/", auth=None)
+@csrf_exempt
+def next_login(request):
+    """
+    Login to the API for Next JS.
+    """
+    print(request)
+    user = authenticate(request, username=request.POST.get("username"), password=request.POST.get("password"))
     if user is None:
         raise HttpError(401, "Invalid username or password.")
     return {"token": user.devprofile.token.token}
@@ -89,7 +103,7 @@ def my_comments(request):
     return get_list_or_404(Comment, user=request.auth)
 
 
-@api.get("/users", response=List[UserSchema])
+@api.get("/users", auth=None, response=List[UserSchema])
 @paginate
 def user_list(request):
     """
@@ -98,7 +112,7 @@ def user_list(request):
     return User.objects.all()
 
 
-@api.get("/users/{username}", response=UserSchema)
+@api.get("/users/{username}", auth=None, response=UserSchema)
 def user_detail(request, username):
     """
     Return a user.
@@ -180,7 +194,7 @@ def follow_user(request, username: str):
     return "Follow"
 
 
-@api.get("/vits", response=List[VitSchema])
+@api.get("/vits", auth=None, response=List[VitSchema])
 @paginate
 def vit_list(request):
     """
@@ -192,7 +206,7 @@ def vit_list(request):
     return vits
 
 
-@api.get("/vits/{username}", response=List[VitSchema])
+@api.get("/vits/{username}", auth=None, response=List[VitSchema])
 @paginate
 def vit_list_by_user(request, username):
     """
@@ -201,7 +215,7 @@ def vit_list_by_user(request, username):
     return get_list_or_404(Vit, user__username=username)
 
 
-@api.get("/vits/{vit_id}", response=VitSchema)
+@api.get("/vits/{vit_id}", auth=None, response=VitSchema)
 def vit_detail(request, vit_id):
     """
     Returns a single vit.
@@ -257,7 +271,7 @@ def create_comment(
     )
 
 
-@api.get("/comments", response=List[CommentSchema])
+@api.get("/comments", auth=None, response=List[CommentSchema])
 @paginate
 def comment_list(request):
     """
@@ -266,7 +280,7 @@ def comment_list(request):
     return Comment.objects.all()
 
 
-@api.get("/comments/{comment_id}", response=CommentSchema)
+@api.get("/comments/{comment_id}", auth=None, response=CommentSchema)
 def comment_detail(request, comment_id):
     """
     Returns a single comment.
@@ -274,7 +288,7 @@ def comment_detail(request, comment_id):
     return get_object_or_404(Comment, id=comment_id)
 
 
-@api.get("/comments/user/{username}", response=List[CommentSchema])
+@api.get("/comments/user/{username}", auth=None, response=List[CommentSchema])
 @paginate
 def comment_list_by_user(request, username):
     """

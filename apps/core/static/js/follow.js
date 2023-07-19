@@ -1,6 +1,6 @@
 function follow(username) {
   $.ajax({
-    url: `/api/follow/${username}`,
+    url: `/api/v1/follow/?username=${username}`,
     type: "GET",
     success: function (data) {
       console.log(data);
@@ -14,7 +14,7 @@ function follow(username) {
       try {
         document.querySelector("#followModal").classList.toggle("is-active");
       } catch (err) {
-        console.log(err);
+        return
       }
     },
   });
