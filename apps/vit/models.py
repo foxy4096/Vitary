@@ -1,6 +1,5 @@
-from typing import Any, Dict, Tuple
 from django.db import models
-
+from apps.core.templatetags.convert_markdown import convert_markdown
 from django.contrib.auth.models import User
 
 
@@ -35,11 +34,8 @@ class Vit(models.Model):
         editable=True,
     )
 
-    contain_embed = models.BooleanField(default=False)
-    saved_embed = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        self.body = self.body.strip()
         super().save(*args, **kwargs)
         for plus in self.plustag.all():
             plus.rating = plus.vit_set.count()
@@ -127,7 +123,7 @@ class Embed(models.Model):
     """
 
     url = models.URLField()
-    vit = models.ForeignKey(Vit, on_delete=models.CASCADE)
+    vit = models.ForeignKey(Vit, on_delete=models.CASCADE, related_name="embeds")
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, blank=True, null=True, default="")
     image_url = models.URLField(blank=True, null=True)

@@ -14,6 +14,7 @@ from ninja.security import django_auth
 from apps.developer.authenticate import BotApiKey, UserApiKey
 from apps.developer.constants import ZEN
 from apps.developer.schema import CommentSchema, UserSchema, VitSchema
+from apps.notification.models import Notification
 from apps.notification.utilities import notify
 from apps.vit.models import *
 
@@ -57,7 +58,11 @@ def next_login(request):
     Login to the API for Next JS.
     """
     print(request)
-    user = authenticate(request, username=request.POST.get("username"), password=request.POST.get("password"))
+    user = authenticate(
+        request,
+        username=request.POST.get("username"),
+        password=request.POST.get("password"),
+    )
     if user is None:
         raise HttpError(401, "Invalid username or password.")
     return {"token": user.devprofile.token.token}
@@ -201,14 +206,14 @@ def vit_list(request):
     Returns a list of vits.
     """
     vits = Vit.objects.all().order_by("-date")
-    if not request.auth.profile.allow_nsfw:
+    if not request.user.profile.allow_nsfw:
         vits = vits.exclude(nsfw=True)
     return vits
 
 
-@api.get("/vits/{username}", auth=None, response=List[VitSchema])
+@api.get("/users/{username}/vits", auth=None, response=List[VitSchema])
 @paginate
-def vit_list_by_user(request, username):
+def vit_list_by_user(request, username: str):
     """
     Returns a list of vits by a user.
     """
@@ -216,7 +221,7 @@ def vit_list_by_user(request, username):
 
 
 @api.get("/vits/{vit_id}", auth=None, response=VitSchema)
-def vit_detail(request, vit_id):
+def vit_detail(request, vit_id: int):
     """
     Returns a single vit.
     """
@@ -288,7 +293,7 @@ def comment_detail(request, comment_id):
     return get_object_or_404(Comment, id=comment_id)
 
 
-@api.get("/comments/user/{username}", auth=None, response=List[CommentSchema])
+@api.get("/users/{username}/comments", auth=None, response=List[CommentSchema])
 @paginate
 def comment_list_by_user(request, username):
     """
@@ -307,3 +312,11 @@ def delete_comment(request, comment_id):
     """
     get_object_or_404(Comment, id=comment_id, user=request.auth).delete()
     return {"detail": "Comment deleted"}
+
+
+@api.get("/unread-notifications-count", auth=auth)
+def unread_notification_count(request):
+    """
+    Get the total no. of notification of a user.
+    """
+    return {"count": Notification.objects.filter(to_user=request.auth, is_read=False).count()}

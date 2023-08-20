@@ -1,6 +1,5 @@
 {% extends 'core/base.html' %}
 {% load bulma_tags %}
-{% load socialaccount %}
 {% load static %}
 {% block title %}
 Your Profile
@@ -30,9 +29,7 @@ Your Profile
                 </button>
                 <a href="{% url 'advance_settings' %}" class="button is-link is-warning">Advance Settings 🔧</a>
             </div>
-            <a href="{% url 'socialaccount_connections' %}" >
-                    Your Social Account Connections
-            </a>
+            
         </div>
     </div>
 </form>

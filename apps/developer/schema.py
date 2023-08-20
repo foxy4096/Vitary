@@ -5,7 +5,21 @@ from ninja import ModelSchema, Schema
 
 from apps.accounts.models import Profile
 from apps.core.models import Badge
-from apps.vit.models import Comment, Vit
+from apps.notification.models import Notification
+from apps.vit.models import Comment, Vit, Embed
+
+
+class EmbedSchema(ModelSchema):
+    """
+    Schema for Embed model.
+    """
+
+    id: int
+    title: str
+
+    class Config:
+        model = Embed
+        model_fields = ["id", "url", "title", "description", "image_url"]
 
 
 class BadgeSchema(ModelSchema):
@@ -34,6 +48,7 @@ class ProfileSchema(ModelSchema):
             "following_count",
             "bio",
             "status",
+	    "verified",
             "allow_nsfw",
         ]
 
@@ -63,6 +78,7 @@ class VitSchema(ModelSchema):
     """
 
     user: UserSchema
+    embeds: List[EmbedSchema] = []
 
     class Config:
         model = Vit
@@ -94,4 +110,19 @@ class CommentSchema(ModelSchema):
             "user",
             "date",
             "reply_to",
+        ]
+
+
+class NotificationSchema(ModelSchema):
+    """
+    Schema for notifications
+    """
+
+    class Config:
+        model = Notification
+        model_fields = [
+            "id",
+            "message",
+            "date",
+            "is_read",
         ]

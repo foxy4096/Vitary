@@ -106,14 +106,14 @@
 
                 {{ vit.body| remove_image_link | remove_video_link | plustag | safe | mention | convert_markdown:vit.user }}
                 <div class="columns is-multiline">
-                    {% if vit.embed_set.all|length > 1 %}
-                    {% for embed in vit.embed_set.all %}
+                    {% if vit.embeds.all|length > 1 %}
+                    {% for embed in vit.embeds.all %}
                     <div class="column is-6">
                         {% include 'vit/islands/embed_block.html' with embed=embed %}
                     </div>
                     {% endfor %}
                     {% else %}
-                    {% for embed in vit.embed_set.all %}
+                    {% for embed in vit.embeds.all %}
                     <div class="column">
                         {% include 'vit/islands/embed_block.html' with embed=embed %}
                     </div>

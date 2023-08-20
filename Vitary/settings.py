@@ -84,6 +84,12 @@ ROOT_URLCONF = "Vitary.urls"
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
+from corsheaders.defaults import default_headers
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    "x-api-key",
+)
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -200,3 +206,5 @@ STRIPE_PUBLIC_KEY = env("STRIPE_PUBLIC_KEY")
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 
 # NINJA_DOCS_VIEW = 'redoc'
+NINJA_PAGINATION_PER_PAGE = 10
+NINJA_PAGINATION_CLASS = 'ninja.pagination.PageNumberPagination'
