@@ -99,8 +99,6 @@ def create_comment(form, request, vit, pk):
 def plustag_vits(request, p):
     plustag = get_object_or_404(Plustag, name=p)
     vits = plustag.vit_set.all()
-    if request.user.is_authenticated and not request.user.profile.allow_nsfw:
-        vits = vits.exclude(nsfw=True)
     paginator = Paginator(vits, paginator_limit(request))
     page = request.GET.get("page")
     vits = paginator.get_page(page)
