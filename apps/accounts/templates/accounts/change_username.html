@@ -7,21 +7,22 @@
 Delete Account
 {% endblock title %}
 {% block no_padding %}
-    {% include 'core/islands/header.html' with heading="Change Username" %}
-    {% endblock no_padding %}
+{% include 'core/islands/header.html' with heading="Change Username" %}
+{% endblock no_padding %}
 
 {% block content %}
 <div class="card">
     <div class="card-content">
-        <form action="." method="post">
-            <p class="subtitle">Are you sure that you want to change your username?</p>
-            {{form|bulma}}
+        <form method="post">
+            <h1 class="title">Are you sure that you want to change your username?</h1>
+            <p class="subtitle">There will be side-effects after changing the username</p>
+            <div class="my-4">
+                {{form}}
+            </div>
             {% csrf_token %}
-            <br>
-            <br>
             <div class="buttons">
                 <button type="submit" class="button is-success">Change my username</button>
-                <a href="{% url 'home' %}" class="button is-ghost">No take me Home</a>
+                <a href="{% url 'home' %}" class="button">No take me Home</a>
             </div>
         </form>
     </div>

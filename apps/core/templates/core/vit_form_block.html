@@ -8,7 +8,7 @@
         <div class="media pb-4">
             <div class="media-left">
                 <figure class="image is-48x48">
-                    <img src="{{ user.profile.image.url }}" alt="user avatar" class="is-rounded {{ user.profile.status }}">
+                    <img src="{{ user.profile.get_image_url }}" alt="user avatar" class="is-rounded {{ user.profile.status }}">
                 </figure>
             </div>
             <div class="media-content">
@@ -31,7 +31,7 @@
         <div id="markdown-content" class="is-hidden box content"></div>
         <div class="field">
             <div class="control">
-                <button class="button is-primary is-rounded">
+                <button class="button is-success is-large">
                     Save
                 </button>
             </div>

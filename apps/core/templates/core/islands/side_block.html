@@ -15,7 +15,7 @@
             <div class="media-left">
                 <a href="{% url 'user_detail' related_person.username %}">
                     <article class="image is-32x32 is-square">
-                        <img src="{{ related_person.profile.image.url }}" alt="" class="is-rounded">
+                        <img src="{{ related_person.profile.get_image_url }}" alt="" class="is-rounded">
                     </article>
                 </a>
             </div>
@@ -55,7 +55,7 @@
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
-                    <img src="{{ following.image.url }}" alt="." class="is-rounded {{following.status}}">
+                    <img src="{{ following.get_image_url }}" alt="." class="is-rounded {{following.status}}">
                 </article>
             </div>
             <div class="media-content">
@@ -92,7 +92,7 @@
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
-                    <img src="{{ follower.image.url }}" alt="." class="is-rounded {{follower.status}}">
+                    <img src="{{ follower.get_image_url }}" alt="." class="is-rounded {{follower.status}}">
                 </article>
             </div>
             <div class="media-content">

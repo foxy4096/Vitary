@@ -9,12 +9,11 @@ Following
 {% endblock no_padding %}
 
 {% block content %}
-        <div class="box">
+<h1 class="title">Following</h1>
             {% for person in followings %}
             {% include 'core/islands/user_ext.html' with person=person.user %}
             {% empty %}
             <p>Not following anyone yet.</p>
             {% endfor %}
-        </div>
         {% include 'core/islands/pagination.html' with page=followings %}
 {% endblock content %}

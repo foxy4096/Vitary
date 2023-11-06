@@ -13,7 +13,7 @@
     <div class="media">
         <div class="media-left">
             <figure class="image is-64x64">
-                <img src="{{ bot.user.profile.image.url }}" alt="{{ bot.user.username }}" class="is-rounded {{ bot.user.profile.status }}">
+                <img src="{{ bot.user.profile.get_image_url }}" alt="{{ bot.user.username }}" class="is-rounded {{ bot.user.profile.status }}">
             </figure>
         </div>
         <div class="media-content">
@@ -24,7 +24,7 @@
                     <small>Updated {{ bot.date | naturaltime }}</small>
                 </p>
                 <p>
-                    {{ bot.description | safe | mention | convert_markdown:bot.owner }}
+                    {{ bot.description | safe | mention | convert_markdown }}
                 </p>
             </div>
         </div>

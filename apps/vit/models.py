@@ -11,10 +11,10 @@ class Vit(models.Model):
     body = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="vits")
     date = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User, related_name="liked_vits")
+    likes = models.ManyToManyField(User, related_name="liked_vits", blank=True)
     like_count = models.IntegerField(default=0)
     plustag = models.ManyToManyField("Plustag", blank=True)
-    mentions = models.ManyToManyField(User, related_name="mentioned_vits")
+    mentions = models.ManyToManyField(User, related_name="mentioned_vits", blank=True)
     image = models.ImageField(
         upload_to="uploads/images/",
         blank=True,

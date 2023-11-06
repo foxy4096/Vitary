@@ -3,18 +3,18 @@
     <ul class="pagination-list">
         {% if page.has_previous %}
         <a class="pagination-link" aria-label="Goto page 1"
-            href="?q={{query}}&page=1&limit={{ request.GET.limit|default:10 }}">First Page</a>
+        href="?q={{query}}&page=1">First Page</a>
         <a class="pagination-link"
-            href="?q={{query}}&page={{ page.previous_page_number }}&limit={{ request.GET.limit|default:10 }}">«
+            href="?q={{query}}&page={{ page.previous_page_number }}">«
             Previous</a>
         {% endif %}
         <a class="pagination-link is-current" aria-label="Goto page {{ page.number }}">{{ page.number }}</a>
         {% if page.has_next %}
         <a class="pagination-link"
-            href="?q={{query}}&page={{ page.next_page_number }}&limit={{ request.GET.limit|default:10 }}">Next page
+            href="?q={{query}}&page={{ page.next_page_number }}">Next page
             »</a>
         <a class="pagination-link" aria-label="Goto page 4&amp;query="
-            href="?q={{query}}&page={{ page.paginator.num_pages }}&limit={{ request.GET.limit|default:10 }}">Last
+            href="?q={{query}}&page={{ page.paginator.num_pages }}">Last
             Page</a>
         {% endif %}
     </ul>

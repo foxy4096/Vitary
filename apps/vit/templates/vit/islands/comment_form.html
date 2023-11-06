@@ -1,4 +1,5 @@
-<form method="POST" >
+{% load bulma_tags %}
+<form method="POST" hx-post="." hx-target="#comments">
     {% csrf_token %}
     {% if comment_id %}
     <input type="hidden" name="comment_id" value="{{comment_id}}">
@@ -8,7 +9,7 @@
             <div class="media-left">
                 <figure class="image is-48x48">
                     <a href="{% url 'user_detail' user.username %}">
-                        <img src="{{ user.profile.image.url }}" alt="{{user}}"
+                        <img src="{{ user.profile.get_image_url }}" alt="{{user}}"
                             class="is-rounded {{ user.profile.status }}">
                     </a>
                 </figure>
@@ -16,8 +17,7 @@
             <div class="media-content">
                 <div class="field">
                     <p class="control">
-                        <textarea class="textarea" name="body" required
-                            placeholder="Write Comment here, Use mentions and markdown"></textarea>
+                        {{ form.body | bulma }}
                     <p class="help"><a href="https://www.markdownguide.org/" target="_blank">
                             Styling with Markdown is supported
                         </a>

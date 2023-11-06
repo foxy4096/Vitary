@@ -12,6 +12,7 @@ from .forms import (
     UserRegisterForm,
     UsernameForm,
     DateOfBirthForm,
+    ProfileAvatarForm,
 )
 
 
@@ -61,22 +62,32 @@ def edit_profile(request):
     """
     if request.method == "POST":
         uform = UserForm(request.POST, instance=request.user)
-        pform = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        pform = ProfileForm(request.POST, instance=request.user.profile)
+        aform = ProfileAvatarForm(
+            request.POST, request.FILES, instance=request.user.profile
+        )
         dform = DateOfBirthForm(request.POST, instance=request.user.profile)
-        if uform.is_valid() and pform.is_valid() and dform.is_valid():
+        if (
+            uform.is_valid()
+            and pform.is_valid()
+            and dform.is_valid()
+            and aform.is_valid()
+        ):
             uform.save()
             pform.save()
             dform.save()
+            aform.save()
             messages.success(request, "Profile Edited Successfully! \n You look nice!")
             return redirect("edit_profile")
     else:
         uform = UserForm(instance=request.user)
         pform = ProfileForm(instance=request.user.profile)
+        aform = ProfileAvatarForm(instance=request.user.profile)
         dform = DateOfBirthForm(instance=request.user.profile)
         return render(
             request,
             "accounts/edit_profile.html",
-            {"uform": uform, "pform": pform, "dform": dform},
+            {"uform": uform, "pform": pform, "dform": dform, "aform": aform},
         )
 
 
@@ -96,6 +107,11 @@ def profile(request, username):
         "accounts/user_detail.html",
         {"usr": usr, "vits": vits, "onProfile": True},
     )
+
+
+def user_detail_card(request, username):
+    tuser = get_object_or_404(User, username=username)
+    return render(request, "core/islands/user_profile.html", {"usr": tuser})
 
 
 @login_required
@@ -195,7 +211,7 @@ def change_username(request):
             user.username = form.cleaned_data["username"]
             user.save()
             messages.success(request, "Username Changed Successfully!")
-            return redirect("profile")
+            return redirect("edit_profile")
 
     else:
         form = UsernameForm(initial={"username": request.user.username})
@@ -207,4 +223,4 @@ def user_image(request, username):
     View for getting the image of a user
     """
     usr = get_object_or_404(User, username=username)
-    return redirect(usr.profile.image.url)
+    return redirect(usr.profile.get_image_url)

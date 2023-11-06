@@ -1,24 +1,24 @@
-import contextlib
 from django import template
-from django.template.defaultfilters import stringfilter
-from django.contrib.auth.models import User
-from django.urls import reverse_lazy
+from django.urls import reverse
+from ..models import User
+import re
 
 register = template.Library()
 
 
-@register.filter(name='mention', is_safe=True)
-@stringfilter
+@register.filter
 def mention(value):
-    my_list = value.split()
-    for i in my_list:
-        if i[0] == '@':
-            with contextlib.suppress(User.DoesNotExist):
-                stng = i[1:].replace(',', '').replace('.', '').replace('!', '').replace('?', '').replace(';', '').replace(':', '').replace('-', '').replace('_', '').replace('(', '').replace(')', '').replace('[', '').replace(']', '').replace('{', '').replace('}', '').replace(
-                    '/', '').replace('\\', '').replace('*', '').replace('#', '').replace('=', '').replace('%', '').replace('$', '').replace('^', '').replace('&', '').replace('|', '').replace('~', '').replace('`', '').replace('<', '').replace('>', '').replace("'", "")
-                if user := User.objects.get(username=stng):
-                    profile_link = reverse_lazy('user_detail', kwargs={
-                                                'username': user.username})
-                    j = f"<a href='{profile_link}' data-toggle='tooltip' title='{user.get_full_name()}'><b>{i}</b></a>"
-                    value = value.replace(i, j)
-    return value
+    mention_pattern = r"@(\w+)"
+
+    def replace_mention(match):
+        username = match.group(1)
+        user = User.objects.filter(username=username).first()
+        if user:
+            profile_url = reverse("user_detail", args=[username])
+            mention_link = (
+                f'<a href="{profile_url}" class="user-mention" title="{username}">@{username}</a>'
+            )
+            return mention_link
+        return match.group(0)
+
+    return re.sub(mention_pattern, replace_mention, value)

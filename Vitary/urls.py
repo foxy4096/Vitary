@@ -1,5 +1,11 @@
 from apps.accounts.api import follow, user_search_api
-from apps.accounts.views import profile, user_followers, user_following, user_image
+from apps.accounts.views import (
+    profile,
+    user_followers,
+    user_following,
+    user_image,
+    user_detail_card,
+)
 from apps.chat.api import get_message_api, send_message_api
 from apps.developer.api import api
 from apps.vit.api import like
@@ -23,6 +29,7 @@ urlpatterns = [
                 path("", profile, name="user_detail"),
                 path("following/", user_following, name="following"),
                 path("followers/", user_followers, name="followers"),
+                path("card/", user_detail_card, name="_user_card"),
             ]
         ),
     ),

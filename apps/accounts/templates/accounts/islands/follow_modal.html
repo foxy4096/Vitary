@@ -13,10 +13,10 @@
                     Now you can Follow/Unfollow this user.
                 </p>
                 {% include 'accounts/islands/follow_button.html' with usr=usr eclass="is-link" %}
-                <button class="button" onclick="document.querySelector('#followModal').classList.toggle('is-active')">Cancel</button>
+                <button class="button" onclick="$('#followModal').removeClass('is-active')">Cancel</button>
             </div>
         </div>
     </div>
     <button class="modal-close is-large" aria-label="close"
-        onclick="document.querySelector('#followModal').classList.toggle('is-active')"></button>
+        onclick="$('#followModal').removeClass('is-active')"></button>
 </div>

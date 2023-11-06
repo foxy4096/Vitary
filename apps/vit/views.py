@@ -90,6 +90,8 @@ def create_comment(form, request, vit, pk):
         reply_to = get_object_or_404(Comment, pk=request.POST.get("comment_id"))
         comment.reply_to = reply_to
     comment.save()
+    if is_htmx_request(request):
+        return redirect("_comment_refresh", vit.pk)
     messages.success(request, "Comment added successfully")
     return redirect("vit_detail", pk=pk)
 
@@ -122,4 +124,22 @@ def vit_liked_users(request, vit_pk):
 @login_required
 def _comment_form(request):
     comment_id = request.GET.get("comment_id")
-    return render(request, "vit/islands/comment_form.html", {"comment_id": comment_id})
+    form = CommentForm()
+    return render(
+        request,
+        "vit/islands/comment_form.html",
+        {"comment_id": comment_id, "form": form},
+    )
+
+
+def _comment_refresh(request, pk):
+    vit = get_object_or_404(Vit, pk=pk)
+    paginator = Paginator(vit.comment_set.all(), paginator_limit(request))
+    page = request.GET.get("page")
+    comments = paginator.get_page(page)
+    form = CommentForm()
+    return render(
+        request,
+        "vit/islands/comments.html",
+        {"comments": comments, "vit": vit, "form": form},
+    )

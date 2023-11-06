@@ -5,16 +5,20 @@ function follow(username) {
     success: function (data) {
       console.log(data);
       if (data.follow === true) {
-        $("#follow_" + username).text("Unfollow ➖");
+        $("#follow_" + username).html(
+          `<span>Unfollow</span><span class="icon">&minus;</span>`
+        );
         $("#follower_count").text(parseInt($("#follower_count").text()) + 1);
       } else if (data.follow === false) {
-        $("#follow_" + username).text("Follow ➕");
+        $("#follow_" + username).html(`
+    <span>Follow</span><span class="icon">&plus;</span>
+        `);
         $("#follower_count").text(parseInt($("#follower_count").text()) - 1);
       }
       try {
         document.querySelector("#followModal").classList.toggle("is-active");
       } catch (err) {
-        return
+        return;
       }
     },
   });

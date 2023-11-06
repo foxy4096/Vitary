@@ -50,7 +50,7 @@
             <div class="media-center">
                 <article class="image is-48x48 mt-2">
                     <a href="{% url 'user_detail' post.user.username %}">
-                        <img src="{{ post.user.profile.image.url }}"
+                        <img src="{{ post.user.profile.get_image_url }}"
                             class="author-image  is-rounded {{post.user.profile.status}}" alt="Placeholder image">
                     </a>
                 </article>
@@ -67,7 +67,7 @@
             </div>
         </div>
         <div class="content article-body">
-            <p class="has-text-centered">{{ post.body | safe | mention | convert_markdown:post.user }}</p>
+            <p class="has-text-centered">{{ post.body | safe | mention | convert_markdown }}</p>
         </div>
     </div>
 </div>

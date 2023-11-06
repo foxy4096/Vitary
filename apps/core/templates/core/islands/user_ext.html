@@ -6,7 +6,7 @@
     <div class="media-left">
         <article class="image is-48x48">
             <a href="{% url 'user_detail' person %}">
-                <img src="{{ person.profile.image.url }}" alt="{{person.username}}'s profile picture" class="is-rounded {{ person.profile.status }}">
+                <img src="{{ person.profile.get_image_url }}" alt="{{person.username}}'s profile picture" class="is-rounded {{ person.profile.status }}">
             </a>
         </article>
     </div>
@@ -38,7 +38,9 @@
             </a>
         </p>
         <div class="content is-hidden-mobile">
-            {{ person.profile.bio | safe | mention | convert_markdown:person }}
+            {% autoescape off %}
+            {{ person.profile.bio| mention | convert_markdown }}
+            {% endautoescape %}
         </div>
     </div>
     <div class="media-right">

@@ -12,7 +12,7 @@ Dashboard - Develop
     <div class="column is-4 is-6-tablet-only">
         <div class="box badge-primary">
             <figure class="image is-128x128">
-                <img src="{{ user.profile.image.url }}" alt="{{ user }}" class="is-rounded {{ user.profile.status }}">
+                <img src="{{ user.profile.get_image_url }}" alt="{{ user }}" class="is-rounded {{ user.profile.status }}">
             </figure>
             <br>
             <div id="devinfo">
@@ -26,7 +26,7 @@ Dashboard - Develop
                 </p>
                 <p id="bio">
                 <div id="bio_data">
-                    {{ user.devprofile.bio | safe | mention | convert_markdown:user }}
+                    {{ user.devprofile.bio | safe | mention | convert_markdown }}
                 </div>
                 </p>
 
@@ -110,7 +110,7 @@ Dashboard - Develop
             <div class="media">
                 <div class="media-left">
                     <figure class="image is-32x32">
-                        <img src="{{ bot.user.profile.image.url }}" alt="{{ bot }}" class="is-rounded {{ bot.user.profile.status }}">
+                        <img src="{{ bot.user.profile.get_image_url }}" alt="{{ bot }}" class="is-rounded {{ bot.user.profile.status }}">
                     </figure>
                 </div>
                 <div class="media-content">

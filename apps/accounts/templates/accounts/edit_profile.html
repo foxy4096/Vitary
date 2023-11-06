@@ -4,32 +4,27 @@
 {% block title %}
 Your Profile
 {% endblock title %}
-
-{% block no_padding %}
-{% include 'core/islands/header.html' with heading="Edit Profile" %}
-{% endblock no_padding %}
-
 {% block content %}
-<form method="POST" enctype="multipart/form-data"  class="box">
+<h1 class="title">Profile</h1>
+<form method="POST" enctype="multipart/form-data">
     {{ uform | bulma }}
     {{ dform | bulma }}
-    <br>
-
-    <figure class="image is-128x128">
-        <img class="is-rounded" src="{{ user.profile.image.url }}">
-    </figure>
     {{ pform | bulma }}
+        <figure class="image is-64x64 block">
+            <img class="is-rounded" src="{{ user.profile.get_image_url }}">
+        </figure>
+        <div class="field">
+            {{ aform.as_div }}
+        </div>
     {% csrf_token %}
     <div class="field">
         <div class="control">
-
             <div class="buttons">
-                <button type="submit" class="button is-success ">Save
-                    💾
+                <button type="submit" class="button is-success">Save
                 </button>
-                <a href="{% url 'advance_settings' %}" class="button is-link is-warning">Advance Settings 🔧</a>
+                <a href="{% url 'advance_settings' %}" class="button is-link is-warning">Advance</a>
             </div>
-            
+
         </div>
     </div>
 </form>

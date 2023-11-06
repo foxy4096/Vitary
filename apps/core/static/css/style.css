@@ -1,43 +1,149 @@
-/* Form */
-/* 
-input[type=text] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-}
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
 
-input[type=password] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
+.hljs{
+  padding: 0px !important;
 }
 
 
-
-input[type=email] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
+.emojione {
+  width: 30px;
+  padding-left: 6px;
+  display: inline-flex;
+  vertical-align: text-top;
 }
 
-input{
-    margin-bottom: 18px;
+.tabbed-set {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1em 0;
+  border-radius: 0.1rem;
+}
+
+.tabbed-set > input {
+  display: none;
+}
+
+.tabbed-set label {
+  width: auto;
+  padding: 0.9375em 1.25em 0.78125em;
+  font-weight: 700;
+  font-size: 0.84em;
+  white-space: nowrap;
+  border-bottom: 0.15rem solid transparent;
+  border-top-left-radius: 0.1rem;
+  border-top-right-radius: 0.1rem;
+  cursor: pointer;
+  transition: background-color 250ms, color 250ms;
+}
+
+.tabbed-set .tabbed-content {
+  width: 100%;
+  display: none;
+  box-shadow: 0 -0.05rem #ddd;
+}
+
+.tabbed-set input {
+  position: absolute;
+  opacity: 0;
+}
+
+.tabbed-set input:checked:nth-child(n + 1) + label {
+  color: rgb(0, 140, 255);
+  border-color: rgb(0, 140, 255);
+}
+
+@media screen {
+  .tabbed-set input:nth-child(n + 1):checked + label + .tabbed-content {
+    order: 99;
+    display: block;
+  }
+}
+
+@media print {
+  .tabbed-content {
+    display: contents;
+  }
+}
+
+#mdout {
+  /* background: #0f0f0f; */
+  border: 1px #dbdbdb solid;
+  padding: 1em;
+  overflow-x: auto;
+  word-break: break-all;
+}
+
+#mdout:empty {
+  display: none;
+}
+
+/* .button,
+input,
+textarea,
+select {
+  border-radius: 0% !important;
+} */
+
+.modal-background {
+  background-color: rgba(44, 44, 44, 0.493) !important;
+}
+.editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px #363636 solid;
+  border-bottom: none;
+  justify-content: flex-start;
+  /* background-color: #0a0a0a; */
+  padding: 10px;
 }
 
 textarea {
-    width: 100%;
-    height: 150px;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: px solid rgb(0, 0, 0);
-    background-color: #ffffff;
-    resize: both;
-} */
-.emojione {
-    display: inline-flex;
-    height: 1.125em;
-    vertical-align: text-top;
+  box-sizing: border-box;
+  box-shadow: none;
+  width: 100% !important;
+  resize: both;
 }
+
+.editor-button {
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-right: 10px;
+  background-color: inherit;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  font-size: large;
+}
+
+.editor-button:hover {
+  background-color: #3b414d;
+}
+
+textarea:hover {
+  box-shadow: none !important;
+}
+
+/* #mdout > ul {
+  margin-left: 5px !important;
+}
+
+#mdout > ul > li {
+  list-style: disc !important;
+} */
+
+#mdout,
+#editor {
+  width: 100%; /* Allow both elements to expand to their container's width */
+  box-sizing: border-box; /* Include padding and borders in the width calculation */
+}
+
+.postbox {
+  background: #14161a;
+  padding: inherit;
+  margin: 1em;
+  border: 1px #515151 solid;
+  border-radius: 5px;
+}
+

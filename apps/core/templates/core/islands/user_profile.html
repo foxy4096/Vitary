@@ -14,7 +14,7 @@
         <div class="media">
             <div class="media-left">
                 <figure class="image is-96x96">
-                    <img class="is-rounded {% if usr.profile.header_image %} is-rounded-page {% endif %}  {{ usr.profile.status }}" src="{{ usr.profile.image.url }}" title="{{ usr.profile.status.title }}">
+                    <img class="is-rounded {% if usr.profile.header_image %} is-rounded-page {% endif %}  {{ usr.profile.status }}" src="{{ usr.profile.get_image_url }}" title="{{ usr.profile.status.title }}">
                 </figure>
             </div>
         </div>
@@ -47,14 +47,14 @@
         <p class="has-text-weight-light">
             Highlights
         </p>
-        <a href="{% url 'develop_home' %}">Developer 💻</a>
+        <a href="{% url 'developer_home' %}">Developer 💻</a>
         <hr>
         {% endif %}
 
         </p>
 
         <p class="content">
-            {{ usr.profile.bio | mention | safe | convert_markdown:usr }}
+            {{ usr.profile.bio | mention | safe | convert_markdown }}
         </p>
     </div>
 </div>

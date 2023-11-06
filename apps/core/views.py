@@ -10,14 +10,11 @@ from django.urls import reverse
 
 from apps.core.forms import ReportForm
 from apps.core.models import Badge
-from apps.core.templatetags import convert_markdown
+from apps.core.templatetags.convert_markdown import convert_markdown
 from apps.vit.forms import VitForm
 from apps.vit.models import Vit
-from apps.vit.templatetags import mention
-from  apps.vit.utilities import paginator_limit
-
-
-
+from apps.vit.templatetags.mention import mention
+from apps.vit.utilities import paginator_limit
 
 
 def index(request):
@@ -121,6 +118,7 @@ def search(request):
         context["query"] = query
     return render(request, "core/search.html", context)
 
+
 def badge(request, pk):
     badge = get_object_or_404(Badge, id=pk)
     usr = badge.profile_set.all().order_by("-id")
@@ -136,11 +134,10 @@ def redirect_to_profile(request):
 
 @login_required
 def convert_markdown_to_html(request):
-    return HttpResponse(
-        convert_markdown.convert_markdown(
-            mention.mention(request.POST.get("value", "")), user=request.user
-        )
-    )
+    input_param = request.POST.get("name", default="value")
+    text = request.POST.get(input_param)
+    html = convert_markdown(text)
+    return HttpResponse(html)
 
 
 @login_required

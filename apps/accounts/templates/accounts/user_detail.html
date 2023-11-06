@@ -12,13 +12,13 @@
 {% block meta %}
 <!-- Facebook -->
 <meta property="og:type" content="profile">
-<meta property="og:image" content="{{ usr.profile.image.url }}">
+<meta property="og:image" content="{{ usr.profile.get_image_url }}">
 <meta property="og:url" content="{% url 'user_detail' usr.username %}">
 <meta property="og:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
 <meta property="og:description" content="{{ usr.profile.bio }}">
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:image" content="{{ usr.profile.image.url }}">
+<meta property="twitter:image" content="{{ usr.profile.get_image_url }}">
 <meta property="twitter:url" content="{% url 'user_detail' usr.username %}">
 <meta property="twitter:title" content="{{ usr.get_full_name }} (@{{ usr.username }}) | Vitary">
 <meta property="twitter:description" content="{{ usr.profile.bio }}">
@@ -26,6 +26,8 @@
 
 
 {% block content %}
+<div class="columns" id="app">
+    <div class="column is-8">
 <div class="card">
     {% if usr.profile.header_image %}
     <div class="card-image">
@@ -36,7 +38,7 @@
     {% endif %}
     <div class="card-content">
         <figure class="image is-128x128">
-            <img src="{{ usr.profile.image.url }}" alt="{{ usr }}"
+            <img src="{{ usr.profile.get_image_url }}" alt="{{ usr }}"
                 class="is-rounded {{ usr.profile.status }} {% if usr.profile.header_image %} is-rounded-page {% endif %}">
         </figure>
         <br>
@@ -100,9 +102,9 @@
             <a href="{% url 'developer_home' %}">Developer 💻</a>
             {% endif %}
         </div>
-        <p class="content">
-            {{ usr.profile.bio | mention | safe | convert_markdown:usr}}
-        </p>
+        <div class="content mt-4">
+            {{ usr.profile.bio | mention | convert_markdown | safe }}
+        </div>
         <br>
         <span>
             Followers: <a href="{% url 'followers' usr.username %}" id="follower_count">
@@ -114,7 +116,7 @@
         <br>
         <div class="buttons">
             {% if user == usr %}
-            <a href="{% url 'edit_profile' %}" class="button is-link ">Edit Profile  📝</a>
+            <a href="{% url 'edit_profile' %}" class="button is-link">Edit Profile  📝</a>
             {% else %}
             {% if user.is_authenticated %}
             {% include 'accounts/islands/follow_button.html' with usr=usr %}
@@ -128,7 +130,7 @@
             {% endif %}
 
             {% if user.is_staff %}
-              <a href="{% url 'admin:auth_user_change' usr.id %}" class="button is-info "><span class="icon"><i
+              <a href="{% url 'admin:auth_user_change' usr.id %}" class="button"><span class="icon"><i
                         class="bi bi-pencil-square"></i></span></a>
             {% endif %}
         </div>
@@ -141,10 +143,17 @@
     {% include 'vit/islands/vit_block.html' %}
     {% endfor %}
 </div>
+
 {% include 'core/islands/pagination.html' with page=vits %}
+</div>
+<div class="column is-4">
+    {% include 'core/islands/side_block.html' %}
+</div>
+</div>
 {% if request.GET.follow and usr != user %}
 {% include 'accounts/islands/follow_modal.html' with usr=usr %}
 {% endif %}
+
 {% endblock content %}
 
 {% block script %}

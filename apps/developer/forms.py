@@ -56,7 +56,7 @@ class BotEditForm(forms.ModelForm):
 class BotUserForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ["image", "header_image", "status"]
+        fields = ["avatar", "header_image", "status"]
         widgets = {
             "header_image": forms.FileInput(
                 attrs={

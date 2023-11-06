@@ -1,6 +1,6 @@
 from django import forms
 from .models import Vit, Comment
-
+from apps.core.widgets import MarkdownWidget
 
 class VitForm(forms.ModelForm):
     """
@@ -11,15 +11,7 @@ class VitForm(forms.ModelForm):
         model = Vit
         fields = ["body", "image", "video", "nsfw"]
         widgets = {
-            "body": forms.Textarea(
-                attrs={
-                    "placeholder": "What's on your mind?",
-                    "style": """height: 150px;""",
-                    "id": "body",
-                    "onKeyup": "processChange()",
-                }
-            ),
-            "nsfw": forms.CheckboxInput(attrs={"id": "nsfw"}),
+            "body": MarkdownWidget(),
         }
 
 
@@ -27,3 +19,6 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ["body"]
+        widgets = {
+            "body": MarkdownWidget()
+        }

@@ -42,13 +42,13 @@ class ProfileSchema(ModelSchema):
     class Config:
         model = Profile
         model_fields = [
-            "image",
+            "avatar",
             "header_image",
             "follower_count",
             "following_count",
             "bio",
             "status",
-	    "verified",
+            "verified",
             "allow_nsfw",
         ]
 

@@ -22,7 +22,7 @@ Blog
                 <div class="media">
                     <div class="media-center">
                         <article class="image is-48x48">
-                            <img src="{{ post.user.profile.image.url }}"
+                            <img src="{{ post.user.profile.get_image_url }}"
                                 class="author-image is-rounded {{post.user.profile.status}}" alt="Placeholder image">
                         </article>
                     </div>

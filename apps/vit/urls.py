@@ -8,5 +8,6 @@ urlpatterns = [
     path('<int:pk>/delete/', views.delete_vit, name='delete_vit'),
     path('<int:vit_pk>/likes/', views.vit_liked_users, name='vit_liked_users'),
     path('<int:vit_pk>/comment/view/<int:pk>/', views.view_comment, name='view_comment'),
-    path("comment/_form/", views._comment_form, name="_comment_form")
+    path("comment/_form/", views._comment_form, name="_comment_form"),
+    path("comment/_refresh/<int:pk>/", views._comment_refresh, name="_comment_refresh")
 ]

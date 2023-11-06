@@ -18,7 +18,9 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/android-chrome-256x256.png' %}">
+    {% if user.profile.dark_mode %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-prefers-dark.css' %}" />
+    {% endif %}
     <title>
         {% if user.is_authenticated %}
         {% if unread_notifications %}
@@ -35,35 +37,39 @@
 
 </head>
 
-<body class="body" >
+<body class="body">
 
+    {% if not is_htmx %}
     {% include 'core/navbar.html' %}
+    {% endif %}
     {% include 'core/search_modal.html' %}
-    
+
     {% block no_padding %}
-    
+
     {% endblock no_padding %}
-    
+
     <section class="section">
-        <div class="container">
-                <noscript>
-                    <article class="notification is-danger mb-0 has-text-centered ">
-                        <h3 class="title is-3 has-text-weight-bold">
-                            Please enable javascript to use this site properly.
-                        </h3>
-                    </article>
-                    <br>
-                </noscript>
-                {% include 'core/islands/messages.html' %}
-                {% block content %}
+        <div class="container-fluid">
+            <noscript>
+                <article class="notification is-danger mb-0 has-text-centered ">
+                    <h3 class="title is-3 has-text-weight-bold">
+                        Please enable javascript to use this site properly.
+                    </h3>
+                </article>
+                <br>
+            </noscript>
+            {% include 'core/islands/messages.html' %}
+            {% block content %}
 
-                {% endblock content %}
-            </div>
-        </section>
+            {% endblock content %}
+        </div>
+    </section>
 
 
-        {% include 'core/footer.html' %}
-    
+    {% if not is_htmx %}
+    {% include 'core/footer.html' %}
+    {% endif %}
+
 
 
     {% if not DEBUG %}
@@ -77,39 +83,7 @@
     <script src="{% static 'js/surprise.js' %}"></script>
     <script src="{% static 'js/mention_suggests.js' %}"></script>
     <script src="{% static 'js/anchor.min.js' %}"></script>
-
-
-    <script>
-        function saveInput() {
-            val = $("#body").val();
-            if (val.length != 0) {
-                $("#markdown-content").removeClass("is-hidden");
-                $.ajax({
-                    url: "{% url 'convert_markdown' %}",
-                    method: "POST",
-                    headers: {
-                        "X-CSRFToken": "{{ csrf_token }}",
-                    },
-                    data: {
-                        value: val
-                    },
-                    success: function (data) {
-                        $("#markdown-content").html(data);
-                        hljs.highlightAll();
-                    }
-                })
-            } else {
-                $("#markdown-content").addClass("is-hidden");
-            }
-        }
-        const processChange = debounce(() => saveInput());
-
-
-
-        document.body.addEventListener('htmx:configRequest', function (evt) {
-            evt.detail.headers['X-CSRFToken'] = "{{ csrf_token }}"; // add a new header into the request
-        });
-    </script>
+    
     {% block script %}
 
     {% endblock script %}

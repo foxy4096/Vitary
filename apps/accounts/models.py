@@ -4,7 +4,7 @@ from django.db import models
 from django_resized import ResizedImageField
 from django.utils.safestring import mark_safe
 import secrets
-
+from .utils import get_gravatar
 from apps.core.models import Badge
 
 
@@ -32,15 +32,23 @@ class Profile(models.Model):
         default="",
         help_text="Tell us about yourself",
     )
-    header_image = models.ImageField(upload_to="uploads/", blank=True, null=True)
-    image = ResizedImageField(
+    header_image = ResizedImageField(
+        upload_to="uploads/",
+        size=[1600, 400],
+        crop=["middle", "center"],
+        blank=True,
+        null=True,
+    )
+    avatar = ResizedImageField(
         size=[600, 600],
         crop=["middle", "center"],
         upload_to="uploads/",
         default="/uploads/default.jpg",
         verbose_name="Profile Image",
     )
+    use_gravatar = models.BooleanField(default=False)
     badges = models.ManyToManyField(Badge, blank=True)
+    dark_mode = models.BooleanField(default=True)
     status = models.CharField(max_length=50, choices=STATUS, default="online")
     date_of_birth = models.DateField(
         blank=True, null=True, help_text="It help to know when is your birthday"
@@ -77,7 +85,10 @@ class Profile(models.Model):
         return self.followed_by.all()[:4]
 
     def get_image_url(self):
-        return self.image.url
+        return get_gravatar(self.user.email) if self.use_gravatar else self.avatar.url
+    
+    def aimg(self):
+        return self.get_image_url()
 
     def save(self, *args, **kwargs):
         """

@@ -10,27 +10,30 @@ Search
 {% endblock no_padding %}
 
 {% block content %}
-<form action="{% url 'search' %}" method="get">
-    <div class="field">
-        <div class="control">
-            <input class="input" type="text" placeholder="Search..." id="search" name="q" value="{{query}}">
+<div class="column is-6">
+    <h1 class="title">Search</h1>
+    <form action="{% url 'search' %}" method="get">
+        <div class="field">
+            <div class="control">
+                <input class="input" type="text" placeholder="Search..." id="search" name="q" value="{{query}}">
+            </div>
         </div>
-    </div>
-    <div class="control">
-        <button type="submit" class="button is-link is-fullwidth">
-            <span>Search</span>
-            <span class="icon">
-                <i class="bi bi-search"></i></span>
-        </button>
-    </div>
-</form>
+        <div class="control">
+            <button type="submit" class="button is-link">
+                <span>Search</span>
+                <span class="icon">
+                    <i class="bi bi-search"></i></span>
+            </button>
+        </div>
+    </form>
+</div>
 <br>
-        {% for vit in vits %}
-        {% include 'vit/islands/vit_block.html' %}
-        {% empty %}
-        <p class="subtitle has-text-centered">
-            No results found.
-        </p>
-        {% endfor %}
-        {% include 'core/islands/pagination.html' with page=vits %}
+{% for vit in vits %}
+{% include 'vit/islands/vit_block.html' %}
+{% empty %}
+<p class="subtitle pl-3">
+    No results found.
+</p>
+{% endfor %}
+{% include 'core/islands/pagination.html' with page=vits %}
 {% endblock content %}
