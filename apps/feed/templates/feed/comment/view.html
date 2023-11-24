@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load convert_markdown %}
+{% load mention %}
+{% block title %}
+{{comment.body}}
+{% endblock title %}
+
+{% block content %}
+<div class="buttons">
+    <a href="{% url 'feed_detail' comment.feed.pk %}" class="button is-info">View feed</a>
+</div>
+<div class="box">
+    {% include 'feed/islands/comment_block.html' with feed=comment.feed recursion=1 %}
+</div>
+{% endblock content %}

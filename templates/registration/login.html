@@ -6,18 +6,12 @@
 {% block title %}
 Login
 {% endblock title %}
-
-
-
-{% block no_padding %}
-    {% include 'core/islands/header.html' with heading="Authentication" %}
-{% endblock no_padding %}
 {% block content %}
-<div class="columns" hx-boost="flase">
+<div class="columns is-vcentered" hx-boost="flase">
     <div class="column">
         <h1 class="title is-1 has-text-weight-bold">Login</h1>
         <p class="subtitle">Login with your account you have created.</p>
-        <form method="POST">
+        <form method="POST" class="box">
             {{ form|bulma }}
             {% csrf_token %}
             <br>
@@ -25,7 +19,7 @@ Login
             <p>Not have an account? <a href="{% url 'signup' %}">Sign Up 🚀</a></p>
             <br>
             <div class="buttons">
-                <button type="submit" class="button is-large">Login 🔐</button>
+                <button type="submit" class="button is-primary is-fullwidth">Login 🔐</button>
             </div>
         </form>
     </div>

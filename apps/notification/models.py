@@ -1,48 +1,43 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
-from django.contrib.auth.models import User
+from apps.account.models import User
 
+class NotificationItemManager(models.Manager):
+    def get_unread_count(self, user):
+        return self.filter(notification__receiver=user, is_read=False).count()
+
+    def get_notification_items_for(self, object_type, object_id):
+        content_type = ContentType.objects.get_for_model(object_type)
+        return self.select_related("notification").filter(
+            content_type=content_type, object_id=object_id
+        )
 
 class Notification(models.Model):
-    """
-    This class represents the Notification model.
-    """
-    NOTIFICATION_TYPES = [
-        ('mention', 'Mention'),
-        ('comment', 'Comment'),
-        ('message', 'Message'),
-        ('like', 'Like'),
-        ('follow', 'Follow'),
-        ('abuse', 'Abuse'),
-    ]
-    message = models.TextField(blank=True, null=True)
-    date = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)
-    notification_type = models.CharField(
-        max_length=20, choices=NOTIFICATION_TYPES)
-    to_user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='to_user')
-    by_user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='by_user')
-    link = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        ordering = ['-date']
+    sender = models.ForeignKey(
+        verbose_name=_("Sender"),
+        to=User,
+        on_delete=models.CASCADE,
+        related_name="sender",
+    )
+    receiver = models.ForeignKey(
+        verbose_name=_("Receiver"),
+        to=User,
+        on_delete=models.CASCADE,
+        related_name="receiver",
+    )
+    verb = models.CharField(verbose_name=_("Verb"), max_length=255)
+    is_read = models.BooleanField(verbose_name=_("Is Read"), default=False)
+    created_at = models.DateTimeField(verbose_name=_("Created At"), auto_now_add=True)
+    content_type = models.ForeignKey(
+        verbose_name=_("Content Type"), to=ContentType, on_delete=models.CASCADE
+    )
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey("content_type", "object_id")
 
     def __str__(self):
-        return self.message
+        return f"{self.sender.username} → {self.receiver.username}"
 
-    def return_title(self):
-        by_user_name = self.by_user.get_full_name() if self.by_user.get_full_name() else self.by_user.username
-        if self.notification_type == "mention":
-            return f"{by_user_name} mentioned you."
-        elif self.notification_type == "like":
-            return f"{by_user_name} liked your vit."
-        elif self.notification_type == "follow":
-            return f"{by_user_name} followed you."
-        elif self.notification_type == "message":
-            return f"{by_user_name} messaged you."
-        elif self.notification_type == "abuse":
-            return f"{by_user_name} reported against you."
-        else:
-            return f""
+    objects = NotificationItemManager()

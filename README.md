@@ -35,8 +35,6 @@ EMAIL_PASSWORD [Optional if DEBUG is True]
 SITE_ID [Optional if DEBUG is True]
 SECURE_SSL_REDIRECT (Bool) [Optional if DEBUG is True]
 CSRF_COOKIE_SECURE (Bool) [Optional if DEBUG is True]
-STRIPE_PUBLIC_KEY
-STRIPE_SECRET_KEY
 ```
 
 Get the Google Drive JSON key from [Here](https://django-googledrive-storage.readthedocs.io/en/latest/)
@@ -121,20 +119,8 @@ python3 manage.py runserver
 
 ## Tools 🔧
 
-[Python](https://python.org) the programming language
+ - [Python](https://python.org) the programming language
 
-[Git](http://git-scm.com) Version Control System
+ - [Git](http://git-scm.com) Version Control System
 
-[Visual Studio Code](https://code.visualstudio.com) Free source code editor
-
-## Screenshot :camera:
-
-![Homepage](./screenshot/home_logged_out.jpeg)
-
-![signup](./screenshot/sign_up.jpeg)
-
-![login](./screenshot/log_in.jpeg)
-
-![vit_home](./screenshot/home_logged_in.jpeg)
-
-![profile](./screenshot/profile.jpeg)
+ - [Visual Studio Code](https://code.visualstudio.com) Free source code editor

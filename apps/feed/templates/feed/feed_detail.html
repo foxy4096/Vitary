@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+{% load mention %}
+{% load convert_markdown %}
+
+{% block title %}
+{{ feed.body | truncatechars_html:50 | safe }}
+{% endblock title %}
+
+
+{% block meta %}
+{% if feed.image %}
+<meta property="og:image" content="{{web_url}}{{ feed.image.url }}">
+<meta property="twitter:image" content="{{web_url}}{{ feed.image.url }}">
+{% endif %}
+
+
+{% if feed.embed_set.all %}
+{% for embed in feed.embed_set.all %}
+<meta property="og:image" content="{{embed.image_url}}">
+<meta property="twitter:image" content="{{embed.image_url}}">
+<meta property="og:title" content="{{ embed.title }}">
+<meta property="twitter:title" content="{{ embed.title }}">
+{% endfor %}
+{% endif %}
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="{% url 'feed_detail' feed.id %}">
+<meta property="og:title" content="{{ feed.body }}">
+<meta property="og:description"
+  content="{{feed.like_count}} likes and {{feed.comment_set.all | length}} comment so far on Vitary">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{% url 'feed_detail' feed.id %}">
+<meta property="twitter:title" content="{{ feed.body }}">
+<meta property="twitter:description"
+  content="{{feed.like_count}} likes and {{feed.comment_set.all | length}} comment so far on Vitary">
+{% endblock meta %}
+
+
+{% block content %}
+{% include 'feed/islands/feed_block.html'%}
+{% include 'feed/islands/comments.html' %}
+{% if request.GET.like %}
+{% include 'feed/islands/like_modal.html' with feed=feed %}
+{% endif %}
+{% endblock content %}

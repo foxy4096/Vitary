@@ -18,13 +18,13 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="{% url 'post_detail' post.id %}">
 <meta property="og:title" content="{{ post.title }}">
-<meta property="og:description" content="{{post.sdesc}}">
+<meta property="og:description" content="{{post.short_description}}">
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:url" content="{% url 'post_detail' post.id %}">
 <meta property="twitter:title" content="{{ post.title }}">
-<meta property="twitter:description" content="{{post.sdesc}}">
+<meta property="twitter:description" content="{{post.short_description}}">
 {% endblock meta %}
 
 
@@ -50,8 +50,8 @@
             <div class="media-center">
                 <article class="image is-48x48 mt-2">
                     <a href="{% url 'user_detail' post.user.username %}">
-                        <img src="{{ post.user.profile.get_image_url }}"
-                            class="author-image  is-rounded {{post.user.profile.status}}" alt="Placeholder image">
+                        <img src="{{ post.user.userprofile.avatar }}"
+                            class="author-image  is-rounded {{post.user.userprofile.status}}" alt="Placeholder image">
                     </a>
                 </article>
             </div>
@@ -67,7 +67,7 @@
             </div>
         </div>
         <div class="content article-body">
-            <p class="has-text-centered">{{ post.body | safe | mention | convert_markdown }}</p>
+            <p class="has-text-centered">{{ post.body | safe | user_mention | convert_markdown }}</p>
         </div>
     </div>
 </div>

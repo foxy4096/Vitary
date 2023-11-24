@@ -22,8 +22,8 @@ Blog
                 <div class="media">
                     <div class="media-center">
                         <article class="image is-48x48">
-                            <img src="{{ post.user.profile.get_image_url }}"
-                                class="author-image is-rounded {{post.user.profile.status}}" alt="Placeholder image">
+                            <img src="{{ post.user.userprofile.avatar }}"
+                                class="author-image is-rounded {{post.user.userprofile.status}}" alt="Placeholder image">
                         </article>
                     </div>
                     <div class="media-content ml-3">
@@ -39,7 +39,7 @@ Blog
                     </div>
                 </div>
                 <div class="content article-body">
-                    <p class="content mt-3 mx-6">{{ post.sdesc }}</p>
+                    <p class="content mt-3 mx-6">{{ post.short_description }}</p>
                 </div>
                 <a href="{% url 'post_detail' post.slug %}" class="button is-info  is-fullwidth">Read More 📖</a>
             </div>

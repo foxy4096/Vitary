@@ -3,10 +3,10 @@
 {% load convert_markdown %}
 
 <div class="card">
-    {% if usr.profile.header_image %}
+    {% if usr.userprofile.header_image %}
     <div class="card-image">
         <figure class="image 16by9">
-            <img src="{{usr.profile.header_image.url}}" alt="Placeholder image">
+            <img src="{{usr.userprofile.header_image.url}}" alt="Placeholder image">
         </figure>
     </div>
     {% endif %}
@@ -14,12 +14,12 @@
         <div class="media">
             <div class="media-left">
                 <figure class="image is-96x96">
-                    <img class="is-rounded {% if usr.profile.header_image %} is-rounded-page {% endif %}  {{ usr.profile.status }}" src="{{ usr.profile.get_image_url }}" title="{{ usr.profile.status.title }}">
+                    <img class="is-rounded {% if usr.userprofile.header_image %} is-rounded-page {% endif %}  {{ usr.userprofile.status }}" src="{{ usr.userprofile.avatar }}" title="{{ usr.userprofile.status.title }}">
                 </figure>
             </div>
         </div>
         <h4 class="title is-4 has-text-weight-medium">{{ usr.get_full_name |default:usr.username }}
-            {% if usr.profile.verified %}
+            {% if usr.userprofile.verified %}
             <span class="is-small" style="color: rgb(46, 206, 107);">
                 ✔️
             </span>
@@ -35,26 +35,16 @@
             <span class="tag badge-white">Staff ✔️</span>
             {% endif %}
 
-            {% for badge in usr.profile.badges.all %}
+            {% for badge in usr.userprofile.badges.all %}
             <a href="{% url 'badge' badge.id %}"><span class="tag is-{{badge.color}} badge-{{ badge.color }}">
                     {{ badge.name }}
                 </span>
             </a>
             {% endfor %}
-
-            {% if usr.devprofile %}
-            <hr>
-        <p class="has-text-weight-light">
-            Highlights
-        </p>
-        <a href="{% url 'developer_home' %}">Developer 💻</a>
-        <hr>
-        {% endif %}
-
         </p>
 
         <p class="content">
-            {{ usr.profile.bio | mention | safe | convert_markdown }}
+            {{ usr.userprofile.bio | user_mention | safe | convert_markdown }}
         </p>
     </div>
 </div>

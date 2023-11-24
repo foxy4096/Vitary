@@ -13,14 +13,14 @@ Explore
 <div class="columns">
     <div class="column is-8">
         <div id="data">
-            {% for vit in vits %}
-            {% include 'vit/islands/vit_block.html' %}
+            {% for feed in feeds %}
+            {% include 'feed/islands/feed_block.html' %}
             {% empty %}
             <p class="subtitle">
                 Wow Such Empty 😢
             </p>
             {% endfor %}
-            {% include 'core/islands/pagination.html' with page=vits %}
+            {% include 'core/islands/pagination.html' with page=feeds %}
         </div>
     </div>
     <div class="column is-4">

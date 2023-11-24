@@ -1,0 +1,28 @@
+<div class="card" id="comments">
+    <div class="card-header">
+        <div class="card-header-title">
+            <h1 class="title">Comments ({{ feed.comment_set.count }})</h1>
+        </div>
+    </div>
+    <div class="card-content">
+        {% if user.is_authenticated %}
+        {% include 'feed/islands/comment_form.html' %}
+        {% else %}
+        <p class="subtitle">
+            Please <a href="{% url 'login' %}?next={% url 'feed_detail' feed.id %}">Login</a> to comment.
+        </p>
+        {% endif %}
+
+        <hr>
+        {% for comment in comments %}
+        {% if not comment.reply_to %}
+        {% include 'feed/islands/comment_block.html' with recursion=1 %}
+        {% endif %}
+        {% empty %}
+        <p class="subtitle">
+            No Comments Yet.
+        </p>
+        {% endfor %}
+    </div>
+</div>
+{% include 'core/islands/pagination.html' with page=comments %}

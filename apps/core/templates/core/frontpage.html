@@ -7,16 +7,16 @@ Home
 
 
 {% block no_padding %}
-<div class="no-bottom-border hero is-black is-medium">
+<div class="no-bottom-border hero is-medium">
   <div class="hero-body">
     <div class="container has-text-centered">
       <img src="{% static 'img/V_Master_White_Smooth_PNG_Transparent.png' %}" alt="Logo" width="300">
       <h1 class="title">
         A New Way To Make Friends.
       </h1>
-      <div >
-        <a href="{% url 'signup' %}" class="button is-large mb-3">Join Now 🚀</a>
-        <a href="{% url 'login' %}" class="button is-success  is-large">Login 🔐</a>
+      <div>
+        <a href="{% url 'signup' %}" class="button is-primary mx-3">Join Now 🚀</a>
+        <a href="{% url 'login' %}" class="button">Login 🔐</a>
       </div>
     </div>
   </div>
@@ -30,8 +30,8 @@ Home
   <div class="column"></div>
   <div class="column is-8">
 
-{% if random_vit %}
-{% include 'vit/islands/vit_block.html' with vit=random_vit %}
+{% if random_feed %}
+{% include 'feed/islands/feed_block.html' with feed=random_feed %}
 {% endif %}
   </div>
   <div class="column"></div>
@@ -41,19 +41,13 @@ Home
   <div class="level-item has-text-centered">
     <div>
       <p class="heading"><a href="{% url 'explore' %}">Vits</a></p>
-      <p class="title">{{vit_count}}</p>
+      <p class="title">{{feed_count}}</p>
     </div>
   </div>
   <div class="level-item has-text-centered">
     <div>
       <p class="heading"><a href="{% url 'users' %}">Users</a></p>
       <p class="title">{{users_count}}</p>
-    </div>
-  </div>
-  <div class="level-item has-text-centered">
-    <div>
-      <p class="heading"><a href="{% url 'developer_home' %}">Developers</a></p>
-      <p class="title">{{dev_count}}</p>
     </div>
   </div>
 </nav>

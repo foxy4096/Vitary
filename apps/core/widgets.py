@@ -1,7 +1,7 @@
 from django.utils.safestring import mark_safe
 from django.forms.widgets import Textarea
 from apps.core.templatetags.convert_markdown import convert_markdown
-from apps.vit.templatetags.mention import mention
+from apps.feed.templatetags.mention import user_mention
 
 
 class MarkdownWidget(Textarea):
@@ -61,6 +61,6 @@ class MarkdownWidget(Textarea):
         """
         attrs.update({"hx-vars": f"name:'{name}'", "id": f"id_{name}"})
         rendered_textarea = super().render(name, value, attrs)
-        initials = mention(convert_markdown(value or ""))
+        initials = user_mention(convert_markdown(value or ""))
         div_element = f'<div class="content" id="mdout">{initials}</div>'
         return mark_safe(f"<div>{rendered_textarea} {div_element}</div>")

@@ -3,10 +3,16 @@ from django.contrib import admin
 from .models import Notification
 
 
+@admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
-    list_display = ('message', 'date', 'is_read',
-                    'notification_type', 'to_user', 'by_user')
-    list_filter = ('is_read', 'notification_type')
+    """
+    Register the `Notification` model with the admin site.
 
+    Args:
+        admin.ModelAdmin: The admin model class.
 
-admin.site.register(Notification, NotificationAdmin)
+    Attributes:
+        autocomplete_fields (list): The list of fields to enable autocomplete for.
+    """
+
+    autocomplete_fields = ["sender", "receiver"]

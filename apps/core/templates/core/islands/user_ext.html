@@ -6,7 +6,7 @@
     <div class="media-left">
         <article class="image is-48x48">
             <a href="{% url 'user_detail' person %}">
-                <img src="{{ person.profile.get_image_url }}" alt="{{person.username}}'s profile picture" class="is-rounded {{ person.profile.status }}">
+                <img src="{{ person.userprofile.avatar }}" alt="{{person.username}}'s userprofile picture" class="is-rounded {{ person.userprofile.status }}">
             </a>
         </article>
     </div>
@@ -18,7 +18,7 @@
                 </a>
             </strong>
         </span>
-        {% if person.profile.verified %}
+        {% if person.userprofile.verified %}
         <span class="tag is-dark is-small" title="Verified">
             ✔️
         </span>
@@ -39,7 +39,7 @@
         </p>
         <div class="content is-hidden-mobile">
             {% autoescape off %}
-            {{ person.profile.bio| mention | convert_markdown }}
+            {{ person.userprofile.bio| user_mention | convert_markdown }}
             {% endautoescape %}
         </div>
     </div>
@@ -51,7 +51,7 @@
             class="button is-small is-pulled-right"><span>View</span> <span
                 class="icon">👀</span></a>
         {% else %}
-        {% include 'accounts/islands/follow_button.html' with usr=person small=True %}
+        {% include 'account/islands/follow_button.html' with usr=person small=True %}
         {% endif %}
         {% else %}
         <a href="{% url 'user_detail' person.username %}"

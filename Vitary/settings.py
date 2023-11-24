@@ -51,21 +51,18 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.flatpages",
     "django.contrib.sitemaps",
-    # "django_dramatiq",
-    # My Apps
+    "apps.api.apps.ApiConfig",
     "apps.core.apps.CoreConfig",
-    "apps.accounts.apps.AccountsConfig",
-    "apps.vit.apps.VitConfig",
+    "apps.account.apps.AccountsConfig",
+    "apps.feed.apps.VitConfig",
     "apps.blog.apps.BlogConfig",
     "apps.notification.apps.NotificationConfig",
     "apps.chat.apps.ChatConfig",
-    "apps.developer.apps.DeveloperConfig",
-    # Third Party Apps
     "django_cleanup.apps.CleanupConfig",
     "bulma",
-    "ninja",
     "loginas",
     "corsheaders",
+    "graphene_django",
 ]
 
 MIDDLEWARE = [
@@ -85,6 +82,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 from corsheaders.defaults import default_headers
+
 CORS_ALLOW_HEADERS = (
     *default_headers,
     "x-api-key",
@@ -106,9 +104,9 @@ TEMPLATES = [
                 "apps.core.context_processors.is_debug",
                 "apps.core.context_processors.frontpage_data",
                 "apps.core.context_processors.is_htmx",
-                "apps.notification.context_processors.notification",
-                "apps.vit.context_processors.get_latest_vits",
-                "apps.vit.context_processors.vit_form",
+                "apps.notification.context_processors.get_notification_info",
+                "apps.feed.context_processors.get_latest_feeds",
+                "apps.feed.context_processors.feed_form",
             ],
         },
     },
@@ -200,12 +198,3 @@ CSRF_COOKIE_SECURE = env("CSRF_COOKIE_SECURE", default=False)
 # Manager and Admin
 MANAGERS = [("foxy4096", "adityapriyadarshi669@gmail.com")]
 ADMIN = [("foxy4096", "adityapriyadarshi669@gmail.com")]
-
-
-# Stripe Config
-STRIPE_PUBLIC_KEY = env("STRIPE_PUBLIC_KEY")
-STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
-
-# NINJA_DOCS_VIEW = 'redoc'
-NINJA_PAGINATION_PER_PAGE = 10
-NINJA_PAGINATION_CLASS = 'ninja.pagination.PageNumberPagination'

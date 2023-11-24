@@ -8,7 +8,7 @@ class Post(models.Model):
     A post model for blog app
     """
     title = models.CharField(max_length=255)
-    sdesc = models.CharField(max_length=255, verbose_name="Short Description")
+    short_description = models.CharField(max_length=255, verbose_name="Short Description")
     body = models.TextField(verbose_name="Body")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)

@@ -28,12 +28,12 @@ Search
     </form>
 </div>
 <br>
-{% for vit in vits %}
-{% include 'vit/islands/vit_block.html' %}
+{% for feed in feeds %}
+{% include 'feed/islands/feed_block.html' %}
 {% empty %}
 <p class="subtitle pl-3">
     No results found.
 </p>
 {% endfor %}
-{% include 'core/islands/pagination.html' with page=vits %}
+{% include 'core/islands/pagination.html' with page=feeds %}
 {% endblock content %}

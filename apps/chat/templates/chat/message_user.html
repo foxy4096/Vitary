@@ -10,7 +10,7 @@ Message: {{to_user.username}}
 <div class="media box">
     <div class="media-left">
         <figure class="image is-48x48">
-            <img src="{{ to_user.profile.get_image_url }}" alt="Profile Image" class="is-rounded">
+            <img src="{{ to_user.userprofile.avatar }}" alt="UserProfile Image" class="is-rounded">
         </figure>
     </div>
     <div class="media-content">
@@ -53,7 +53,7 @@ Message: {{to_user.username}}
                     <div class="media">
                         <div class="media-left">
                             <figure class="image is-48x48">
-                                <img src="/u/${response.messages[key].created_by__username}.png" alt="Profile Image" class="is-rounded">
+                                <img src="/u/${response.messages[key].created_by__username}.png" alt="UserProfile Image" class="is-rounded">
                             </figure>
                         </div>
                         <div class="media-content">

@@ -138,7 +138,6 @@ dmypy.json
 cython_debug/
 
 # Media
-media/
-GOOGLE_DRIVE_KEY_FILE.json
+/media/avatars/
+/media/headers/
 staticfiles
-node_modules

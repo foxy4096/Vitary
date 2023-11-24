@@ -18,7 +18,7 @@ VIDEO_FILE_EXTENSION = (".mp4", ".webm")
 @stringfilter
 def image_tag(value: str):
     return [
-        f'<img src="{text}" class="vit_image" />'
+        f'<img src="{text}" class="feed_image" />'
         for text in value.split()
         if text.startswith(("http://", "https://"))
         and any(ext in text for ext in IMAGE_FILE_EXTENSION)
@@ -40,7 +40,7 @@ def remove_image_link(value: str):
 @stringfilter
 def video_tag(value: str):
     return [
-        f'<video class="vit_video" controls /><source src="{text}"></video>'
+        f'<video class="feed_video" controls /><source src="{text}"></video>'
         for text in value.split()
         if text.startswith(("http://", "https://"))
         and any(ext in text for ext in VIDEO_FILE_EXTENSION)

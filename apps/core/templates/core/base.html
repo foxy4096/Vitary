@@ -18,9 +18,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/android-chrome-256x256.png' %}">
-    {% if user.profile.dark_mode %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/bulma-prefers-dark.css' %}" />
-    {% endif %}
     <title>
         {% if user.is_authenticated %}
         {% if unread_notifications %}
@@ -83,7 +81,7 @@
     <script src="{% static 'js/surprise.js' %}"></script>
     <script src="{% static 'js/mention_suggests.js' %}"></script>
     <script src="{% static 'js/anchor.min.js' %}"></script>
-    
+
     {% block script %}
 
     {% endblock script %}

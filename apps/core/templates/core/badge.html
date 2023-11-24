@@ -19,7 +19,7 @@
                 </div>
             </div>
             <p class="content">
-                {{ badge.description | convert_markdown | mention | safe }}
+                {{ badge.description | convert_markdown | user_mention | safe }}
             </p>
 
             <br>

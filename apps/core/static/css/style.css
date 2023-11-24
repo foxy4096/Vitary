@@ -1,5 +1,24 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
 
+p > img {
+  border-radius: 10px;
+}
+
+a {
+  color: #5ea3e4;
+}
+
+.button,
+.card,
+.box,
+.input,
+.textarea {
+  border-radius: 0px !important;
+  box-shadow: none;
+  border: 1px rgb(49, 49, 49) solid;
+}
+
+
 .hljs{
   padding: 0px !important;
 }
@@ -67,8 +86,9 @@
 }
 
 #mdout {
-  /* background: #0f0f0f; */
-  border: 1px #dbdbdb solid;
+  margin-top: 10px;
+  background: #0f0f0f;
+  border: 1px #707070 solid;
   padding: 1em;
   overflow-x: auto;
   word-break: break-all;
@@ -125,13 +145,6 @@ textarea:hover {
   box-shadow: none !important;
 }
 
-/* #mdout > ul {
-  margin-left: 5px !important;
-}
-
-#mdout > ul > li {
-  list-style: disc !important;
-} */
 
 #mdout,
 #editor {

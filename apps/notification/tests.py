@@ -16,7 +16,7 @@ class NotificationTestCast(TestCase):
             password='testpass',
         )
         self.client.login(username='testuser', password='testpass')
-        self.client.post('/accounts/follow/', {'username': user2.username})
+        self.client.post('/account/follow/', {'username': user2.username})
         
     def test_notification_page_loads(self):
         response = self.client.get('/notification/')

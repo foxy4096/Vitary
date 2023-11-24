@@ -13,19 +13,17 @@ Home
     
     <div class="columns" id="app">
         <div class="column is-8">
-            <div class="box">
-                {% include 'core/vit_form_block.html' with title="Add Vit" %}
-            </div>
+                {% include 'feed/feed_form.html' with title="Add feed" %}
         <div id="data">
-            {% for vit in vits %}
-            {% include 'vit/islands/vit_block.html' %}
+            {% for feed in feeds %}
+            {% include 'feed/islands/feed_block.html' %}
             {% empty %}
             <p class="subtitle">
-                Wow Such Empty 😢, maybe try following some <a href="{% url 'users' %}">people</a>.
+                Wow Such Empty 😟, maybe try following some <a href="{% url 'users' %}">people</a>.
             </p>
             {% endfor %}
         </div>
-        {% include 'core/islands/pagination.html' with page=vits %}
+        {% include 'core/islands/pagination.html' with page=feeds %}
     </div>
     <div class="column is-4">
         {% include 'core/islands/side_block.html' %}

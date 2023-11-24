@@ -1,0 +1,168 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% load mention %}
+{% load convert_markdown %}
+{% load fetch_gravatar %}
+{% load static %}
+
+{% block title %}
+{{ tuser.get_full_name }} (@{{ tuser.username }})
+{% endblock title %}
+
+{% block meta %}
+<!-- Facebook -->
+<meta property="og:type" content="userprofile">
+<meta property="og:image" content="{{ tuser.userprofile.avatar }}">
+<meta property="og:url" content="{% url 'user_detail' tuser.username %}">
+<meta property="og:title" content="{{ tuser.get_full_name }} (@{{ tuser.username }}) | Vitary">
+<meta property="og:description" content="{{ tuser.userprofile.bio }}">
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:image" content="{{ tuser.userprofile.avatar }}">
+<meta property="twitter:url" content="{% url 'user_detail' tuser.username %}">
+<meta property="twitter:title" content="{{ tuser.get_full_name }} (@{{ tuser.username }}) | Vitary">
+<meta property="twitter:description" content="{{ tuser.userprofile.bio }}">
+{% endblock meta %}
+
+
+{% block content %}
+<div class="columns" id="app">
+    <div class="column is-8">
+        <div class="card">
+            {% if tuser.userprofile.header_image %}
+            <div class="card-image">
+                <figure class="image 16by9">
+                    <img src="{{tuser.userprofile.header_image.url}}" alt="Placeholder image">
+                </figure>
+            </div>
+            {% endif %}
+            <div class="card-content">
+                <figure class="image is-128x128">
+                    <img src="{{ tuser.userprofile.avatar }}" alt="{{ tuser }}"
+                        class="is-rounded {{ tuser.userprofile.status }} {% if tuser.userprofile.header_image %} is-rounded-page {% endif %}">
+                </figure>
+                <br>
+                <h3 class="title is-3" id="name">
+                    <span>
+                        {{ tuser.get_full_name | default:tuser.username }}
+                    </span>
+                    {% if tuser.userprofile.verified %}
+                    <span class="icon" title="Verified">
+                        <i class="bi bi-patch-check-fill"></i>
+                    </span>
+                    {% endif %}
+                </h3>
+                <p class="subtitle has-text-weight-light">
+                    @{{ tuser.username }}
+                    {% if tuser.is_superuser %}
+                    <span class="tag" title="Co-Founder ✔">
+                        <span>
+                            Co-Founder
+                        </span>
+                        <span class="icon">
+                            ✔️
+                        </span>
+                    </span>
+                    {% endif %}
+                    {% if tuser.is_staff %}
+                    <span class="tag" title="Staff ✔">
+                        <span>
+                            Staff
+                        </span>
+                        <span class="icon">
+                            ✔️
+                        </span>
+                    </span>
+                    {% endif %}
+
+                    {% with tuser.userprofile as userprofile %}
+
+
+                    {% if userprofile.date_of_birth %}
+                    <span class="tag is-dark" onclick="pop_conf()" title="Click me!">
+                        <span class="icon" id="birthday">
+                            🎂
+                        </span>
+                        <span>
+                            {{ userprofile.date_of_birth }}
+                        </span>
+                    </span>
+                    {% endif %}
+                </p>
+                <div class="content">
+                    {% autoescape off %}
+                    {{ userprofile.bio | user_mention | convert_markdown }}
+                    {% endautoescape %}
+                </div>
+                <br>
+                <span>
+                    Followers: <a href="{% url 'followers' tuser.username %}" id="follower_count">
+                        {{ tuser.userprofile.follower_count }}
+                    </a>
+                    Following: <a href="{% url 'following' tuser.username %}">
+                        {{ tuser.userprofile.following_count }}</a>
+                </span>
+                <br>
+                <br>
+                {% endwith %}
+                <div class="buttons">
+                    {% if user == tuser %}
+                    <a href="{% url 'edit_userprofile' %}" class="button is-link">Edit</a>
+                    {% else %}
+                    {% if user.is_authenticated %}
+                    {% include 'account/islands/follow_button.html' with tuser=tuser %}
+                    {% else %}
+                    <a href="{% url 'intent' 'follow' tuser.username %}"
+                        class="button is-success"><span>Follow</span><span class="icon"><i
+                                class="bi bi-person-plus-fill"></i></span></a>
+                    {% endif %}
+                    {% endif %}
+                    {% if not tuser == user %}
+                      <a href="{% url 'message_user' tuser.username %}" class="button is-warning ">Message  📨</a>
+                    {% endif %}
+
+                    {% if user.is_staff %}
+                      <a href="{% url 'admin:auth_user_change' tuser.id %}" class="button"><span class="icon"><i
+                                class="bi bi-pencil-square"></i></span></a>
+                    {% endif %}
+                </div>
+                <a href="{% url 'report' %}?url={{ tuser.userprofile.get_absolute_url }}">Report User</a>
+            </div>
+        </div>
+        <br>
+        <div id="data">
+            {% for feed in feeds %}
+            {% include 'feed/islands/feed_block.html' %}
+            {% endfor %}
+        </div>
+
+        {% include 'core/islands/pagination.html' with page=feeds %}
+    </div>
+    <div class="column is-4">
+        {% include 'core/islands/side_block.html' %}
+    </div>
+</div>
+{% if request.GET.follow and tuser != user %}
+{% include 'account/islands/follow_modal.html' with tuser=tuser %}
+{% endif %}
+
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/scroll.js' %}"></script>
+<script src="{% static 'js/confetti.min.js' %}"></script>
+
+<script>
+    var current_day = new Date().getDate()
+    const confetti = new JSConfetti();
+    var current_month = new Date().getMonth() + 1
+    function pop_conf() {
+        confetti.addConfetti()
+    }
+
+    if (current_day == "{{tuser.userprofile.date_of_birth|date:'j'}}" && current_month == "{{ tuser.userprofile.date_of_birth|date:'n' }}") {
+        console.log("Happy Birthday 🎂 🎈");
+        pop_conf();
+    }
+</script>
+{% endblock script %}

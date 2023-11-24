@@ -11,9 +11,9 @@ from apps.notification.utilities import notify
 #     if created:
 #         mail_managers(
 #             subject='New Abuse',
-#             message=f'{instance.user.username} has reported {instance.to_vit.user.username} for {instance.abuse_type} abuse.',
-#             html_message=f'{instance.user.username} has reported {instance.to_vit.user.username} for {instance.abuse_type} abuse.'
+#             message=f'{instance.user.username} has reported {instance.to_feed.user.username} for {instance.abuse_type} abuse.',
+#             html_message=f'{instance.user.username} has reported {instance.to_feed.user.username} for {instance.abuse_type} abuse.'
 #         )
-#         if instance.to_vit.user != instance.user:
-#             notify(message=f"{instance.user.username.title()} reported your Vit: '{instance.to_vit.body}'", notification_type="abuse", to_user=instance.to_vit.user,
-#                 by_user=instance.user, link=reverse('vit_detail', kwargs={'pk': instance.to_vit.id}))
+#         if instance.to_feed.user != instance.user:
+#             notify(message=f"{instance.user.username.title()} reported your feed: '{instance.to_feed.body}'", notification_type="abuse", to_user=instance.to_feed.user,
+#                 by_user=instance.user, link=reverse('feed_detail', kwargs={'pk': instance.to_feed.id}))

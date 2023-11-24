@@ -1,0 +1,28 @@
+{% load humanize bulma_tags %}
+
+<form action="{% url 'add_feed' %}" method="post" enctype="multipart/form-data" class="box">
+    <div class="media pb-4">
+        <div class="media-left">
+            <figure class="image is-48x48">
+                <img src="{{ user.userprofile.avatar }}" alt="user avatar" class="is-rounded {{ user.userprofile.status }}">
+            </figure>
+        </div>
+        <div class="media-content">
+            <strong>{{ user.get_full_name|default:user.get_username }}</strong><br>
+            <a href="{% url 'user_detail' user.username %}">@{{ user.get_username }}</a>
+        </div>
+        <div class="media-right is-hidden-mobile">
+            Not {% firstof user.get_short_name user.username %}?
+            <a href="{% url 'logout' %}" class="button is-small is-outlined is-danger ml-2">Logout</a>
+        </div>
+    </div>
+
+    {% csrf_token %}
+    {{ form | bulma }}
+
+    <div class="field">
+        <div class="control">
+            <button class="button is-success is-large is-fullwidth">Save</button>
+        </div>
+    </div>
+</form>

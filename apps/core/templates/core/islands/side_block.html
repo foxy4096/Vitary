@@ -3,55 +3,18 @@
 
 {% if request.path != "/feed/" %}
 <div class="box">
-    <a href="{% url 'add_vit' %}" class="button is-primary is-fullwidth is-large">Add Vit ➕</a>
+    <a href="{% url 'add_feed' %}" class="button is-primary is-fullwidth is-large">Add Feed</a>
 </div>
-{% endif %}
-{% if related_persons %}
-<div class="card is-hidden-mobile">
-    <div class="card-content">
-        <h3 class="title is-3">Related Persons</h3>
-        {% for related_person in related_persons %}
-        <div class="media">
-            <div class="media-left">
-                <a href="{% url 'user_detail' related_person.username %}">
-                    <article class="image is-32x32 is-square">
-                        <img src="{{ related_person.profile.get_image_url }}" alt="" class="is-rounded">
-                    </article>
-                </a>
-            </div>
-            <div class="media-content">
-                <h4 class="title is-4 is-small">
-                    {{ related_person.get_full_name }}
-                </h4>
-                <p class="is-6 subtitle">
-                    <a href="{% url 'user_detail' related_person.username %}">
-                        @{{ related_person.username }}
-                    </a>
-                </p>
-            </div>
-            <div class="media-right">
-                {% if user == related_person %}
-
-                <a href="{% url 'edit_profile' %}" class="button is-link is-small">Edit Profile  📝</a>
-                {% else %}
-                {% include 'accounts/islands/follow_button.html' with usr=related_person small=True %}
-                {% endif %}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-<br>
 {% endif %}
 <div class="card is-hidden-mobile">
     <div class="card-content">
         {% if user.is_authenticated %}
         <h1 class="title">
-            Follower ({{ user.profile.followed_by.all | length }})
+            Follower ({{ user.userprofile.followed_by.all | length }})
         </h1>
         <br>
-        {% if user.profile.followed_by.all %}
-        {% for following in user.profile.get_4_following %}
+        {% if user.userprofile.followed_by.all %}
+        {% for following in user.userprofile.get_4_following %}
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
@@ -84,11 +47,11 @@
         {% endif %}
         <hr>
         <h1 class="title">
-            Following ({{ user.profile.follows.all | length }})
+            Following ({{ user.userprofile.follows.all | length }})
         </h1>
         <br>
-        {% if user.profile.follows.all %}
-        {% for follower in user.profile.get_4_followers %}
+        {% if user.userprofile.follows.all %}
+        {% for follower in user.userprofile.get_4_followers %}
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">

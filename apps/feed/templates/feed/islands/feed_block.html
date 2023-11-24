@@ -1,0 +1,144 @@
+{% load static mention convert_markdown media_tag plustag humanize %}
+
+<div class="card item mb-4" id="feed-{{ feed.pk }}">
+    <div class="card-content">
+        <div class="media">
+            <div class="media-left">
+                <figure class="image is-48x48 is-square">
+                    <img class="is-rounded {{ feed.user.userprofile.status }}" src="{{ feed.user.userprofile.avatar }}"
+                        alt="{{ feed.user.username }}" loading="lazy">
+                </figure>
+            </div>
+            <div class="media-content">
+                <h5 style="word-break: all;"><b>{{ feed.user.get_full_name }}</b>{% if feed.user.userprofile.verified %}
+                    <span class="tag is-dark is-small" title="Verified">
+                        <span class="icon">✔️</span>
+                    </span>
+                    {% endif %}
+                </h5>
+                <p class="subtitle is-6">
+                    <a 
+                    href="{% url 'user_detail' feed.user.username %}" 
+                    title="{{ feed.user.get_full_name }}"
+                    >@{{ feed.user.username }}</a>
+                    {% if feed.user.is_superuser %}
+                    <span class="tag px-1 mt-1" title="Co-Founder ✔">Co-Founder ✔️</span>
+                    {% endif %}
+                    {% if feed.user.is_staff %}
+                    <span class="tag px-1 mt-1" title="Staff ✔">Staff ✔️</span>
+                    {% endif %}
+                    <span class="is-hidden-mobile">
+                        {% for badge in feed.user.userprofile.badges.all %}
+                        <a href="{% url 'badge' badge.id %}">
+                            <span class="badge-{{ badge.color }} mx-1 tag is-{{ badge.color }}"
+                                title="{{ badge.name }}">
+                                {{ badge.name }}
+                            </span>
+                        </a>
+                        {% endfor %}
+                    </span>
+                    {% if feed.nsfw %}
+                    <span class="tag is-danger badge-danger" title="NSFW">NSFW</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="media-right">
+                <div class="dropdown is-right is-hoverable">
+                    <div class="dropdown-trigger">
+                        <button class="button is-ghost" aria-haspopup="true" aria-controls="dropdown-menu">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div class="dropdown-content">
+                            {% if user.is_authenticated and user.is_superuser %}
+                            <a href="{% url 'admin:feed_feed_change' feed.id %}" class="dropdown-item" target="_blank">
+                                <span class="icon"><i class="bi bi-pencil-fill"></i></span>
+                                <span>Admin Edit</span>
+                            </a>
+                            {% endif %}
+                            {% if feed.user == request.user %}
+                            <a href="{% url 'delete_feed' feed.id %}" hx-post="{% url 'delete_feed' feed.id %}"
+                                hx-confirm="Are you sure?" hx-target="#feed-{{ feed.pk }}" hx-swap="delete"
+                                class="dropdown-item">
+                                <span class="icon"><i class="bi bi-trash-fill"></i></span>
+                                <span>Delete</span>
+                            </a>
+                            {% endif %}
+                            <a href="{% url 'report' %}?url={% url 'feed_detail' feed.id %}" class="dropdown-item">
+                                <span class="icon"><i class="bi bi-flag-fill"></i></span>
+                                <span>Report</span>
+                            </a>
+                            <a href="{% url 'feed_liked_users' feed.id %}" class="dropdown-item">
+                                <span class="icon"><i class="bi bi-hand-thumbs-up-fill"></i></span>
+                                <span>View Likes</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="content" style="word-break: break-all;" hx-disable="true">
+                {% autoescape off %}
+                {{ feed.body | plustag | user_mention | convert_markdown }}
+                {% endautoescape %}
+            </div>
+            <div class="columns has-text-centered is-multiline">
+                {% if feed.image %}
+                <div class="column">
+                    <div class="card">
+                        <div class="card-image">
+                            <article class="image feed_image is-rounded" style="overflow-y: auto;">
+                                <img src="{{ feed.image.url }}" alt="{{ feed.image.name }}" loading="lazy">
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if feed.video %}
+                <div class="column">
+                    <article class="image">
+                        <video src="{{ feed.video.url }}" controls>Your Browser doesn't support Videos</video>
+                    </article>
+                </div>
+                {% endif %}
+            </div>
+            <small>
+                <time datetime="{{ feed.date }}" class="has-text-muted">
+                    {{ feed.date | naturaltime }}
+                </time>
+            </small>
+            <br>
+        </div>
+    </div>
+    <footer class="card-footer">
+        {% if not showView %}
+        <a href="{% url 'feed_detail' feed.id %}" class="card-footer-item">
+            <span class="icon"> <i class="bi bi-binoculars-fill"></i></span><span>View</span>
+        </a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <a class="feed_like card-footer-item" id="{{ feed.pk }}">
+            <span class="icon">
+                {% if user in feed.likes.all %}
+                <i class="bi bi-hand-thumbs-up-fill"></i>
+                {% else %}
+                <i class="bi bi-hand-thumbs-up"></i>
+                {% endif %}
+            </span>
+            <span id="like_count_{{ feed.pk }}">{{ feed.likes.all.count }}</span>
+        </a>
+        {% else %}
+        <a href="{% url 'intent' 'like' feed.id %}" class="card-footer-item">
+            <span class="icon"><i class="bi bi-hand-thumbs-up"></i></span>
+            <span id="like_count_{{ feed.pk }}">{{ feed.likes.all.count }}</span>
+        </a>
+        {% endif %}
+        <a href="{% url 'feed_detail' feed.pk %}#comments" class="card-footer-item">
+            <span class="icon"><i class="bi bi-chat-left-text-fill"></i></span>
+            <span>{{ feed.comment_set.count }}</span>
+        </a>
+    </footer>
+</div>
+<div id="reply_form_{{ feed.id }}"></div>

@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+{% load bulma_tags %}
+{% load static %}
+{% block title %}
+Your UserProfile
+{% endblock title %}
+{% block content %}
+<h1 class="title is-1 has-text-weight-bold">Edit Yourself</h1>
+<form method="POST" enctype="multipart/form-data" class="box">
+    {{ uform | bulma }}
+    {{ dform | bulma }}
+    {{ pform | bulma }}
+    <figure class="image is-64x64 block">
+        <img class="is-rounded" src="{{ user.userprofile.avatar }}">
+    </figure>
+    <div class="field">
+        {{ aform.as_div }}
+    </div>
+    {% csrf_token %}
+    <div class="field">
+        <div class="control">
+            <div class="buttons">
+                <button type="submit" class="button is-success">Save
+                </button>
+                <a href="{% url 'advance_settings' %}" class="button is-link is-warning">Advance</a>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+{% endblock content %}

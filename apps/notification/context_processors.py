@@ -1,12 +1,8 @@
-from .models import Notification
+from apps.notification.models import Notification
 
 
-def notification(request):
+def get_notification_info(request):
     if request.user.is_authenticated:
-        unread_notifications = Notification.objects.filter(
-            to_user=request.user, is_read=False)
-        notifications = Notification.objects.filter(
-            to_user=request.user).order_by('is_read', '-date')
-        return {'unread_notifications': unread_notifications, 'notifications': notifications}
-    else:
-        return {}
+        count = Notification.objects.filter(receiver=request.user, is_read=False).count()
+        return {"notification_count": count}
+    return {"notification_count": 0}

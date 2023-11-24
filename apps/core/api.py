@@ -76,36 +76,36 @@ def get_routes(request):
         },
         {
             'name': 'like',
-            'path': '/api/v1/vit/like/',
+            'path': '/api/v1/feed/like/',
             'method': 'POST',
-            'description': 'Like a vit',
+            'description': 'Like a feed',
             'data': {
-                'vit_pk': 'The id of the vit you want to like',
+                'feed_pk': 'The id of the feed you want to like',
             },
             'required_login': True,
         },
         {
-            'name': 'get_vits',
-            'path': '/api/v1/vit/',
+            'name': 'get_feeds',
+            'path': '/api/v1/feed/',
             'method': 'GET',
-            'description': 'Get vits',
+            'description': 'Get feeds',
             'required_login': True,
 
         },
         {
-            'name': 'get_vit',
-            'path': '/api/v1/vit/<int:id>/',
+            'name': 'get_feed',
+            'path': '/api/v1/feed/<int:id>/',
             'method': 'GET',
-            'description': 'Get a vit',
+            'description': 'Get a feed',
             'required_login': True,
         },
         {
-            'name': 'add_vit',
-            'path': '/api/v1/vit/add/',
+            'name': 'add_feed',
+            'path': '/api/v1/feed/add/',
             'method': 'POST',
-            'description': 'Add a vit',
+            'description': 'Add a feed',
             'data': {
-                'body': 'The body of the vit you want to add',
+                'body': 'The body of the feed you want to add',
             },
             'info': """
                     Currently uploading files is not supported.
@@ -113,23 +113,23 @@ def get_routes(request):
             'required_login': True,
         },
         {
-            'name': 'edit_vit',
-            'path': '/api/v1/vit/edit/',
+            'name': 'edit_feed',
+            'path': '/api/v1/feed/edit/',
             'method': 'POST',
-            'description': 'Edit a vit',
+            'description': 'Edit a feed',
             'data': {
-                'vit_pk': 'The id of the vit you want to edit',
-                'body': 'The body of the vit you want to edit',
+                'feed_pk': 'The id of the feed you want to edit',
+                'body': 'The body of the feed you want to edit',
             },
             'required_login': True,
         },
         {
-            'name': 'delete_vit',
-            'path': '/api/v1/vit/delete/',
+            'name': 'delete_feed',
+            'path': '/api/v1/feed/delete/',
             'method': 'POST',
-            'description': 'Delete a vit',
+            'description': 'Delete a feed',
             'data': {
-                'vit_pk': 'The id of the vit you want to delete',
+                'feed_pk': 'The id of the feed you want to delete',
             },
             'required_login': True,
         }

@@ -1,0 +1,22 @@
+<div class="modal is-active" id="followModal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="card">
+            <div class="card-content has-text-centered">
+                <div class="title is-1 content ">
+                    💖
+                </div>
+                <h1 class="title">
+                    Welcome!
+                </h1>
+                <p class="subtitle">
+                    Now you can Follow/Unfollow this user.
+                </p>
+                {% include 'account/islands/follow_button.html' with usr=usr eclass="is-link" %}
+                <button class="button" onclick="$('#followModal').removeClass('is-active')">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"
+        onclick="$('#followModal').removeClass('is-active')"></button>
+</div>

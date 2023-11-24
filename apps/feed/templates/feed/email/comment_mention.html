@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{subject}}</title>
+</head>
+<body>
+    <h1>
+        {{subject}}
+    </h1>
+    <hr>
+    <p>
+        {{comment.body}}
+    </p>
+    <hr>
+    <small>
+        {{comment.date}}
+    </small>
+    <a href="{{web_url}}{% url 'view_comment' comment.feed.pk comment.pk %}">View</a>
+
+    <p>
+        You are receiving this email because you have email notifications enabled on our site
+    </p>
+
+    <p>
+        Thanks for using our site!
+    </p>
+
+    <p>
+        The Vitary Team
+</body>
+</html>

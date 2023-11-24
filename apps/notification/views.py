@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 
 @login_required
 def notification_page(request):
-    notifications = Notification.objects.filter(to_user=request.user)
+    notifications = Notification.objects.filter(receiver=request.user)
     paginator = Paginator(notifications, 10)
     page = request.GET.get('page')
     notifications = paginator.get_page(page)
@@ -19,12 +19,11 @@ def notification_page(request):
 @login_required
 def notification_redirect(request, pk):
     notification = get_object_or_404(Notification, id=pk)
-    if notification.to_user == request.user:
-        notification.is_read = True
-        notification.save()
-        return redirect(notification.link)
-    else:
+    if notification.to_user != request.user:
         return redirect('notification_page')
+    notification.is_read = True
+    notification.save()
+    return redirect(notification.link)
 
 @login_required
 def mark_all_as_read(request):
