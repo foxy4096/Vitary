@@ -9,7 +9,7 @@ class FeedForm(forms.ModelForm):
 
     class Meta:
         model = Feed
-        fields = ["body", "image", "video", "nsfw"]
+        fields = ["body","nsfw"]
         widgets = {
             "body": MarkdownWidget(),
         }

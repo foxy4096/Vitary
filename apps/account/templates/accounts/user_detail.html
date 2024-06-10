@@ -110,7 +110,7 @@
                     <a href="{% url 'edit_userprofile' %}" class="button is-link">Edit</a>
                     {% else %}
                     {% if user.is_authenticated %}
-                    {% include 'account/islands/follow_button.html' with tuser=tuser %}
+                    {% include 'accounts/islands/follow_button.html' with tuser=tuser %}
                     {% else %}
                     <a href="{% url 'intent' 'follow' tuser.username %}"
                         class="button is-success"><span>Follow</span><span class="icon"><i
@@ -122,7 +122,7 @@
                     {% endif %}
 
                     {% if user.is_staff %}
-                      <a href="{% url 'admin:auth_user_change' tuser.id %}" class="button"><span class="icon"><i
+                      <a href="{% url 'admin:auth_user_change' tuser.id %}" hx-boost="false" class="button"><span class="icon"><i
                                 class="bi bi-pencil-square"></i></span></a>
                     {% endif %}
                 </div>

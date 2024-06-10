@@ -1,13 +1,7 @@
 {% load humanize %}
 
-
-{% if request.path != "/feed/" %}
-<div class="box">
-    <a href="{% url 'add_feed' %}" class="button is-primary is-fullwidth is-large">Add Feed</a>
-</div>
-{% endif %}
-<div class="card is-hidden-mobile">
-    <div class="card-content">
+    <div class="card is-hidden-mobile">
+        <div class="card-content">
         {% if user.is_authenticated %}
         <h1 class="title">
             Follower ({{ user.userprofile.followed_by.all | length }})
@@ -18,13 +12,13 @@
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
-                    <img src="{{ following.get_image_url }}" alt="." class="is-rounded {{following.status}}">
+                    <img src="{{ following.avatar }}" alt="." class="is-rounded {{following.status}}">
                 </article>
             </div>
             <div class="media-content">
                 <h4 class="title is-4">
                     <strong>
-                        {{ following.user.get_full_name }}
+                        {% firstof following.user.get_short_name following.user.username %}
                         {% if following.verified %}
                         <span class="is-small tag is-dark" style="color: rgb(46, 206, 107);">
                             ✔️
@@ -41,7 +35,7 @@
             <br>
         </div>
         {% endfor %}
-        <p><a href="{% url 'followers' %}" class="tag is-link">See All</a></p>
+        <p><a href="{% url 'followers' user %}" class="tag is-link">See All</a></p>
         {% else %}
         No one is following you yet.
         {% endif %}
@@ -55,13 +49,13 @@
         <div class="media">
             <div class="media-left">
                 <article class="image is-48x48 is-square">
-                    <img src="{{ follower.get_image_url }}" alt="." class="is-rounded {{follower.status}}">
+                    <img src="{{ follower.avatar }}" alt="." class="is-rounded {{follower.status}}">
                 </article>
             </div>
             <div class="media-content">
                 <h4 class="title is-4">
                     <strong>
-                        {{ follower.user.get_full_name }}
+                        {% firstof follower.user.get_short_name follower.user.get_username %}
                         {% if follower.verified %}
                         <span class="tag is-small is-dark" style="color: rgb(46, 206, 107);">
                             ✔️
@@ -78,24 +72,27 @@
             <br>
         </div>
         {% endfor %}
-        <p><a href="{% url 'following' %}" class="tag is-link">See All</a></p>
+        <p><a href="{% url 'following' user %}" class="tag is-link">See All</a></p>
         {% else %}
         You are not following anyone yet.
         {% endif %}
-
+        
         {% else %}
         <h1 class="title has-text-weight-bold">Follower</h1>
         <br>
         <p>You need to <a href="{% url 'login' %}">login</a> to see your followers.</p>
-
+        
         <hr>
         <h1 class="title has-text-weight-bold">Following</h1>
         <br>
         <p>You need to <a href="{% url 'login' %}">login</a> to see your following.</p>
         <hr>
         <div class="buttons">
-            <a href="{% url 'signup' %}" class="button is-fullwidth">Sign Up 🚀</a>
-            <a href="{% url 'login' %}" class="button is-info is-fullwidth ">Login 🔐</a>
+            <a href="{% url 'signup' %}" class="button is-fullwidth is-white special-dark">Sign Up</a>
+            <a href="{% url 'login' %}" class="button is-fullwidth ">
+                <span class="icon"><i class="bi bi-joystick"></i></span>
+                <span>Login</span>
+            </a>
         </div>
         {% endif %}
     </div>

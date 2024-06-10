@@ -13,16 +13,51 @@ a {
 .box,
 .input,
 .textarea {
-  border-radius: 0px !important;
   box-shadow: none;
-  border: 1px rgb(49, 49, 49) solid;
+  border: 1px #4d4d4d solid;
+  border-radius: calc(0.5rem - 2px);
+}
+@media (prefers-color-scheme: light) {
+  .button,
+  .card,
+  .box,
+  .input,
+  .textarea {
+    box-shadow: none;
+    transition: all;
+  }
+  .special-dark{
+    background: #222222;
+    color: #fff;
+  }
+  .special-dark:hover{
+    background: #000000;
+    color: #fff;
+  }
+}
+hr {
+  background-color: #4d4d4d !important;
 }
 
+.button:active {
+  transform: scale(0.95);
+}
 
-.hljs{
+.user-mention {
+  font-size: 0.75rem;
+  padding-left: 0.475em;
+  padding-right: 0.375em;
+}
+
+.user-mention-image {
+  width: 15px;
+  border-radius: 50%;
+  background: #000;
+}
+
+.hljs {
   padding: 0px !important;
 }
-
 
 .emojione {
   width: 30px;
@@ -87,7 +122,7 @@ a {
 
 #mdout {
   margin-top: 10px;
-  background: #0f0f0f;
+  border-radius: calc(0.5rem - 2px);
   border: 1px #707070 solid;
   padding: 1em;
   overflow-x: auto;
@@ -98,24 +133,18 @@ a {
   display: none;
 }
 
-/* .button,
-input,
-textarea,
-select {
-  border-radius: 0% !important;
-} */
-
 .modal-background {
   background-color: rgba(44, 44, 44, 0.493) !important;
 }
 .editor-toolbar {
   display: flex;
   flex-wrap: wrap;
-  border: 1px #363636 solid;
-  border-bottom: none;
+  border-radius: calc(0.5rem - 2px);
+
+  border: 1px #4d4d4d solid;
   justify-content: flex-start;
-  /* background-color: #0a0a0a; */
   padding: 10px;
+  margin-bottom: 10px;
 }
 
 textarea {
@@ -130,7 +159,7 @@ textarea {
   cursor: pointer;
   margin-right: 10px;
   background-color: inherit;
-  color: #fff;
+  color: #7c7c7c;
   border: none;
   border-radius: 5px;
   margin-bottom: 5px;
@@ -138,13 +167,13 @@ textarea {
 }
 
 .editor-button:hover {
-  background-color: #3b414d;
+  background-color: #1f1f1f;
+  color: #fff;
 }
 
 textarea:hover {
   box-shadow: none !important;
 }
-
 
 #mdout,
 #editor {
@@ -155,8 +184,40 @@ textarea:hover {
 .postbox {
   background: #14161a;
   padding: inherit;
-  margin: 1em;
   border: 1px #515151 solid;
   border-radius: 5px;
 }
 
+.toast-container {
+  position: fixed;
+  top: 90px;
+  z-index: 20;
+  right: 20px;
+  max-width: 300px;
+}
+
+.toast {
+  margin-bottom: 10px;
+  background-color: #010404;
+  color: #daf0f1;
+  padding: 20px;
+  font-size: large;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+pre {
+  background-color: #1c1b19 !important;
+  color: #b5b5b5;
+}

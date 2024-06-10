@@ -2,9 +2,11 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django_resized import ResizedImageField
 from django.utils.translation import gettext_lazy as _
-import secrets
+from django.conf import settings
+
 from .utils import get_gravatar
 from apps.core.models import Badge
+
 
 
 User = get_user_model()
@@ -76,25 +78,13 @@ class UserProfile(models.Model):
         """
         Returns the 4 most recent followers
         """
-        return self.follows.all()[:4]
+        return self.follows.all().order_by("-id")[:4]
 
     def get_4_following(self):
         """
         Returns the 4 most recent follows
         """
-        return self.followed_by.all()[:4]
+        return self.followed_by.all().order_by("-id")[:4]
 
     def avatar(self):
-        return get_gravatar(self.user.email) if self.use_gravatar else self.avatar.url
-
-    def save(self, *args, **kwargs):
-        """
-        Overrides the save method to generate a token if one doesn't exist already.
-        """
-        if not self.auth_token:
-            self.auth_token = secrets.token_hex(16)
-        super().save(*args, **kwargs)
-
-    def refresh_token(self, *args, **kwargs):
-        self.auth_token = secrets.token_hex(16)
-        super().save(*args, **kwargs)
+        return get_gravatar(self.user.email) if self.use_gravatar else f"{settings.WEB_HOST}{self.avatar_image.url}"

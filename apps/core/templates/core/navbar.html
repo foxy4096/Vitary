@@ -2,7 +2,7 @@
 {% load fetch_gravatar %}
 
 {% load flatpages %}
-<nav class="navbar is-dark" role="navigation">
+<nav class="navbar is-black" role="navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="{% url 'home' %}">
             <img src="{% static 'img/android-chrome-256x256.png' %}">
@@ -26,6 +26,9 @@
 
             <a class="navbar-item" href="{% url 'post_list' %}">
                 <span>Blog</span><span class="icon">📝</span>
+            </a>
+            <a class="navbar-item" href="{% url 'admin:index' %}">
+                <span>Admin</span><span class="icon">🔐</span>
             </a>
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">
@@ -67,8 +70,8 @@
 
                 <div class="buttons">
 
-                    <a class="button is-info" href="{% url 'search' %}"><span class="icon">
-                            🔍</span></a>
+                    <a class="button is-light" href="{% url 'search' %}"><span class="icon">
+                        <i class="bi bi-search"></i></span></a>
 
                     <div>
                         {% if user.is_authenticated %}
@@ -80,21 +83,23 @@
                         </a>
 
                         <a class="button is-warning" href="{% url 'notification_page' %}">
-                            <span class="icon">🔔</span>
+                            <span class="icon"><i class="bi bi-bell-fill"></i></span>
                             <span>
                                 ({{notification_count }})
                             </span>
                         </a>
-                        <a class="button is-danger" href="{% url 'logout' %}">
-                            Logout 🚪
+                        <a class="button is-danger is-inverted" href="{% url 'logout' %}">
+                            <span>Logout</span>
+                            <span class="icon"><i class="bi bi-door-closed"></i></span>
                         </a>
                         </a>
                         {% else %}
-                        <a class="button is-primary" href="{% url 'signup' %}">
-                            <strong>Sign up</strong> 🚀
+                        <a class="button is-white special-dark" href="{% url 'signup' %}">
+                            Sign up
                         </a>
-                        <a class="button is-white" href="{% url 'login' %}">
-                            Log in 🔐
+                        <a class="button" href="{% url 'login' %}">
+                            <span class="icon"><i class="bi bi-joystick"></i></span>
+                            <span>Login</span>
                         </a>
                         {% endif %}
                     </div>

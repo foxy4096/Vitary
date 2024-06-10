@@ -1,13 +1,24 @@
 import graphene
+from graphene_django.debug import DjangoDebug
+import graphql_jwt
+
 
 from .user.schema import Query as UserQuery
 from .feed.schema import Query as FeedQuery
+from .feed.schema import FeedMutation, LikeFeedMutation
 
 
 class Query(UserQuery, FeedQuery, graphene.ObjectType):
-    # This class will inherit from multiple Queries
-    # as we begin to add more apps to our project
-    pass
+    debug = graphene.Field(DjangoDebug, name='_debug')
 
 
-schema = graphene.Schema(query=Query)
+class Mutation(graphene.ObjectType):
+    debug = graphene.Field(DjangoDebug, name='_debug')
+    feed_mutation = FeedMutation.Field()
+    like_feed = LikeFeedMutation.Field()
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    verify_token = graphql_jwt.Verify.Field()
+    refresh_token = graphql_jwt.Refresh.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)

@@ -7,16 +7,21 @@ Home
 
 
 {% block no_padding %}
+{% include 'core/islands/alert.html' %}
 <div class="no-bottom-border hero is-medium">
   <div class="hero-body">
     <div class="container has-text-centered">
-      <img src="{% static 'img/V_Master_White_Smooth_PNG_Transparent.png' %}" alt="Logo" width="300">
       <h1 class="title">
         A New Way To Make Friends.
       </h1>
       <div>
-        <a href="{% url 'signup' %}" class="button is-primary mx-3">Join Now 🚀</a>
-        <a href="{% url 'login' %}" class="button">Login 🔐</a>
+        <a href="{% url 'signup' %}" class="button special-dark is-white mx-3">
+          Join Now
+        </a>
+        <a href="{% url 'login' %}" class="button">
+          <span class="icon"><i class="bi bi-joystick"></i></span>
+          <span>Login</span>
+        </a>
       </div>
     </div>
   </div>
@@ -26,13 +31,13 @@ Home
 
 
 {% block content %}
-<div class="columns">
+<div class="columns" style="margin-top: -10em;">
   <div class="column"></div>
   <div class="column is-8">
 
-{% if random_feed %}
-{% include 'feed/islands/feed_block.html' with feed=random_feed %}
-{% endif %}
+    {% if random_feed %}
+    {% include 'feed/islands/feed_block.html' with feed=random_feed %}
+    {% endif %}
   </div>
   <div class="column"></div>
 </div>

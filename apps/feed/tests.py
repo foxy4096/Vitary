@@ -26,7 +26,7 @@ class VitTest(TestCase):
         self.client.post('/feed/add/', {
             'body': 'Test feed',
         })
-        self.assertEqual(feed.objects.count(), 1)
-        self.assertEqual(feed.objects.first().body, 'Test feed')
-        self.assertEqual(feed.objects.first(
+        self.assertEqual(Feed.objects.count(), 1)
+        self.assertEqual(Feed.objects.first().body, 'Test feed')
+        self.assertEqual(Feed.objects.first(
         ).user.username, 'testuser')

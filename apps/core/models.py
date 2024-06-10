@@ -76,3 +76,8 @@ class Document(models.Model):
     
     def __str__(self):
         return self.file.name
+
+class Alert(models.Model):
+    icon = models.CharField(max_length=255)
+    text = models.CharField(max_length=255)
+    url = models.URLField(blank=True, null=True)

@@ -4,7 +4,8 @@
     <div class="media pb-4">
         <div class="media-left">
             <figure class="image is-48x48">
-                <img src="{{ user.userprofile.avatar }}" alt="user avatar" class="is-rounded {{ user.userprofile.status }}">
+                <img src="{{ user.userprofile.avatar }}" alt="user avatar"
+                    class="is-rounded {{ user.userprofile.status }}">
             </figure>
         </div>
         <div class="media-content">
@@ -13,7 +14,11 @@
         </div>
         <div class="media-right is-hidden-mobile">
             Not {% firstof user.get_short_name user.username %}?
-            <a href="{% url 'logout' %}" class="button is-small is-outlined is-danger ml-2">Logout</a>
+            <a href="{% url 'logout' %}" class="button is-small is-outlined is-danger ml-2">
+                <span>Logout</span>
+                <span class="icon"><i
+                        class="bi bi-door-closed"></i></span>
+                        </a>
         </div>
     </div>
 
@@ -22,7 +27,10 @@
 
     <div class="field">
         <div class="control">
-            <button class="button is-success is-large is-fullwidth">Save</button>
+            <div class="buttons">
+                <button class="button is-white is-small">Save</button>
+                <button class="button is-small"><span>Draft</span><span class="icon"><i class="bi bi-file-zip"></i></span></button>
+            </div>
         </div>
     </div>
 </form>

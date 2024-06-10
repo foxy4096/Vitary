@@ -10,7 +10,7 @@ Search
 {% endblock no_padding %}
 
 {% block content %}
-<div class="column is-6">
+<div class="box">
     <h1 class="title">Search</h1>
     <form action="{% url 'search' %}" method="get">
         <div class="field">
@@ -19,7 +19,7 @@ Search
             </div>
         </div>
         <div class="control">
-            <button type="submit" class="button is-link">
+            <button type="submit" class="button is-fullwidth is-link">
                 <span>Search</span>
                 <span class="icon">
                     <i class="bi bi-search"></i></span>

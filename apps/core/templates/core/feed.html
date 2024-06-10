@@ -7,13 +7,16 @@ Home
 {% endblock title %}
 
 {% block no_padding %}
-    {% include 'core/islands/header.html' with heading="Home" %}
-    {% endblock no_padding %}
-    {% block content %}
-    
-    <div class="columns" id="app">
-        <div class="column is-8">
-                {% include 'feed/feed_form.html' with title="Add feed" %}
+{% include 'core/islands/header.html' with heading="Home" %}
+{% endblock no_padding %}
+{% block content %}
+{% include 'core/islands/alert.html' %}
+
+<div class="columns" id="app">
+    <div class="column">
+
+
+        {% include 'feed/feed_form.html' with title="Add feed" %}
         <div id="data">
             {% for feed in feeds %}
             {% include 'feed/islands/feed_block.html' %}
@@ -25,8 +28,8 @@ Home
         </div>
         {% include 'core/islands/pagination.html' with page=feeds %}
     </div>
-    <div class="column is-4">
-        {% include 'core/islands/side_block.html' %}
+    <div class="column is-4" id="col-2">
+            {% include 'core/islands/side_block.html' %}
     </div>
 </div>
 {% endblock content %}

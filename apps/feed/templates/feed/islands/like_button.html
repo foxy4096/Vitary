@@ -1,0 +1,17 @@
+{% if user.is_authenticated %}
+        <a class="feed_like card-footer-item" id="{{ feed.pk }}" hx-get="{% url 'like_feed' feed.pk %}" hx-swap="outerHTML">
+            <span class="icon">
+                {% if user in feed.likes.all %}
+                <i class="bi bi-hand-thumbs-up-fill"></i>
+                {% else %}
+                <i class="bi bi-hand-thumbs-up"></i>
+                {% endif %}
+            </span>
+            <span id="like_count_{{ feed.pk }}">{{ feed.likes.all.count }}</span>
+        </a>
+        {% else %}
+        <a href="{% url 'intent' 'like' feed.id %}" class="card-footer-item">
+            <span class="icon"><i class="bi bi-hand-thumbs-up"></i></span>
+            <span id="like_count_{{ feed.pk }}">{{ feed.likes.all.count }}</span>
+        </a>
+        {% endif %}

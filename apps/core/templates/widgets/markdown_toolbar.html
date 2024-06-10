@@ -1,0 +1,41 @@
+<div class="editor-toolbar">
+    <button class="editor-button" type="button" onclick="insertMarkdown('**', '**')"><i
+            class="bi bi-type-bold"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('_', '_')"><i
+            class="bi bi-type-italic"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('## ', '')"><i
+            class="bi bi-type-h2"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('### ', '')"><i
+            class="bi bi-type-h3"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('1. ', '')"><i
+            class="bi bi-list-ol"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('- ', '')"><i
+            class="bi bi-list-ul"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('> ', '')"><i class="bi bi-quote"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('`', '`')"><i class="bi bi-code"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('```\n', '\n```')"><i
+            class="bi bi-file-earmark-code-fill"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('[Link Text](', ')')"><i
+            class="bi bi-link-45deg"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('![Alt Text](', ')')"><i
+            class="bi bi-image"></i></button>
+    <button class="editor-button" type="button" onclick="insertMarkdown('---', '')"><i class="bi bi-hr"></i></button>
+</div>
+<script>
+    function insertMarkdown(startTag, endTag) {
+        const editor = document.getElementById('id_{{ name }}');
+        const selectionStart = editor.selectionStart;
+        const selectionEnd = editor.selectionEnd;
+        const selectedText = editor.value.substring(selectionStart, selectionEnd);
+        const replacement = `${startTag}${selectedText}${endTag}`;
+        editor.value = editor.value.substring(0, selectionStart) + replacement + editor.value.substring(selectionEnd);
+
+        // Set the cursor position between the start and end tags
+        editor.selectionStart = selectionStart + startTag.length;
+        editor.selectionEnd = selectionStart + startTag.length + selectedText.length;
+
+        editor.focus();
+
+    }
+
+</script>

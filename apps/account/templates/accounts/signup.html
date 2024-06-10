@@ -11,7 +11,7 @@ Sign Up
     <div class="column">
         <h1 class="title is-1 has-text-weight-bold">Sign Up</h1>
         <p class="subtitle">Just Fill the Information Below to Get Started</p>
-        <form method="POST" class="box">
+        <form method="POST" class="box" id="signupForm">
             {{ form|bulma }}
             {% csrf_token %}
             <br />
@@ -23,8 +23,8 @@ Sign Up
             <br />
 
 
-            <button type="submit" class="button is-primary is-fullwidth">
-                Sign Up 🚀
+            <button type="submit" class="button is-white is-fullwidth">
+                Sign Up
             </button>
 
         </form>
@@ -41,3 +41,54 @@ Sign Up
     </div>
 </div>
 {% endblock content %}
+
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+
+        $("#signupForm").submit(function (e) {
+            let errors = []
+            e.preventDefault();
+            var password1 = $('#id_password1').val();
+            var password2 = $('#id_password2').val();
+            console.log(password1);
+            console.log(password2);
+            if (password1 === password2) {
+                errors = [];
+                
+            } else {
+                createToast("Passwords are not matching!", extraStyles = "background-color: #C9373D");
+                e.preventDefault();
+                errors.push("Passwords are not matching!");
+            }
+
+
+            //Get the form data
+            var formData = {
+                'username': $('#id_username').val(),
+            };
+
+            // Make an AJAX request to the signup check API
+            $.ajax({
+                type: 'POST',
+                url: '/api/action/signup/check/',  // Update with your actual URL
+                data: formData,
+                headers: {
+                    "X-CSRFToken": '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    // Check the response from the API
+                    if (response.valid && errors.length === 0) {
+                        $("#signupForm")[0].submit();
+                    }
+                },
+                error: function (error) {
+                    console.log(error.responseJSON);
+                    createToast(error.responseJSON.message, extraStyles = "background-color: #C9373D");
+                }
+            })
+        })
+    })
+</script>
+{% endblock script %}

@@ -1,22 +1,26 @@
-from django.utils import timezone
 from .models import Notification
+from django.contrib.contenttypes.models import ContentType
 
-
-def notify(message, notification_type, to_user, by_user, link, is_read_attrub=False):
+def create_notification(recipient, actor, verb, object_type, object_id, is_read=False):
     """
     Create a notification for a user.
+
+    Parameters:
+    - actor: The user who initiated the notification.
+    - recipient: The user who will receive the notification.
+    - verb: A description or action associated with the notification.
+    - object_type: The type of object related to the notification.
+    - object_id: The id of the object related to the notification.
+    - is_read: A boolean indicating whether the notification has been read.
+
+    Returns:
+    Notification: The created notification object.
     """
-    if to_user.userprofile.email_notif:
-        notification = Notification.objects.get_or_create(
-            message=message,
-            notification_type=notification_type,
-            to_user=to_user,
-            by_user=by_user,
-            link=link, 
-        )[0]
-        notification.is_read = is_read_attrub
-        notification.date = timezone.now()
-        notification.save()
-        return notification
-    else:
-        return
+    return Notification.objects.get_or_create(
+        recipient=recipient,
+        actor=actor,
+        verb=verb,
+        object_type=object_type,
+        object_id=object_id,
+        is_read=is_read,
+    )

@@ -8,7 +8,7 @@
         <div class="media">
             <div class="media-left">
                 <figure class="image is-48x48">
-                    <a href="{% url 'user_detail' user.username %}">
+                    <a href="{% url 'user_detail' user.username %}" hx-boost="false">
                         <img src="{{ user.userprofile.avatar }}" alt="{{user}}"
                             class="is-rounded {{ user.userprofile.status }}">
                     </a>

@@ -17,10 +17,8 @@
                     {% endif %}
                 </h5>
                 <p class="subtitle is-6">
-                    <a 
-                    href="{% url 'user_detail' feed.user.username %}" 
-                    title="{{ feed.user.get_full_name }}"
-                    >@{{ feed.user.username }}</a>
+                    <a href="{% url 'user_detail' feed.user.username %}" title="{{ feed.user.get_full_name }}">
+                        @{{ feed.user.username }}</a>
                     {% if feed.user.is_superuser %}
                     <span class="tag px-1 mt-1" title="Co-Founder ✔">Co-Founder ✔️</span>
                     {% endif %}
@@ -58,9 +56,10 @@
                             </a>
                             {% endif %}
                             {% if feed.user == request.user %}
+                            {% csrf_token %}
                             <a href="{% url 'delete_feed' feed.id %}" hx-post="{% url 'delete_feed' feed.id %}"
-                                hx-confirm="Are you sure?" hx-target="#feed-{{ feed.pk }}" hx-swap="delete"
-                                class="dropdown-item">
+                                hx-include="[name='csrfmiddlewaretoken']" hx-confirm="Are you sure?"
+                                hx-target="#feed-{{ feed.pk }}" hx-swap="delete" class="dropdown-item">
                                 <span class="icon"><i class="bi bi-trash-fill"></i></span>
                                 <span>Delete</span>
                             </a>
@@ -83,6 +82,10 @@
                 {% autoescape off %}
                 {{ feed.body | plustag | user_mention | convert_markdown }}
                 {% endautoescape %}
+                
+
+                
+                    
             </div>
             <div class="columns has-text-centered is-multiline">
                 {% if feed.image %}
@@ -115,26 +118,11 @@
     <footer class="card-footer">
         {% if not showView %}
         <a href="{% url 'feed_detail' feed.id %}" class="card-footer-item">
-            <span class="icon"> <i class="bi bi-binoculars-fill"></i></span><span>View</span>
-        </a>
+
+                <span class="icon"> <i class="bi bi-binoculars-fill"></i></span><span>View</span>
+            </a>
         {% endif %}
-        {% if user.is_authenticated %}
-        <a class="feed_like card-footer-item" id="{{ feed.pk }}">
-            <span class="icon">
-                {% if user in feed.likes.all %}
-                <i class="bi bi-hand-thumbs-up-fill"></i>
-                {% else %}
-                <i class="bi bi-hand-thumbs-up"></i>
-                {% endif %}
-            </span>
-            <span id="like_count_{{ feed.pk }}">{{ feed.likes.all.count }}</span>
-        </a>
-        {% else %}
-        <a href="{% url 'intent' 'like' feed.id %}" class="card-footer-item">
-            <span class="icon"><i class="bi bi-hand-thumbs-up"></i></span>
-            <span id="like_count_{{ feed.pk }}">{{ feed.likes.all.count }}</span>
-        </a>
-        {% endif %}
+        {% include 'feed/islands/like_button.html' %}
         <a href="{% url 'feed_detail' feed.pk %}#comments" class="card-footer-item">
             <span class="icon"><i class="bi bi-chat-left-text-fill"></i></span>
             <span>{{ feed.comment_set.count }}</span>

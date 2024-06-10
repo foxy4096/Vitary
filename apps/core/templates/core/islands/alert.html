@@ -1,0 +1,12 @@
+
+{% if latest_alert %}
+<div class="has-text-centered py-4">
+  <span class="tag is-medium is-dark"><i class="{{latest_alert.icon}} mr-2"></i> {{ latest_alert.text }}
+
+    {% if latest_alert.url %}
+    <i class="bi bi-arrow-right"></i>
+    {% endif %}
+
+  </span>
+</div>
+{% endif %}

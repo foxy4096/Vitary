@@ -2,6 +2,7 @@ from django.core.paginator import Paginator
 
 
 is_htmx_request = lambda request: request.headers.get("HX-Request") == "true"
+is_htmx_no_boost_request = lambda request: request.headers.get("HX-Request") == "true" and request.headers.get("HX-Boost") == "false"
 
 
 def paginate(request, qs, limit=5):

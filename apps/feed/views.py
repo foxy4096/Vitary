@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
-from django.http import HttpResponse
-from apps.feed.forms import CommentForm, FeedForm
 from apps.core.utilities import is_htmx_request, paginate
-from apps.feed.models import Comment, Plustag, Feed
+from apps.feed.forms import CommentForm, FeedForm
+from apps.feed.models import Comment, Feed, Plustag
+from apps.notification.utilities import create_notification
 
 
 @login_required
@@ -17,7 +17,7 @@ def add_feed(request):
             feed = form.save(commit=False)
             feed.user = request.user
             if request.POST.get("reply_id", None):
-                feed.reply_to = feed.objects.get(pk=request.POST.get("reply_id"))
+                feed.reply_to = Feed.objects.get(pk=request.POST.get("reply_id"))
             feed.save()
             messages.success(request, "Feed added successfully")
             return redirect("home")
@@ -27,7 +27,7 @@ def add_feed(request):
 
 @login_required
 def delete_feed(request, pk):
-    feed = get_object_or_404(feed, pk=pk, user=request.user)
+    feed = get_object_or_404(Feed, pk=pk, user=request.user)
     if request.method == "POST":
         feed.delete()
         if is_htmx_request(request):
@@ -44,7 +44,9 @@ def feed_detail(request, pk):
         if form.is_valid():
             return create_comment(form, request, feed, pk)
     form = CommentForm()
-    comments = paginate(request, Comment.objects.filter(feed=feed, reply_to__isnull=True))
+    comments = paginate(
+        request, Comment.objects.filter(feed=feed, reply_to__isnull=True)
+    )
     return render(
         request,
         "feed/feed_detail.html",
@@ -60,10 +62,21 @@ def create_comment(form, request, feed, pk):
     comment = form.save(commit=False)
     comment.user = request.user
     comment.feed = feed
+    verb = "commented"
+    recipient = feed.user
     if request.POST.get("comment_id"):
         reply_to = get_object_or_404(Comment, pk=request.POST.get("comment_id"))
+        verb = "replied"
+        recipient = reply_to.user
         comment.reply_to = reply_to
     comment.save()
+    create_notification(
+        actor=request.user,
+        verb=verb,
+        object_type="comment",
+        object_id=comment.pk,
+        recipient=recipient,
+    )
     if is_htmx_request(request):
         return redirect("_comment_refresh", feed.pk)
     messages.success(request, "Comment added successfully")
@@ -102,8 +115,8 @@ def _comment_form(request):
     )
 
 
-def _comment_refresh(request, pk):
-    feed = get_object_or_404(feed, pk=pk)
+def comment_refresh(request, pk):
+    feed = get_object_or_404(Feed, pk=pk)
     comments = paginate(request, feed.comment_set.all())
     form = CommentForm()
     return render(
@@ -111,3 +124,13 @@ def _comment_refresh(request, pk):
         "feed/islands/comments.html",
         {"comments": comments, "feed": feed, "form": form},
     )
+
+
+@login_required
+def like_feed(request, feed_pk):
+    feed = get_object_or_404(Feed, pk=feed_pk)
+    feed.like_feed(request.user)
+    if is_htmx_request(request):
+        return render(request, "feed/islands/like_button.html", {"feed": feed})
+    messages.success(request, "Feed liked successfully")
+    return redirect("feed_detail", feed_pk)

@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+API INDEX
+{% endblock title %}
+
+
+
+{% block content %}
+<h1 class="title is-2">API Index</h1>
+<p></p>
+
+<div class="content">
+    <ol>
+        <li>
+            <code>/api/health/</code>
+            <p>Returns the health of the server</p>
+        </li>
+        <li>
+            <code>
+                    /api/echo/
+                </code>
+            <p>Just for testing purposes, return what ever was passed in
+            <code>request.body</code>
+            </p>
+        </li>
+    </ol>
+</div>
+{% endblock content %}

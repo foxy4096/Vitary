@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.core.models import Badge, Report, Document
+from apps.core.models import Badge, Report, Document, Alert
 
 
 class ReportAdmin(admin.ModelAdmin):
@@ -48,6 +48,9 @@ class DocumentAdmin(admin.ModelAdmin):
     )
     readonly_fields = ("file_url",)
 
+@admin.register(Alert)
+class AlertAdmin(admin.ModelAdmin):
+    pass
 
 admin.site.register(Badge, BadgeAdmin)
 admin.site.register(Report, ReportAdmin)

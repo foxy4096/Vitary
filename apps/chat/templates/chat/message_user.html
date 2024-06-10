@@ -18,7 +18,7 @@ Message: {{to_user.username}}
         <p class="subtitle"><a href="{% url 'user_detail' to_user.username %}">@{{to_user.username }}</a></p>
     </div>
 </div>
-<div id="message-log" class="box" style="overflow: scroll;">
+<div id="message-log" class="box" style="overflow-y: auto;">
     <div class="has-text-centered">
         <p>Please wait loading the messages</p>
         <span class="button is-loading"></span>
@@ -53,7 +53,7 @@ Message: {{to_user.username}}
                     <div class="media">
                         <div class="media-left">
                             <figure class="image is-48x48">
-                                <img src="/u/${response.messages[key].created_by__username}.png" alt="UserProfile Image" class="is-rounded">
+                                <img src="/api/v1/users/avatar/${response.messages[key].created_by__username}" alt="UserProfile Image" class="is-rounded">
                             </figure>
                         </div>
                         <div class="media-content">
@@ -84,8 +84,7 @@ Message: {{to_user.username}}
         getMessages()
         setInterval(function () {
             getMessages()
-        }, 30000);
-        // Ping every 30sec
+        }, 5000);
     });
     document.getElementById("message-input").addEventListener("keyup", function (event) {
         event.preventDefault();

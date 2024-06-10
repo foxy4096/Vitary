@@ -43,7 +43,7 @@ def feed(request):
         Q(user=request.user) | 
         Q(user__userprofile__in=request.user.userprofile.follows.all()) | 
         Q(user__userprofile__in=request.user.userprofile.followed_by.all())
-    ).order_by("-date")
+    ).order_by("-date") or Feed.objects.all()
     if not request.user.userprofile.allow_nsfw:
         feeds = feeds.exclude(nsfw=True)
     form = FeedForm()
@@ -56,7 +56,7 @@ def user_list(request):
 
 
 def explore(request):
-    feeds = feed.objects.all().order_by("-like_count", "-date")
+    feeds = Feed.objects.all().order_by("-like_count", "-date")
     if request.user.is_authenticated and not request.user.userprofile.allow_nsfw:
         feeds = feeds.exclude(nsfw=True)
     context = {
@@ -92,7 +92,7 @@ def page_404(request):
 def search(request):
     context = {}
     if query := request.GET.get("q", ""):
-        feeds = feed.objects.filter(
+        feeds = Feed.objects.filter(
             Q(user__username__icontains=query)
             | Q(user__first_name__icontains=query)
             | Q(user__last_name__icontains=query)
@@ -107,7 +107,7 @@ def search(request):
 def convert_markdown_to_html(request):
     input_param = request.POST.get("name", default="value")
     text = request.POST.get(input_param)
-    html = convert_markdown(text)
+    html = convert_markdown(user_mention(text))
     return HttpResponse(html)
 
 

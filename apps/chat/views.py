@@ -12,9 +12,7 @@ def all_messages(request):
         chats = request.user.conversation_messages.all()
         chat_users = []
         for c in chats.all():
-            for u in c.users.all():
-                if u != request.user:
-                    chat_users.append(u)
+            chat_users.extend(u for u in c.users.all() if u != request.user)
         context = {
             'chat_users': set(chat_users),
         }

@@ -14,10 +14,10 @@ def user_mention(value):
 def replace_mention(match):
     username = match.group(1)
     if user := User.objects.filter(username=username).first():
-        userprofile_url = reverse("account:user_detail", args=[username])
+        userprofile_url = reverse("user_detail", args=[username])
         return f"""<a href="{userprofile_url}" class="user-mention tag is-dark" title="{username}">
             <span class="icon">
-                <img src="{user.useruserprofile.avatar_image()}" class="user-mention-image" alt="{username}'s Avatar" lazy>
+                <img src="{user.userprofile.avatar()}" class="user-mention-image" alt="{username}'s Avatar" lazy>
             </span>
             <span class="is-link">@{username}</span>
         </a>"""

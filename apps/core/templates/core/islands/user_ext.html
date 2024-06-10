@@ -14,7 +14,7 @@
         <span>
             <strong>
                 <a href="{% url 'user_detail' person %}">
-                    {{ person.get_full_name }}
+                    {% firstof person.get_full_name person.get_username %}
                 </a>
             </strong>
         </span>
@@ -51,7 +51,7 @@
             class="button is-small is-pulled-right"><span>View</span> <span
                 class="icon">👀</span></a>
         {% else %}
-        {% include 'account/islands/follow_button.html' with usr=person small=True %}
+        {% include 'accounts/islands/follow_button.html' with tuser=person small=True %}
         {% endif %}
         {% else %}
         <a href="{% url 'user_detail' person.username %}"

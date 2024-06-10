@@ -1,6 +1,6 @@
 from django.db import models
-from apps.core.templatetags.convert_markdown import convert_markdown
 from django.contrib.auth.models import User
+from apps.notification.utilities import create_notification
 
 
 class Feed(models.Model):
@@ -28,12 +28,10 @@ class Feed(models.Model):
         help_text="You can upload upto one video per feed",
     )
     nsfw = models.BooleanField(
-    default=False,
-    help_text="Mark as NSFW if the content is not safe for work",
-    verbose_name="Is the Content NSFW?",
-)
-
-
+        default=False,
+        help_text="Contains mature or adult content",
+        verbose_name="Not Safe For Work (NSFW)",
+    )
 
     class Meta:
         ordering = ["-date"]
@@ -50,6 +48,13 @@ class Feed(models.Model):
         else:
             self.likes.add(user)
             self.like_count += 1
+            create_notification(
+                recipient=self.user,
+                actor=user,
+                object_type="feed",
+                verb="like",
+                object_id=self.id,
+            )
 
         self.save()
 
@@ -60,7 +65,6 @@ class Feed(models.Model):
 
     def latest_feeds():
         return Feed.objects.all().order_by("-like_count", "-date")[:5]
-
 
 
 class Plustag(models.Model):

@@ -11,10 +11,12 @@ Follower
 
 {% block content %}
 <h1 class="title">Followers</h1>
-            {% for person in followers %}
-            {% include 'core/islands/user_ext.html' with person=person.user %}
-            {% empty %}
-            <p>Not followed by anyone yet.</p>
-            {% endfor %}
-        {% include 'core/islands/pagination.html' with page=followers %}
+<div class="box">
+    {% for person in followers %}
+    {% include 'core/islands/user_ext.html' with person=person.user %}
+    {% empty %}
+    <p>Not followed by anyone yet.</p>
+    {% endfor %}
+</div>
+{% include 'core/islands/pagination.html' with page=followers %}
 {% endblock content %}

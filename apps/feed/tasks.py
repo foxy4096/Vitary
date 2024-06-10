@@ -1,14 +1,7 @@
-import contextlib
-import json
-import re
-import validators
-import requests
-from bs4 import BeautifulSoup
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from django.urls import reverse_lazy
 from django.utils.html import strip_tags
 
 from apps.feed.models import Feed
@@ -18,7 +11,7 @@ def send_feed_mention_email(feed_id, mention):
     """
     Send an email to the user who was mentioned in the feed.
     """
-    feed = feed.objects.get(pk=feed_id)
+    feed = Feed.objects.get(pk=feed_id)
     subject = f"{feed.user.username or feed.user.get_full_name()} mentioned you in a feed."
     html_message = render_to_string(
         "feed/email/feed_mention.html",

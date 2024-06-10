@@ -14,11 +14,12 @@
         <div class="media">
             <div class="media-left">
                 <figure class="image is-96x96">
-                    <img class="is-rounded {% if usr.userprofile.header_image %} is-rounded-page {% endif %}  {{ usr.userprofile.status }}" src="{{ usr.userprofile.avatar }}" title="{{ usr.userprofile.status.title }}">
+                    <img class="is-rounded {% if usr.userprofile.header_image %} is-rounded-page {% endif %}  {{ usr.userprofile.status }}"
+                        src="{{ usr.userprofile.avatar }}" title="{{ usr.userprofile.status.title }}">
                 </figure>
             </div>
         </div>
-        <h4 class="title is-4 has-text-weight-medium">{{ usr.get_full_name |default:usr.username }}
+        <h4 class="title is-4 has-text-weight-medium">{% firstof usr.get_full_name usr.username %}
             {% if usr.userprofile.verified %}
             <span class="is-small" style="color: rgb(46, 206, 107);">
                 ✔️
@@ -48,3 +49,10 @@
         </p>
     </div>
 </div>
+<br>
+
+{% for feed in feeds %}
+{% include 'feed/islands/feed_block.html' %}
+{% empty %}
+{% endfor %}
+{% include 'core/islands/pagination.html' with page=feeds %}

@@ -6,6 +6,7 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "graphene_django",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -158,3 +160,19 @@ CSRF_COOKIE_SECURE = env("CSRF_COOKIE_SECURE", default=False)
 
 MANAGERS = [("foxy4096", "adityapriyadarshi669@gmail.com")]
 ADMIN = [("foxy4096", "adityapriyadarshi669@gmail.com")]
+
+
+GRAPHENE = {
+    "MIDDLEWARE": [
+        "graphql_jwt.middleware.JSONWebTokenMiddleware",
+    ],
+}
+
+AUTHENTICATION_BACKENDS = [
+    "graphql_jwt.backends.JSONWebTokenBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+GRAPHQL_JWT = {
+    "JWT_ALLOW_ARGUMENT": True,
+}

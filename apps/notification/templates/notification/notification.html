@@ -7,9 +7,6 @@
 {% block title %}
 Notification
 {% endblock title %}
-{% block no_padding %}
-{% include 'core/islands/header.html' with heading="Notifications" %}
-{% endblock no_padding %}
 {% block content %}
 
 <div class="buttons">
@@ -25,24 +22,24 @@ Notification
 {% for notification in notifications %}
 <div class="media">
     <div class="media-left">
-        <a href="{% url 'user_detail' notification.by_user %}">
+        <a href="{% url 'user_detail' notification.actor %}">
             <article class="image is-48x48 is-square">
-                <img src="{{ notification.by_user.userprofile.avatar }}" alt="user" class="is-rounded">
+                <img src="{{ notification.actor.userprofile.avatar }}" alt="user" class="is-rounded">
             </article>
         </a>
     </div>
     <div class="media-content">
         <div class="content">
             {% if not notification.is_read %}
-            <small class="small has-text-danger">Unread</small>
+            <small class="tag mb-2 small has-text-danger">Unread</small>
             {% else %}
-            <small class="small has-text-primary">Already Read</small>
+            <small class="tag mb-2 small has-text-primary">Already Read</small>
             {% endif %}
             <p class="subtitle is-5">
-                {{ notification.return_title }}
+                {{ notification.notification_message }}
                 <span>
                     <small class="tag is-small" title="{{ notification.date }}">
-                        {{ notification.date | naturaltime }}
+                        {{ notification.created_at | naturaltime }}
                     </small>
                 </span>
             </p>

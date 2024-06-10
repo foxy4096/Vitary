@@ -12,7 +12,7 @@ Users
 
 {% block content %}
         <div class="box">
-            {% for person in persons %}
+            {% for person in users %}
             {% include 'core/islands/user_ext.html' with person=person %}
             {% empty %}
             <p>No one is at the party yet!</p>
